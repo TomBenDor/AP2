@@ -24,7 +24,7 @@ npm start
 ```
 Visit http://localhost:3000/
 
-The user that has a message history with 4 other users, and has all the types of messages in it, is `user123`.\
+The user that has a message history with 5 other users, and has all the types of messages in it, is `user123`.\
 So to sign in to that user, use the password `pass123`.
 
 
