@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { Link } from 'react-router-dom';
 
 const SignInForm = () => {
     const usernameBox = useRef(null);
@@ -29,6 +30,9 @@ const SignInForm = () => {
                 </div>
                 <button type="submit">Sign in</button>
             </form>
+            <span>
+                Don't have an account? <Link to={"/signup"}>Sign up</Link>
+            </span>
         </>
     )
 };
