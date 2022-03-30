@@ -23,15 +23,15 @@ const SignUpForm = () => {
             <form onSubmit={handleSignUp}>
                 <div>
                     <label htmlFor="floatingInput">Username:</label>
-                    <input ref={usernameBox} type="text" id="floatingInput" placeholder="Username" />
+                    <input ref={usernameBox} type="text" id="floatingUsername" placeholder="Username" required />
                 </div>
                 <div>
                     <label htmlFor="floatingPassword">Password:</label>
-                    <input ref={passwordBox} type="password" id="floatingPassword" placeholder="Password" />
+                    <input ref={passwordBox} type="password" id="floatingPassword" placeholder="Password" required />
                 </div>
                 <div>
                     <label htmlFor="floatingInput">Display name:</label>
-                    <input ref={displayNameBox} type="text" id="floatingInput" placeholder="Display name" />
+                    <input ref={displayNameBox} type="text" id="floatingDisplayName" placeholder="Display name" required />
                 </div>
                 <button type="submit">Sign up</button>
             </form>
