@@ -1,12 +1,12 @@
 import { useRef } from "react";
 
-const LoginForm = () => {
+const SignInForm = () => {
     const usernameBox = useRef(null);
     const passwordBox = useRef(null);
 
-    const handleLogin = (e) => {
+    const handleSignIn = (e) => {
         // Validate username and password
-        // If valid, save current user and redirect to main page
+        // If valid, sign in user and redirect to main page
 
         e.preventDefault();
 
@@ -17,8 +17,8 @@ const LoginForm = () => {
 
     return (
         <>
-            <h1>Login Form</h1>
-            <form onSubmit={handleLogin}>
+            <h1>Sign In Form</h1>
+            <form onSubmit={handleSignIn}>
                 <div className="form-floating">
                     <label htmlFor="floatingInput">Username:</label>
                     <input ref={usernameBox} type="text" className="form-control" id="floatingInput" placeholder="Username" />
@@ -27,10 +27,10 @@ const LoginForm = () => {
                     <label htmlFor="floatingPassword">Password:</label>
                     <input ref={passwordBox} type="password" className="form-control" id="floatingPassword" placeholder="Password" />
                 </div>
-                <button type="submit">Login</button>
+                <button type="submit">Sign in</button>
             </form>
         </>
     )
 };
 
-export default LoginForm;
+export default SignInForm;
