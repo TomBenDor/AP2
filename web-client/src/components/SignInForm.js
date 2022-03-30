@@ -20,13 +20,13 @@ const SignInForm = () => {
         <>
             <h1>Sign In Form</h1>
             <form onSubmit={handleSignIn}>
-                <div className="form-floating">
+                <div>
                     <label htmlFor="floatingInput">Username:</label>
-                    <input ref={usernameBox} type="text" className="form-control" id="floatingInput" placeholder="Username" />
+                    <input ref={usernameBox} type="text" id="floatingInput" placeholder="Username" />
                 </div>
-                <div className="form-floating">
+                <div>
                     <label htmlFor="floatingPassword">Password:</label>
-                    <input ref={passwordBox} type="password" className="form-control" id="floatingPassword" placeholder="Password" />
+                    <input ref={passwordBox} type="password" id="floatingPassword" placeholder="Password" />
                 </div>
                 <button type="submit">Sign in</button>
             </form>
