@@ -4,7 +4,9 @@ import { Link } from 'react-router-dom';
 const SignUpForm = () => {
     const usernameBox = useRef(null);
     const passwordBox = useRef(null);
+    const confirmPasswordBox = useRef(null);
     const displayNameBox = useRef(null);
+    const profilePictureBox = useRef(null);
 
     const handleSignUp = (e) => {
         // Validate username, password and display name
@@ -30,8 +32,16 @@ const SignUpForm = () => {
                     <input ref={passwordBox} type="password" id="floatingPassword" placeholder="Password" required />
                 </div>
                 <div>
+                    <label htmlFor="floatingConfirmedPassword">Confirm password:</label>
+                    <input ref={confirmPasswordBox} type="password" id="floatingConfirmedPassword" placeholder="Confirm password" required />
+                </div>
+                <div>
                     <label htmlFor="floatingInput">Display name:</label>
                     <input ref={displayNameBox} type="text" id="floatingDisplayName" placeholder="Display name" required />
+                </div>
+                <div>
+                    <label htmlFor="floatingProfilePicture">Upload a profile picture:</label>
+                    <input ref={profilePictureBox} type="file" id="floatingProfilePicture" required />
                 </div>
                 <button type="submit">Sign up</button>
             </form>
