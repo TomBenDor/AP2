@@ -8,11 +8,6 @@ const App = () => {
   return (
     <Router>
       <div className="App">
-        <header className="App-header">
-          <p>
-            MaKore
-          </p>
-        </header>
         <Routes>
           <Route path='/' element={
             // Should check if user is signed in or not. If not, redirect to login page.
@@ -39,6 +34,6 @@ const App = () => {
       </div>
     </Router>
   );
-}
+};
 
 export default App;
