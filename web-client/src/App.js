@@ -1,10 +1,14 @@
 import './App.css';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import MainPage from "./components/MainPage";
 import SignInForm from "./components/SignInForm";
 import SignUpForm from "./components/SignUpForm";
 
 const App = () => {
+  // Current signed in user
+  const [currentUser, setCurrentUser] = useState(null);
+
   return (
     <Router>
       <div className="App">
