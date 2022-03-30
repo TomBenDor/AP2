@@ -25,14 +25,14 @@ const App = () => {
             // Should check if user is signed in or not. If signed in, redirect to main page.
             // If not, render the Login component.
             <>
-              <LoginForm/>
+              <LoginForm />
             </>
           } />
           <Route path='/signup' element={
             // Should check if user is signed in or not. If signed in, redirect to main page.
             // If not, render the Signup component.
             <>
-              <SignUpForm/>
+              <SignUpForm />
             </>
           } />
         </Routes>
