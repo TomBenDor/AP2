@@ -34,12 +34,12 @@ const SignUpForm = ({ users, setUsers, currentUser, setCurrentUser }) => {
         }
         // Check if password is at least 6 characters long
         if (password.length < 6) {
-            console.log("Password must be at least 6 characters long!");
+            console.log("Password must be at least 6 characters long");
             return;
         }
         // Check if password contains at least one number, one lowercase and one uppercase character
         if (!/[a-z]/.test(password) || !/[A-Z]/.test(password) || !/[0-9]/.test(password)) {
-            console.log("Password must contain at least one number, one lowercase and one uppercase character!");
+            console.log("Password must contain at least one number, one lowercase and one uppercase character");
             return;
         }
         // Check if username is already taken
