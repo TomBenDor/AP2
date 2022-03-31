@@ -7,7 +7,10 @@ import SignUpForm from "./components/SignUpForm";
 
 const App = () => {
   // Current signed in user
+  // currentUser = { username: "", displayName: "", profilePicture: "" }
   const [currentUser, setCurrentUser] = useState(null);
+  // Users from the database (for now it's just hardcoded)
+  const [users, setUsers] = useState([{ "username": "user123", "password": "pass123", "displayName": "Coolest dude ever", "profilePicture": null }]);
 
   return (
     <Router>
@@ -24,14 +27,14 @@ const App = () => {
             // Should check if user is signed in or not. If signed in, redirect to main page.
             // If not, render the SignIn component.
             <>
-              <SignInForm />
+              <SignInForm users={users} currentUser={currentUser} setCurrentUser={setCurrentUser} />
             </>
           } />
           <Route path='/signup' element={
             // Should check if user is signed in or not. If signed in, redirect to main page.
             // If not, render the Signup component.
             <>
-              <SignUpForm />
+              <SignUpForm users={users} setUsers={setUsers} currentUser={currentUser} setCurrentUser={setCurrentUser} />
             </>
           } />
         </Routes>

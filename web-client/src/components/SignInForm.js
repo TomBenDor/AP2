@@ -1,9 +1,10 @@
-import { useRef } from "react";
-import { Link } from 'react-router-dom';
+import { useRef, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
-const SignInForm = () => {
+const SignInForm = ({ users, currentUser, setCurrentUser }) => {
     const usernameBox = useRef(null);
     const passwordBox = useRef(null);
+    const navigate = useNavigate();
 
     const handleSignIn = (e) => {
         // Validate username and password
@@ -11,10 +12,34 @@ const SignInForm = () => {
 
         e.preventDefault();
 
-        let currentUsername = usernameBox.current.value;
-        let currentPassword = passwordBox.current.value;
+        const username = usernameBox.current.value;
+        const password = passwordBox.current.value;
+        // Check if username and password are empty
+        if (username === "" || password === "") {
+            console.log("Please enter a username and password");
+            return;
+        }
+
+        // Check if username and password are valid
+        const user = users.find(user => user.username === username && user.password === password);
+        // If a valid user was found
+        if (user) {
+            // Sign in user
+            setCurrentUser({ "username": username, "displayName": user.displayName, "profilePicture": user.profilePicture });
+            // Redirect to main page
+            navigate("/");
+        } else {
+            // Show error message
+            console.log("Invalid username or password");
+        }
     };
 
+    useEffect(() => {
+        // If user is signed in, redirect to main page.
+        if (currentUser) {
+            navigate("/");
+        }
+    }, []);
 
     return (
         <>
