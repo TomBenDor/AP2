@@ -26,8 +26,6 @@ const SignInForm = ({ users, currentUser, setCurrentUser }) => {
         if (user) {
             // Sign in user
             setCurrentUser({ "username": username, "displayName": user.displayName, "profilePicture": user.profilePicture });
-            // Redirect to main page
-            navigate("/");
         } else {
             // Show error message
             console.log("Invalid username or password");
@@ -39,7 +37,7 @@ const SignInForm = ({ users, currentUser, setCurrentUser }) => {
         if (currentUser) {
             navigate("/");
         }
-    }, []);
+    }, [currentUser, navigate]);
 
     return (
         <>

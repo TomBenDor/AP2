@@ -59,8 +59,6 @@ const SignUpForm = ({ users, setUsers, currentUser, setCurrentUser }) => {
         setUsers([...users, newUser]);
         // Sign in user
         setCurrentUser(newUser);
-        // Redirect to main page
-        navigate("/");
     };
 
 
@@ -69,7 +67,7 @@ const SignUpForm = ({ users, setUsers, currentUser, setCurrentUser }) => {
         if (currentUser) {
             navigate("/");
         }
-    }, []);
+    }, [currentUser, navigate]);
 
     return (
         <>
