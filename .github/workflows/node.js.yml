@@ -4,8 +4,6 @@
 name: Compile Node.js Web Client
 on:
   workflow_dispatch: 
-  push:
-    branches: [ milestone-1 ]
   pull_request:
     branches: [ milestone-1 ]
     
