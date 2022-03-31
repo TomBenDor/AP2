@@ -40,7 +40,7 @@ const SignInForm = ({ users, currentUser, setCurrentUser }) => {
     }, [currentUser, navigate]);
 
     return (
-        <>
+        <div id="form-frame">
             <h1>Sign In Form</h1>
             <form onSubmit={handleSignIn}>
                 <div>
@@ -56,7 +56,7 @@ const SignInForm = ({ users, currentUser, setCurrentUser }) => {
             <span>
                 Don't have an account? <Link to={"/signup"}>Sign up</Link>
             </span>
-        </>
+        </div>
     )
 };
 
