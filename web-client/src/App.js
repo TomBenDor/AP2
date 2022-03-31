@@ -34,7 +34,7 @@ const App = () => {
             // Should check if user is signed in or not. If signed in, redirect to main page.
             // If not, render the Signup component.
             <>
-              <SignUpForm />
+              <SignUpForm users={users} setUsers={setUsers} currentUser={currentUser} setCurrentUser={setCurrentUser} />
             </>
           } />
         </Routes>

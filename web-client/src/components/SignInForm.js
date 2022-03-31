@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const SignInForm = ({ users, currentUser, setCurrentUser }) => {
@@ -39,7 +39,7 @@ const SignInForm = ({ users, currentUser, setCurrentUser }) => {
         if (currentUser) {
             navigate("/");
         }
-    }, [])
+    }, []);
 
     return (
         <>
