@@ -2,8 +2,8 @@
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
 name: Compile Node.js Web Client
-
 on:
+  workflow_dispatch: 
   push:
     branches: [ milestone-1 ]
   pull_request:
