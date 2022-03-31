@@ -1,3 +1,24 @@
 .App {
-  text-align: center;
+    text-align: center;
+}
+
+main {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: linear-gradient(to right bottom, #36D1DC 0%, #5B86E5 100%);
+}
+
+main #content {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: 20px 250px 20px 250px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.75);
 }
