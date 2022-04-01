@@ -41,21 +41,19 @@ const SignInForm = ({ users, currentUser, setCurrentUser }) => {
 
     return (
         <div id="form-frame">
-            <h1>Sign In Form</h1>
+            <h1 className="form-title">Sign In</h1>
             <form onSubmit={handleSignIn}>
-                <div>
-                    <label htmlFor="floatingInput">Username:</label>
-                    <input ref={usernameBox} type="text" id="floatingUsername" placeholder="Username" required />
+                <div className="form-group">
+                    <label htmlFor="username">Username</label>
+                    <input type="text" className="form-control" id="floatingUsername" ref={usernameBox} />
                 </div>
-                <div>
-                    <label htmlFor="floatingPassword">Password:</label>
-                    <input ref={passwordBox} type="password" id="floatingPassword" placeholder="Password" required />
+                <div className="form-group">
+                    <label htmlFor="password">Password</label>
+                    <input type="password" className="form-control" id="floatingPassword" ref={passwordBox} />
                 </div>
-                <button type="submit">Sign in</button>
+                <button type="submit" className="submit-button">SIGN IN</button>
             </form>
-            <span>
-                Don't have an account? <Link to={"/signup"}>Sign up</Link>
-            </span>
+            <p className="form-question">Don't have an account? <Link to="/signup">Sign up</Link></p>
         </div>
     )
 };
