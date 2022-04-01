@@ -27,6 +27,11 @@ const SignUpForm = ({ users, setUsers, currentUser, setCurrentUser }) => {
             console.log("Please fill in all fields");
             return;
         }
+        // Check if username is only letters, numbers and hyphens
+        if (!/^[a-zA-Z0-9-]+$/.test(username)) {
+            console.log("Username can only contain letters, numbers and hyphens");
+            return;
+        }
         // Check if passwords match
         if (password !== confirmPassword) {
             console.log("Passwords don't match");
@@ -75,11 +80,11 @@ const SignUpForm = ({ users, setUsers, currentUser, setCurrentUser }) => {
             <form onSubmit={handleSignUp}>
                 <div className="form-group">
                     <label htmlFor="floatingInput">Username</label>
-                    <input ref={usernameBox} className="form-control" type="text" id="floatingUsername"  required />
+                    <input ref={usernameBox} className="form-control" type="text" id="floatingUsername" required />
                 </div>
                 <div className="form-group">
                     <label htmlFor="floatingPassword">Password</label>
-                    <input ref={passwordBox} className="form-control" type="password" id="floatingPassword"  required />
+                    <input ref={passwordBox} className="form-control" type="password" id="floatingPassword" required />
                 </div>
                 <div className="form-group">
                     <label htmlFor="floatingConfirmedPassword">Confirm password</label>
