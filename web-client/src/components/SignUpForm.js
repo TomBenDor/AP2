@@ -1,7 +1,7 @@
-import { useRef, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import {useRef, useEffect} from 'react';
+import {Link, useNavigate} from 'react-router-dom';
 
-const SignUpForm = ({ users, setUsers, currentUser, setCurrentUser }) => {
+const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
     const usernameBox = useRef(null);
     const passwordBox = useRef(null);
     const confirmPasswordBox = useRef(null);
@@ -67,6 +67,12 @@ const SignUpForm = ({ users, setUsers, currentUser, setCurrentUser }) => {
     };
 
 
+    const handleChange = (e) => {
+        // Check if all fields are filled, if not, disable submit button
+        document.getElementById("sign-up-button").disabled = usernameBox.current.value === "" || passwordBox.current.value === "" || confirmPasswordBox.current.value === "" || displayNameBox.current.value === "";
+
+    };
+
     useEffect(() => {
         // If user is signed in, redirect to main page.
         if (currentUser) {
@@ -80,25 +86,30 @@ const SignUpForm = ({ users, setUsers, currentUser, setCurrentUser }) => {
             <form onSubmit={handleSignUp}>
                 <div className="form-group">
                     <label htmlFor="floatingInput">Username</label>
-                    <input ref={usernameBox} className="form-control" type="text" id="floatingUsername" required />
+                    <input ref={usernameBox} className="form-control" type="text" id="floatingUsername"
+                           onChange={handleChange} required/>
                 </div>
                 <div className="form-group">
                     <label htmlFor="floatingPassword">Password</label>
-                    <input ref={passwordBox} className="form-control" type="password" id="floatingPassword" required />
+                    <input ref={passwordBox} className="form-control" type="password" id="floatingPassword"
+                           onChange={handleChange} required/>
                 </div>
                 <div className="form-group">
                     <label htmlFor="floatingConfirmedPassword">Confirm password</label>
-                    <input ref={confirmPasswordBox} className="form-control" type="password" id="floatingConfirmedPassword" required />
+                    <input ref={confirmPasswordBox} className="form-control" type="password"
+                           id="floatingConfirmedPassword" onChange={handleChange} required/>
                 </div>
                 <div className="form-group">
                     <label htmlFor="floatingInput">Display name</label>
-                    <input ref={displayNameBox} className="form-control" type="text" id="floatingDisplayName" required />
+                    <input ref={displayNameBox} className="form-control" type="text" id="floatingDisplayName"
+                           onChange={handleChange} required/>
                 </div>
                 <div>
                     <label htmlFor="floatingProfilePicture">Profile picture</label>
-                    <input ref={profilePictureBox} className="form-control" type="file" id="floatingProfilePicture" required />
+                    <input ref={profilePictureBox} className="form-control" type="file" id="floatingProfilePicture"
+                           required/>
                 </div>
-                <button type="submit" className="submit-button">SIGN UP</button>
+                <button type="submit" className="submit-button" id="sign-up-button" disabled>SIGN UP</button>
             </form>
             <p className="form-question">Have an account already? <Link to={"/signin"}>Sign in</Link></p>
         </div>

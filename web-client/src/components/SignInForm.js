@@ -31,6 +31,11 @@ const SignInForm = ({ users, currentUser, setCurrentUser }) => {
             console.log("Invalid username or password");
         }
     };
+    
+    const handleChange = (e) => {
+        // Check if username and password are empty
+        document.getElementById("sign-in-button").disabled = usernameBox.current.value === "" || passwordBox.current.value === "";
+    };
 
     useEffect(() => {
         // If user is signed in, redirect to main page.
@@ -45,13 +50,13 @@ const SignInForm = ({ users, currentUser, setCurrentUser }) => {
             <form onSubmit={handleSignIn}>
                 <div className="form-group">
                     <label htmlFor="username">Username</label>
-                    <input type="text" className="form-control" id="floatingUsername" ref={usernameBox} />
+                    <input type="text" className="form-control" id="floatingUsername" ref={usernameBox}  onChange={handleChange}/>
                 </div>
                 <div className="form-group">
                     <label htmlFor="password">Password</label>
-                    <input type="password" className="form-control" id="floatingPassword" ref={passwordBox} />
+                    <input type="password" className="form-control" id="floatingPassword" ref={passwordBox} onChange={handleChange} />
                 </div>
-                <button type="submit" className="submit-button">SIGN IN</button>
+                <button type="submit" className="submit-button" id="sign-in-button" disabled>SIGN IN</button>
             </form>
             <p className="form-question">Don't have an account? <Link to="/signup">Sign up</Link></p>
         </div>

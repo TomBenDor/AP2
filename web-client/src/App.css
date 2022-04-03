@@ -65,6 +65,11 @@ main #form-frame {
     margin-bottom: 20px;
 }
 
+.submit-button:disabled {
+    background-image: linear-gradient(to right, #dddddd 0%, #cccccc 100%);
+    color: gray;
+}
+
 .submit-button::before {
     position: absolute;
     content: "";
@@ -80,7 +85,7 @@ main #form-frame {
     opacity: 0;
 }
 
-.submit-button:hover::before {
+.submit-button:hover:not([disabled])::before {
     opacity: 1;
 }
 
