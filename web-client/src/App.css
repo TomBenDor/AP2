@@ -35,6 +35,7 @@ main #form-frame {
     font: 50px 'Lato Light', sans-serif;
     color: black;
     text-align: center;
+    margin-bottom: 50px;
 }
 
 .form-group {
@@ -45,10 +46,18 @@ main #form-frame {
 .form-group > label {
     color: gray;
     position: relative;
-    top: 11px;
+    top: -51px;
     left: 10px;
     background-color: white;
     padding: 0 5px 0 5px;
+}
+
+input:focus + .form-help {
+    color: dodgerblue;
+}
+
+.form-control {
+    box-shadow: none !important;
 }
 
 .submit-button {

@@ -85,29 +85,29 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
             <h1 className="form-title">Sign Up</h1>
             <form onSubmit={handleSignUp}>
                 <div className="form-group">
-                    <label htmlFor="floatingInput">Username</label>
                     <input ref={usernameBox} className="form-control" type="text" id="floatingUsername"
                            onChange={handleChange} required/>
+                    <label htmlFor="floatingInput" className="form-help">Username</label>
                 </div>
                 <div className="form-group">
-                    <label htmlFor="floatingPassword">Password</label>
                     <input ref={passwordBox} className="form-control" type="password" id="floatingPassword"
                            onChange={handleChange} required/>
+                    <label htmlFor="floatingPassword" className="form-help">Password</label>
                 </div>
                 <div className="form-group">
-                    <label htmlFor="floatingConfirmedPassword">Confirm password</label>
                     <input ref={confirmPasswordBox} className="form-control" type="password"
                            id="floatingConfirmedPassword" onChange={handleChange} required/>
+                    <label htmlFor="floatingConfirmedPassword" className="form-help">Confirm password</label>
                 </div>
                 <div className="form-group">
-                    <label htmlFor="floatingInput">Display name</label>
                     <input ref={displayNameBox} className="form-control" type="text" id="floatingDisplayName"
                            onChange={handleChange} required/>
+                    <label htmlFor="floatingInput" className="form-help">Display name</label>
                 </div>
                 <div>
-                    <label htmlFor="floatingProfilePicture">Profile picture</label>
                     <input ref={profilePictureBox} className="form-control" type="file" id="floatingProfilePicture"
                            required/>
+                    <label htmlFor="floatingProfilePicture" className="form-help">Profile picture</label>
                 </div>
                 <button type="submit" className="submit-button" id="sign-up-button" disabled>SIGN UP</button>
             </form>

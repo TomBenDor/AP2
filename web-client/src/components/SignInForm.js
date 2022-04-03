@@ -49,12 +49,12 @@ const SignInForm = ({ users, currentUser, setCurrentUser }) => {
             <h1 className="form-title">Sign In</h1>
             <form onSubmit={handleSignIn}>
                 <div className="form-group">
-                    <label htmlFor="username">Username</label>
                     <input type="text" className="form-control" id="floatingUsername" ref={usernameBox}  onChange={handleChange}/>
+                    <label htmlFor="username" className="form-help">Username</label>
                 </div>
                 <div className="form-group">
-                    <label htmlFor="password">Password</label>
                     <input type="password" className="form-control" id="floatingPassword" ref={passwordBox} onChange={handleChange} />
+                    <label htmlFor="password" className="form-help">Password</label>
                 </div>
                 <button type="submit" className="submit-button" id="sign-in-button" disabled>SIGN IN</button>
             </form>
