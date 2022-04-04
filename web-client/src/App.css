@@ -24,8 +24,9 @@ main #form-frame {
     left: 50%;
     top: 50%;
     width: 25%;
+    min-width: 300px;
     transform: translate(-50%, -50%);
-    padding: 50px 50px 50px 50px;
+    padding: 50px;
     background: white;
     border-radius: 5px;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.75);
@@ -35,12 +36,12 @@ main #form-frame {
     font: 50px 'Lato Light', sans-serif;
     color: black;
     text-align: center;
-    margin-bottom: 50px;
+    margin-bottom: 5%;
 }
 
 .form-group {
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-top: 5%;
+    margin-bottom: 5%;
 }
 
 .form-help {
