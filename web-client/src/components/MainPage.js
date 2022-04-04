@@ -8,7 +8,7 @@ const MainPage = () => {
                 <button className="button main-page-button">Sign Up</button>
             </Link>
             <h1 className="form-title">Already have an account?</h1>
-            <Link to="/login">
+            <Link to="/signin">
                 <button className="button main-page-button">Login</button>
             </Link>
         </div>
