@@ -1,3 +1,5 @@
+import {Link} from 'react-router-dom';
+
 const MainPage = () => {
     return (
         <div id="form-frame">
@@ -6,7 +8,7 @@ const MainPage = () => {
                 <button className="submit-button">Sign Up</button>
             </Link>
             <h1 className="form-title">Already have an account?</h1>
-            <Link to="/login">
+            <Link to="/signin">
                 <button className="submit-button">Login</button>
             </Link>
         </div>
