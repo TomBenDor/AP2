@@ -43,7 +43,7 @@ main #form-frame {
     margin-bottom: 20px;
 }
 
-.form-group > label {
+.form-help {
     color: gray;
     position: relative;
     top: -51px;
@@ -52,7 +52,7 @@ main #form-frame {
     padding: 0 5px 0 5px;
 }
 
-input:focus + .form-help {
+.form-control:focus + .form-help {
     color: dodgerblue;
 }
 
