@@ -50,6 +50,7 @@ main #form-frame {
     left: 10px;
     background-color: white;
     padding: 0 5px 0 5px;
+    user-select: none;
 }
 
 

@@ -19,6 +19,9 @@ const SignInForm = ({ users, currentUser, setCurrentUser }) => {
         document.querySelectorAll('.form-control').forEach(element => {
             element.classList.remove("is-invalid");
         });
+        document.querySelectorAll('.form-help').forEach(element => {
+            element.classList.remove("text-danger");
+        });
 
         // Check if username and password are valid
         const user = users.find(user => user.username === username && user.password === password);
@@ -28,6 +31,7 @@ const SignInForm = ({ users, currentUser, setCurrentUser }) => {
             setCurrentUser({ "username": username, "displayName": user.displayName, "profilePicture": user.profilePicture });
         } else {
             document.getElementById("floatingUsername").classList.add("is-invalid");
+            document.getElementById("username-label").classList.add("text-danger");
             // Disable submit button
             document.getElementById("sign-in-button").disabled = true;
         }
@@ -50,12 +54,12 @@ const SignInForm = ({ users, currentUser, setCurrentUser }) => {
             <h1 className="form-title">Sign In</h1>
             <form onSubmit={handleSignIn}>
                 <div className="form-group">
-                    <label htmlFor="username" className="form-help">Username</label>
+                    <label htmlFor="username" className="form-help" id="username-label">Username</label>
                     <input type="text" className="form-control" id="floatingUsername" ref={usernameBox}  onChange={handleChange}/>
                     <label className="invalid-feedback">One of the fields is invalid</label>
                 </div>
                 <div className="form-group">
-                    <label htmlFor="password" className="form-help">Password</label>
+                    <label htmlFor="password" className="form-help" id="password-label">Password</label>
                     <input type="password" className="form-control" id="floatingPassword" ref={passwordBox} onChange={handleChange} />
                     <label className="invalid-feedback">This password might not match</label>
                 </div>
