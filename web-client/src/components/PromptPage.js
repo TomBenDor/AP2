@@ -1,6 +1,6 @@
 import {Link} from 'react-router-dom';
 
-const MainPage = () => {
+const PromptPage = () => {
     return (
         <div id="form-frame">
             <h1 className="form-title">Join MaKore today!</h1>
@@ -15,4 +15,4 @@ const MainPage = () => {
     )
 };
 
-export default MainPage;
+export default PromptPage;
