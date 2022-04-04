@@ -5,11 +5,11 @@ const PromptPage = () => {
         <div id="form-frame">
             <h1 className="form-title">Join MaKore today!</h1>
             <Link to="/signup">
-                <button className="submit-button">Sign Up</button>
+                <button className="submit-button">SIGN UP</button>
             </Link>
-            <h1 className="form-title">Already have an account?</h1>
+            <h1 className="form-title">Have an account already?</h1>
             <Link to="/signin">
-                <button className="submit-button">Login</button>
+                <button className="submit-button">SIGN IN</button>
             </Link>
         </div>
     )
