@@ -62,6 +62,8 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
             hasError = true;
         }
         if (hasError) {
+            // Disable submit button
+            document.getElementById("sign-up-button").disabled = true;
             return;
         }
         // Create new user

@@ -28,6 +28,8 @@ const SignInForm = ({ users, currentUser, setCurrentUser }) => {
             setCurrentUser({ "username": username, "displayName": user.displayName, "profilePicture": user.profilePicture });
         } else {
             document.getElementById("floatingUsername").classList.add("is-invalid");
+            // Disable submit button
+            document.getElementById("sign-in-button").disabled = true;
         }
     };
     
