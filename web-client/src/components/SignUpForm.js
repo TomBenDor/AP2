@@ -21,36 +21,47 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
         const confirmPassword = confirmPasswordBox.current.value;
         const displayName = displayNameBox.current.value;
         const profilePicture = profilePictureBox.current.value;
+        
+        let hasError = false;
+        
+        // Hide all error messages
+        document.querySelectorAll('.form-control').forEach(element => {
+            element.classList.remove("is-invalid");
+        });
 
-        // Check if all fields are filled
-        if (username === "" || password === "" || confirmPassword === "" || displayName === "" || profilePicture === "") {
-            console.log("Please fill in all fields");
-            return;
-        }
         // Check if username is only letters, numbers and hyphens
         if (!/^[a-zA-Z0-9-]+$/.test(username)) {
-            console.log("Username can only contain letters, numbers and hyphens");
-            return;
+            document.getElementById("username-error").innerHTML = "Username can only contain letters, numbers and hyphens";
+            document.getElementById("floatingUsername").classList.add("is-invalid");
+            hasError = true;
         }
         // Check if passwords match
         if (password !== confirmPassword) {
-            console.log("Passwords don't match");
-            return;
+            document.getElementById("password-confirmation-error").innerHTML = "Passwords do not match";
+            document.getElementById("floatingConfirmedPassword").classList.add("is-invalid");
+            hasError = true;
         }
         // Check if password is at least 6 characters long
         if (password.length < 6) {
-            console.log("Password must be at least 6 characters long");
-            return;
+            document.getElementById("password-error").innerHTML = "Password must be at least 6 characters long";
+            document.getElementById("floatingPassword").classList.add("is-invalid");
+            hasError = true;
         }
         // Check if password contains at least one number, one lowercase and one uppercase character
         if (!/[a-z]/.test(password) || !/[A-Z]/.test(password) || !/[0-9]/.test(password)) {
-            console.log("Password must contain at least one number, one lowercase and one uppercase character");
-            return;
+            document.getElementById("password-error").innerHTML = "Password must contain at least one number, one lowercase and one uppercase character";
+            document.getElementById("floatingPassword").classList.add("is-invalid");
+            hasError = true;
         }
         // Check if username is already taken
         const user = users.find(user => user.username === username);
         if (user) {
-            console.log("Username is already taken");
+            // Display error message
+            document.getElementById("username-error").innerHTML = "Username is already taken";
+            document.getElementById("floatingUsername").classList.add("is-invalid");
+            hasError = true;
+        }
+        if (hasError) {
             return;
         }
         // Create new user
@@ -85,29 +96,33 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
             <h1 className="form-title">Sign Up</h1>
             <form onSubmit={handleSignUp}>
                 <div className="form-group">
+                    <label htmlFor="floatingInput" className="form-help">Username</label>
                     <input ref={usernameBox} className="form-control" type="text" id="floatingUsername"
                            onChange={handleChange} required/>
-                    <label htmlFor="floatingInput" className="form-help">Username</label>
+                    <label className="invalid-feedback" id="username-error">Invalid</label>
                 </div>
                 <div className="form-group">
+                    <label htmlFor="floatingPassword" className="form-help">Password</label>
                     <input ref={passwordBox} className="form-control" type="password" id="floatingPassword"
                            onChange={handleChange} required/>
-                    <label htmlFor="floatingPassword" className="form-help">Password</label>
+                    <label className="invalid-feedback" id="password-error">Invalid</label>
                 </div>
                 <div className="form-group">
+                    <label htmlFor="floatingConfirmedPassword" className="form-help">Confirm password</label>
                     <input ref={confirmPasswordBox} className="form-control" type="password"
                            id="floatingConfirmedPassword" onChange={handleChange} required/>
-                    <label htmlFor="floatingConfirmedPassword" className="form-help">Confirm password</label>
+                    <label className="invalid-feedback" id="password-confirmation-error">Invalid</label>
                 </div>
                 <div className="form-group">
+                    <label htmlFor="floatingInput" className="form-help">Display name</label>
                     <input ref={displayNameBox} className="form-control" type="text" id="floatingDisplayName"
                            onChange={handleChange} required/>
-                    <label htmlFor="floatingInput" className="form-help">Display name</label>
+                    <label className="invalid-feedback" id="display-name-error">Invalid</label>
                 </div>
                 <div>
+                    <label htmlFor="floatingProfilePicture" className="form-help">Profile picture</label>
                     <input ref={profilePictureBox} className="form-control" type="file" id="floatingProfilePicture"
                            required/>
-                    <label htmlFor="floatingProfilePicture" className="form-help">Profile picture</label>
                 </div>
                 <button type="submit" className="submit-button" id="sign-up-button" disabled>SIGN UP</button>
             </form>

@@ -46,15 +46,12 @@ main #form-frame {
 .form-help {
     color: gray;
     position: relative;
-    top: -51px;
+    top: 10px;
     left: 10px;
     background-color: white;
     padding: 0 5px 0 5px;
 }
 
-.form-control:focus + .form-help {
-    color: dodgerblue;
-}
 
 .form-control {
     box-shadow: none !important;
