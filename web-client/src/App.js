@@ -1,46 +1,55 @@
 import './App.css';
-import { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import {useState} from 'react';
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import MainPage from "./components/MainPage";
 import SignInForm from "./components/SignInForm";
 import SignUpForm from "./components/SignUpForm";
 
 const App = () => {
-  // Current signed in user
-  // currentUser = { username: "", displayName: "", profilePicture: "" }
-  const [currentUser, setCurrentUser] = useState(null);
-  // Users from the database (for now it's just hardcoded)
-  const [users, setUsers] = useState([{ "username": "user123", "password": "pass123", "displayName": "Coolest dude ever", "profilePicture": null }]);
+    // Current signed in user
+    // currentUser: { username: "", displayName: "", profilePicture: "" }
+    const [currentUser, setCurrentUser] = useState(null);
+    // Users from the database (for now it's just hardcoded)
+    const [users, setUsers] = useState([{
+        "username": "user123",
+        "password": "pass123",
+        "displayName": "Coolest dude ever",
+        "profilePicture": null
+    }]);
 
-  return (
-    <Router>
-      <div className="App">
-        <Routes>
-          <Route path='/' element={
-            // Should check if user is signed in or not. If not, redirect to signin page.
-            // If signed in, render the Main component.
-            <>
-              <MainPage />
-            </>
-          } />
-          <Route path='/signin' element={
-            // Should check if user is signed in or not. If signed in, redirect to main page.
-            // If not, render the SignIn component.
-            <>
-              <SignInForm users={users} currentUser={currentUser} setCurrentUser={setCurrentUser} />
-            </>
-          } />
-          <Route path='/signup' element={
-            // Should check if user is signed in or not. If signed in, redirect to main page.
-            // If not, render the Signup component.
-            <>
-              <SignUpForm users={users} setUsers={setUsers} currentUser={currentUser} setCurrentUser={setCurrentUser} />
-            </>
-          } />
-        </Routes>
-      </div>
-    </Router>
-  );
+    return (
+        <Router>
+            <div className="App">
+                <main>
+                    <Routes>
+                        <Route path='/' element={
+                            // Should check if user is signed in or not. If not, redirect to signin page.
+                            // If signed in, render the Main component.
+                            <>
+                                <MainPage/>
+                            </>
+                        }/>
+                        <Route path='/signin' element={
+                            // Should check if user is signed in or not. If signed in, redirect to main page.
+                            // If not, render the SignIn component.
+                            <>
+                                <SignInForm users={users} currentUser={currentUser}
+                                            setCurrentUser={setCurrentUser}/>
+                            </>
+                        }/>
+                        <Route path='/signup' element={
+                            // Should check if user is signed in or not. If signed in, redirect to main page.
+                            // If not, render the Signup component.
+                            <>
+                                <SignUpForm users={users} setUsers={setUsers} currentUser={currentUser}
+                                            setCurrentUser={setCurrentUser}/>
+                            </>
+                        }/>
+                    </Routes>
+                </main>
+            </div>
+        </Router>
+    );
 };
 
 export default App;
