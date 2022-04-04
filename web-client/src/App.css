@@ -71,6 +71,7 @@ main #form-frame {
     border: none;
     margin-top: 20px;
     margin-bottom: 20px;
+    cursor: pointer;
 }
 
 .submit-button:disabled {
