@@ -1,6 +1,6 @@
 import './App.css';
-import {useState} from 'react';
-import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import SignInForm from "./components/SignInForm";
 import SignUpForm from "./components/SignUpForm";
 import ChatPage from "./components/ChatPage";
@@ -8,7 +8,7 @@ import PromptPage from "./components/PromptPage";
 
 const App = () => {
     // Current signed in user
-    // currentUser: { username: "", displayName: "", profilePicture: "" }
+    // currentUser = { username: "", displayName: "", profilePicture: "" }
     const [currentUser, setCurrentUser] = useState(null);
     // Users from the database (for now it's just hardcoded)
     const [users, setUsers] = useState([{
@@ -24,26 +24,23 @@ const App = () => {
                 <main>
                     <Routes>
                         <Route path='/' element={
-                            // Should check if user is signed in or not. If not, redirect to signin page.
-                            // If signed in, render the Main component.
-                            currentUser ?  <ChatPage/> : <PromptPage/>
-                        }/>
+                            // Check if user is signed in or not. If not, render promt page.
+                            // If signed in, Render the Chat page.
+                            currentUser ? <ChatPage /> : <PromptPage />
+                        } />
                         <Route path='/signin' element={
-                            // Should check if user is signed in or not. If signed in, redirect to main page.
-                            // If not, render the SignIn component.
+                            // Render the SignIn component.
                             <>
-                                <SignInForm users={users} currentUser={currentUser}
-                                            setCurrentUser={setCurrentUser}/>
+                                <SignInForm users={users} currentUser={currentUser} setCurrentUser={setCurrentUser}/>
                             </>
-                        }/>
+                        } />
                         <Route path='/signup' element={
-                            // Should check if user is signed in or not. If signed in, redirect to main page.
-                            // If not, render the Signup component.
+                            // Render the Signup component.
                             <>
                                 <SignUpForm users={users} setUsers={setUsers} currentUser={currentUser}
-                                            setCurrentUser={setCurrentUser}/>
+                                    setCurrentUser={setCurrentUser} />
                             </>
-                        }/>
+                        } />
                     </Routes>
                 </main>
             </div>
