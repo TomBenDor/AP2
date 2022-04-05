@@ -63,7 +63,7 @@ const SignInForm = ({ users, currentUser, setCurrentUser }) => {
                     <input type="password" className="form-control" id="floatingPassword" ref={passwordBox} onChange={handleChange} />
                     <label className="invalid-feedback">This password might not match</label>
                 </div>
-                <button type="submit" className="submit-button" id="sign-in-button" disabled>SIGN IN</button>
+                <button type="submit" className="button submit-button" id="sign-in-button" disabled>SIGN IN</button>
             </form>
             <p className="form-question">Don't have an account? <Link to="/signup">Sign up</Link></p>
         </div>

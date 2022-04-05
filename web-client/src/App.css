@@ -59,26 +59,41 @@ main #form-frame {
     box-shadow: none !important;
 }
 
-.submit-button {
+.button {
     font: 16px 'Lato Light', sans-serif;
     color: white;
     padding: 10px 20px 10px 20px;
     position: relative;
     background-image: linear-gradient(to right, #36D1DC 0%, #5B86E5 100%);
     z-index: 1;
-    width: 100%;
     border-radius: 5px;
     border: none;
     margin-top: 20px;
     margin-bottom: 20px;
 }
 
-.submit-button:disabled {
+.landing-page-button {
+    width: 13%;
+    height: 10%;
+    line-height: 200%;
+    text-align: center;
+    margin-left: 10%;
+    margin-right: -5%;
+    margin-top: 5%;
+    font-size: 150%;
+    float: left;
+}
+
+.submit-button {
+    width: 100%;
+}
+
+.button:disabled {
     background-image: linear-gradient(to right, #dddddd 0%, #cccccc 100%);
     color: gray;
 }
 
-.submit-button::before {
+.button::before {
     position: absolute;
     content: "";
     top: 0;
@@ -93,7 +108,7 @@ main #form-frame {
     opacity: 0;
 }
 
-.submit-button:hover:not([disabled])::before {
+.button:hover:not([disabled])::before {
     opacity: 1;
 }
 
@@ -109,3 +124,49 @@ main #form-frame {
     font: bold 16px 'Lato', sans-serif;
     text-decoration: none;
 }
+
+.landing-page-frame {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: 3% 7% 3% 7%;
+    background: #FFF9FF;
+    border-radius: 15px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.75);
+}
+
+.landing-page-name-top {
+    font: bold 200% 'Lato', sans-serif;
+    color: black;
+    text-align: left;
+    margin-left: 10%;
+    margin-top: 2%;
+}
+
+.landing-page-name {
+    font: 250% 'Lato', sans-serif;
+    color: #00bbff;
+    text-align: left;
+    margin-top: 15%;
+    margin-left: 10%;
+}
+
+.landing-page-slogan {
+    font: 200% 'Lato', sans-serif;
+    color: black;
+    text-align: left;
+    margin-left: 10%;
+}
+
+.floater {
+    float: left;
+}
+
+.landing-photo {
+    width: 300%;
+    margin-top: -100%;
+    margin-left: 20%;
+}
+

@@ -134,7 +134,7 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
                     <input ref={profilePictureBox} className="form-control" type="file" id="floatingProfilePicture"
                            required/>
                 </div>
-                <button type="submit" className="submit-button" id="sign-up-button" disabled>SIGN UP</button>
+                <button type="submit" className="button submit-button" id="sign-up-button" disabled>SIGN UP</button>
             </form>
             <p className="form-question">Have an account already? <Link to={"/signin"}>Sign in</Link></p>
         </div>
