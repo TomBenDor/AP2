@@ -5,10 +5,10 @@
     --main-dark: #5B86E5;
     --main-disabled-bright: #DDDDDD;
     --main-disabled-dark: #CCCCCC;
-    --form-title-text-color: black;
+    --form-title-text: black;
     --form-help: gray;
-    --submit-button: white;
-    --submit-button-disabled: gray;
+    --submit-button-text: white;
+    --submit-button-disabled-text: gray;
     --form-question: black;
 }
 
@@ -20,10 +20,10 @@
     --main-dark: #5B86E5;
     --main-disabled-bright: #DDDDDD;
     --main-disabled-dark: #CCCCCC;
-    --form-title-text-color: black;
+    --form-title-text: black;
     --form-help: gray;
-    --submit-button: white;
-    --submit-button-disabled: gray;
+    --submit-button-text: white;
+    --submit-button-disabled-text: gray;
     --form-question: black;
 }
 
@@ -63,7 +63,7 @@ main #form-frame {
 
 .form-title {
     font: 50px 'Lato Light', sans-serif;
-    color: var(--form-title-text-color);
+    color: var(--form-title-text);
     text-align: center;
     margin-bottom: 5%;
 }
@@ -89,7 +89,7 @@ main #form-frame {
 
 .submit-button {
     font: 16px 'Lato Light', sans-serif;
-    color: var(--submit-button);
+    color: var(--submit-button-text);
     padding: 10px 20px 10px 20px;
     position: relative;
     background-image: linear-gradient(to right, var(--main-bright) 0%, var(--main-dark) 100%);
@@ -103,7 +103,7 @@ main #form-frame {
 
 .submit-button:disabled {
     background-image: linear-gradient(to right, var(--main-disabled-bright) 0%, var(--main-disabled-dark) 100%);
-    color: var(--submit-button-disabled);
+    color: var(--submit-button-disabled-text);
 }
 
 .submit-button::before {
