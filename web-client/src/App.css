@@ -1,6 +1,5 @@
 :root {
     --main-form-background: white;
-    --form-help-background: white;
     --box-shadow: rgba(0, 0, 0, 0.75);
     --main-bright: #36D1DC;
     --main-dark: #5B86E5;
@@ -16,7 +15,6 @@
 /* Implement dark mode in the future */
 [data-theme='dark'] {
     --main-form-background: white;
-    --form-help-background: white;
     --box-shadow: rgba(0, 0, 0, 0.75);
     --main-bright: #36D1DC;
     --main-dark: #5B86E5;
@@ -80,7 +78,7 @@ main #form-frame {
     position: relative;
     top: 10px;
     left: 10px;
-    background-color: var(--form-help-background);
+    background-color: var(--main-form-background);
     padding: 0 5px 0 5px;
     user-select: none;
 }
