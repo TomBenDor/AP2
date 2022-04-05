@@ -20,8 +20,7 @@ const SignUpForm = ({ users, setUsers, currentUser, setCurrentUser }) => {
         const password = passwordBox.current.value;
         const confirmPassword = confirmPasswordBox.current.value;
         const displayName = displayNameBox.current.value;
-        const profilePicture = profilePictureBox.current.value;
-
+        const profilePicture = profilePictureBox.current.files[0];
         let hasError = false;
 
         // Hide all error messages
@@ -90,8 +89,7 @@ const SignUpForm = ({ users, setUsers, currentUser, setCurrentUser }) => {
 
     const handleChange = (e) => {
         // Check if all fields are filled, if not, disable submit button
-        document.getElementById("sign-up-button").disabled = usernameBox.current.value === "" || passwordBox.current.value === "" || confirmPasswordBox.current.value === "" || displayNameBox.current.value === "";
-
+        document.getElementById("sign-up-button").disabled = usernameBox.current.value === "" || passwordBox.current.value === "" || confirmPasswordBox.current.value === "" || displayNameBox.current.value === "" || profilePictureBox.current.files.length === 0;
     };
 
     useEffect(() => {
@@ -132,7 +130,7 @@ const SignUpForm = ({ users, setUsers, currentUser, setCurrentUser }) => {
                 <div>
                     <label htmlFor="floatingProfilePicture" className="form-help">Profile picture</label>
                     <input ref={profilePictureBox} className="form-control" type="file" id="floatingProfilePicture"
-                        required />
+                        onChange={handleChange} required accept="image/*" />
                 </div>
                 <button type="submit" className="submit-button" id="sign-up-button" disabled>SIGN UP</button>
             </form>
