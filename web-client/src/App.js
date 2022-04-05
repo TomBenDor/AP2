@@ -8,7 +8,7 @@ import PromptPage from "./components/PromptPage";
 
 const App = () => {
     // Current signed in user
-    // currentUser = { username: "", displayName: "", profilePicture: "" }
+    // currentUser: { username: "", displayName: "", profilePicture: "" }
     const [currentUser, setCurrentUser] = useState(null);
     // Users from the database (for now it's just hardcoded)
     const [users, setUsers] = useState([{
