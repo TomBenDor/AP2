@@ -6,7 +6,7 @@ const PromptPage = () => {
             <div>
                 <h1 className="landing-page-name-top">MaKoRe</h1>
                 <h1 className="landing-page-name">MaKoRe,</h1>
-                <h1 className="landing-page-slogan">We connect people.</h1>
+                <h1 className="landing-page-slogan">We Connect People.</h1>
                 <Link to="/signup">
                     <button className="button landing-page-button">SIGN IN</button>
                 </Link>
