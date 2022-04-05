@@ -5,7 +5,7 @@
     --main-dark: #5B86E5;
     --main-disabled-bright: #DDDDDD;
     --main-disabled-dark: #CCCCCC;
-    --form-title: black;
+    --form-title-text-color: black;
     --form-help: gray;
     --submit-button: white;
     --submit-button-disabled: gray;
@@ -20,7 +20,7 @@
     --main-dark: #5B86E5;
     --main-disabled-bright: #DDDDDD;
     --main-disabled-dark: #CCCCCC;
-    --form-title: black;
+    --form-title-text-color: black;
     --form-help: gray;
     --submit-button: white;
     --submit-button-disabled: gray;
@@ -63,7 +63,7 @@ main #form-frame {
 
 .form-title {
     font: 50px 'Lato Light', sans-serif;
-    color: var(--form-title);
+    color: var(--form-title-text-color);
     text-align: center;
     margin-bottom: 5%;
 }
