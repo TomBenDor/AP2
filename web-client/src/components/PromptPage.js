@@ -15,10 +15,9 @@ const PromptPage = () => {
                 </Link>
             </div>
             <div className="floater">
-                <img src={"landing_page_photo.svg"} className="landing-photo"/>
+                <img src={"landing_page_photo.svg"} className="landing-photo" alt="landing_page_photo"/>
             </div>
         </div>
-
     )
 };
 
