@@ -8,7 +8,7 @@ const PromptPage = () => {
                 <h1 className="landing-page-name">MaKoRe,</h1>
                 <h1 className="landing-page-slogan">We Connect People.</h1>
                 <Link to="/signup">
-                    <button className="button landing-page-button">SIGN IN</button>
+                    <button className="button landing-page-button">SIGN UP</button>
                 </Link>
                 <Link to="/signin">
                     <button className="button landing-page-button">SIGN IN</button>
