@@ -26,14 +26,14 @@ main #form-frame {
     width: 25%;
     min-width: 300px;
     transform: translate(-50%, -50%);
-    padding: 50px;
+    padding: 3%;
     background: white;
     border-radius: 5px;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.75);
 }
 
 .form-title {
-    font: 50px 'Lato Light', sans-serif;
+    font: 150% 'Lato Light', sans-serif;
     color: black;
     text-align: center;
     margin-bottom: 5%;
