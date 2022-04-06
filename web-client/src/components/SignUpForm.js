@@ -21,9 +21,9 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
         const confirmPassword = confirmPasswordBox.current.value;
         const displayName = displayNameBox.current.value;
         const profilePicture = profilePictureBox.current.value;
-        
+
         let hasError = false;
-        
+
         // Hide all error messages
         document.querySelectorAll('.form-control').forEach(element => {
             element.classList.remove("is-invalid");
