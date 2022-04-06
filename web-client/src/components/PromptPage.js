@@ -26,19 +26,6 @@ const PromptPage = () => {
                 </div>
 
             </div>
-            {/*<div>*/}
-            {/*    <h1 className="landing-page-name">MaKore,</h1>*/}
-            {/*    <h1 className="landing-page-slogan">We Connect People.</h1>*/}
-            {/*    <Link to="/signup">*/}
-            {/*        <button className="button landing-page-button">SIGN UP</button>*/}
-            {/*    </Link>*/}
-            {/*    <Link to="/signin">*/}
-            {/*        <button className="button landing-page-button">SIGN IN</button>*/}
-            {/*    </Link>*/}
-            {/*</div>*/}
-            {/*<div className="col-md-4">*/}
-            {/*    <img src={"landing_page_photo.svg"} className="landing-photo" alt="Two people chatting"/>*/}
-            {/*</div>*/}
         </div>
     )
 };
