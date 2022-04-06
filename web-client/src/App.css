@@ -42,7 +42,7 @@ main #content-frame {
     right: 0;
     top: 0;
     bottom: 0;
-    margin: 20px 250px 20px 250px;
+    margin: 2% 15% 2% 15%;
     background: var(--form-frame-background);
     border-radius: 5px;
     box-shadow: 0 0 10px 0 var(--box-shadow);
