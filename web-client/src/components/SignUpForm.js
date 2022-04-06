@@ -118,8 +118,7 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
                     <label className="invalid-feedback" id="password-error">Invalid</label>
                 </div>
                 <div className="form-group">
-                    <label htmlFor="floatingConfirmedPassword" className="form-help" id="password-confirmation-label">Confirm
-                        password</label>
+                    <label htmlFor="floatingConfirmedPassword" className="form-help" id="password-confirmation-label">Confirm password</label>
                     <input ref={confirmPasswordBox} className="form-control" type="password"
                            id="floatingConfirmedPassword" onChange={handleChange} required/>
                     <label className="invalid-feedback" id="password-confirmation-error">Invalid</label>
