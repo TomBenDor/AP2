@@ -107,7 +107,6 @@ main #form-frame {
     height: 10%;
     margin-left: 10%;
     margin-right: -5%;
-    /*margin-top: 5%;*/
     font-size: 150%;
     float: left;
 }
@@ -178,18 +177,15 @@ main #form-frame {
 }
 
 .landing-page-name {
-    font: 250% 'Lato', sans-serif;
+    font: 50px 'Lato Black', sans-serif;
     color: #00bbff;
     text-align: left;
-    margin-top: 15%;
-    margin-left: 10%;
 }
 
 .landing-page-slogan {
-    font: 200% 'Lato', sans-serif;
+    font: 45px 'Lato', sans-serif;
     color: black;
     text-align: left;
-    margin-left: 10%;
 }
 
 .floater-right {
@@ -204,12 +200,6 @@ main #form-frame {
     height: 100%;
 }
 
-.landing-page-photo {
-    position: relative;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-}
 
 .top-section {
     width: 100%;
@@ -222,3 +212,15 @@ main #form-frame {
     height: 90%;
 }
 
+.slogan-section {
+    width: 100%;
+    height: 70%;
+    padding-left: 50px;
+}
+
+.center{
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}

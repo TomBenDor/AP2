@@ -8,10 +8,15 @@ const PromptPage = () => {
             </div>
             <div className="bottom-section">
                 <div className="floater-right">
-                    <img src={"landing_page_photo.svg"} alt="landing_page_photo" className="landing-page-photo"/>
+                    <img src={"landing_page_photo.svg"} alt="landing_page_photo" className="center"/>
                 </div>
                 <div className="floater-left">
-
+                    <div className="slogan-section">
+                        <div className="center">
+                            <h1 className="landing-page-name">MaKore,</h1>
+                            <h1 className="landing-page-slogan">We Connect People.</h1>
+                        </div>
+                    </div>
                 </div>
 
             </div>
