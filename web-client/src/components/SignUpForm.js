@@ -21,9 +21,9 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
         const confirmPassword = confirmPasswordBox.current.value;
         const displayName = displayNameBox.current.value;
         const profilePicture = profilePictureBox.current.value;
-        
+
         let hasError = false;
-        
+
         // Hide all error messages
         document.querySelectorAll('.form-control').forEach(element => {
             element.classList.remove("is-invalid");
@@ -118,7 +118,8 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
                     <label className="invalid-feedback" id="password-error">Invalid</label>
                 </div>
                 <div className="form-group">
-                    <label htmlFor="floatingConfirmedPassword" className="form-help" id="password-confirmation-label">Confirm password</label>
+                    <label htmlFor="floatingConfirmedPassword" className="form-help" id="password-confirmation-label">Confirm
+                        password</label>
                     <input ref={confirmPasswordBox} className="form-control" type="password"
                            id="floatingConfirmedPassword" onChange={handleChange} required/>
                     <label className="invalid-feedback" id="password-confirmation-error">Invalid</label>
@@ -134,7 +135,7 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
                     <input ref={profilePictureBox} className="form-control" type="file" id="floatingProfilePicture"
                            required/>
                 </div>
-                <button type="submit" className="button submit-button" id="sign-up-button" disabled>SIGN UP</button>
+                <button type="submit" className="submit-button" id="sign-up-button" disabled>SIGN UP</button>
             </form>
             <p className="form-question">Have an account already? <Link to={"/signin"}>Sign in</Link></p>
         </div>
