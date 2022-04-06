@@ -1,10 +1,39 @@
+:root {
+    --form-frame-background: white;
+    --box-shadow: rgba(0, 0, 0, 0.75);
+    --main-bright: #36D1DC;
+    --main-dark: #5B86E5;
+    --main-disabled-bright: #DDDDDD;
+    --main-disabled-dark: #CCCCCC;
+    --form-title-text: black;
+    --form-help: gray;
+    --submit-button-text: white;
+    --submit-button-disabled-text: gray;
+    --form-question: black;
+}
+
+/* Implement dark mode in the future */
+[data-theme='dark'] {
+    --form-frame-background: white;
+    --box-shadow: rgba(0, 0, 0, 0.75);
+    --main-bright: #36D1DC;
+    --main-dark: #5B86E5;
+    --main-disabled-bright: #DDDDDD;
+    --main-disabled-dark: #CCCCCC;
+    --form-title-text: black;
+    --form-help: gray;
+    --submit-button-text: white;
+    --submit-button-disabled-text: gray;
+    --form-question: black;
+}
+
 main {
     position: absolute;
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
-    background: linear-gradient(to right bottom, #36D1DC 0%, #5B86E5 100%);
+    background: linear-gradient(to right bottom, var(--main-bright) 0%, var(--main-dark) 100%);
 }
 
 main #content-frame {
@@ -14,79 +43,77 @@ main #content-frame {
     top: 0;
     bottom: 0;
     margin: 20px 250px 20px 250px;
-    background: white;
+    background: var(--form-frame-background);
     border-radius: 5px;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.75);
+    box-shadow: 0 0 10px 0 var(--box-shadow);
 }
 
 main #form-frame {
     position: absolute;
     left: 50%;
     top: 50%;
-    width: 400px;
-    height: 400px;
+    width: 25%;
+    min-width: 300px;
     transform: translate(-50%, -50%);
-    padding: 50px 50px 50px 50px;
-    background: white;
+    padding: 1%;
+    background: var(--form-frame-background);
     border-radius: 5px;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.75);
+    box-shadow: 0 0 10px 0 var(--box-shadow);
 }
 
 .form-title {
-    font: 40px 'Lato Light', sans-serif;
-    color: black;
+    font: 50px 'Lato Light', sans-serif;
+    color: var(--form-title-text);
     text-align: center;
-    margin-bottom: 50px;
+    margin-bottom: 5%;
 }
 
 .form-group {
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-top: 1%;
+    margin-bottom: 1%;
 }
 
 .form-help {
-    color: gray;
+    color: var(--form-help);
     position: relative;
     top: 10px;
     left: 10px;
-    background-color: white;
+    background-color: var(--form-frame-background);
     padding: 0 5px 0 5px;
     user-select: none;
 }
-
 
 .form-control {
     box-shadow: none !important;
 }
 
-.button {
+.submit-button {
     font: 16px 'Lato Light', sans-serif;
-    color: white;
+    color: var(--submit-button-text);
     padding: 10px 20px 10px 20px;
     position: relative;
-    background-image: linear-gradient(to right, #36D1DC 0%, #5B86E5 100%);
+    background-image: linear-gradient(to right, var(--main-bright) 0%, var(--main-dark) 100%);
     z-index: 1;
-    width: 100%;
     border-radius: 5px;
     border: none;
     margin-top: 20px;
     margin-bottom: 20px;
-    cursor: pointer;
+    width: 100%;
 }
 
-.button:disabled {
-    background-image: linear-gradient(to right, #dddddd 0%, #cccccc 100%);
-    color: gray;
+.submit-button:disabled {
+    background-image: linear-gradient(to right, var(--main-disabled-bright) 0%, var(--main-disabled-dark) 100%);
+    color: var(--submit-button-disabled-text);
 }
 
-.button::before {
+.submit-button::before {
     position: absolute;
     content: "";
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
-    background-image: linear-gradient(to left, #36D1DC 0%, #5B86E5 100%);
+    background-image: linear-gradient(to left, var(--main-bright) 0%, var(--main-dark) 100%);
     border-radius: 5px;
     border: none;
     z-index: -1;
@@ -94,15 +121,16 @@ main #form-frame {
     opacity: 0;
 }
 
-.button:hover:not([disabled])::before {
+.submit-button:hover:not([disabled])::before {
     opacity: 1;
 }
 
 .form-question {
-    position: absolute;
-    bottom: 10px;
+    position: relative;
+    bottom: 2px;
     font: 16px 'Lato Light', sans-serif;
-    color: black;
+    color: var(--form-question);
+    margin-bottom: 0;
 }
 
 .form-question > a {
@@ -111,10 +139,88 @@ main #form-frame {
     text-decoration: none;
 }
 
-.main-page-button {
+.landing-page-frame {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: 2% 5% 2% 5%;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.75);
+}
+
+.landing-page-name-top {
+    font: bold 30px 'Lato', sans-serif;
+    color: black;
+    text-align: left;
+}
+
+.landing-page-name {
+    font: 50px 'Lato Black', sans-serif;
+    color: #00bbff;
+    text-align: left;
+}
+
+.landing-page-slogan {
+    font: 45px 'Lato', sans-serif;
+    color: black;
+    text-align: left;
+}
+
+.floater-right {
+    float: right;
     width: 60%;
-    margin-left: 20%;
-    margin-top: -20%;
-    border-radius: 10px;
-    font-size: 22px;
+    height: 100%;
+}
+
+.floater-left {
+    float: left;
+    width: 40%;
+    height: 100%;
+}
+
+
+.top-section {
+    width: 100%;
+    height: 10%;
+    padding: 30px 20px 10px 50px;
+}
+
+.bottom-section {
+    width: 100%;
+    height: 90%;
+}
+
+.slogan-section {
+    width: 100%;
+    height: 60%;
+    padding-left: 50px;
+}
+
+.center {
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.button-section {
+    width: 100%;
+    height: 30%;
+    padding-left: 50px;
+}
+
+.button-section a {
+    font: bold 24px 'Lato', sans-serif;
+    text-decoration: none;
+    padding-right: 5px;
+}
+
+.button-section text {
+    font: 24px 'Lato Light', sans-serif;
+    text-decoration: none;
+    padding-left: 5px;
+    padding-right: 5px;
 }
