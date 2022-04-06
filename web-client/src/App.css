@@ -101,13 +101,13 @@ main #form-frame {
 }
 
 .landing-page-button {
-    width: 13%;
+    position: absolute;
+    bottom: 40px;
+    width: 15%;
     height: 10%;
-    line-height: 200%;
-    text-align: center;
     margin-left: 10%;
     margin-right: -5%;
-    margin-top: 5%;
+    /*margin-top: 5%;*/
     font-size: 150%;
     float: left;
 }
@@ -120,6 +120,7 @@ main #form-frame {
     background-image: linear-gradient(to right, #dddddd 0%, #cccccc 100%);
     color: gray;
 }
+
 .submit-button:disabled {
     background-image: linear-gradient(to right, var(--main-disabled-bright) 0%, var(--main-disabled-dark) 100%);
     color: var(--submit-button-disabled-text);
@@ -152,7 +153,7 @@ main #form-frame {
     margin-bottom: 0;
 }
 
-.form-question>a {
+.form-question > a {
     padding-left: 10px;
     font: bold 16px 'Lato', sans-serif;
     text-decoration: none;
@@ -164,18 +165,16 @@ main #form-frame {
     right: 0;
     top: 0;
     bottom: 0;
-    margin: 3% 7% 3% 7%;
+    margin: 40px 50px 40px 80px;
     background: #FFF9FF;
     border-radius: 15px;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.75);
 }
 
 .landing-page-name-top {
-    font: bold 200% 'Lato', sans-serif;
+    font: bold 30px 'Lato', sans-serif;
     color: black;
     text-align: left;
-    margin-left: 10%;
-    margin-top: 2%;
 }
 
 .landing-page-name {
@@ -193,14 +192,33 @@ main #form-frame {
     margin-left: 10%;
 }
 
-.floater {
+.floater-right {
+    float: right;
+    width: 60%;
+    height: 100%;
+}
+
+.floater-left {
     float: left;
+    width: 40%;
+    height: 100%;
 }
 
-.landing-photo {
-    width: 270%;
-    margin-top: -100%;
-    margin-left: 20%;
+.landing-page-photo {
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 
+.top-section {
+    width: 100%;
+    height: 10%;
+    padding: 30px 20px 10px 50px;
+}
+
+.bottom-section {
+    width: 100%;
+    height: 90%;
+}
 

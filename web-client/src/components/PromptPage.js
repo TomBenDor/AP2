@@ -2,20 +2,18 @@ import {Link} from 'react-router-dom';
 
 const PromptPage = () => {
     return (
-        <div className="landing-page-frame floater">
-            <div>
-                <h1 className="landing-page-name-top">MaKoRe</h1>
-                <h1 className="landing-page-name">MaKoRe,</h1>
-                <h1 className="landing-page-slogan">We Connect People.</h1>
-                <Link to="/signup">
-                    <button className="button landing-page-button">SIGN UP</button>
-                </Link>
-                <Link to="/signin">
-                    <button className="button landing-page-button">SIGN IN</button>
-                </Link>
+        <div className="landing-page-frame">
+            <div className="top-section">
+                <h1 className="landing-page-name-top">MaKore</h1>
             </div>
-            <div className="floater">
-                <img src={"landing_page_photo.svg"} className="landing-photo" alt="Two people chatting"/>
+            <div className="bottom-section">
+                <div className="floater-right">
+                    <img src={"landing_page_photo.svg"} alt="landing_page_photo" className="landing-page-photo"/>
+                </div>
+                <div className="floater-left">
+
+                </div>
+
             </div>
         </div>
     )
