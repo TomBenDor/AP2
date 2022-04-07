@@ -1,7 +1,7 @@
-import {useRef, useEffect} from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import { useRef, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
-const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
+const SignUpForm = ({ users, setUsers, currentUser, setCurrentUser }) => {
     const usernameBox = useRef(null);
     const passwordBox = useRef(null);
     const confirmPasswordBox = useRef(null);
@@ -20,7 +20,7 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
         const password = passwordBox.current.value;
         const confirmPassword = confirmPasswordBox.current.value;
         const displayName = displayNameBox.current.value;
-        const profilePicture = profilePictureBox.current.value;
+        const profilePicture = profilePictureBox.current.files[0];
 
         let hasError = false;
 
@@ -90,8 +90,7 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
 
     const handleChange = (e) => {
         // Check if all fields are filled, if not, disable submit button
-        document.getElementById("sign-up-button").disabled = usernameBox.current.value === "" || passwordBox.current.value === "" || confirmPasswordBox.current.value === "" || displayNameBox.current.value === "";
-
+        document.getElementById("sign-up-button").disabled = usernameBox.current.value === "" || passwordBox.current.value === "" || confirmPasswordBox.current.value === "" || displayNameBox.current.value === "" || profilePictureBox.current.files.length === 0;
     };
 
     useEffect(() => {
@@ -108,31 +107,31 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
                 <div className="form-group">
                     <label htmlFor="floatingInput" className="form-help" id="username-label">Username</label>
                     <input ref={usernameBox} className="form-control" type="text" id="floatingUsername"
-                           onChange={handleChange} required/>
+                        onChange={handleChange} required />
                     <label className="invalid-feedback" id="username-error">Invalid</label>
                 </div>
                 <div className="form-group">
                     <label htmlFor="floatingPassword" className="form-help" id="password-label">Password</label>
                     <input ref={passwordBox} className="form-control" type="password" id="floatingPassword"
-                           onChange={handleChange} required/>
+                        onChange={handleChange} required />
                     <label className="invalid-feedback" id="password-error">Invalid</label>
                 </div>
                 <div className="form-group">
                     <label htmlFor="floatingConfirmedPassword" className="form-help" id="password-confirmation-label">Confirm password</label>
                     <input ref={confirmPasswordBox} className="form-control" type="password"
-                           id="floatingConfirmedPassword" onChange={handleChange} required/>
+                        id="floatingConfirmedPassword" onChange={handleChange} required />
                     <label className="invalid-feedback" id="password-confirmation-error">Invalid</label>
                 </div>
                 <div className="form-group">
                     <label htmlFor="floatingInput" className="form-help" id="display-name-label">Display name</label>
                     <input ref={displayNameBox} className="form-control" type="text" id="floatingDisplayName"
-                           onChange={handleChange} required/>
+                        onChange={handleChange} required />
                     <label className="invalid-feedback" id="display-name-error">Invalid</label>
                 </div>
                 <div>
                     <label htmlFor="floatingProfilePicture" className="form-help">Profile picture</label>
                     <input ref={profilePictureBox} className="form-control" type="file" id="floatingProfilePicture"
-                           required/>
+                        onChange={handleChange} required accept="image/*" />
                 </div>
                 <button type="submit" className="submit-button" id="sign-up-button" disabled>SIGN UP</button>
             </form>
