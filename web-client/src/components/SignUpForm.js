@@ -21,6 +21,7 @@ const SignUpForm = ({ users, setUsers, currentUser, setCurrentUser }) => {
         const confirmPassword = confirmPasswordBox.current.value;
         const displayName = displayNameBox.current.value;
         const profilePicture = profilePictureBox.current.files[0];
+
         let hasError = false;
 
         // Hide all error messages

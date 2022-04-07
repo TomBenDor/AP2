@@ -61,7 +61,6 @@ const SignInForm = ({ users, currentUser, setCurrentUser }) => {
                 <div className="form-group">
                     <label htmlFor="password" className="form-help" id="password-label">Password</label>
                     <input type="password" className="form-control" id="floatingPassword" ref={passwordBox} onChange={handleChange} />
-                    <label className="invalid-feedback">This password might not match</label>
                 </div>
                 <button type="submit" className="submit-button" id="sign-in-button" disabled>SIGN IN</button>
             </form>
