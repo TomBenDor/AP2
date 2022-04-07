@@ -10,19 +10,10 @@ const SignUpForm = ({ users, setUsers, currentUser, setCurrentUser }) => {
 
     const navigate = useNavigate();
 
-    const handleSignUp = (e) => {
-        // Validate username, password and display name
-        // If valid, create new user, sign him in and redirect to main page
-
-        e.preventDefault();
-
-        const username = usernameBox.current.value;
-        const password = passwordBox.current.value;
-        const confirmPassword = confirmPasswordBox.current.value;
-        const displayName = displayNameBox.current.value;
-        const profilePicture = profilePictureBox.current.files[0];
-
-        let hasError = false;
+    // Check if all form fields are valid and show appropriate error messages
+    // Return true if all fields are valid
+    const validateFields = (username, password, confirmPassword, displayName) => {
+        let hasError = username === "" || password === "" || confirmPassword === "" || displayName === "" || profilePictureBox.current.files.length === 0;
 
         // Hide all error messages
         document.querySelectorAll('.form-control').forEach(element => {
@@ -39,13 +30,7 @@ const SignUpForm = ({ users, setUsers, currentUser, setCurrentUser }) => {
             document.getElementById("username-label").classList.add("text-danger");
             hasError = true;
         }
-        // Check if passwords match
-        if (password !== confirmPassword) {
-            document.getElementById("password-confirmation-error").innerHTML = "Passwords do not match";
-            document.getElementById("floatingConfirmedPassword").classList.add("is-invalid");
-            document.getElementById("password-confirmation-label").classList.add("text-danger");
-            hasError = true;
-        }
+
         // Check if password is at least 6 characters long
         if (password.length < 6) {
             document.getElementById("password-error").innerHTML = "Password must be at least 6 characters long";
@@ -54,12 +39,40 @@ const SignUpForm = ({ users, setUsers, currentUser, setCurrentUser }) => {
             hasError = true;
         }
         // Check if password contains at least one number, one lowercase and one uppercase character
-        if (!/[a-z]/.test(password) || !/[A-Z]/.test(password) || !/[0-9]/.test(password)) {
+        else if (!/[a-z]/.test(password) || !/[A-Z]/.test(password) || !/[0-9]/.test(password)) {
             document.getElementById("password-error").innerHTML = "Password must contain at least one number, one lowercase and one uppercase character";
             document.getElementById("floatingPassword").classList.add("is-invalid");
             document.getElementById("password-label").classList.add("text-danger");
             hasError = true;
         }
+        // Check if passwords match
+        else if (password !== confirmPassword) {
+            document.getElementById("password-confirmation-error").innerHTML = "Passwords do not match";
+            document.getElementById("floatingConfirmedPassword").classList.add("is-invalid");
+            document.getElementById("password-confirmation-label").classList.add("text-danger");
+            hasError = true;
+        }
+        return !hasError;
+    }
+
+    const handleSignUp = (e) => {
+        // Validate username, password and display name
+        // If valid, create new user, sign him in and redirect to main page
+
+        e.preventDefault();
+
+        const username = usernameBox.current.value;
+        const password = passwordBox.current.value;
+        const confirmPassword = confirmPasswordBox.current.value;
+        const displayName = displayNameBox.current.value;
+        const profilePicture = profilePictureBox.current.files[0];
+
+        if (!validateFields(username, password, confirmPassword, displayName)) {
+            // Disable submit button
+            document.getElementById("sign-up-button").disabled = true;
+            return;
+        }
+
         // Check if username is already taken
         const user = users.find(user => user.username === username);
         if (user) {
@@ -67,13 +80,9 @@ const SignUpForm = ({ users, setUsers, currentUser, setCurrentUser }) => {
             document.getElementById("username-error").innerHTML = "Username is already taken";
             document.getElementById("floatingUsername").classList.add("is-invalid");
             document.getElementById("username-label").classList.add("text-danger");
-            hasError = true;
-        }
-        if (hasError) {
-            // Disable submit button
-            document.getElementById("sign-up-button").disabled = true;
             return;
         }
+
         // Create new user
         const newUser = {
             "username": username,
@@ -90,7 +99,13 @@ const SignUpForm = ({ users, setUsers, currentUser, setCurrentUser }) => {
 
     const handleChange = (e) => {
         // Check if all fields are filled, if not, disable submit button
-        document.getElementById("sign-up-button").disabled = usernameBox.current.value === "" || passwordBox.current.value === "" || confirmPasswordBox.current.value === "" || displayNameBox.current.value === "" || profilePictureBox.current.files.length === 0;
+        const username = usernameBox.current.value;
+        const password = passwordBox.current.value;
+        const confirmPassword = confirmPasswordBox.current.value;
+        const displayName = displayNameBox.current.value;
+
+        // Disable submit button if fields are not valid or empty
+        document.getElementById("sign-up-button").disabled = !validateFields(username, password, confirmPassword, displayName);
     };
 
     useEffect(() => {
