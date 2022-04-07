@@ -248,16 +248,12 @@ main #form-frame {
 
 .contacts-section-header {
     width: 100%;
-    height: 40px;
-    border-radius: 5px;
+    height: 50px;
 }
 
 .contacts-section-header-title {
+    float: left;
     height: 100%;
-    display: inline-block;
-    vertical-align: middle;
-    font: 16px 'Lato', sans-serif;
-    color: black;
     padding: 5px;
 }
 
@@ -280,4 +276,15 @@ main #form-frame {
     transform: translate(-50%, -50%);
     width: 25px;
     height: 25px;
+}
+
+.chat-section {
+    float: right;
+    width: 70%;
+    height: 100%;
+}
+
+.chat-section-header {
+    width: 100%;
+    height: 50px;
 }

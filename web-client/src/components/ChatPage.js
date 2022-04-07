@@ -5,6 +5,10 @@ const ChatPage = (user) => {
 
     return (
         <div id="content-frame">
+            <div className="chat-section">
+                <div className="chat-section-header">
+                </div>
+            </div>
             <div className="contacts-section">
                 <div className="contacts-section-header">
                     <span className="contacts-section-header-title">
