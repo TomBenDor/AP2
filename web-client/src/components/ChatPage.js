@@ -1,5 +1,5 @@
 const ChatPage = (user) => {
-    let openContactDialog = () => {
+    const openContactDialog = () => {
         console.log("openContactDialog");
     };
 
