@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import SvgAnimation from './SvgAnimation';
+import SvgAnimation from './SvgAnimation/SvgAnimation';
 
 const PromptPage = () => {
     return (
