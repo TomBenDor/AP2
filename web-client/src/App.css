@@ -133,7 +133,7 @@ main #form-frame {
     margin-bottom: 0;
 }
 
-.form-question > a {
+.form-question>a {
     padding-left: 10px;
     font: bold 16px 'Lato', sans-serif;
     text-decoration: none;

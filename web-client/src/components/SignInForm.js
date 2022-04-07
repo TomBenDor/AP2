@@ -36,7 +36,7 @@ const SignInForm = ({ users, currentUser, setCurrentUser }) => {
             document.getElementById("sign-in-button").disabled = true;
         }
     };
-    
+
     const handleChange = (e) => {
         // Check if username and password are empty
         document.getElementById("sign-in-button").disabled = usernameBox.current.value === "" || passwordBox.current.value === "";
@@ -55,7 +55,7 @@ const SignInForm = ({ users, currentUser, setCurrentUser }) => {
             <form onSubmit={handleSignIn}>
                 <div className="form-group">
                     <label htmlFor="username" className="form-help" id="username-label">Username</label>
-                    <input type="text" className="form-control" id="floatingUsername" ref={usernameBox}  onChange={handleChange}/>
+                    <input type="text" className="form-control" id="floatingUsername" ref={usernameBox} onChange={handleChange} />
                     <label className="invalid-feedback">One of the fields is invalid</label>
                 </div>
                 <div className="form-group">
