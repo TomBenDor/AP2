@@ -1,5 +1,5 @@
-import { useRef, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import {useRef, useEffect, useState} from 'react';
+import {Link, useNavigate} from 'react-router-dom';
 
 const SignInForm = ({ users, currentUser, setCurrentUser }) => {
     const usernameBox = useRef(null);
@@ -28,7 +28,11 @@ const SignInForm = ({ users, currentUser, setCurrentUser }) => {
         // If a valid user was found
         if (user) {
             // Sign in user
-            setCurrentUser({ "username": username, "displayName": user.displayName, "profilePicture": user.profilePicture });
+            setCurrentUser({
+                "username": username,
+                "displayName": user.displayName,
+                "profilePicture": user.profilePicture
+            });
         } else {
             document.getElementById("floatingUsername").classList.add("is-invalid");
             document.getElementById("username-label").classList.add("text-danger");
@@ -49,18 +53,29 @@ const SignInForm = ({ users, currentUser, setCurrentUser }) => {
         }
     }, [currentUser, navigate]);
 
+    const [isVisible, setVisible] = useState(0)
+
+    const toggleVisibility = () => {
+        setVisible(isVisible === 0 ? 1 : 0)
+    }
     return (
         <div id="form-frame">
             <h1 className="form-title">Sign In</h1>
             <form onSubmit={handleSignIn}>
                 <div className="form-group">
                     <label htmlFor="username" className="form-help" id="username-label">Username</label>
-                    <input type="text" className="form-control" id="floatingUsername" ref={usernameBox} onChange={handleChange} />
+                    <input type="text" className="form-control" id="floatingUsername" ref={usernameBox}
+                           onChange={handleChange}/>
                     <label className="invalid-feedback">One of the fields is invalid</label>
                 </div>
                 <div className="form-group">
                     <label htmlFor="password" className="form-help" id="password-label">Password</label>
-                    <input type="password" className="form-control" id="floatingPassword" ref={passwordBox} onChange={handleChange} />
+                    <div className="input-group">
+                        <input type={isVisible ? "text" : "password"} className="form-control" id="floatingPassword"
+                               ref={passwordBox} onChange={handleChange}/>
+                        <button type="button" className="bi bi-eye" onMouseDown={toggleVisibility}
+                                onMouseUp={toggleVisibility}/>
+                    </div>
                 </div>
                 <button type="submit" className="submit-button" id="sign-in-button" disabled>SIGN IN</button>
             </form>

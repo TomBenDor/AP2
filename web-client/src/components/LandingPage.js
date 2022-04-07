@@ -19,9 +19,9 @@ const PromptPage = () => {
                         </div>
                     </div>
                     <div className="button-section">
-                        <text>Have an account?</text>
+                        <span>Have an account?</span>
                         <Link to="/signin">Sign In</Link>
-                        <text>New Here?</text>
+                        <span>New Here?</span>
                         <Link to="/signup">Sign Up</Link>
                     </div>
                 </div>
