@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import SignInForm from "./components/SignInForm";
 import SignUpForm from "./components/SignUpForm";
 import ChatPage from "./components/ChatPage";
-import PromptPage from "./components/PromptPage";
+import LandingPage from "./components/LandingPage";
 
 const App = () => {
     // Current signed in user
@@ -24,9 +24,9 @@ const App = () => {
                 <main>
                     <Routes>
                         <Route path='/' element={
-                            // Check if user is signed in or not. If not, render promt page.
+                            // Check if user is signed in or not. If not, render landing page.
                             // If signed in, Render the Chat page.
-                            currentUser ? <ChatPage /> : <PromptPage />
+                            currentUser ? <ChatPage /> : <LandingPage />
                         } />
                         <Route path='/signin' element={
                             // Render the SignIn component.
