@@ -1,5 +1,5 @@
 
-const ChatPage = () => {
+const SvgAnimation = () => {
     const css = `
     svg#freepik_stories-conversation:not(.animated) .animable {
         opacity: 0;
@@ -1829,4 +1829,4 @@ const ChatPage = () => {
     )
 };
 
-export default ChatPage;
+export default SvgAnimation;
