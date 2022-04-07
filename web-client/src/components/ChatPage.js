@@ -1,4 +1,8 @@
 const ChatPage = (user) => {
+    let openContactDialog = () => {
+        console.log("openContactDialog");
+    };
+
     return (
         <div id="content-frame">
             <div className="contacts-section">
@@ -7,7 +11,7 @@ const ChatPage = (user) => {
                         {user.user.displayName}
                     </span>
                     <span className="contacts-section-header-controls">
-                        <a className="add-contact-button" href="/">
+                        <a className="add-contact-button" onClick={openContactDialog}>
                             <svg fill="#000000" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" width="50px"
                                  height="50px">
                                 <path
