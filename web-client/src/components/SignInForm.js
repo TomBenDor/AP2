@@ -56,7 +56,7 @@ const SignInForm = ({ users, currentUser, setCurrentUser }) => {
     const [isVisible, setVisible] = useState(0)
 
     const toggleVisibility = () => {
-        setVisible(isVisible === 0 ? 1 : 0)
+        setVisible(1 - isVisible)
     }
     return (
         <div id="form-frame">
@@ -70,11 +70,14 @@ const SignInForm = ({ users, currentUser, setCurrentUser }) => {
                 </div>
                 <div className="form-group">
                     <label htmlFor="password" className="form-help" id="password-label">Password</label>
-                    <div className="input-group">
-                        <input type={isVisible ? "text" : "password"} className="form-control" id="floatingPassword"
-                               ref={passwordBox} onChange={handleChange}/>
-                        <button type="button" className="bi bi-eye" onMouseDown={toggleVisibility}
-                                onMouseUp={toggleVisibility}/>
+                    <div className="input-group mb-3">
+                        <input type={isVisible ? "text" : "password"} className="form-control"/>
+                        <div className="input-group-append">
+                            <button className="btn btn-light" type="button" onMouseUp={toggleVisibility}
+                                    onMouseDown={toggleVisibility}>
+                                <span className="bi bi-eye"/>
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <button type="submit" className="submit-button" id="sign-in-button" disabled>SIGN IN</button>
