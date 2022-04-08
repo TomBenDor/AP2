@@ -23,28 +23,11 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
         setProfilePictureValid(profilePictureBox.current.files.length !== 0);
     }
 
-    // Validate username field and show appropriate error message
-    const validateUsername = () => {
-        let hasError = false;
-        const username = usernameBox.current.value;
-
-        // Clear username error message
-        document.getElementById("floatingUsername").classList.remove("is-invalid");
-        document.getElementById("username-label").classList.remove("text-danger");
-
-        // Check if username is empty
-        if (username === "") {
-            hasError = true;
+    // Prevent user from entering invalid characters
+    const validateUsername = (e) => {
+        if (!/[a-zA-Z0-9-]$/.test(e.key)){
+            e.preventDefault();
         }
-        // Check if username is only letters, numbers and hyphens
-        else if (!/^[a-zA-Z0-9-]+$/.test(username)) {
-            document.getElementById("username-error").innerHTML = "Username can only contain letters, numbers and hyphens";
-            document.getElementById("floatingUsername").classList.add("is-invalid");
-            document.getElementById("username-label").classList.add("text-danger");
-            hasError = true;
-        }
-
-        setUsernameValid(!hasError);
     }
 
     // Validate password fields and show appropriate error messages
@@ -84,27 +67,10 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
         setPasswordFieldsValid(!hasError);
     }
 
-    const validateDisplayName = () => {
-        let hasError = false;
-        const displayName = displayNameBox.current.value;
-
-        // Clear display name error message
-        document.getElementById("floatingDisplayName").classList.remove("is-invalid");
-        document.getElementById("display-name-label").classList.remove("text-danger");
-
-        // Check if display name is empty
-        if (displayName === "") {
-            hasError = true;
+    const validateDisplayName = (e) => {
+        if (!/[a-zA-Z '-.,]$/.test(e.key)){
+            e.preventDefault();
         }
-        // Check if display name is only letters and spaces
-        else if (!/^[a-zA-Z ]+$/.test(displayName)) {
-            document.getElementById("display-name-error").innerHTML = "Display name can only contain letters and spaces";
-            document.getElementById("floatingDisplayName").classList.add("is-invalid");
-            document.getElementById("display-name-label").classList.add("text-danger");
-            hasError = true;
-        }
-
-        setDisplayNameValid(!hasError);
     }
 
 
@@ -174,10 +140,7 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
                 <div className="form-group">
                     <label htmlFor="floatingInput" className="form-help" id="username-label">Username</label>
                     <input ref={usernameBox} className="form-control" type="text" id="floatingUsername"
-                           onChange={() => {
-                               validateEmptyFields();
-                               validateUsername()
-                           }} required/>
+                           onChange={validateEmptyFields} onKeyPress={validateUsername} required/>
                     <label className="invalid-feedback" id="username-error">Invalid</label>
                 </div>
                 <div className="form-group">
@@ -203,10 +166,7 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
                 <div className="form-group">
                     <label htmlFor="floatingInput" className="form-help" id="display-name-label">Display name</label>
                     <input ref={displayNameBox} className="form-control" type="text" id="floatingDisplayName"
-                           onChange={() => {
-                               validateEmptyFields();
-                               validateDisplayName()
-                           }} required/>
+                           onChange={validateEmptyFields} onKeyPress={validateDisplayName} required/>
                     <label className="invalid-feedback" id="display-name-error">Invalid</label>
                 </div>
                 <div>
