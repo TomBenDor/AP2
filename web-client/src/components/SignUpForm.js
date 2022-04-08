@@ -67,6 +67,7 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
         setPasswordFieldsValid(!hasError);
     }
 
+    // Prevent user from entering invalid characters
     const validateDisplayName = (e) => {
         if (!/[a-zA-Z '-.,]$/.test(e.key)){
             e.preventDefault();
