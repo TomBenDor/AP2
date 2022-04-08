@@ -87,8 +87,6 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
         const profilePicture = profilePictureBox.current.files[0];
 
         validateEmptyFields();
-        validateUsername();
-        validatePasswordFields();
         // If one of the fields is not valid, disable the submit button and return
         if (!usernameValid || !passwordFieldsValid || !displayNameValid || !profilePictureValid) {
             document.getElementById("signup-button").disabled = true;
