@@ -1,7 +1,7 @@
-import { useRef, useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import {useRef, useEffect, useState} from 'react';
+import {Link, useNavigate} from 'react-router-dom';
 
-const SignUpForm = ({ users, setUsers, currentUser, setCurrentUser }) => {
+const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
     const usernameBox = useRef(null);
     const passwordBox = useRef(null);
     const confirmPasswordBox = useRef(null);
@@ -23,28 +23,11 @@ const SignUpForm = ({ users, setUsers, currentUser, setCurrentUser }) => {
         setProfilePictureValid(profilePictureBox.current.files.length !== 0);
     }
 
-    // Validate username field and show appropriate error message
-    const validateUsername = () => {
-        let hasError = false;
-        const username = usernameBox.current.value;
-
-        // Clear username error message
-        document.getElementById("floatingUsername").classList.remove("is-invalid");
-        document.getElementById("username-label").classList.remove("text-danger");
-
-        // Check if username is empty
-        if (username === "") {
-            hasError = true;
+    // Prevent user from entering invalid characters
+    const validateUsername = (e) => {
+        if (!/[a-zA-Z0-9-]$/.test(e.key)){
+            e.preventDefault();
         }
-        // Check if username is only letters, numbers and hyphens
-        else if (!/^[a-zA-Z0-9-]+$/.test(username)) {
-            document.getElementById("username-error").innerHTML = "Username can only contain letters, numbers and hyphens";
-            document.getElementById("floatingUsername").classList.add("is-invalid");
-            document.getElementById("username-label").classList.add("text-danger");
-            hasError = true;
-        }
-
-        setUsernameValid(!hasError);
     }
 
     // Validate password fields and show appropriate error messages
@@ -82,6 +65,13 @@ const SignUpForm = ({ users, setUsers, currentUser, setCurrentUser }) => {
         }
 
         setPasswordFieldsValid(!hasError);
+    }
+
+    // Prevent user from entering invalid characters
+    const validateDisplayName = (e) => {
+        if (!/[a-zA-Z '-.,]$/.test(e.key)){
+            e.preventDefault();
+        }
     }
 
 
@@ -139,8 +129,7 @@ const SignUpForm = ({ users, setUsers, currentUser, setCurrentUser }) => {
         // Check if all fields are valid, if not, disable submit button
         if (!usernameValid || !passwordFieldsValid || !displayNameValid || !profilePictureValid) {
             document.getElementById("sign-up-button").disabled = true;
-        }
-        else {
+        } else {
             document.getElementById("sign-up-button").disabled = false;
         }
     }, [usernameValid, passwordFieldsValid, displayNameValid, profilePictureValid]);
@@ -152,31 +141,39 @@ const SignUpForm = ({ users, setUsers, currentUser, setCurrentUser }) => {
                 <div className="form-group">
                     <label htmlFor="floatingInput" className="form-help" id="username-label">Username</label>
                     <input ref={usernameBox} className="form-control" type="text" id="floatingUsername"
-                        onChange={() => { validateEmptyFields(); validateUsername() }} required />
+                           onChange={validateEmptyFields} onKeyPress={validateUsername} required/>
                     <label className="invalid-feedback" id="username-error">Invalid</label>
                 </div>
                 <div className="form-group">
                     <label htmlFor="floatingPassword" className="form-help" id="password-label">Password</label>
                     <input ref={passwordBox} className="form-control" type="password" id="floatingPassword"
-                        onChange={() => { validateEmptyFields(); validatePasswordFields() }} required />
+                           onChange={() => {
+                               validateEmptyFields();
+                               validatePasswordFields()
+                           }} required/>
                     <label className="invalid-feedback" id="password-error">Invalid</label>
                 </div>
                 <div className="form-group">
-                    <label htmlFor="floatingConfirmedPassword" className="form-help" id="password-confirmation-label">Confirm password</label>
-                    <input ref={confirmPasswordBox} className="form-control" type="password" id="floatingConfirmedPassword"
-                        onChange={() => { validateEmptyFields(); validatePasswordFields() }} required />
+                    <label htmlFor="floatingConfirmedPassword" className="form-help" id="password-confirmation-label">Confirm
+                        password</label>
+                    <input ref={confirmPasswordBox} className="form-control" type="password"
+                           id="floatingConfirmedPassword"
+                           onChange={() => {
+                               validateEmptyFields();
+                               validatePasswordFields()
+                           }} required/>
                     <label className="invalid-feedback" id="password-confirmation-error">Invalid</label>
                 </div>
                 <div className="form-group">
                     <label htmlFor="floatingInput" className="form-help" id="display-name-label">Display name</label>
                     <input ref={displayNameBox} className="form-control" type="text" id="floatingDisplayName"
-                        onChange={validateEmptyFields} required />
+                           onChange={validateEmptyFields} onKeyPress={validateDisplayName} required/>
                     <label className="invalid-feedback" id="display-name-error">Invalid</label>
                 </div>
                 <div>
                     <label htmlFor="floatingProfilePicture" className="form-help">Profile picture</label>
                     <input ref={profilePictureBox} className="form-control" type="file" id="floatingProfilePicture"
-                        onChange={validateEmptyFields} required accept="image/*" />
+                           onChange={validateEmptyFields} required accept="image/*"/>
                 </div>
                 <button type="submit" className="submit-button" id="sign-up-button" disabled>SIGN UP</button>
             </form>
