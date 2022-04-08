@@ -1,7 +1,7 @@
-import { useRef, useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import {useRef, useEffect, useState} from 'react';
+import {Link, useNavigate} from 'react-router-dom';
 
-const SignUpForm = ({ users, setUsers, currentUser, setCurrentUser }) => {
+const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
     const usernameBox = useRef(null);
     const passwordBox = useRef(null);
     const confirmPasswordBox = useRef(null);
@@ -84,6 +84,29 @@ const SignUpForm = ({ users, setUsers, currentUser, setCurrentUser }) => {
         setPasswordFieldsValid(!hasError);
     }
 
+    const validateDisplayName = () => {
+        let hasError = false;
+        const displayName = displayNameBox.current.value;
+
+        // Clear display name error message
+        document.getElementById("floatingDisplayName").classList.remove("is-invalid");
+        document.getElementById("display-name-label").classList.remove("text-danger");
+
+        // Check if display name is empty
+        if (displayName === "") {
+            hasError = true;
+        }
+        // Check if display name is only letters and spaces
+        else if (!/^[a-zA-Z ]+$/.test(displayName)) {
+            document.getElementById("display-name-error").innerHTML = "Display name can only contain letters and spaces";
+            document.getElementById("floatingDisplayName").classList.add("is-invalid");
+            document.getElementById("display-name-label").classList.add("text-danger");
+            hasError = true;
+        }
+
+        setDisplayNameValid(!hasError);
+    }
+
 
     const handleSignUp = (e) => {
         // Validate username, password and display name
@@ -139,8 +162,7 @@ const SignUpForm = ({ users, setUsers, currentUser, setCurrentUser }) => {
         // Check if all fields are valid, if not, disable submit button
         if (!usernameValid || !passwordFieldsValid || !displayNameValid || !profilePictureValid) {
             document.getElementById("sign-up-button").disabled = true;
-        }
-        else {
+        } else {
             document.getElementById("sign-up-button").disabled = false;
         }
     }, [usernameValid, passwordFieldsValid, displayNameValid, profilePictureValid]);
@@ -152,31 +174,45 @@ const SignUpForm = ({ users, setUsers, currentUser, setCurrentUser }) => {
                 <div className="form-group">
                     <label htmlFor="floatingInput" className="form-help" id="username-label">Username</label>
                     <input ref={usernameBox} className="form-control" type="text" id="floatingUsername"
-                        onChange={() => { validateEmptyFields(); validateUsername() }} required />
+                           onChange={() => {
+                               validateEmptyFields();
+                               validateUsername()
+                           }} required/>
                     <label className="invalid-feedback" id="username-error">Invalid</label>
                 </div>
                 <div className="form-group">
                     <label htmlFor="floatingPassword" className="form-help" id="password-label">Password</label>
                     <input ref={passwordBox} className="form-control" type="password" id="floatingPassword"
-                        onChange={() => { validateEmptyFields(); validatePasswordFields() }} required />
+                           onChange={() => {
+                               validateEmptyFields();
+                               validatePasswordFields()
+                           }} required/>
                     <label className="invalid-feedback" id="password-error">Invalid</label>
                 </div>
                 <div className="form-group">
-                    <label htmlFor="floatingConfirmedPassword" className="form-help" id="password-confirmation-label">Confirm password</label>
-                    <input ref={confirmPasswordBox} className="form-control" type="password" id="floatingConfirmedPassword"
-                        onChange={() => { validateEmptyFields(); validatePasswordFields() }} required />
+                    <label htmlFor="floatingConfirmedPassword" className="form-help" id="password-confirmation-label">Confirm
+                        password</label>
+                    <input ref={confirmPasswordBox} className="form-control" type="password"
+                           id="floatingConfirmedPassword"
+                           onChange={() => {
+                               validateEmptyFields();
+                               validatePasswordFields()
+                           }} required/>
                     <label className="invalid-feedback" id="password-confirmation-error">Invalid</label>
                 </div>
                 <div className="form-group">
                     <label htmlFor="floatingInput" className="form-help" id="display-name-label">Display name</label>
                     <input ref={displayNameBox} className="form-control" type="text" id="floatingDisplayName"
-                        onChange={validateEmptyFields} required />
+                           onChange={() => {
+                               validateEmptyFields();
+                               validateDisplayName()
+                           }} required/>
                     <label className="invalid-feedback" id="display-name-error">Invalid</label>
                 </div>
                 <div>
                     <label htmlFor="floatingProfilePicture" className="form-help">Profile picture</label>
                     <input ref={profilePictureBox} className="form-control" type="file" id="floatingProfilePicture"
-                        onChange={validateEmptyFields} required accept="image/*" />
+                           onChange={validateEmptyFields} required accept="image/*"/>
                 </div>
                 <button type="submit" className="submit-button" id="sign-up-button" disabled>SIGN UP</button>
             </form>
