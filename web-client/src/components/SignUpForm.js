@@ -15,51 +15,6 @@ const SignUpForm = ({ users, setUsers, currentUser, setCurrentUser }) => {
     const [displayNameValid, setDisplayNameValid] = useState(false);
     const [profilePictureValid, setProfilePictureValid] = useState(false);
 
-    // Check if all form fields are valid and show appropriate error messages
-    // Return true if all fields are valid
-    const validateFields = (username, password, confirmPassword, displayName) => {
-        let hasError = username === "" || password === "" || confirmPassword === "" || displayName === "" || profilePictureBox.current.files.length === 0;
-
-        // Hide all error messages
-        document.querySelectorAll('.form-control').forEach(element => {
-            element.classList.remove("is-invalid");
-        });
-        document.querySelectorAll('.form-help').forEach(element => {
-            element.classList.remove("text-danger");
-        });
-
-        // Check if username is only letters, numbers and hyphens
-        if (!/^[a-zA-Z0-9-]+$/.test(username)) {
-            document.getElementById("username-error").innerHTML = "Username can only contain letters, numbers and hyphens";
-            document.getElementById("floatingUsername").classList.add("is-invalid");
-            document.getElementById("username-label").classList.add("text-danger");
-            hasError = true;
-        }
-
-        // Check if password is at least 6 characters long
-        if (password.length < 6) {
-            document.getElementById("password-error").innerHTML = "Password must be at least 6 characters long";
-            document.getElementById("floatingPassword").classList.add("is-invalid");
-            document.getElementById("password-label").classList.add("text-danger");
-            hasError = true;
-        }
-        // Check if password contains at least one number, one lowercase and one uppercase character
-        else if (!/[a-z]/.test(password) || !/[A-Z]/.test(password) || !/[0-9]/.test(password)) {
-            document.getElementById("password-error").innerHTML = "Password must contain at least one number, one lowercase and one uppercase character";
-            document.getElementById("floatingPassword").classList.add("is-invalid");
-            document.getElementById("password-label").classList.add("text-danger");
-            hasError = true;
-        }
-        // Check if passwords match
-        else if (password !== confirmPassword) {
-            document.getElementById("password-confirmation-error").innerHTML = "Passwords do not match";
-            document.getElementById("floatingConfirmedPassword").classList.add("is-invalid");
-            document.getElementById("password-confirmation-label").classList.add("text-danger");
-            hasError = true;
-        }
-        return !hasError;
-    }
-
     // Check if all fields are empty
     const validateEmptyFields = () => {
         setUsernameValid(usernameBox.current.value !== "");
@@ -70,7 +25,6 @@ const SignUpForm = ({ users, setUsers, currentUser, setCurrentUser }) => {
 
     // Validate username field and show appropriate error message
     const validateUsername = () => {
-        validateEmptyFields();
         let hasError = false;
         const username = usernameBox.current.value;
 
@@ -91,12 +45,10 @@ const SignUpForm = ({ users, setUsers, currentUser, setCurrentUser }) => {
         }
 
         setUsernameValid(!hasError);
-        return !hasError;
     }
 
     // Validate password fields and show appropriate error messages
     const validatePasswordFields = () => {
-        validateEmptyFields();
         let hasError = false;
         const password = passwordBox.current.value;
         const confirmPassword = confirmPasswordBox.current.value;
@@ -130,7 +82,6 @@ const SignUpForm = ({ users, setUsers, currentUser, setCurrentUser }) => {
         }
 
         setPasswordFieldsValid(!hasError);
-        return !hasError;
     }
 
 
@@ -142,13 +93,15 @@ const SignUpForm = ({ users, setUsers, currentUser, setCurrentUser }) => {
 
         const username = usernameBox.current.value;
         const password = passwordBox.current.value;
-        const confirmPassword = confirmPasswordBox.current.value;
         const displayName = displayNameBox.current.value;
         const profilePicture = profilePictureBox.current.files[0];
 
-        if (!validateFields(username, password, confirmPassword, displayName)) {
-            // Disable submit button
-            document.getElementById("sign-up-button").disabled = true;
+        validateEmptyFields();
+        validateUsername();
+        validatePasswordFields();
+        // If one of the fields is not valid, disable the submit button and return
+        if (!usernameValid || !passwordFieldsValid || !displayNameValid || !profilePictureValid) {
+            document.getElementById("signup-button").disabled = true;
             return;
         }
 
@@ -199,19 +152,19 @@ const SignUpForm = ({ users, setUsers, currentUser, setCurrentUser }) => {
                 <div className="form-group">
                     <label htmlFor="floatingInput" className="form-help" id="username-label">Username</label>
                     <input ref={usernameBox} className="form-control" type="text" id="floatingUsername"
-                        onChange={validateUsername} required />
+                        onChange={() => { validateEmptyFields(); validateUsername() }} required />
                     <label className="invalid-feedback" id="username-error">Invalid</label>
                 </div>
                 <div className="form-group">
                     <label htmlFor="floatingPassword" className="form-help" id="password-label">Password</label>
                     <input ref={passwordBox} className="form-control" type="password" id="floatingPassword"
-                        onChange={validatePasswordFields} required />
+                        onChange={() => { validateEmptyFields(); validatePasswordFields() }} required />
                     <label className="invalid-feedback" id="password-error">Invalid</label>
                 </div>
                 <div className="form-group">
                     <label htmlFor="floatingConfirmedPassword" className="form-help" id="password-confirmation-label">Confirm password</label>
-                    <input ref={confirmPasswordBox} className="form-control" type="password"
-                        id="floatingConfirmedPassword" onChange={validatePasswordFields} required />
+                    <input ref={confirmPasswordBox} className="form-control" type="password" id="floatingConfirmedPassword"
+                        onChange={() => { validateEmptyFields(); validatePasswordFields() }} required />
                     <label className="invalid-feedback" id="password-confirmation-error">Invalid</label>
                 </div>
                 <div className="form-group">
