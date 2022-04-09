@@ -57,7 +57,7 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
             hasError = true;
         }
         // Check if passwords match
-        else if (password !== confirmPassword && confirmPassword !== "") {
+        if (password !== confirmPassword && confirmPassword !== "") {
             document.getElementById("password-confirmation-error").innerHTML = "Passwords do not match";
             document.getElementById("floatingConfirmedPassword").classList.add("is-invalid");
             document.getElementById("password-confirmation-label").classList.add("text-danger");
