@@ -18,14 +18,14 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
     // Check if all fields are empty
     const validateEmptyFields = () => {
         setUsernameValid(usernameBox.current.value !== "");
-        setPasswordFieldsValid(passwordBox.current.value !== "" && confirmPasswordBox.current.value !== "");
+        setPasswordFieldsValid(passwordFieldsValid && passwordBox.current.value !== "" && confirmPasswordBox.current.value !== "");
         setDisplayNameValid(displayNameBox.current.value !== "");
         setProfilePictureValid(profilePictureBox.current.files.length !== 0);
     }
 
     // Prevent user from entering invalid characters
     const validateUsername = (e) => {
-        if (!/[a-zA-Z0-9-]$/.test(e.key)){
+        if (!/[a-zA-Z0-9-]$/.test(e.key)) {
             e.preventDefault();
         }
     }
@@ -69,7 +69,7 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
 
     // Prevent user from entering invalid characters
     const validateDisplayName = (e) => {
-        if (!/[a-zA-Z '-.,]$/.test(e.key)){
+        if (!/[a-zA-Z '-.,]$/.test(e.key)) {
             e.preventDefault();
         }
     }
