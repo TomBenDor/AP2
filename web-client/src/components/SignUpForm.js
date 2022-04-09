@@ -1,77 +1,133 @@
-import {useRef, useEffect, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 
 const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
     const usernameBox = useRef(null);
     const passwordBox = useRef(null);
-    const confirmPasswordBox = useRef(null);
+    const passwordConfirmationBox = useRef(null);
     const displayNameBox = useRef(null);
     const profilePictureBox = useRef(null);
 
     const navigate = useNavigate();
 
-    const [usernameValid, setUsernameValid] = useState(false);
-    const [passwordFieldsValid, setPasswordFieldsValid] = useState(false);
-    const [displayNameValid, setDisplayNameValid] = useState(false);
+    const [usernameFieldValid, setUsernameFieldValid] = useState(false);
+    const [passwordFieldValid, setPasswordFieldValid] = useState(false);
+    const [passwordConfirmationFieldValid, setPasswordConfirmationFieldValid] = useState(false);
+    const [displayNameValid, setDisplayNameFieldValid] = useState(false);
     const [profilePictureValid, setProfilePictureValid] = useState(false);
 
     // Check if all fields are empty
-    const validateEmptyFields = () => {
-        setUsernameValid(usernameBox.current.value !== "");
-        setPasswordFieldsValid(passwordBox.current.value !== "" && confirmPasswordBox.current.value !== "");
-        setDisplayNameValid(displayNameBox.current.value !== "");
+    const validateProfilePicture = () => {
         setProfilePictureValid(profilePictureBox.current.files.length !== 0);
     }
 
     // Prevent user from entering invalid characters
-    const validateUsername = (e) => {
-        if (!/[a-zA-Z0-9-]$/.test(e.key)){
+    const enforceUsernameRegEx = (e) => {
+        if (!/[a-zA-Z0-9-]$/.test(e.key)) {
             e.preventDefault();
         }
     }
 
+    const validateUsername = () => {
+        let hasError = false;
+        const username = usernameBox.current.value;
+
+        // Clear error message
+        document.getElementById("floatingUsername").classList.remove("is-invalid");
+        document.getElementById("username-label").classList.remove("text-danger");
+
+        // Check if username length is less than 3
+        if (username.length < 3) {
+            document.getElementById("username-error").innerHTML = "Username must be at least 3 characters long";
+            hasError = true;
+        }
+
+        if (hasError) {
+            document.getElementById("floatingUsername").classList.add("is-invalid");
+            document.getElementById("username-label").classList.add("text-danger");
+        }
+
+        setUsernameFieldValid(!hasError);
+    }
+
     // Validate password fields and show appropriate error messages
-    const validatePasswordFields = () => {
+    const validatePasswordField = () => {
         let hasError = false;
         const password = passwordBox.current.value;
-        const confirmPassword = confirmPasswordBox.current.value;
 
         // Clear password fields error messages
         document.getElementById("floatingPassword").classList.remove("is-invalid");
-        document.getElementById("floatingConfirmedPassword").classList.remove("is-invalid");
         document.getElementById("password-label").classList.remove("text-danger");
-        document.getElementById("password-confirmation-label").classList.remove("text-danger");
 
         // Check if password is at least 6 characters long
         if (password.length < 6) {
             document.getElementById("password-error").innerHTML = "Password must be at least 6 characters long";
-            document.getElementById("floatingPassword").classList.add("is-invalid");
-            document.getElementById("password-label").classList.add("text-danger");
             hasError = true;
         }
         // Check if password contains at least one number, one lowercase and one uppercase character
         else if (!/[a-z]/.test(password) || !/[A-Z]/.test(password) || !/[0-9]/.test(password)) {
             document.getElementById("password-error").innerHTML = "Password must contain at least one number, one lowercase and one uppercase character";
-            document.getElementById("floatingPassword").classList.add("is-invalid");
-            document.getElementById("password-label").classList.add("text-danger");
-            hasError = true;
-        }
-        // Check if passwords match
-        else if (password !== confirmPassword) {
-            document.getElementById("password-confirmation-error").innerHTML = "Passwords do not match";
-            document.getElementById("floatingConfirmedPassword").classList.add("is-invalid");
-            document.getElementById("password-confirmation-label").classList.add("text-danger");
             hasError = true;
         }
 
-        setPasswordFieldsValid(!hasError);
+        if (hasError) {
+            document.getElementById("floatingPassword").classList.add("is-invalid");
+            document.getElementById("password-label").classList.add("text-danger");
+        }
+
+        setPasswordFieldValid(!hasError);
+    }
+
+    const validatePasswordConfirmation = () => {
+        let hasError = false;
+        const password = passwordBox.current.value;
+        const passwordConfirmation = passwordConfirmationBox.current.value;
+
+        // Clear password confirmation fields error messages
+        document.getElementById("floatingConfirmedPassword").classList.remove("is-invalid");
+        document.getElementById("password-confirmation-label").classList.remove("text-danger");
+
+        // Check if password and password confirmation match
+        if (password !== passwordConfirmation) {
+            document.getElementById("password-confirmation-error").innerHTML = "Password confirmation doesn't match";
+            hasError = true;
+        }
+
+        if (hasError) {
+            document.getElementById("floatingConfirmedPassword").classList.add("is-invalid");
+            document.getElementById("password-confirmation-label").classList.add("text-danger");
+        }
+
+        setPasswordConfirmationFieldValid(!hasError);
     }
 
     // Prevent user from entering invalid characters
-    const validateDisplayName = (e) => {
-        if (!/[a-zA-Z '-.,]$/.test(e.key)){
+    const enforceDisplayNameRegEx = (e) => {
+        if (!/[a-zA-Z '-.,]$/.test(e.key)) {
             e.preventDefault();
         }
+    }
+
+    const validateDisplayName = () => {
+        let hasError = false;
+        const displayName = displayNameBox.current.value;
+
+        // Clear error message
+        document.getElementById("floatingDisplayName").classList.remove("is-invalid");
+        document.getElementById("display-name-label").classList.remove("text-danger");
+
+        // Check if username length is less than 3
+        if (displayName.length < 3) {
+            document.getElementById("display-name-error").innerHTML = "Display Name must be at least 3 characters long";
+            hasError = true;
+        }
+
+        if (hasError) {
+            document.getElementById("floatingDisplayName").classList.add("is-invalid");
+            document.getElementById("display-name-label").classList.add("text-danger");
+        }
+
+        setDisplayNameFieldValid(!hasError);
     }
 
 
@@ -86,15 +142,6 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
         const displayName = displayNameBox.current.value;
         const profilePicture = profilePictureBox.current.files[0];
 
-        validateEmptyFields();
-        validateUsername();
-        validatePasswordFields();
-        // If one of the fields is not valid, disable the submit button and return
-        if (!usernameValid || !passwordFieldsValid || !displayNameValid || !profilePictureValid) {
-            document.getElementById("signup-button").disabled = true;
-            return;
-        }
-
         // Check if username is already taken
         const user = users.find(user => user.username === username);
         if (user) {
@@ -102,6 +149,7 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
             document.getElementById("username-error").innerHTML = "Username is already taken";
             document.getElementById("floatingUsername").classList.add("is-invalid");
             document.getElementById("username-label").classList.add("text-danger");
+            setUsernameFieldValid(false);
             return;
         }
 
@@ -127,12 +175,8 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
 
     useEffect(() => {
         // Check if all fields are valid, if not, disable submit button
-        if (!usernameValid || !passwordFieldsValid || !displayNameValid || !profilePictureValid) {
-            document.getElementById("sign-up-button").disabled = true;
-        } else {
-            document.getElementById("sign-up-button").disabled = false;
-        }
-    }, [usernameValid, passwordFieldsValid, displayNameValid, profilePictureValid]);
+        document.getElementById("sign-up-button").disabled = !usernameFieldValid || !passwordFieldValid || !passwordConfirmationFieldValid || !displayNameValid || !profilePictureValid;
+    }, [usernameFieldValid, passwordFieldValid, passwordConfirmationFieldValid, displayNameValid, profilePictureValid]);
 
     return (
         <div id="form-frame">
@@ -141,39 +185,33 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
                 <div className="form-group">
                     <label htmlFor="floatingInput" className="form-help" id="username-label">Username</label>
                     <input ref={usernameBox} className="form-control" type="text" id="floatingUsername"
-                           onChange={validateEmptyFields} onKeyPress={validateUsername} required/>
+                           onChange={validateUsername} onKeyPress={enforceUsernameRegEx} required/>
                     <label className="invalid-feedback" id="username-error">Invalid</label>
                 </div>
                 <div className="form-group">
                     <label htmlFor="floatingPassword" className="form-help" id="password-label">Password</label>
                     <input ref={passwordBox} className="form-control" type="password" id="floatingPassword"
-                           onChange={() => {
-                               validateEmptyFields();
-                               validatePasswordFields()
-                           }} required/>
+                           onChange={validatePasswordField} required/>
                     <label className="invalid-feedback" id="password-error">Invalid</label>
                 </div>
                 <div className="form-group">
                     <label htmlFor="floatingConfirmedPassword" className="form-help" id="password-confirmation-label">Confirm
                         password</label>
-                    <input ref={confirmPasswordBox} className="form-control" type="password"
+                    <input ref={passwordConfirmationBox} className="form-control" type="password"
                            id="floatingConfirmedPassword"
-                           onChange={() => {
-                               validateEmptyFields();
-                               validatePasswordFields()
-                           }} required/>
+                           onChange={validatePasswordConfirmation} required/>
                     <label className="invalid-feedback" id="password-confirmation-error">Invalid</label>
                 </div>
                 <div className="form-group">
                     <label htmlFor="floatingInput" className="form-help" id="display-name-label">Display name</label>
                     <input ref={displayNameBox} className="form-control" type="text" id="floatingDisplayName"
-                           onChange={validateEmptyFields} onKeyPress={validateDisplayName} required/>
+                           onChange={validateDisplayName} onKeyPress={enforceDisplayNameRegEx} required/>
                     <label className="invalid-feedback" id="display-name-error">Invalid</label>
                 </div>
                 <div>
                     <label htmlFor="floatingProfilePicture" className="form-help">Profile picture</label>
                     <input ref={profilePictureBox} className="form-control" type="file" id="floatingProfilePicture"
-                           onChange={validateEmptyFields} required accept="image/*"/>
+                           onChange={validateProfilePicture} required accept="image/*"/>
                 </div>
                 <button type="submit" className="submit-button" id="sign-up-button" disabled>SIGN UP</button>
             </form>
