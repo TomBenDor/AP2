@@ -3,9 +3,9 @@ import "./SvgAnimation.css";
 
 const SvgAnimation = () => {
     return (
-        <>
-            <LandingPageSvg />
-        </>
+        <div className="center">
+            <LandingPageSvg/>
+        </div>
     )
 };
 
