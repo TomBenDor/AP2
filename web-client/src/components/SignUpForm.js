@@ -36,12 +36,9 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
     // Clear error messages when user switches focus
     const clearUsernameError = () => {
         if (document.getElementById("username-error").innerHTML === "Username must contain only letters, numbers, and hyphens") {
-            if (usernameBox.current.value.length < 3) {
-                document.getElementById("username-error").innerHTML = "Username must be at least 3 characters long";
-            } else {
-                document.getElementById("floatingUsername").classList.remove("is-invalid");
-                document.getElementById("username-label").classList.remove("text-danger");
-            }
+            document.getElementById("floatingUsername").classList.remove("is-invalid");
+            document.getElementById("username-label").classList.remove("text-danger");
+            validateUsername();
         }
     }
 
@@ -152,12 +149,9 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
     // Clear error messages when user switches focus
     const clearDisplayNameError = () => {
         if (document.getElementById("display-name-error").innerHTML === "Display name can only contain letters, spaces, hyphens, periods, interpoints, and commas") {
-            if (displayNameBox.current.value.length < 3) {
-                document.getElementById("display-name-error").innerHTML = "Display name must be at least 3 characters long";
-            } else {
-                document.getElementById("floatingDisplayName").classList.remove("is-invalid");
-                document.getElementById("display-name-label").classList.remove("text-danger");
-            }
+            document.getElementById("floatingDisplayName").classList.remove("is-invalid");
+            document.getElementById("display-name-label").classList.remove("text-danger");
+            validateDisplayName()
         }
     }
 
