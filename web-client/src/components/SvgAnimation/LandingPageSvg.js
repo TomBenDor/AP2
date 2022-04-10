@@ -7,6 +7,8 @@ const LandingPageSvg = () => {
                 className="animated"
                 version="1.1"
                 viewBox="0 0 750 500"
+                width="100%"
+                height="100%"
             >
                 <g
                     id="freepik--background-complete--inject-10"
