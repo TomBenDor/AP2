@@ -151,7 +151,7 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
         if (document.getElementById("display-name-error").innerHTML === "Display name can only contain letters, spaces, hyphens, periods, dots, and commas") {
             document.getElementById("floatingDisplayName").classList.remove("is-invalid");
             document.getElementById("display-name-label").classList.remove("text-danger");
-            validateDisplayName()
+            validateDisplayName();
         }
     }
 
