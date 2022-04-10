@@ -70,7 +70,8 @@ const SignInForm = ({users, currentUser, setCurrentUser}) => {
                 </div>
                 <div className="form-group">
                     <label htmlFor="password" className="form-help" id="password-label">Password</label>
-                    <input type={isVisible ? "text" : "password"} className="form-control" maxLength="30"/>
+                    <input type={isVisible ? "text" : "password"} ref={passwordBox} className="form-control"
+                           maxLength="30" onChange={handleChange}/>
                     <button className="show-password-button" type="button" onMouseUp={toggleVisibility}
                             onMouseDown={toggleVisibility}>
                         <span className="bi bi-eye"/>
