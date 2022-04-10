@@ -1,6 +1,5 @@
 import {useEffect, useRef, useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
-import {getElementError} from "@testing-library/react";
 
 const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
     const usernameBox = useRef(null);
