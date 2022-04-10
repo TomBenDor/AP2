@@ -33,10 +33,11 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
         }
     }
 
+    // Clear error messages when user switches focus
     const clearUsernameError = () => {
         if (document.getElementById("username-error").innerHTML === "Username must contain only letters, numbers, and hyphens") {
             if (usernameBox.current.value.length < 3) {
-                document.getElementById("display-name-error").innerHTML = "Display name must be at least 3 characters long";
+                document.getElementById("username-error").innerHTML = "Username must be at least 3 characters long";
             } else {
                 document.getElementById("floatingUsername").classList.remove("is-invalid");
                 document.getElementById("username-label").classList.remove("text-danger");
@@ -121,7 +122,7 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
         if (!/[a-zA-Z '-.,]$/.test(e.key)) {
             document.getElementById("floatingDisplayName").classList.add("is-invalid");
             document.getElementById("display-name-label").classList.add("text-danger");
-            document.getElementById("display-name-error").innerHTML = "Display name can only contain letters, numbers, spaces, hyphens, periods, and commas";
+            document.getElementById("display-name-error").innerHTML = "Display name can only contain letters, spaces, hyphens, periods, interpoints, and commas";
             e.preventDefault();
         }
     }
@@ -136,7 +137,7 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
 
         // Check if username length is less than 3
         if (displayName.length < 3) {
-            document.getElementById("display-name-error").innerHTML = "Display Name must be at least 3 characters long";
+            document.getElementById("display-name-error").innerHTML = "Display name must be at least 3 characters long";
             hasError = true;
         }
 
@@ -148,8 +149,9 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
         setDisplayNameFieldValid(!hasError);
     }
 
+    // Clear error messages when user switches focus
     const clearDisplayNameError = () => {
-        if (document.getElementById("display-name-error").innerHTML === "Display name can only contain letters, numbers, spaces, hyphens, periods, and commas") {
+        if (document.getElementById("display-name-error").innerHTML === "Display name can only contain letters, spaces, hyphens, periods, interpoints, and commas") {
             if (displayNameBox.current.value.length < 3) {
                 document.getElementById("display-name-error").innerHTML = "Display name must be at least 3 characters long";
             } else {
