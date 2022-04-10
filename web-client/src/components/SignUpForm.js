@@ -151,7 +151,7 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
     const clearDisplayNameError = () => {
         if (document.getElementById("display-name-error").innerHTML === "Display name can only contain letters, numbers, spaces, hyphens, periods, and commas") {
             if (displayNameBox.current.value.length < 3) {
-                document.getElementById("display-name-error").innerHTML = "Display Name must be at least 3 characters long";
+                document.getElementById("display-name-error").innerHTML = "Display name must be at least 3 characters long";
             } else {
                 document.getElementById("floatingDisplayName").classList.remove("is-invalid");
                 document.getElementById("display-name-label").classList.remove("text-danger");
