@@ -1,6 +1,6 @@
 import {useRef} from "react";
 
-const ChatPage = (user) => {
+const ChatPage = ({user}) => {
     const openContactDialog = () => {
         console.log("openContactDialog");
     };
@@ -39,7 +39,7 @@ const ChatPage = (user) => {
                             className="center" alt="profile-pic"/>
                     </span>
                     <span className="contacts-section-header-title">
-                        {user.user.displayName}
+                        {user.displayName}
                     </span>
                 </span>
                     <span className="contacts-section-header-controls">
