@@ -327,6 +327,7 @@ main #form-frame {
     border: 1px solid gray;
     border-radius: 5px;
     width: calc(100% - 90px);
+    outline: none;
 }
 
 #message-input:focus {
