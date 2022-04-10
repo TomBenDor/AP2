@@ -23,10 +23,25 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
 
     // Prevent user from entering invalid characters
     const enforceUsernameRegEx = (e) => {
+        document.getElementById("floatingUsername").classList.remove("is-invalid");
+        document.getElementById("floatingUsername").classList.remove("text-danger");
         if (!/[a-zA-Z0-9-]$/.test(e.key)) {
+            document.getElementById("username-error").innerHTML = "Username must contain only letters, numbers, and hyphens";
+            document.getElementById("floatingUsername").classList.add("is-invalid");
+            document.getElementById("username-label").classList.add("text-danger");
             e.preventDefault();
         }
     }
+
+    // Clear error messages when user switches focus
+    const clearUsernameError = () => {
+        if (document.getElementById("username-error").innerHTML === "Username must contain only letters, numbers, and hyphens") {
+            document.getElementById("floatingUsername").classList.remove("is-invalid");
+            document.getElementById("username-label").classList.remove("text-danger");
+            validateUsername();
+        }
+    }
+
 
     const validateUsername = () => {
         let hasError = false;
@@ -39,14 +54,10 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
         // Check if username length is less than 3
         if (username.length < 3) {
             document.getElementById("username-error").innerHTML = "Username must be at least 3 characters long";
-            hasError = true;
-        }
-
-        if (hasError) {
             document.getElementById("floatingUsername").classList.add("is-invalid");
             document.getElementById("username-label").classList.add("text-danger");
+            hasError = true;
         }
-
         setUsernameFieldValid(!hasError);
     }
 
@@ -103,7 +114,12 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
 
     // Prevent user from entering invalid characters
     const enforceDisplayNameRegEx = (e) => {
+        document.getElementById("floatingDisplayName").classList.remove("is-invalid");
+        document.getElementById("floatingDisplayName").classList.remove("text-danger");
         if (!/[a-zA-Z '-.,]$/.test(e.key)) {
+            document.getElementById("floatingDisplayName").classList.add("is-invalid");
+            document.getElementById("display-name-label").classList.add("text-danger");
+            document.getElementById("display-name-error").innerHTML = "Display name can only contain letters, spaces, hyphens, periods, dots, and commas";
             e.preventDefault();
         }
     }
@@ -118,7 +134,7 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
 
         // Check if username length is less than 3
         if (displayName.length < 3) {
-            document.getElementById("display-name-error").innerHTML = "Display Name must be at least 3 characters long";
+            document.getElementById("display-name-error").innerHTML = "Display name must be at least 3 characters long";
             hasError = true;
         }
 
@@ -130,6 +146,14 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
         setDisplayNameFieldValid(!hasError);
     }
 
+    // Clear error messages when user switches focus
+    const clearDisplayNameError = () => {
+        if (document.getElementById("display-name-error").innerHTML === "Display name can only contain letters, spaces, hyphens, periods, dots, and commas") {
+            document.getElementById("floatingDisplayName").classList.remove("is-invalid");
+            document.getElementById("display-name-label").classList.remove("text-danger");
+            validateDisplayName();
+        }
+    }
 
     const handleSignUp = (e) => {
         // Validate username, password and display name
@@ -185,7 +209,8 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
                 <div className="form-group">
                     <label htmlFor="floatingInput" className="form-help" id="username-label">Username</label>
                     <input ref={usernameBox} className="form-control" type="text" id="floatingUsername"
-                           onChange={validateUsername} onKeyPress={enforceUsernameRegEx} required/>
+                           onChange={validateUsername} onKeyPress={enforceUsernameRegEx} onBlur={clearUsernameError}
+                           required/>
                     <label className="invalid-feedback" id="username-error">Invalid</label>
                 </div>
                 <div className="form-group">
@@ -205,7 +230,8 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
                 <div className="form-group">
                     <label htmlFor="floatingInput" className="form-help" id="display-name-label">Display name</label>
                     <input ref={displayNameBox} className="form-control" type="text" id="floatingDisplayName"
-                           onChange={validateDisplayName} onKeyPress={enforceDisplayNameRegEx} required/>
+                           onChange={validateDisplayName} onKeyPress={enforceDisplayNameRegEx}
+                           onBlur={clearDisplayNameError} required/>
                     <label className="invalid-feedback" id="display-name-error">Invalid</label>
                 </div>
                 <div>
