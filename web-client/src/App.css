@@ -81,6 +81,7 @@ main #form-frame {
     background-color: var(--form-frame-background);
     padding: 0 5px 0 5px;
     user-select: none;
+    z-index: 4;
 }
 
 .form-control {
@@ -220,9 +221,23 @@ main #form-frame {
     padding-right: 5px;
 }
 
-.button-section text {
+.button-section span {
     font: 24px 'Lato Light', sans-serif;
     text-decoration: none;
     padding-left: 5px;
     padding-right: 5px;
+}
+
+.form-group > .show-password-button {
+    position: relative;
+    bottom: 30px;
+    left: calc(100% - 30px);
+    font: 16px 'Lato Light', sans-serif;
+    color: var(--form-help);
+    background-color: transparent;
+    padding: 0 5px 0 5px;
+    user-select: none;
+    z-index: 4;
+    height: 100%;
+    border: none;
 }
