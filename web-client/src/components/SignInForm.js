@@ -1,7 +1,7 @@
-import {useRef, useEffect, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 
-const SignInForm = ({ users, currentUser, setCurrentUser }) => {
+const SignInForm = ({users, currentUser, setCurrentUser}) => {
     const usernameBox = useRef(null);
     const passwordBox = useRef(null);
     const navigate = useNavigate();
@@ -65,20 +65,16 @@ const SignInForm = ({ users, currentUser, setCurrentUser }) => {
                 <div className="form-group">
                     <label htmlFor="username" className="form-help" id="username-label">Username</label>
                     <input type="text" className="form-control" id="floatingUsername" ref={usernameBox}
-                           onChange={handleChange}/>
+                           onChange={handleChange} maxLength="30"/>
                     <label className="invalid-feedback">One of the fields is invalid</label>
                 </div>
                 <div className="form-group">
                     <label htmlFor="password" className="form-help" id="password-label">Password</label>
-                    <div className="input-group mb-3">
-                        <input type={isVisible ? "text" : "password"} className="form-control"/>
-                        <div className="input-group-append">
-                            <button className="btn btn-light" type="button" onMouseUp={toggleVisibility}
-                                    onMouseDown={toggleVisibility}>
-                                <span className="bi bi-eye"/>
-                            </button>
-                        </div>
-                    </div>
+                    <input type={isVisible ? "text" : "password"} className="form-control" maxLength="30"/>
+                    <button className="show-password-button" type="button" onMouseUp={toggleVisibility}
+                            onMouseDown={toggleVisibility}>
+                        <span className="bi bi-eye"/>
+                    </button>
                 </div>
                 <button type="submit" className="submit-button" id="sign-in-button" disabled>SIGN IN</button>
             </form>

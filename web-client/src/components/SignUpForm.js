@@ -185,13 +185,13 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
                 <div className="form-group">
                     <label htmlFor="floatingInput" className="form-help" id="username-label">Username</label>
                     <input ref={usernameBox} className="form-control" type="text" id="floatingUsername"
-                           onChange={validateUsername} onKeyPress={enforceUsernameRegEx} required/>
+                           onChange={validateUsername} onKeyPress={enforceUsernameRegEx} maxLength="30" required/>
                     <label className="invalid-feedback" id="username-error">Invalid</label>
                 </div>
                 <div className="form-group">
                     <label htmlFor="floatingPassword" className="form-help" id="password-label">Password</label>
                     <input ref={passwordBox} className="form-control" type="password" id="floatingPassword"
-                           onChange={validatePasswordField} required/>
+                           onChange={validatePasswordField} maxLength="30" required/>
                     <label className="invalid-feedback" id="password-error">Invalid</label>
                 </div>
                 <div className="form-group">
@@ -199,13 +199,13 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
                         password</label>
                     <input ref={passwordConfirmationBox} className="form-control" type="password"
                            id="floatingConfirmedPassword"
-                           onChange={validatePasswordConfirmation} required/>
+                           onChange={validatePasswordConfirmation} maxLength="30" required/>
                     <label className="invalid-feedback" id="password-confirmation-error">Invalid</label>
                 </div>
                 <div className="form-group">
                     <label htmlFor="floatingInput" className="form-help" id="display-name-label">Display name</label>
                     <input ref={displayNameBox} className="form-control" type="text" id="floatingDisplayName"
-                           onChange={validateDisplayName} onKeyPress={enforceDisplayNameRegEx} required/>
+                           onChange={validateDisplayName} onKeyPress={enforceDisplayNameRegEx} maxLength="30" required/>
                     <label className="invalid-feedback" id="display-name-error">Invalid</label>
                 </div>
                 <div>
