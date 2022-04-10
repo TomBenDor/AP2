@@ -119,7 +119,7 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
         if (!/[a-zA-Z '-.,]$/.test(e.key)) {
             document.getElementById("floatingDisplayName").classList.add("is-invalid");
             document.getElementById("display-name-label").classList.add("text-danger");
-            document.getElementById("display-name-error").innerHTML = "Display name can only contain letters, spaces, hyphens, periods, interpoints, and commas";
+            document.getElementById("display-name-error").innerHTML = "Display name can only contain letters, spaces, hyphens, periods, dots, and commas";
             e.preventDefault();
         }
     }
@@ -148,7 +148,7 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
 
     // Clear error messages when user switches focus
     const clearDisplayNameError = () => {
-        if (document.getElementById("display-name-error").innerHTML === "Display name can only contain letters, spaces, hyphens, periods, interpoints, and commas") {
+        if (document.getElementById("display-name-error").innerHTML === "Display name can only contain letters, spaces, hyphens, periods, dots, and commas") {
             document.getElementById("floatingDisplayName").classList.remove("is-invalid");
             document.getElementById("display-name-label").classList.remove("text-danger");
             validateDisplayName()
