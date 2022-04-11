@@ -9,7 +9,7 @@ const ChatPage = ({user}) => {
 
     const typing = () => {
         document.getElementById("send-button").disabled = messageBox.current.value.length === 0;
-    }
+    };
 
     return (
         <div id="content-frame">
