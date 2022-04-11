@@ -252,13 +252,13 @@ main #form-frame {
     border-bottom: 2px solid gray;
 }
 
-.contacts-section-header-user {
+.user-header {
     float: left;
     width: 60%;
     height: 100%;
 }
 
-.contacts-section-header-title {
+.user-header-title {
     float: left;
     height: 100%;
     padding: 5px;

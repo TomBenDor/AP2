@@ -15,10 +15,17 @@ const ChatPage = ({user}) => {
         <div id="content-frame">
             <div className="chat-section">
                 <div className="chat-section-header">
-                    <span className="profile-pic">
-                        <img
-                            src="https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
-                            className="center" alt="profile-pic"/>
+                    <span className="user-header">
+                        <span className="profile-pic">
+                            <img
+                                src="https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
+                                className="center" alt="profile-pic"/>
+                        </span>
+                        <span className="user-header-title">
+                            <div className="center">
+                                Tom
+                            </div>
+                    </span>
                     </span>
                 </div>
                 <div className="chat-section-messages">
@@ -32,13 +39,13 @@ const ChatPage = ({user}) => {
             </div>
             <div className="contacts-section">
                 <div className="contacts-section-header">
-                <span className="contacts-section-header-user">
+                <span className="user-header">
                     <span className="profile-pic">
                         <img
                             src="https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
                             className="center" alt="profile-pic"/>
                     </span>
-                    <span className="contacts-section-header-title">
+                    <span className="user-header-title">
                         <div className="center">
                             {user.displayName}
                         </div>
@@ -51,7 +58,8 @@ const ChatPage = ({user}) => {
                 </span>
                 </div>
             </div>
-        </div>);
+        </div>
+    );
 };
 
 export default ChatPage;
