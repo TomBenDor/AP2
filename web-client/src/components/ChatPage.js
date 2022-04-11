@@ -39,7 +39,9 @@ const ChatPage = ({user}) => {
                             className="center" alt="profile-pic"/>
                     </span>
                     <span className="contacts-section-header-title">
-                        {user.displayName}
+                        <div className="center">
+                            {user.displayName}
+                        </div>
                     </span>
                 </span>
                     <span className="contacts-section-header-controls">
