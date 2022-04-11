@@ -34,7 +34,7 @@ const ChatPage = ({user}) => {
                 <div className="chat-section-input-bar">
                     <input ref={messageBox} id="message-input" type="text" placeholder="Type a message..."
                            onChange={typing}/>
-                    <button id="send-button">Send</button>
+                    <button id="send-button" disabled>Send</button>
                 </div>
             </div>
             <div className="contacts-section">
