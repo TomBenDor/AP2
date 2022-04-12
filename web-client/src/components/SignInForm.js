@@ -40,6 +40,12 @@ const SignInForm = ({users, currentUser, setCurrentUser}) => {
             document.getElementById("sign-in-button").disabled = true;
         }
     };
+    // Prevent user from entering invalid characters
+    const enforceUsernameRegEx = (e) => {
+        if (!/[a-zA-Z0-9-]$/.test(e.key)) {
+            e.preventDefault();
+        }
+    }
 
     const handleChange = (e) => {
         // Check if username and password are empty
@@ -65,7 +71,7 @@ const SignInForm = ({users, currentUser, setCurrentUser}) => {
                 <div className="form-group">
                     <label htmlFor="username" className="form-help" id="username-label">Username</label>
                     <input type="text" className="form-control" id="floatingUsername" ref={usernameBox}
-                           onChange={handleChange} maxLength="30"/>
+                           onChange={handleChange} onKeyPress={enforceUsernameRegEx} maxLength="30"/>
                     <label className="invalid-feedback">One of the fields is invalid</label>
                 </div>
                 <div className="form-group">
