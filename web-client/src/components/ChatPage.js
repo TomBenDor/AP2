@@ -1,4 +1,5 @@
 import {useRef} from "react";
+import ContactsList from "./ContactsList"
 
 const ChatPage = ({user}) => {
     const openContactDialog = () => {
@@ -25,7 +26,7 @@ const ChatPage = ({user}) => {
                             <div className="center">
                                 Tom
                             </div>
-                    </span>
+                        </span>
                     </span>
                 </div>
                 <div className="chat-section-messages">
@@ -39,23 +40,26 @@ const ChatPage = ({user}) => {
             </div>
             <div className="contacts-section">
                 <div className="contacts-section-header">
-                <span className="user-header">
-                    <span className="profile-pic">
-                        <img
-                            src="https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
-                            className="center" alt="profile-pic"/>
+                    <span className="user-header">
+                        <span className="profile-pic">
+                            <img
+                                src="https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
+                                className="center" alt="profile-pic"/>
+                        </span>
+                        <span className="user-header-title">
+                            <div className="center">
+                                {user.displayName}
+                            </div>
+                        </span>
                     </span>
-                    <span className="user-header-title">
-                        <div className="center">
-                            {user.displayName}
-                        </div>
-                    </span>
-                </span>
                     <span className="contacts-section-header-controls">
                         <a className="add-contact-button" onClick={openContactDialog}>
                             <img src={"plus.svg"} alt="Add contact"/>
                         </a>
-                </span>
+                    </span>
+                </div>
+                <div className="contacts">
+                    <ContactsList/>
                 </div>
             </div>
         </div>
