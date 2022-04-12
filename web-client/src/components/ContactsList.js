@@ -14,7 +14,7 @@ const ContactsList = () => {
             username: 'Koala',
             name: 'Koala Bear',
             lastMessage: 'Let\'s do a sleepover!',
-            lastMessageTime: '13:49',
+            lastMessageTime: '12:32',
             profilePicture: '"https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"',
             unreadMessages: 2
         },

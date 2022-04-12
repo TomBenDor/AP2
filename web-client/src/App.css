@@ -312,7 +312,7 @@ main #form-frame {
 .chat-section-messages {
     width: 100%;
     height: calc(100% - 100px);
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .chat-section-input-bar {
@@ -353,7 +353,7 @@ main #form-frame {
 .contacts {
     width: 100%;
     height: calc(100% - 50px);
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .contacts-list {
