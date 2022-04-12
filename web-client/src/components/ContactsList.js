@@ -1,6 +1,7 @@
 ﻿const ContactsList = () => {
     let contacts = [
         {
+            username: 'Panda',
             name: 'Panda Bear',
             lastMessage: 'Hi, how are you?',
             lastMessageTime: '12:00',
@@ -12,7 +13,7 @@
     return (
         <ol className="contacts-list">
             {contacts.map(contact => (
-                <ul className="contact">
+                <ul className="contact" key={contact.username}>
                     <span className="contact-meta-data">
                         {contact.unreadMessages > 0 &&
                             <div className="unread">
