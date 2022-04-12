@@ -10,10 +10,16 @@
         },
     ];
 
+    const selectContact = (contact) => {
+        console.log(contact);
+    }
+
     return (
         <ol className="contacts-list">
             {contacts.map(contact => (
-                <ul className="contact" key={contact.username}>
+                <ul className="contact" key={contact.username} onClick={() => {
+                    selectContact(contact.username)
+                }}>
                     <span className="contact-meta-data">
                         {contact.unreadMessages > 0 &&
                             <div className="unread">

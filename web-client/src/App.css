@@ -366,6 +366,16 @@ main #form-frame {
     height: 60px;
     padding: 0;
     border-bottom: 2px solid gray;
+    cursor: pointer;
+    user-select: none;
+}
+
+.active {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.contact:hover:not(.active) {
+    background-color: rgba(0, 0, 0, 0.03);
 }
 
 .contact-info {
