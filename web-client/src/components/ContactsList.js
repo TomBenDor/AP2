@@ -1,23 +1,37 @@
-﻿const ContactsList = () => {
+﻿import {useState} from "react";
+
+const ContactsList = () => {
     let contacts = [
         {
             username: 'Panda',
             name: 'Panda Bear',
-            lastMessage: 'Hi, how are you?',
-            lastMessageTime: '12:00',
+            lastMessage: 'Hi, Wanna eat some bamboo?',
+            lastMessageTime: '13:49',
             profilePicture: '"https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"',
-            unreadMessages: 10
+            unreadMessages: 1
+        },
+        {
+            username: 'Koala',
+            name: 'Koala Bear',
+            lastMessage: 'Let\'s do a sleepover!',
+            lastMessageTime: '13:49',
+            profilePicture: '"https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"',
+            unreadMessages: 2
         },
     ];
 
+    const [currentContact, setCurrentContact] = useState(null);
+
     const selectContact = (contact) => {
-        console.log(contact);
+        setCurrentContact(contact);
+        console.log(currentContact);
     }
 
     return (
         <ol className="contacts-list">
             {contacts.map(contact => (
-                <ul className="contact" key={contact.username} onClick={() => {
+                <ul className={(currentContact === contact.username) ? "contact active" : "contact"}
+                    key={contact.username} onClick={() => {
                     selectContact(contact.username)
                 }}>
                     <span className="contact-meta-data">
