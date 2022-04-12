@@ -1,5 +1,8 @@
-import { Link } from 'react-router-dom';
-import SvgAnimation from './SvgAnimation/SvgAnimation';
+import {Link} from 'react-router-dom';
+import SvgAnimation from '../../SvgAnimation/SvgAnimation';
+import "./LandingPage.css";
+import "../auth.css";
+
 
 const PromptPage = () => {
     return (
@@ -9,7 +12,7 @@ const PromptPage = () => {
             </div>
             <div className="bottom-section">
                 <div className="floater-right">
-                    <SvgAnimation />
+                    <SvgAnimation/>
                 </div>
                 <div className="floater-left">
                     <div className="slogan-section">

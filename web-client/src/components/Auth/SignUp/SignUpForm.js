@@ -1,5 +1,8 @@
 import {useEffect, useRef, useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
+import "./SignUpForm.css";
+import "../auth.css";
+
 
 const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
     const usernameBox = useRef(null);
@@ -209,7 +212,8 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
                 <div className="form-group">
                     <label htmlFor="floatingInput" className="form-help" id="username-label">Username</label>
                     <input ref={usernameBox} className="form-control" type="text" id="floatingUsername"
-                           onChange={validateUsername} onKeyPress={enforceUsernameRegEx} onBlur={clearUsernameError} maxLength="30" required/>
+                           onChange={validateUsername} onKeyPress={enforceUsernameRegEx} onBlur={clearUsernameError}
+                           maxLength="30" required/>
                     <label className="invalid-feedback" id="username-error">Invalid</label>
                 </div>
                 <div className="form-group">
@@ -229,7 +233,8 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
                 <div className="form-group">
                     <label htmlFor="floatingInput" className="form-help" id="display-name-label">Display name</label>
                     <input ref={displayNameBox} className="form-control" type="text" id="floatingDisplayName"
-                           onChange={validateDisplayName} onKeyPress={enforceDisplayNameRegEx} onBlur={clearDisplayNameError} maxLength="30" required/>
+                           onChange={validateDisplayName} onKeyPress={enforceDisplayNameRegEx}
+                           onBlur={clearDisplayNameError} maxLength="30" required/>
 
                     <label className="invalid-feedback" id="display-name-error">Invalid</label>
                 </div>

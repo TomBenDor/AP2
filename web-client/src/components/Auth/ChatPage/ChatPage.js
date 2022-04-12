@@ -1,3 +1,5 @@
+import "./ChatPage.css";
+import "../auth.css";
 
 const ChatPage = () => {
     return (
