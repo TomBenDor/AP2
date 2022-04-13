@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import {useState} from 'react';
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import SignInForm from "./components/Auth/SignIn/SignInForm";
 import SignUpForm from "./components/Auth/SignUp/SignUpForm";
 import ChatPage from "./components/ChatPage/ChatPage";
@@ -25,7 +25,7 @@ const App = () => {
                         <Route path='/' element={
                             // Check if user is signed in or not. If not, render landing page.
                             // If signed in, Render the Chat page.
-                            currentUser ? <ChatPage /> : <LandingPage />
+                            currentUser ? <ChatPage user={currentUser}/> : <LandingPage/>
                         } />
                         <Route path='/signin' element={
                             // Render the SignIn component.

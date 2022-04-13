@@ -1,0 +1,68 @@
+﻿.contacts-section-header {
+    width: 100%;
+    height: 50px;
+    border-bottom: 2px solid gray;
+}
+
+.user-header {
+    float: left;
+    height: 100%;
+    width: calc(100% - 50px);
+}
+
+.user-header-title {
+    float: left;
+    height: 100%;
+    padding: 5px;
+    width: calc(100% - 70px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font: bold 18px 'Lato', sans-serif;
+}
+
+.contacts-section-header-controls {
+    float: right;
+    height: 100%;
+    width: 30px;
+}
+
+.add-contact-button {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: none;
+    user-select: none;
+}
+
+.add-contact-button i {
+    position: relative;
+    right: 5px;
+    font-size: 25px;
+    color: black;
+}
+
+
+.profile-pic {
+    float: left;
+    width: 70px;
+    height: 100%;
+}
+
+.profile-pic > img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+}
+
+
+.contacts {
+    width: 100%;
+    height: calc(100% - 50px);
+    overflow-y: auto;
+}
+
+.contacts-list {
+    width: 100%;
+    padding: 0;
+}
