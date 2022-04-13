@@ -56,12 +56,6 @@
     border-radius: 50%;
 }
 
-.chat-section-messages {
-    width: 100%;
-    height: calc(100% - 100px);
-    overflow-y: auto;
-    background-image: linear-gradient(to right bottom, var(--main-bright) 0%, var(--main-dark) 100%);;
-}
 
 .contacts {
     width: 100%;
