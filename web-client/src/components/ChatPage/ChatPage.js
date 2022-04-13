@@ -1,6 +1,7 @@
 import {useRef} from "react";
 import ContactsList from "./ContactsList"
 import ChatMessages from "./ChatMessages";
+import "./ChatPage.css";
 
 const ChatPage = ({user}) => {
     const openContactDialog = () => {

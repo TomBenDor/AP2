@@ -1,0 +1,65 @@
+﻿.contact {
+    width: 100%;
+    height: 60px;
+    padding: 0;
+    border-bottom: 2px solid gray;
+    cursor: pointer;
+    user-select: none;
+}
+
+.active {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.contact:hover:not(.active) {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.contact-info {
+    float: left;
+    height: 100%;
+    width: calc(100% - 70px);
+    padding: 5px;
+}
+
+.contact-name {
+    width: 100%;
+    font: bold 16px 'Lato', sans-serif;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.last-message-sent {
+    width: 100%;
+    font: 14px 'Lato Light', sans-serif;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.contact-meta-data {
+    float: right;
+    height: 100%;
+    padding: 5px;
+}
+
+.unread {
+    float: right;
+    display: inline-block;
+    color: white;
+    background-color: var(--main-bright);
+    border-radius: 15px;
+    padding: 4px 7px 4px 7px;
+    text-align: center;
+    font: bold 14px 'Lato', sans-serif;
+}
+
+.last-message-time {
+    margin-top: 30px;
+}
+
+.last-message-time > h6 {
+    font: 14px 'Lato Light', sans-serif;
+    text-align: right;
+}

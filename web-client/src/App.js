@@ -1,10 +1,9 @@
-import './App.css';
 import {useState} from 'react';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
-import SignInForm from "./components/SignInForm";
-import SignUpForm from "./components/SignUpForm";
-import ChatPage from "./components/ChatPage";
-import LandingPage from "./components/LandingPage";
+import SignInForm from "./components/Auth/SignIn/SignInForm";
+import SignUpForm from "./components/Auth/SignUp/SignUpForm";
+import ChatPage from "./components/ChatPage/ChatPage";
+import LandingPage from "./components/LandingPage/LandingPage";
 
 const App = () => {
     // Current signed in user
@@ -38,7 +37,7 @@ const App = () => {
                             // Render the Signup component.
                             <>
                                 <SignUpForm users={users} setUsers={setUsers} currentUser={currentUser}
-                                            setCurrentUser={setCurrentUser}/>
+                                    setCurrentUser={setCurrentUser} />
                             </>
                         } />
                     </Routes>
