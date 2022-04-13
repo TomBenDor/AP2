@@ -5,6 +5,7 @@ name: Compile Node.js Web Client
 on:
   workflow_dispatch: 
   pull_request:
+    types: [unlabeled, opened, synchronize, reopened]
     branches: [ milestone-1 ]
 
     
@@ -16,15 +17,21 @@ jobs:
   build:
     runs-on: windows-latest
     name: Build node.js
-    if: ${{!contains(github.event.pull_request.labels.*.name, 'draft')}}
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js 16.x
-      uses: actions/setup-node@v3
-      with:
-        node-version: 16.x
-        cache: 'npm'
-        cache-dependency-path: web-client/package-lock.json
-    - run: npm ci
-    - run: npm run build
+      - name: Check if PR is ready
+        if: ${{contains(github.event.pull_request.labels.*.name, 'draft')}}
+        uses: actions/github-script@v3
+        with:
+         script: |
+          core.setFailed('PR is labeled draft')
+          
+      - uses: actions/checkout@v3
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: 'npm'
+          cache-dependency-path: web-client/package-lock.json
+      - run: npm ci
+      - run: npm run build
