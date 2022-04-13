@@ -39,8 +39,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 25px;
-    height: 25px;
+    font-size: 25px;
+    padding-right: 5px;
     color: black;
 }
 
