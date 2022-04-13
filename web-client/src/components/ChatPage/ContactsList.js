@@ -1,11 +1,8 @@
-import {useState} from "react";
 import './ContactsList.css'
 
 const ContactsList = (props) => {
-    const [currentContact, setCurrentContact] = useState(null);
-
     const selectContact = (username) => {
-        setCurrentContact(username);
+        props.setCurrentContact(username);
         props.setContacts(props.contacts.map(c => {
             if (c.username === username) {
                 c.unreadMessages = 0;
@@ -17,7 +14,7 @@ const ContactsList = (props) => {
     return (
         <ol className="contacts-list">
             {props.contacts.map(contact => (
-                <ul className={(currentContact === contact.username) ? "contact active" : "contact"}
+                <ul className={(props.currentContact === contact.username) ? "contact active" : "contact"}
                     key={contact.username} onClick={() => {
                     selectContact(contact.username)
                 }}>
@@ -28,7 +25,9 @@ const ContactsList = (props) => {
                             </div>
                         }
                         <div className="last-message-time">
-                            <h6>{contact.lastMessageTime}</h6>
+                            <h6>
+                                {(contact.messages.length) ? contact.messages.at(-1).timestamp : ''}
+                            </h6>
                         </div>
                     </span>
                     <span className="user-header">
@@ -43,7 +42,7 @@ const ContactsList = (props) => {
                                     {contact.name}
                                 </h6>
                                 <h6 className="last-message-sent">
-                                    {contact.lastMessage}
+                                    {(contact.messages.length) ? contact.messages.at(-1).text : ''}
                                 </h6>
                             </div>
                         </span>

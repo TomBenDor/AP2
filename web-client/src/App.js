@@ -21,33 +21,36 @@ const App = () => {
         {
             username: 'Panda',
             name: 'Panda Bear',
-            lastMessage: 'Hi, Wanna eat some bamboo?',
-            lastMessageTime: '13:49',
             profilePicture: '"https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"',
             unreadMessages: 1,
             messages: [
                 {
                     id: 1,
                     sender: 'left',
-                    text: 'Hi, How are you?',
-                    timestamp: '12:00'
+                    text: 'Do you got any bamboo left?',
+                    timestamp: '14:49'
                 },
                 {
                     id: 2,
                     sender: 'right',
-                    text: 'I am awesome!',
-                    timestamp: '13:00'
+                    text: 'Not for you, sorry.',
+                    timestamp: '15:01'
                 }
             ]
         },
         {
             username: 'Koala',
             name: 'Koala Bear',
-            lastMessage: 'Let\'s have a sleepover!',
-            lastMessageTime: '12:32',
             profilePicture: '"https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"',
-            unreadMessages: 2,
-            messages: []
+            unreadMessages: 1,
+            messages: [
+                {
+                    id: 1,
+                    sender: 'right',
+                    text: 'Wanna have a sleepover?',
+                    timestamp: '12:32'
+                },
+            ]
         },
     ]);
 
