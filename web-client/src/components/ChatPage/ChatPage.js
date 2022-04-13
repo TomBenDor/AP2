@@ -1,3 +1,4 @@
+import "./ChatPage.css";
 
 const ChatPage = () => {
     return (
