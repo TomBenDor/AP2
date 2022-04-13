@@ -34,13 +34,14 @@
     cursor: pointer;
 }
 
-.add-contact-button img {
+.add-contact-button i {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 25px;
     height: 25px;
+    color: black;
 }
 
 

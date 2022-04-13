@@ -23,7 +23,7 @@ const ContactsSection = ({user}) => {
                 </span>
                 <span className="contacts-section-header-controls">
                     <a className="add-contact-button" onClick={openContactDialog}>
-                        <img src={"plus.svg"} alt="Add contact"/>
+                        <i className="bi bi-plus-circle"/>
                     </a>
                 </span>
             </div>
