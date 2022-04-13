@@ -19,6 +19,7 @@ const App = () => {
 
     const [contacts, setContacts] = useState([
         {
+            id: 0,
             username: 'Panda',
             name: 'Panda Bear',
             profilePicture: '"https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"',
@@ -39,6 +40,7 @@ const App = () => {
             ]
         },
         {
+            id: 1,
             username: 'Koala',
             name: 'Koala Bear',
             profilePicture: '"https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"',

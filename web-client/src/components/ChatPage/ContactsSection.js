@@ -28,7 +28,11 @@ const ContactsSection = (props) => {
                 </span>
             </div>
             <div className="contacts">
-                <ContactsList user={props.user} contacts={props.contacts} setContacts={props.setContacts}/>
+                <ContactsList user={props.user}
+                              contacts={props.contacts}
+                              setContacts={props.setContacts}
+                              currentContact={props.currentContact}
+                              setCurrentContact={props.setCurrentContact}/>
             </div>
         </>
     );

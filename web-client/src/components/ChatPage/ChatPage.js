@@ -6,7 +6,6 @@ import {useState} from "react";
 const ChatPage = (props) => {
     const [currentContact, setCurrentContact] = useState(0);
 
-
     return (
         <div id="content-frame">
             <div className="chat-section">
