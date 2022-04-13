@@ -16,7 +16,7 @@ jobs:
   build:
     runs-on: windows-latest
     name: Build node.js
-    if: not(contains( github.event.pull_request.labels.*.name, 'draft'))
+    if: ${{!contains(github.event.pull_request.labels.*.name, 'draft')}}
 
     steps:
     - uses: actions/checkout@v3
