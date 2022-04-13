@@ -266,6 +266,7 @@ main #form-frame {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font: bold 18px 'Lato', sans-serif;
 }
 
 .contacts-section-header-controls {
@@ -477,6 +478,7 @@ main #form-frame {
 .message-timestamp {
     font: 14px 'Lato Light', sans-serif;
     color: gray;
+    user-select: none;
 }
 
 .message-text {
