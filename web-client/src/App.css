@@ -255,12 +255,17 @@ main #form-frame {
 .user-header {
     float: left;
     height: 100%;
+    width: calc(100% - 50px);
 }
 
 .user-header-title {
     float: left;
     height: 100%;
     padding: 5px;
+    width: calc(100% - 70px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .contacts-section-header-controls {
@@ -382,15 +387,24 @@ main #form-frame {
 .contact-info {
     float: left;
     height: 100%;
+    width: calc(100% - 70px);
     padding: 5px;
 }
 
 .contact-name {
+    width: 100%;
     font: bold 16px 'Lato', sans-serif;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .last-message-sent {
+    width: 100%;
     font: 14px 'Lato Light', sans-serif;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .contact-meta-data {
