@@ -1,31 +1,12 @@
 import {useState} from "react";
 import './ContactsList.css'
 
-const ContactsList = () => {
-    const [contacts, setContacts] = useState([
-        {
-            username: 'Panda',
-            name: 'Panda Bear',
-            lastMessage: 'Hi, Wanna eat some bamboo?',
-            lastMessageTime: '13:49',
-            profilePicture: '"https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"',
-            unreadMessages: 1
-        },
-        {
-            username: 'Koala',
-            name: 'Koala Bear',
-            lastMessage: 'Let\'s have a sleepover!',
-            lastMessageTime: '12:32',
-            profilePicture: '"https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"',
-            unreadMessages: 2
-        },
-    ]);
-
+const ContactsList = (props) => {
     const [currentContact, setCurrentContact] = useState(null);
 
     const selectContact = (username) => {
         setCurrentContact(username);
-        setContacts(contacts.map(c => {
+        props.setContacts(props.contacts.map(c => {
             if (c.username === username) {
                 c.unreadMessages = 0;
             }
@@ -35,7 +16,7 @@ const ContactsList = () => {
 
     return (
         <ol className="contacts-list">
-            {contacts.map(contact => (
+            {props.contacts.map(contact => (
                 <ul className={(currentContact === contact.username) ? "contact active" : "contact"}
                     key={contact.username} onClick={() => {
                     selectContact(contact.username)
