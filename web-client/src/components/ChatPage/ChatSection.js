@@ -1,4 +1,4 @@
-﻿import ChatMessages from "./ChatMessages";
+import ChatMessages from "./ChatMessages";
 import './ChatSection.css';
 import {useRef} from "react";
 

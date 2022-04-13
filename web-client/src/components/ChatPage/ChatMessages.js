@@ -3,7 +3,7 @@ import Message from "./Message";
 import "./ChatMessages.css"
 
 const ChatMessages = () => {
-    const [messages, SetMessages] = useState([
+    const [messages] = useState([
         {
             id: 1,
             sender: 'left',

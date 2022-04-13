@@ -1,4 +1,4 @@
-﻿import './ContactsSection.css'
+import './ContactsSection.css'
 import ContactsList from "./ContactsList";
 
 const ContactsSection = ({user}) => {
@@ -22,9 +22,9 @@ const ContactsSection = ({user}) => {
                     </span>
                 </span>
                 <span className="contacts-section-header-controls">
-                    <a className="add-contact-button" onClick={openContactDialog}>
+                    <button className="add-contact-button" onClick={openContactDialog}>
                         <i className="bi bi-plus-circle"/>
-                    </a>
+                    </button>
                 </span>
             </div>
             <div className="contacts">
