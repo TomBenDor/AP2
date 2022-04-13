@@ -1,5 +1,6 @@
 import {useRef} from "react";
 import ContactsList from "./ContactsList"
+import ChatMessages from "./ChatMessages";
 
 const ChatPage = ({user}) => {
     const openContactDialog = () => {
@@ -30,7 +31,7 @@ const ChatPage = ({user}) => {
                     </span>
                 </div>
                 <div className="chat-section-messages">
-
+                    <ChatMessages/>
                 </div>
                 <div className="chat-section-input-bar">
                     <input ref={messageBox} id="message-input" type="text" placeholder="Type a message..."
