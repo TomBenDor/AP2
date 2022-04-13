@@ -1,68 +1,15 @@
-import {useRef} from "react";
-import ContactsList from "./ContactsList"
-import ChatMessages from "./ChatMessages";
+import ContactsSection from "./ContactsSection"
+import ChatSection from "./ChatSection";
 import "./ChatPage.css";
 
 const ChatPage = ({user}) => {
-    const openContactDialog = () => {
-        console.log("openContactDialog");
-    };
-
-    const messageBox = useRef(null);
-
-    const typing = () => {
-        document.getElementById("send-button").disabled = messageBox.current.value.length === 0;
-    };
-
     return (
         <div id="content-frame">
             <div className="chat-section">
-                <div className="chat-section-header">
-                    <span className="user-header">
-                        <span className="profile-pic">
-                            <img
-                                src="https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
-                                className="center" alt="profile-pic"/>
-                        </span>
-                        <span className="user-header-title">
-                            <div className="center">
-                                Tom
-                            </div>
-                        </span>
-                    </span>
-                </div>
-                <div className="chat-section-messages">
-                    <ChatMessages/>
-                </div>
-                <div className="chat-section-input-bar">
-                    <input ref={messageBox} id="message-input" type="text" placeholder="Type a message..."
-                           onChange={typing}/>
-                    <button id="send-button" disabled>Send</button>
-                </div>
+                <ChatSection/>
             </div>
             <div className="contacts-section">
-                <div className="contacts-section-header">
-                    <span className="user-header">
-                        <span className="profile-pic">
-                            <img
-                                src="https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
-                                className="center" alt="profile-pic"/>
-                        </span>
-                        <span className="user-header-title">
-                            <div className="center">
-                                {user.displayName}
-                            </div>
-                        </span>
-                    </span>
-                    <span className="contacts-section-header-controls">
-                        <a className="add-contact-button" onClick={openContactDialog}>
-                            <img src={"plus.svg"} alt="Add contact"/>
-                        </a>
-                    </span>
-                </div>
-                <div className="contacts">
-                    <ContactsList/>
-                </div>
+                <ContactsSection user={user}/>
             </div>
         </div>
     );
