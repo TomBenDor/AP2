@@ -19,7 +19,12 @@ const ChatSection = (props) => {
             // Create new message object
             const newMessage = { id: props.contacts[props.currentContact].messages.length + 1, sender: 'left', text: message, timestamp: currentTime };
             // Add new message to current contact's messages
-            props.contacts[props.currentContact].messages.push(newMessage);
+            props.setContacts(props.contacts.map(c => {
+                if (c.username === props.contacts[props.currentContact].username) {
+                    c.messages.push(newMessage);
+                }
+                return c;
+            }));
 
             // Clear message box
             messageBox.current.value = "";
