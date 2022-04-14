@@ -1,7 +1,5 @@
 ﻿.message-right, .message-left {
-    padding-top: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding: 5px;
     flex: 1;
     overflow: auto;
 }
