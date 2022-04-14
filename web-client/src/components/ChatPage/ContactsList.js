@@ -14,7 +14,7 @@ const ContactsList = (props) => {
     return (
         <ol className="contacts-list">
             {props.contacts.map(contact => (
-                <ul className={(props.contacts[props.currentContact].username === contact.username) ? "contact active" : "contact"}
+                <ul className={(props.currentContact !== -1 && props.contacts[props.currentContact].username === contact.username) ? "contact active" : "contact"}
                     key={contact.username} onClick={() => {
                     selectContact(contact)
                 }}>

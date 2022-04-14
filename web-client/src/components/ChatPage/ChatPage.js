@@ -4,7 +4,7 @@ import "./ChatPage.css";
 import {useState} from "react";
 
 const ChatPage = (props) => {
-    const [currentContact, setCurrentContact] = useState(0);
+    const [currentContact, setCurrentContact] = useState(-1);
 
     return (
         <div id="content-frame">
