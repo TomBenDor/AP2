@@ -2,7 +2,7 @@ import ChatMessages from "./ChatMessages";
 import './ChatSection.css';
 import {useRef} from "react";
 
-const ChatSection = () => {
+const ChatSection = (props) => {
     const messageBox = useRef(null);
 
     const typing = () => {
@@ -20,13 +20,16 @@ const ChatSection = () => {
                     </span>
                     <span className="user-header-title">
                         <div className="center">
-                            Tom
+                            {props.contacts[props.currentContact].name}
                         </div>
                     </span>
                 </span>
             </div>
             <div className="chat-section-messages">
-                <ChatMessages/>
+                <ChatMessages user={props.user}
+                              contacts={props.contacts}
+                              setContacts={props.setContacts}
+                              currentContuct={props.currentContact}/>
             </div>
             <div className="chat-section-input-bar">
                 <input ref={messageBox} id="message-input" type="text" placeholder="Type a message..."

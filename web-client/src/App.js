@@ -17,6 +17,45 @@ const App = () => {
         "profilePicture": null
     }]);
 
+    const [contacts, setContacts] = useState([
+        {
+            id: 0,
+            username: 'Panda',
+            name: 'Panda Bear',
+            profilePicture: '"https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"',
+            unreadMessages: 1,
+            messages: [
+                {
+                    id: 1,
+                    sender: 'left',
+                    text: 'Do you got any bamboo left?',
+                    timestamp: '14:49'
+                },
+                {
+                    id: 2,
+                    sender: 'right',
+                    text: 'Not for you, sorry.',
+                    timestamp: '15:01'
+                }
+            ]
+        },
+        {
+            id: 1,
+            username: 'Koala',
+            name: 'Koala Bear',
+            profilePicture: '"https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"',
+            unreadMessages: 1,
+            messages: [
+                {
+                    id: 1,
+                    sender: 'right',
+                    text: 'Wanna have a sleepover?',
+                    timestamp: '12:32'
+                },
+            ]
+        },
+    ]);
+
     return (
         <Router>
             <div className="App">
@@ -25,21 +64,22 @@ const App = () => {
                         <Route path='/' element={
                             // Check if user is signed in or not. If not, render landing page.
                             // If signed in, Render the Chat page.
-                            currentUser ? <ChatPage user={currentUser}/> : <LandingPage/>
-                        } />
+                            currentUser ? <ChatPage user={currentUser} contacts={contacts} setContacts={setContacts}/> :
+                                <LandingPage/>
+                        }/>
                         <Route path='/signin' element={
                             // Render the SignIn component.
                             <>
                                 <SignInForm users={users} currentUser={currentUser} setCurrentUser={setCurrentUser}/>
                             </>
-                        } />
+                        }/>
                         <Route path='/signup' element={
                             // Render the Signup component.
                             <>
                                 <SignUpForm users={users} setUsers={setUsers} currentUser={currentUser}
-                                    setCurrentUser={setCurrentUser} />
+                                            setCurrentUser={setCurrentUser}/>
                             </>
-                        } />
+                        }/>
                     </Routes>
                 </main>
             </div>

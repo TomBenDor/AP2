@@ -1,7 +1,7 @@
 import './ContactsSection.css'
 import ContactsList from "./ContactsList";
 
-const ContactsSection = ({user}) => {
+const ContactsSection = (props) => {
     const openContactDialog = () => {
         console.log("openContactDialog");
     };
@@ -17,7 +17,7 @@ const ContactsSection = ({user}) => {
                     </span>
                     <span className="user-header-title">
                         <div className="center">
-                            {user.displayName}
+                            {props.user.displayName}
                         </div>
                     </span>
                 </span>
@@ -28,7 +28,11 @@ const ContactsSection = ({user}) => {
                 </span>
             </div>
             <div className="contacts">
-                <ContactsList/>
+                <ContactsList user={props.user}
+                              contacts={props.contacts}
+                              setContacts={props.setContacts}
+                              currentContact={props.currentContact}
+                              setCurrentContact={props.setCurrentContact}/>
             </div>
         </>
     );

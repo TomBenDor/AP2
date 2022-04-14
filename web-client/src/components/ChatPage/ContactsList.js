@@ -1,32 +1,10 @@
-import {useState} from "react";
 import './ContactsList.css'
 
-const ContactsList = () => {
-    const [contacts, setContacts] = useState([
-        {
-            username: 'Panda',
-            name: 'Panda Bear',
-            lastMessage: 'Hi, Wanna eat some bamboo?',
-            lastMessageTime: '13:49',
-            profilePicture: '"https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"',
-            unreadMessages: 1
-        },
-        {
-            username: 'Koala',
-            name: 'Koala Bear',
-            lastMessage: 'Let\'s have a sleepover!',
-            lastMessageTime: '12:32',
-            profilePicture: '"https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"',
-            unreadMessages: 2
-        },
-    ]);
-
-    const [currentContact, setCurrentContact] = useState(null);
-
-    const selectContact = (username) => {
-        setCurrentContact(username);
-        setContacts(contacts.map(c => {
-            if (c.username === username) {
+const ContactsList = (props) => {
+    const selectContact = (contact) => {
+        props.setCurrentContact(contact.id);
+        props.setContacts(props.contacts.map(c => {
+            if (c.username === contact.username) {
                 c.unreadMessages = 0;
             }
             return c;
@@ -35,10 +13,10 @@ const ContactsList = () => {
 
     return (
         <ol className="contacts-list">
-            {contacts.map(contact => (
-                <ul className={(currentContact === contact.username) ? "contact active" : "contact"}
+            {props.contacts.map(contact => (
+                <ul className={(props.contacts[props.currentContact].username === contact.username) ? "contact active" : "contact"}
                     key={contact.username} onClick={() => {
-                    selectContact(contact.username)
+                    selectContact(contact)
                 }}>
                     <span className="contact-meta-data">
                         {contact.unreadMessages > 0 &&
@@ -47,7 +25,9 @@ const ContactsList = () => {
                             </div>
                         }
                         <div className="last-message-time">
-                            <h6>{contact.lastMessageTime}</h6>
+                            <h6>
+                                {(contact.messages.length) ? contact.messages.at(-1).timestamp : ''}
+                            </h6>
                         </div>
                     </span>
                     <span className="user-header">
@@ -62,7 +42,7 @@ const ContactsList = () => {
                                     {contact.name}
                                 </h6>
                                 <h6 className="last-message-sent">
-                                    {contact.lastMessage}
+                                    {(contact.messages.length) ? contact.messages.at(-1).text : ''}
                                 </h6>
                             </div>
                         </span>
