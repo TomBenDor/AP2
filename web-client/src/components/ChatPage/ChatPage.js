@@ -4,7 +4,7 @@ import "./ChatPage.css";
 import {useState} from "react";
 
 const ChatPage = (props) => {
-    const [currentContact, setCurrentContact] = useState(0);
+    const [currentContactId, setCurrentContactId] = useState(-1);
 
     return (
         <div id="content-frame">
@@ -12,14 +12,14 @@ const ChatPage = (props) => {
                 <ChatSection user={props.user}
                              contacts={props.contacts}
                              setContacts={props.setContacts}
-                             currentContact={currentContact}/>
+                             currentContactId={currentContactId}/>
             </div>
             <div className="contacts-section">
                 <ContactsSection user={props.user}
                                  contacts={props.contacts}
                                  setContacts={props.setContacts}
-                                 currentContact={currentContact}
-                                 setCurrentContact={setCurrentContact}/>
+                                 currentContactId={currentContactId}
+                                 setCurrentContactId={setCurrentContactId}/>
             </div>
         </div>
     );

@@ -2,7 +2,7 @@ import './ContactsList.css'
 
 const ContactsList = (props) => {
     const selectContact = (contact) => {
-        props.setCurrentContact(contact.id);
+        props.setCurrentContactId(contact.id);
         props.setContacts(props.contacts.map(c => {
             if (c.username === contact.username) {
                 c.unreadMessages = 0;
@@ -14,7 +14,7 @@ const ContactsList = (props) => {
     return (
         <ol className="contacts-list">
             {props.contacts.map(contact => (
-                <ul className={(props.contacts[props.currentContact].username === contact.username) ? "contact active" : "contact"}
+                <ul className={(props.currentContactId !== -1 && props.contacts[props.currentContactId].username === contact.username) ? "contact active" : "contact"}
                     key={contact.username} onClick={() => {
                     selectContact(contact)
                 }}>

@@ -39,8 +39,8 @@ const ContactsSection = (props) => {
                 <ContactsList user={props.user}
                               contacts={props.contacts}
                               setContacts={props.setContacts}
-                              currentContact={props.currentContact}
-                              setCurrentContact={props.setCurrentContact}/>
+                              currentContactId={props.currentContactId}
+                              setCurrentContactId={props.setCurrentContactId}/>
             </div>
         </>
     );
