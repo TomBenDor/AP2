@@ -17,10 +17,10 @@ const ChatSection = (props) => {
                 hour12: false,
             });
             // Create new message object
-            const newMessage = { id: props.contacts[props.currentContact].messages.length + 1, sender: 'left', text: message, timestamp: currentTime };
+            const newMessage = { id: props.contacts[props.currentContactId].messages.length + 1, sender: 'left', text: message, timestamp: currentTime };
             // Add new message to current contact's messages
             props.setContacts(props.contacts.map(c => {
-                if (c.username === props.contacts[props.currentContact].username) {
+                if (c.username === props.contacts[props.currentContactId].username) {
                     c.messages.push(newMessage);
                 }
                 return c;
@@ -39,7 +39,7 @@ const ChatSection = (props) => {
 
     return (
         <>
-            {(props.currentContact !== -1 &&
+            {(props.currentContactId !== -1 &&
                     <>
                         <div className="chat-section-header">
                         <span className="user-header">
@@ -50,7 +50,7 @@ const ChatSection = (props) => {
                             </span>
                             <span className="user-header-title">
                                 <div className="center">
-                                    {props.contacts[props.currentContact].name}
+                                    {props.contacts[props.currentContactId].name}
                                 </div>
                             </span>
                         </span>
@@ -59,7 +59,7 @@ const ChatSection = (props) => {
                             <ChatMessages user={props.user}
                                           contacts={props.contacts}
                                           setContacts={props.setContacts}
-                                          currentContuct={props.currentContact}/>
+                                          currentContuct={props.currentContactId}/>
                         </div>
                         <div className="chat-section-input-bar">
                             <input ref={messageBox} id="message-input" type="text" placeholder="Type a message..."
