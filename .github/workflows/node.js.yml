@@ -5,7 +5,7 @@ name: Compile Node.js Web Client
 on:
   workflow_dispatch: 
   pull_request:
-    types: [unlabeled, opened, synchronize, reopened]
+    types: [unlabeled, labeled, opened, synchronize, reopened]
     branches: [ milestone-1 ]
 
     
