@@ -39,9 +39,9 @@ const ChatSection = (props) => {
 
     return (
         <>
-            {props.currentContact !== -1 &&
-                <>
-                    <div className="chat-section-header">
+            {(props.currentContact !== -1 &&
+                    <>
+                        <div className="chat-section-header">
                         <span className="user-header">
                             <span className="profile-pic">
                                 <img
@@ -54,19 +54,23 @@ const ChatSection = (props) => {
                                 </div>
                             </span>
                         </span>
-                    </div>
-                    <div className="chat-section-messages">
-                        <ChatMessages user={props.user}
-                                      contacts={props.contacts}
-                                      setContacts={props.setContacts}
-                                      currentContuct={props.currentContact}/>
-                    </div>
-                    <div className="chat-section-input-bar">
-                        <input ref={messageBox} id="message-input" type="text" placeholder="Type a message..."
-                               onChange={typing}/>
-                        <button id="send-button" onClick={sendMessage} disabled={sendButtonDisabled} >Send</button>
-                    </div>
-                </>
+                        </div>
+                        <div className="chat-section-messages">
+                            <ChatMessages user={props.user}
+                                          contacts={props.contacts}
+                                          setContacts={props.setContacts}
+                                          currentContuct={props.currentContact}/>
+                        </div>
+                        <div className="chat-section-input-bar">
+                            <input ref={messageBox} id="message-input" type="text" placeholder="Type a message..."
+                                   onChange={typing}/>
+                            <button id="send-button" onClick={sendMessage} disabled={sendButtonDisabled} >Send</button>
+                        </div>
+                    </>
+                ) ||
+                <div className="welcome center">
+                    Select contact to start messaging...
+                </div>
             }
         </>
     );
