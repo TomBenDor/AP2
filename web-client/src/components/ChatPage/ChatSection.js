@@ -10,12 +10,22 @@ const ChatSection = (props) => {
     const sendMessage = () => {
         const message = messageBox.current.value;
         if (message.length > 0) {
-            console.log("sendMessage: " + message);
-            messageBox.current.value = "";
-        }
+            // Get current time in hh:mm format
+            const currentTime = new Date().toLocaleTimeString('en-US', {
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: false,
+            });
+            // Create new message object
+            const newMessage = { id: props.contacts[props.currentContact].messages.length + 1, sender: 'left', text: message, timestamp: currentTime };
+            // Add new message to current contact's messages
+            props.contacts[props.currentContact].messages.push(newMessage);
 
-        // Disable send button
-        setSendButtonDisabled(true);
+            // Clear message box
+            messageBox.current.value = "";
+            // Disable send button
+            setSendButtonDisabled(true);
+        }
     };
 
     const typing = () => {
@@ -40,13 +50,13 @@ const ChatSection = (props) => {
             </div>
             <div className="chat-section-messages">
                 <ChatMessages user={props.user}
-                              contacts={props.contacts}
-                              setContacts={props.setContacts}
-                              currentContuct={props.currentContact}/>
+                    contacts={props.contacts}
+                    setContacts={props.setContacts}
+                    currentContuct={props.currentContact}/>
             </div>
             <div className="chat-section-input-bar">
                 <input ref={messageBox} id="message-input" type="text" placeholder="Type a message..."
-                       onChange={typing}/>
+                    onChange={typing}/>
                 <button id="send-button" onClick={sendMessage} disabled={sendButtonDisabled} >Send</button>
             </div>
         </>
