@@ -45,7 +45,7 @@ const ChatSection = (props) => {
                         <span className="user-header">
                             <span className="profile-pic">
                                 <img
-                                    src="https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
+                                    src={props.contacts[props.currentContactId].profilePicture}
                                     className="center" alt="profile-pic"/>
                             </span>
                             <span className="user-header-title">

@@ -3,7 +3,7 @@ import ContactsList from "./ContactsList";
 import {useState} from "react";
 
 const ContactsSection = (props) => {
-    const [profilePicture, setProfilePicture] = useState(null);
+    const [profilePicture, setProfilePicture] = useState(props.user.profilePicture);
     const openContactDialog = () => {
         console.log("openContactDialog");
     };
@@ -12,8 +12,9 @@ const ContactsSection = (props) => {
     reader.addEventListener("loadend", () => {
         setProfilePicture(reader.result);
     }, false);
-    reader.readAsDataURL(props.user.profilePicture);
-
+    if (typeof props.user.profilePicture !== 'string') {
+        reader.readAsDataURL(props.user.profilePicture);
+    }
     return (
         <>
             <div className="contacts-section-header">
