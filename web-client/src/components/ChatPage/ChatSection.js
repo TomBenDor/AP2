@@ -69,7 +69,7 @@ const ChatSection = (props) => {
                     </>
                 ) ||
                 <div className="welcome center">
-                    Select contact to start messaging...
+                    Select a contact to start messaging...
                 </div>
             }
         </>
