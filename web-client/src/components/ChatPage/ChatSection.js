@@ -1,12 +1,40 @@
 import ChatMessages from "./ChatMessages";
 import './ChatSection.css';
-import {useRef} from "react";
+import {useRef, useState} from "react";
 
 const ChatSection = (props) => {
     const messageBox = useRef(null);
+    // Set state for send button disabled state
+    const [sendButtonDisabled, setSendButtonDisabled] = useState(true);
+
+    const sendMessage = () => {
+        const message = messageBox.current.value;
+        if (message.length > 0) {
+            // Get current time in hh:mm format
+            const currentTime = new Date().toLocaleTimeString('en-US', {
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: false,
+            });
+            // Create new message object
+            const newMessage = { id: props.contacts[props.currentContact].messages.length + 1, sender: 'left', text: message, timestamp: currentTime };
+            // Add new message to current contact's messages
+            props.setContacts(props.contacts.map(c => {
+                if (c.username === props.contacts[props.currentContact].username) {
+                    c.messages.push(newMessage);
+                }
+                return c;
+            }));
+
+            // Clear message box
+            messageBox.current.value = "";
+            // Disable send button
+            setSendButtonDisabled(true);
+        }
+    };
 
     const typing = () => {
-        document.getElementById("send-button").disabled = messageBox.current.value.length === 0;
+        setSendButtonDisabled(messageBox.current.value.length === 0);
     };
 
     return (
@@ -27,14 +55,14 @@ const ChatSection = (props) => {
             </div>
             <div className="chat-section-messages">
                 <ChatMessages user={props.user}
-                              contacts={props.contacts}
-                              setContacts={props.setContacts}
-                              currentContuct={props.currentContact}/>
+                    contacts={props.contacts}
+                    setContacts={props.setContacts}
+                    currentContuct={props.currentContact}/>
             </div>
             <div className="chat-section-input-bar">
                 <input ref={messageBox} id="message-input" type="text" placeholder="Type a message..."
-                       onChange={typing}/>
-                <button id="send-button" disabled>Send</button>
+                    onChange={typing}/>
+                <button id="send-button" onClick={sendMessage} disabled={sendButtonDisabled} >Send</button>
             </div>
         </>
     );
