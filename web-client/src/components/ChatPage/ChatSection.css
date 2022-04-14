@@ -22,4 +22,5 @@
     border-radius: 20px;
     background-color: rgba(0, 0, 0, 0.1);
     font: 24px 'Lato Light', sans-serif;
+    user-select: none;
 }
