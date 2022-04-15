@@ -8,7 +8,7 @@ const ChatSection = (props) => {
     const [sendButtonDisabled, setSendButtonDisabled] = useState(true);
 
     const sendMessage = () => {
-        const message = messageBox.current.value;
+        const message = messageBox.current.value.trim();
         if (message.length > 0) {
             // Get current time in hh:mm format
             const currentTime = new Date().toLocaleTimeString('en-US', {
@@ -50,6 +50,16 @@ const ChatSection = (props) => {
         inputSection.style.height = (messageInput.scrollHeight + 14) + "px";
     };
 
+    const keyPressed = (e) => {
+        if (/^\s/.test(e.key)) {
+            e.preventDefault();
+        }
+        if (e.key === "Enter" && !e.shiftKey) {
+            sendMessage();
+            e.preventDefault();
+        }
+    }
+
     return (
         <>
             {(props.currentContactId !== -1 &&
@@ -78,7 +88,7 @@ const ChatSection = (props) => {
                             <div className="input-text">
                                 <textarea ref={messageBox} id="message-input" placeholder="Type a message..."
                                           onChange={typing} onInput={setInputHeight}
-                                          onKeyPressCapture={(e) => (e.key === 'Enter' && !e.shiftKey) && sendMessage()}/>
+                                          onKeyPress={keyPressed}/>
                             </div>
                             <div className="input-buttons">
                                 <button className="center" id="send-button" onClick={sendMessage}
