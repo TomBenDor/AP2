@@ -54,8 +54,9 @@ const ChatSection = (props) => {
     const keyPressed = (e) => {
         if (/^\s/.test(e.key)) {
             e.preventDefault();
-        }
-        if (e.key === "Enter" && !e.shiftKey) {
+        } else if (messageBox.current.value === "" && e.key === "Enter") {
+            e.preventDefault();
+        } else if (e.key === "Enter" && !e.shiftKey) {
             sendMessage();
             e.preventDefault();
         }
