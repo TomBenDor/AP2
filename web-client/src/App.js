@@ -22,7 +22,7 @@ const App = () => {
             id: 0,
             username: 'Panda',
             name: 'Panda Bear',
-            profilePicture: 'profile_picture.png',
+            profilePicture: 'panda.jpg',
             unreadMessages: 1,
             messages: [
                 {
@@ -43,7 +43,7 @@ const App = () => {
             id: 1,
             username: 'Koala',
             name: 'Koala Bear',
-            profilePicture: 'profile_picture.png',
+            profilePicture: 'koala.jpg',
             unreadMessages: 1,
             messages: [
                 {
