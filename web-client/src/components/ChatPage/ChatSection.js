@@ -63,7 +63,7 @@ const ChatSection = (props) => {
                         </div>
                         <div className="chat-section-input-bar">
                             <input ref={messageBox} id="message-input" type="text" placeholder="Type a message..."
-                                   onChange={typing}/>
+                                   onChange={typing} onKeyDown={(e) => e.key === 'Enter' && sendMessage()}/>
                             <button id="send-button" onClick={sendMessage} disabled={sendButtonDisabled} >Send</button>
                         </div>
                     </>
