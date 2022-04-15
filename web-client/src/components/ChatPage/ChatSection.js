@@ -35,6 +35,7 @@ const ChatSection = (props) => {
             messageBox.current.value = "";
             // Disable send button
             setSendButtonDisabled(true);
+            setInputHeight();
         }
     };
 
