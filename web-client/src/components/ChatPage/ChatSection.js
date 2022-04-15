@@ -42,12 +42,12 @@ const ChatSection = (props) => {
     const typing = () => {
         setSendButtonDisabled(messageBox.current.value.length === 0);
         // Store written message for current contact in cache
-        setMessagesCache({...messagesCache, [props.contacts[props.currentContactId].username]: messageBox.current.value});
+        setMessagesCache({ ...messagesCache, [props.contacts[props.currentContactId].username]: messageBox.current.value });
     };
 
     const updateMessageBox = () => {
         // Clear message box
-        if(messageBox.current) {
+        if (messageBox.current) {
             messageBox.current.value = "";
         }
 
@@ -58,13 +58,13 @@ const ChatSection = (props) => {
         }
     };
 
-    useEffect(updateMessageBox, [messagesCache, props.contacts, props.currentContactId]);    
+    useEffect(updateMessageBox, [messagesCache, props.contacts, props.currentContactId]);
 
     return (
         <>
             {(props.currentContactId !== -1 &&
-                    <>
-                        <div className="chat-section-header">
+                <>
+                    <div className="chat-section-header">
                         <span className="user-header">
                             <span className="profile-pic">
                                 <img
@@ -77,20 +77,20 @@ const ChatSection = (props) => {
                                 </div>
                             </span>
                         </span>
-                        </div>
-                        <div className="chat-section-messages">
-                            <ChatMessages user={props.user}
-                                          contacts={props.contacts}
-                                          setContacts={props.setContacts}
-                                          currentContuct={props.currentContactId}/>
-                        </div>
-                        <div className="chat-section-input-bar">
-                            <input ref={messageBox} id="message-input" type="text" placeholder="Type a message..."
-                                   onChange={typing} onKeyDown={(e) => e.key === 'Enter' && sendMessage()}/>
-                            <button id="send-button" onClick={sendMessage} disabled={sendButtonDisabled} >Send</button>
-                        </div>
-                    </>
-                ) ||
+                    </div>
+                    <div className="chat-section-messages">
+                        <ChatMessages user={props.user}
+                            contacts={props.contacts}
+                            setContacts={props.setContacts}
+                            currentContuct={props.currentContactId}/>
+                    </div>
+                    <div className="chat-section-input-bar">
+                        <input ref={messageBox} id="message-input" type="text" placeholder="Type a message..."
+                            onChange={typing} onKeyDown={(e) => e.key === 'Enter' && sendMessage()}/>
+                        <button id="send-button" onClick={sendMessage} disabled={sendButtonDisabled} >Send</button>
+                    </div>
+                </>
+            ) ||
                 <div className="welcome center">
                     Select a contact to start messaging...
                 </div>
