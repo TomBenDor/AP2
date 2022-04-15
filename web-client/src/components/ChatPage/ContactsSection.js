@@ -1,18 +1,27 @@
 import './ContactsSection.css'
 import ContactsList from "./ContactsList";
+import {useState} from "react";
 
 const ContactsSection = (props) => {
+    const [profilePicture, setProfilePicture] = useState(props.user.profilePicture);
     const openContactDialog = () => {
         console.log("openContactDialog");
     };
 
+    const reader = new FileReader();
+    reader.addEventListener("loadend", () => {
+        setProfilePicture(reader.result);
+    }, false);
+    if (typeof props.user.profilePicture !== 'string') {
+        reader.readAsDataURL(props.user.profilePicture);
+    }
     return (
         <>
             <div className="contacts-section-header">
                 <span className="user-header">
                     <span className="profile-pic">
                         <img
-                            src="https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"
+                            src={profilePicture}
                             className="center" alt="profile-pic"/>
                     </span>
                     <span className="user-header-title">

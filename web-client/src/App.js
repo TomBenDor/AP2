@@ -14,7 +14,7 @@ const App = () => {
         "username": "user123",
         "password": "pass123",
         "displayName": "Coolest dude ever",
-        "profilePicture": null
+        "profilePicture": "profile_picture.png"
     }]);
 
     const [contacts, setContacts] = useState([
@@ -22,7 +22,7 @@ const App = () => {
             id: 0,
             username: 'Panda',
             name: 'Panda Bear',
-            profilePicture: '"https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"',
+            profilePicture: 'panda.jpg',
             unreadMessages: 1,
             messages: [
                 {
@@ -43,7 +43,7 @@ const App = () => {
             id: 1,
             username: 'Koala',
             name: 'Koala Bear',
-            profilePicture: '"https://www.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png"',
+            profilePicture: 'koala.jpg',
             unreadMessages: 1,
             messages: [
                 {
