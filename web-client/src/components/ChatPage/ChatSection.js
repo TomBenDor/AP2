@@ -47,7 +47,7 @@ const ChatSection = (props) => {
         let inputSection = document.getElementsByClassName("input-section")[0];
         messageInput.style.height = "40px";
         messageInput.style.height = Math.min(messageInput.scrollHeight, 130) + "px";
-        inputSection.style.height = (messageInput.scrollHeight + 12) + "px";
+        inputSection.style.height = (messageInput.scrollHeight + 14) + "px";
     };
 
     return (
