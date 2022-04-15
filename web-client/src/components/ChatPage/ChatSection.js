@@ -17,7 +17,12 @@ const ChatSection = (props) => {
                 hour12: false,
             });
             // Create new message object
-            const newMessage = { id: props.contacts[props.currentContactId].messages.length + 1, sender: 'left', text: message, timestamp: currentTime };
+            const newMessage = {
+                id: props.contacts[props.currentContactId].messages.length + 1,
+                sender: 'left',
+                text: message,
+                timestamp: currentTime
+            };
             // Add new message to current contact's messages
             props.setContacts(props.contacts.map(c => {
                 if (c.username === props.contacts[props.currentContactId].username) {
@@ -35,6 +40,14 @@ const ChatSection = (props) => {
 
     const typing = () => {
         setSendButtonDisabled(messageBox.current.value.length === 0);
+    };
+
+    const setInputHeight = () => {
+        let messageInput = document.getElementById("message-input")
+        let inputSection = document.getElementsByClassName("input-section")[0];
+        messageInput.style.height = "40px";
+        messageInput.style.height = Math.min(messageInput.scrollHeight, 130) + "px";
+        inputSection.style.height = (messageInput.scrollHeight + 12) + "px";
     };
 
     return (
@@ -61,15 +74,24 @@ const ChatSection = (props) => {
                                           setContacts={props.setContacts}
                                           currentContuct={props.currentContactId}/>
                         </div>
-                        <div className="chat-section-input-bar">
-                            <input ref={messageBox} id="message-input" type="text" placeholder="Type a message..."
-                                   onChange={typing} onKeyDown={(e) => e.key === 'Enter' && sendMessage()}/>
-                            <button id="send-button" onClick={sendMessage} disabled={sendButtonDisabled} >Send</button>
+                        <div className="input-section">
+                            <div className="input-text">
+                                <textarea ref={messageBox} id="message-input" placeholder="Type a message..."
+                                          onChange={typing} onInput={setInputHeight}
+                                          onKeyPressCapture={(e) => (e.key === 'Enter' && !e.shiftKey) && sendMessage()}/>
+                            </div>
+                            <div className="input-buttons">
+                                <button className="center" id="send-button" onClick={sendMessage}
+                                        disabled={sendButtonDisabled}>Send
+                                </button>
+                            </div>
                         </div>
                     </>
                 ) ||
-                <div className="welcome center">
-                    Select a contact to start messaging...
+                <div className="max">
+                    <div className="welcome center">
+                        Select a contact to start messaging...
+                    </div>
                 </div>
             }
         </>
