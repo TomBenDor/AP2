@@ -41,6 +41,7 @@ const ChatSection = (props) => {
 
     const typing = () => {
         setSendButtonDisabled(messageBox.current.value.length === 0);
+        setInputHeight();
     };
 
     const setInputHeight = () => {
@@ -94,7 +95,7 @@ const ChatSection = (props) => {
                             <div className="input-text">
                                 <textarea ref={messageBox} id="message-input" placeholder="Type a message..."
                                           onChange={typing}
-                                          onKeyDown={keyPressed} onKeyUp={keyPressed}/>
+                                          onKeyDown={keyPressed}/>
                             </div>
                             <div className="input-buttons">
                                 <button className="center" id="send-button" onClick={sendMessage}
