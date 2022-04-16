@@ -42,7 +42,7 @@ const ChatSection = (props) => {
     const scrollToBottom = () => {
         // If there are messages
         if (messagesEndRef.current) {
-            messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+            messagesEndRef.current.scrollIntoView();
         }
     };
 
