@@ -4,7 +4,6 @@ import {useEffect, useRef, useState} from "react";
 
 const ChatSection = (props) => {
     const messageBox = useRef(null);
-    const messagesEndRef = useRef(null)
     // Set state for send button disabled state
     const [sendButtonDisabled, setSendButtonDisabled] = useState(true);
     const messagesLength = props.currentContactId !== -1 ? props.contacts[props.currentContactId].messages.length : 0;
@@ -40,9 +39,10 @@ const ChatSection = (props) => {
     };
 
     const scrollToBottom = () => {
+        const messageBubbles = document.getElementsByClassName('message-bubble');
         // If there are messages
-        if (messagesEndRef.current) {
-            messagesEndRef.current.scrollIntoView();
+        if (messageBubbles.length > 0) {
+            messageBubbles[messageBubbles.length - 1].scrollIntoView();
         }
     };
 
@@ -72,7 +72,6 @@ const ChatSection = (props) => {
                                           contacts={props.contacts}
                                           setContacts={props.setContacts}
                                           currentContactId={props.currentContactId}/>
-                            <div ref={messagesEndRef}/>
                         </div>
                         <div className="chat-section-input-bar">
                             <input ref={messageBox} id="message-input" type="text" placeholder="Type a message..."
