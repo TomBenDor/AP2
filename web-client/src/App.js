@@ -29,13 +29,13 @@ const App = () => {
                     id: 1,
                     sender: 'left',
                     text: 'Do you got any bamboo left?',
-                    timestamp: '04/16/2022, 14:49:00'
+                    timestamp: '4/16/2022, 14:49:00'
                 },
                 {
                     id: 2,
                     sender: 'right',
                     text: 'Not for you, sorry.',
-                    timestamp: '04/16/2022, 15:01:00'
+                    timestamp: '4/16/2022, 15:01:00'
                 }
             ]
         },
@@ -50,7 +50,7 @@ const App = () => {
                     id: 1,
                     sender: 'right',
                     text: 'Wanna have a sleepover?',
-                    timestamp: '04/16/2022, 12:32:00'
+                    timestamp: '4/16/2022, 12:32:00'
                 },
             ]
         },
