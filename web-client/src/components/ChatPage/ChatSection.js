@@ -1,12 +1,14 @@
 import ChatMessages from "./ChatMessages";
 import './ChatSection.css';
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 
 const ChatSection = (props) => {
     const messageBox = useRef(null);
+    const messagesEndRef = useRef(null)
     // Set state for send button disabled state
     const [sendButtonDisabled, setSendButtonDisabled] = useState(true);
-
+    const messagesLength = props.currentContactId !== -1 ? props.contacts[props.currentContactId].messages.length : 0;
+    
     const sendMessage = () => {
         const message = messageBox.current.value;
         if (message.length > 0) {
@@ -37,6 +39,16 @@ const ChatSection = (props) => {
         setSendButtonDisabled(messageBox.current.value.length === 0);
     };
 
+    const scrollToBottom = () => {
+        // If there are messages
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+    };
+
+    // Scroll to the bottom when the number of messages changes
+    useEffect(scrollToBottom, [messagesLength]);
+
     return (
         <>
             {(props.currentContactId !== -1 &&
@@ -59,7 +71,8 @@ const ChatSection = (props) => {
                             <ChatMessages user={props.user}
                                           contacts={props.contacts}
                                           setContacts={props.setContacts}
-                                          currentContuct={props.currentContactId}/>
+                                          currentContactId={props.currentContactId}/>
+                            <div ref={messagesEndRef}/>
                         </div>
                         <div className="chat-section-input-bar">
                             <input ref={messageBox} id="message-input" type="text" placeholder="Type a message..."
