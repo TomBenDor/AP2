@@ -45,13 +45,17 @@ const ChatSection = (props) => {
 
     const setInputHeight = () => {
         let messageInput = document.getElementById("message-input")
-        let inputSection = document.getElementsByClassName("input-section")[0];
-        messageInput.style.height = "40px";
-        messageInput.style.height = Math.min(messageInput.scrollHeight, 130) + "px";
-        inputSection.style.height = (messageInput.scrollHeight + 14) + "px";
+        let inputSection = document.getElementById("input-section");
+        // This might seem bizarre, but it's necessary to set the height of the input section
+        let optimalHeight;
+        do {
+            optimalHeight = messageInput.scrollHeight;
+            inputSection.style.height = Math.max(messageInput.scrollHeight + 10, 50) + "px";
+        } while (messageInput.scrollHeight !== optimalHeight);
     };
 
     const keyPressed = (e) => {
+        setInputHeight();
         if (/^\s/.test(e.key)) {
             e.preventDefault();
         } else if (messageBox.current.value === "" && e.key === "Enter") {
@@ -67,18 +71,18 @@ const ChatSection = (props) => {
             {(props.currentContactId !== -1 &&
                     <>
                         <div className="chat-section-header">
-                        <span className="user-header">
-                            <span className="profile-pic">
-                                <img
-                                    src={props.contacts[props.currentContactId].profilePicture}
-                                    className="center" alt="profile-pic"/>
+                            <span className="user-header">
+                                <span className="profile-pic">
+                                    <img
+                                        src={props.contacts[props.currentContactId].profilePicture}
+                                        className="center" alt="profile-pic"/>
+                                </span>
+                                <span className="user-header-title">
+                                    <div className="center">
+                                        {props.contacts[props.currentContactId].name}
+                                    </div>
+                                </span>
                             </span>
-                            <span className="user-header-title">
-                                <div className="center">
-                                    {props.contacts[props.currentContactId].name}
-                                </div>
-                            </span>
-                        </span>
                         </div>
                         <div className="chat-section-messages">
                             <ChatMessages user={props.user}
@@ -86,11 +90,11 @@ const ChatSection = (props) => {
                                           setContacts={props.setContacts}
                                           currentContuct={props.currentContactId}/>
                         </div>
-                        <div className="input-section">
+                        <div id="input-section">
                             <div className="input-text">
                                 <textarea ref={messageBox} id="message-input" placeholder="Type a message..."
-                                          onChange={typing} onInput={setInputHeight}
-                                          onKeyPress={keyPressed}/>
+                                          onChange={typing}
+                                          onKeyDown={keyPressed} onKeyUp={keyPressed}/>
                             </div>
                             <div className="input-buttons">
                                 <button className="center" id="send-button" onClick={sendMessage}
