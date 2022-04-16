@@ -13,8 +13,8 @@ const ContactsList = (props) => {
 
     // Copy the contacts array and sort it by time of last message
     const sortedContacts = props.contacts.slice().sort((c1, c2) => {
-        let a = c1.messages.length > 0 ? c1.messages.at(-1).timestamp : 0;
-        let b = c2.messages.length > 0 ? c2.messages.at(-1).timestamp : 0;
+        const a = c1.messages.length > 0 ? c1.messages.at(-1).timestamp : 0;
+        const b = c2.messages.length > 0 ? c2.messages.at(-1).timestamp : 0;
         return Date.parse(b).valueOf() - Date.parse(a).valueOf();
     });
 
