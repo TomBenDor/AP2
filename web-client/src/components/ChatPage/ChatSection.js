@@ -12,7 +12,29 @@ const ChatSection = (props) => {
     const [messagesCache, setMessagesCache] = useState({});
     const [showAttachments, setShowAttachments] = useState(false);
 
-    const sendMessage = () => {
+    const sendMessage = (message) => {
+        // Add new message to current contact's messages
+        props.setContacts(props.contacts.map(c => {
+            if (c.username === props.contacts[props.currentContactId].username) {
+                c.messages.push(message);
+            }
+            return c;
+        }));
+
+        // Clear message box
+        messageBox.current.value = "";
+        // Delete the current contact from the cache
+        setMessagesCache(cache => {
+            delete cache[props.contacts[props.currentContactId].username];
+            return cache;
+        });
+
+        // Disable send button
+        setMessageEmpty(true);
+        setInputHeight();
+    };
+
+    const sendTextMessage = () => {
         const message = messageBox.current.value.trim();
         if (message.length > 0) {
             // Get current time in hh:mm format
@@ -25,25 +47,7 @@ const ChatSection = (props) => {
                 timestamp: currentTime,
                 type: 'text'
             };
-            // Add new message to current contact's messages
-            props.setContacts(props.contacts.map(c => {
-                if (c.username === props.contacts[props.currentContactId].username) {
-                    c.messages.push(newMessage);
-                }
-                return c;
-            }));
-
-            // Clear message box
-            messageBox.current.value = "";
-            // Delete the current contact from the cache
-            setMessagesCache(cache => {
-                delete cache[props.contacts[props.currentContactId].username];
-                return cache;
-            });
-
-            // Disable send button
-            setMessageEmpty(true);
-            setInputHeight();
+            sendMessage(newMessage);
         }
     };
 
@@ -76,7 +80,7 @@ const ChatSection = (props) => {
         if (messageBox.current.value === "" && (/\s/.test(e.key) || e.key === "Enter")) {
             e.preventDefault();
         } else if (e.key === "Enter" && !e.shiftKey) {
-            sendMessage();
+            sendTextMessage();
             e.preventDefault();
         }
     }
@@ -146,7 +150,7 @@ const ChatSection = (props) => {
                             </span>
                             <span className="chat-buttons">
                                 {(!messageEmpty &&
-                                        <button className="center chat-button" onClick={sendMessage}>
+                                        <button className="center chat-button" onClick={sendTextMessage}>
                                             <i className="bi bi-send"/>
                                         </button>
                                     ) ||
