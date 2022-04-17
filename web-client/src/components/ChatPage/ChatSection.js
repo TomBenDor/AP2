@@ -1,6 +1,6 @@
 import ChatMessages from "./ChatMessages";
 import './ChatSection.css';
-import {useRef, useState, useEffect} from "react";
+import {useEffect, useRef, useState} from "react";
 
 const ChatSection = (props) => {
     const messageBox = useRef(null);
@@ -86,6 +86,8 @@ const ChatSection = (props) => {
             // Set message box value to the message from cache
             messageBox.current.value = messagesCache[props.contacts[props.currentContactId].username];
         }
+
+        setInputHeight();
     };
 
     useEffect(updateMessageBox, [messagesCache, props.contacts, props.currentContactId]);
