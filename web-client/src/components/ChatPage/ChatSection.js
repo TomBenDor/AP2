@@ -55,8 +55,11 @@ const ChatSection = (props) => {
     };
 
     const setInputHeight = () => {
-        let messageInput = document.getElementById("message-input")
+        let messageInput = document.getElementById("message-input");
         let inputSection = document.getElementById("input-section");
+        if (!messageInput || !inputSection) {
+            return;
+        }
         // This might seem bizarre, but it's necessary to set the height of the input section
         let optimalHeight;
         do {
