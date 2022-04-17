@@ -7,10 +7,10 @@ const ChatSection = (props) => {
     // Set state for send button disabled state
     const [messageEmpty, setMessageEmpty] = useState(true);
     const messagesLength = props.currentContactId !== -1 ? props.contacts[props.currentContactId].messages.length : 0;
-    
 
     // Create a cache for the messages the user has written to each contact
     const [messagesCache, setMessagesCache] = useState({});
+    const [showAttachments, setShowAttachments] = useState(false);
 
     const sendMessage = () => {
         const message = messageBox.current.value.trim();
@@ -35,7 +35,10 @@ const ChatSection = (props) => {
             // Clear message box
             messageBox.current.value = "";
             // Delete the current contact from the cache
-            setMessagesCache(cache => { delete cache[props.contacts[props.currentContactId].username]; return cache; });
+            setMessagesCache(cache => {
+                delete cache[props.contacts[props.currentContactId].username];
+                return cache;
+            });
 
             // Disable send button
             setMessageEmpty(true);
@@ -47,7 +50,10 @@ const ChatSection = (props) => {
         setMessageEmpty(messageBox.current.value.length === 0);
         setInputHeight();
         // Store written message for current contact in cache
-        setMessagesCache({ ...messagesCache, [props.contacts[props.currentContactId].username]: messageBox.current.value });
+        setMessagesCache({
+            ...messagesCache,
+            [props.contacts[props.currentContactId].username]: messageBox.current.value
+        });
     };
 
     const setInputHeight = () => {
@@ -138,9 +144,30 @@ const ChatSection = (props) => {
                                         <i className="bi bi-send"/>
                                     </button>
                                     ||
-                                    <button className="center chat-button">
-                                        <i className="bi bi-paperclip"/>
-                                    </button>
+                                    <div className="center">
+                                        {!showAttachments &&
+                                            <button className="chat-button"
+                                                    onMouseEnter={() => {
+                                                        setShowAttachments(true);
+                                                    }}>
+                                                <i className="bi bi-paperclip"/>
+                                            </button>
+                                            ||
+                                            <div onMouseLeave={() => {
+                                                setShowAttachments(false);
+                                            }}>
+                                                <button className="chat-button">
+                                                    <i className="bi bi-image"/>
+                                                </button>
+                                                <button className="chat-button">
+                                                    <i className="bi bi-camera-video"/>
+                                                </button>
+                                                <button className="chat-button">
+                                                    <i className="bi bi-mic"/>
+                                                </button>
+                                            </div>
+                                        }
+                                    </div>
                                 }
                             </span>
                         </div>
