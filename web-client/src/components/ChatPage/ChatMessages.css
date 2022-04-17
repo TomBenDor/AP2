@@ -1,23 +1,4 @@
-﻿.chat-section-input-bar {
-    height: 50px;
-    width: 100%;
-    border-top: 2px solid gray;
-}
-
-#message-input {
-    margin: 5px;
-    padding: 5px;
-    border: 1px solid gray;
-    border-radius: 5px;
-    width: calc(100% - 90px);
-    outline: none;
-}
-
-#message-input:focus {
-    border: 1px solid var(--main-bright);
-}
-
-.messages-list {
+﻿.messages-list {
     width: 100%;
     padding: 0;
     display: flex;

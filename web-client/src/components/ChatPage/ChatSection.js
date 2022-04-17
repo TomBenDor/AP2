@@ -5,7 +5,7 @@ import {useRef, useState} from "react";
 const ChatSection = (props) => {
     const messageBox = useRef(null);
     // Set state for send button disabled state
-    const [sendButtonDisabled, setSendButtonDisabled] = useState(true);
+    const [messageEmpty, setMessageEmpty] = useState(true);
 
     const sendMessage = () => {
         const message = messageBox.current.value;
@@ -29,12 +29,12 @@ const ChatSection = (props) => {
             // Clear message box
             messageBox.current.value = "";
             // Disable send button
-            setSendButtonDisabled(true);
+            setMessageEmpty(true);
         }
     };
 
     const typing = () => {
-        setSendButtonDisabled(messageBox.current.value.length === 0);
+        setMessageEmpty(messageBox.current.value.length === 0);
     };
 
     return (
@@ -62,11 +62,21 @@ const ChatSection = (props) => {
                                           currentContuct={props.currentContactId}/>
                         </div>
                         <div className="chat-section-input-bar">
-                            <input ref={messageBox} id="message-input" type="text" placeholder="Type a message..."
-                                   onChange={typing} onKeyDown={(e) => e.key === 'Enter' && sendMessage()}/>
-                            <button id="send-button" onClick={sendMessage} disabled={sendButtonDisabled}>
-                                <i className="bi bi-send"/>
-                            </button>
+                            <span className="chat-input">
+                                <input ref={messageBox} id="message-input" type="text" placeholder="Type a message..."
+                                       onChange={typing} onKeyDown={(e) => e.key === 'Enter' && sendMessage()}/>
+                            </span>
+                            <span className="chat-buttons">
+                                {!messageEmpty &&
+                                    <button className="center chat-button" onClick={sendMessage}>
+                                        <i className="bi bi-send"/>
+                                    </button>
+                                    ||
+                                    <button className="center chat-button">
+                                        <i className="bi bi-paperclip"/>
+                                    </button>
+                                }
+                            </span>
                         </div>
                     </>
                 ) ||

@@ -25,19 +25,43 @@
     user-select: none;
 }
 
-#send-button {
-    height: calc(100% - 10px);
+#message-input {
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    width: 100%;
+    outline: none;
+}
+
+#message-input:focus {
+    border: 1px solid var(--main-bright);
+}
+
+.chat-section-input-bar {
+    height: 50px;
+    width: 100%;
+    border-top: 2px solid gray;
+    display: flex;
+    flex-flow: row;
+}
+
+.chat-input {
+    width: 100%;
+}
+
+.chat-buttons {
+    padding: 10px;
+    flex-shrink: 0;
+}
+
+.chat-button {
+    padding: 5px;
+    background-color: transparent;
     border: none;
-    background-color: var(--main-bright);
-    color: white;
-    font: 16px 'Lato Light', sans-serif;
+    color: black;
 }
 
-#send-button > i {
+.chat-button > i {
     font-size: 24px;
-}
-
-#send-button:disabled {
-    color: gray;
-    background-color: #CCCCCC;
 }
