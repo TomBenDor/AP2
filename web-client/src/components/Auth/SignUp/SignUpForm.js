@@ -219,7 +219,7 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
                 <div className="form-group">
                     <label htmlFor="floatingPassword" className="form-help" id="password-label">Password</label>
                     <input ref={passwordBox} className="form-control" type="password" id="floatingPassword"
-                           onChange={validatePasswordField} maxLength="30" required/>
+                           onChange={() => {validatePasswordField(); validatePasswordConfirmation(); }} maxLength="30" required/>
                     <label className="invalid-feedback" id="password-error">Invalid</label>
                 </div>
                 <div className="form-group">
