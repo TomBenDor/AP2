@@ -59,7 +59,7 @@ const ContactsList = (props) => {
                                 </h6>
                                 <h6 className="last-message-sent">
                                     {/* If last message sent is a text message, display its content. Else, display the right description */}
-                                    {(contact.messages.length) ? (contact.messages.at(-1).type==="text" ? (contact.messages.at(-1).text): (lastMessageDict[contact.messages.at(-1).type])) : ''}
+                                    {(contact.messages.length) ? (contact.messages.at(-1).type === "text" ? (contact.messages.at(-1).text) : (lastMessageDict[contact.messages.at(-1).type])) : ''}
                                 </h6>
                             </div>
                         </span>
