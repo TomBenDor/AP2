@@ -22,7 +22,8 @@ const ChatSection = (props) => {
                 id: props.contacts[props.currentContactId].messages.length + 1,
                 sender: 'left',
                 text: message,
-                timestamp: currentTime
+                timestamp: currentTime,
+                type: 'text'
             };
             // Add new message to current contact's messages
             props.setContacts(props.contacts.map(c => {
