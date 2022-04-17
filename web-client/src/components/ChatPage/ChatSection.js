@@ -6,6 +6,8 @@ const ChatSection = (props) => {
     const messageBox = useRef(null);
     // Set state for send button disabled state
     const [sendButtonDisabled, setSendButtonDisabled] = useState(true);
+    const messagesLength = props.currentContactId !== -1 ? props.contacts[props.currentContactId].messages.length : 0;
+    
 
     // Create a cache for the messages the user has written to each contact
     const [messagesCache, setMessagesCache] = useState({});
@@ -92,6 +94,17 @@ const ChatSection = (props) => {
 
     useEffect(updateMessageBox, [messagesCache, props.contacts, props.currentContactId]);
 
+    const scrollToBottom = () => {
+        const messageBubbles = document.getElementsByClassName('message-bubble');
+        // If there are messages
+        if (messageBubbles.length > 0) {
+            messageBubbles[messageBubbles.length - 1].scrollIntoView();
+        }
+    };
+
+    // Scroll to the bottom when the number of messages changes
+    useEffect(scrollToBottom, [messagesLength]);
+
     return (
         <>
             {(props.currentContactId !== -1 &&
@@ -114,7 +127,7 @@ const ChatSection = (props) => {
                             <ChatMessages user={props.user}
                                           contacts={props.contacts}
                                           setContacts={props.setContacts}
-                                          currentContuct={props.currentContactId}/>
+                                          currentContactId={props.currentContactId}/>
                         </div>
                         <div id="input-section">
                             <div className="input-text">
