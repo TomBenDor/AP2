@@ -75,19 +75,24 @@ const ChatSection = (props) => {
     }
 
     const updateMessageBox = () => {
-        // Clear message box
-        if (messageBox.current) {
-            messageBox.current.value = "";
+        // Update message box only if the message box is empty
+        if (messageBox.current && messageBox.current.value.length === 0) {
+            // Check if current contact is in cache
+            if (Object.keys(messagesCache).length > 0 && messagesCache[props.contacts[props.currentContactId].username]) {
+                // Set message box value to the message from cache
+                messageBox.current.value = messagesCache[props.contacts[props.currentContactId].username];
+            }
+            setSendButtonDisabled(messageBox.current.value.length === 0);
         }
-
-        // Check if current contact is in cache
-        if (Object.keys(messagesCache).length > 0 && messagesCache[props.contacts[props.currentContactId].username]) {
-            // Set message box value to the message from cache
-            messageBox.current.value = messagesCache[props.contacts[props.currentContactId].username];
-        }
-
         setInputHeight();
     };
+
+    // Clear message box when current contact changes
+    useEffect(() => {
+        if(props.currentContactId !== -1) {
+            messageBox.current.value = "";
+        }
+    }, [props.currentContactId]);
 
     useEffect(updateMessageBox, [messagesCache, props.contacts, props.currentContactId]);
 
