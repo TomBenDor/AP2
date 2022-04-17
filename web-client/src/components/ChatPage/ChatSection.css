@@ -37,6 +37,8 @@
     width: 100%;
     border-top: 2px solid gray;
     padding: 5px;
+    display: flex;
+    flex-flow: row;
 }
 
 .input-text {
@@ -67,17 +69,27 @@
     height: 100%;
 }
 
-#send-button {
-    height: 100%;
-    padding: 5px 15px 5px 15px;
-    border-radius: 5px;
-    border: none;
-    background-color: var(--main-bright);
-    color: white;
-    font: 16px 'Lato Light', sans-serif;
+.chat-input {
+    width: 100%;
 }
 
-#send-button:disabled {
-    color: gray;
-    background-color: #CCCCCC;
+.chat-buttons {
+    padding: 10px;
+    flex-shrink: 0;
+}
+
+.chat-button {
+    padding: 5px;
+    background-color: transparent;
+    border: none;
+    color: black;
+    border-radius: 15px;
+}
+
+.chat-button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.chat-button > i {
+    font-size: 24px;
 }

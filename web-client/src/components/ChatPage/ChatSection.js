@@ -5,12 +5,12 @@ import {useEffect, useRef, useState} from "react";
 const ChatSection = (props) => {
     const messageBox = useRef(null);
     // Set state for send button disabled state
-    const [sendButtonDisabled, setSendButtonDisabled] = useState(true);
+    const [messageEmpty, setMessageEmpty] = useState(true);
     const messagesLength = props.currentContactId !== -1 ? props.contacts[props.currentContactId].messages.length : 0;
-    
 
     // Create a cache for the messages the user has written to each contact
     const [messagesCache, setMessagesCache] = useState({});
+    const [showAttachments, setShowAttachments] = useState(false);
 
     const sendMessage = () => {
         const message = messageBox.current.value.trim();
@@ -35,19 +35,25 @@ const ChatSection = (props) => {
             // Clear message box
             messageBox.current.value = "";
             // Delete the current contact from the cache
-            setMessagesCache(cache => { delete cache[props.contacts[props.currentContactId].username]; return cache; });
+            setMessagesCache(cache => {
+                delete cache[props.contacts[props.currentContactId].username];
+                return cache;
+            });
 
             // Disable send button
-            setSendButtonDisabled(true);
+            setMessageEmpty(true);
             setInputHeight();
         }
     };
 
     const typing = () => {
-        setSendButtonDisabled(messageBox.current.value.length === 0);
+        setMessageEmpty(messageBox.current.value.length === 0);
         setInputHeight();
         // Store written message for current contact in cache
-        setMessagesCache({ ...messagesCache, [props.contacts[props.currentContactId].username]: messageBox.current.value });
+        setMessagesCache({
+            ...messagesCache,
+            [props.contacts[props.currentContactId].username]: messageBox.current.value
+        });
     };
 
     const setInputHeight = () => {
@@ -82,7 +88,7 @@ const ChatSection = (props) => {
                 // Set message box value to the message from cache
                 messageBox.current.value = messagesCache[props.contacts[props.currentContactId].username];
             }
-            setSendButtonDisabled(messageBox.current.value.length === 0);
+            setMessageEmpty(messageBox.current.value.length === 0);
         }
         setInputHeight();
     };
@@ -132,16 +138,43 @@ const ChatSection = (props) => {
                                           currentContactId={props.currentContactId}/>
                         </div>
                         <div id="input-section">
-                            <div className="input-text">
+                            <span className="chat-input">
                                 <textarea ref={messageBox} id="message-input" placeholder="Type a message..."
                                           onChange={typing}
                                           onKeyDown={keyPressed}/>
-                            </div>
-                            <div className="input-buttons">
-                                <button className="center" id="send-button" onClick={sendMessage}
-                                        disabled={sendButtonDisabled}>Send
-                                </button>
-                            </div>
+                            </span>
+                            <span className="chat-buttons">
+                                {(!messageEmpty &&
+                                        <button className="center chat-button" onClick={sendMessage}>
+                                            <i className="bi bi-send"/>
+                                        </button>
+                                    ) ||
+                                    <div className="center">
+                                        {(!showAttachments &&
+                                                <button className="chat-button"
+                                                        onMouseEnter={() => {
+                                                            setShowAttachments(true);
+                                                        }}>
+                                                    <i className="bi bi-paperclip"/>
+                                                </button>
+                                            ) ||
+                                            <div onMouseLeave={() => {
+                                                setShowAttachments(false);
+                                            }}>
+                                                <button className="chat-button">
+                                                    <i className="bi bi-image"/>
+                                                </button>
+                                                <button className="chat-button">
+                                                    <i className="bi bi-camera-video"/>
+                                                </button>
+                                                <button className="chat-button">
+                                                    <i className="bi bi-mic"/>
+                                                </button>
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                            </span>
                         </div>
                     </>
                 ) ||
