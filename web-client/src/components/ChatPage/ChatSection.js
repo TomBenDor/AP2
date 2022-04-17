@@ -82,6 +82,7 @@ const ChatSection = (props) => {
                 // Set message box value to the message from cache
                 messageBox.current.value = messagesCache[props.contacts[props.currentContactId].username];
             }
+            setSendButtonDisabled(messageBox.current.value.length === 0);
         }
         setInputHeight();
     };
@@ -89,7 +90,6 @@ const ChatSection = (props) => {
     // Clear message box when current contact changes
     useEffect(() => {
         if(props.currentContactId !== -1) {
-            setSendButtonDisabled(messageBox.current.value.length === 0);
             messageBox.current.value = "";
         }
     }, [props.currentContactId]);
