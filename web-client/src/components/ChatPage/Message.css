@@ -39,5 +39,5 @@
 .message-text {
     font: 16px 'Lato', sans-serif;
     word-wrap: break-word;
-    white-space: pre;
+    white-space: pre-wrap;
 }
