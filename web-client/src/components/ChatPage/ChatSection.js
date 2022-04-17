@@ -88,7 +88,7 @@ const ChatSection = (props) => {
                 // Set message box value to the message from cache
                 messageBox.current.value = messagesCache[props.contacts[props.currentContactId].username];
             }
-            setSendButtonDisabled(messageBox.current.value.length === 0);
+            setMessageEmpty(messageBox.current.value.length === 0);
         }
         setInputHeight();
     };
@@ -144,20 +144,20 @@ const ChatSection = (props) => {
                                           onKeyDown={keyPressed}/>
                             </span>
                             <span className="chat-buttons">
-                                {!messageEmpty &&
-                                    <button className="center chat-button" onClick={sendMessage}>
-                                        <i className="bi bi-send"/>
-                                    </button>
-                                    ||
+                                {(!messageEmpty &&
+                                        <button className="center chat-button" onClick={sendMessage}>
+                                            <i className="bi bi-send"/>
+                                        </button>
+                                    ) ||
                                     <div className="center">
-                                        {!showAttachments &&
-                                            <button className="chat-button"
-                                                    onMouseEnter={() => {
-                                                        setShowAttachments(true);
-                                                    }}>
-                                                <i className="bi bi-paperclip"/>
-                                            </button>
-                                            ||
+                                        {(!showAttachments &&
+                                                <button className="chat-button"
+                                                        onMouseEnter={() => {
+                                                            setShowAttachments(true);
+                                                        }}>
+                                                    <i className="bi bi-paperclip"/>
+                                                </button>
+                                            ) ||
                                             <div onMouseLeave={() => {
                                                 setShowAttachments(false);
                                             }}>
