@@ -118,6 +118,31 @@ const ChatSection = (props) => {
     // Scroll to the bottom when the number of messages changes
     useEffect(scrollToBottom, [messagesLength]);
 
+    const onSelectImage = (e) => {
+        // Get the file
+        const file = e.target.files[0];
+        // If no file was selected, return
+        if (!file) {
+            return;
+        }
+        // Create a new file reader
+        const reader = new FileReader();
+        // Set the file reader onload function
+        reader.onload = (e) => {
+            // Create a new message object
+            const newMessage = {
+                id: props.contacts[props.currentContactId].messages.length + 1,
+                sender: 'left',
+                text: e.target.result,
+                timestamp: new Date().toLocaleString('en-US', {hour12: false}),
+                type: 'image'
+            };
+            sendMessage(newMessage);
+        };
+        // Read the file
+        reader.readAsDataURL(file);
+    };
+
     return (
         <>
             {(props.currentContactId !== -1 &&
@@ -167,7 +192,7 @@ const ChatSection = (props) => {
                                                 setShowAttachments(false);
                                             }}>
                                                 <label className="chat-button">
-                                                    <input type="file" className="upload-file-button" accept="image/*"/>
+                                                    <input onChange={onSelectImage} type="file" className="upload-file-button" accept="image/*"/>
                                                     <i className="bi bi-image"/>
                                                 </label>
                                                 <label className="chat-button">
