@@ -17,22 +17,6 @@
     border: 1px solid var(--main-bright);
 }
 
-#send-button {
-    height: calc(100% - 10px);
-    padding: 5px 15px 5px 15px;
-    margin: 5px;
-    border-radius: 5px;
-    border: none;
-    background-color: var(--main-bright);
-    color: white;
-    font: 16px 'Lato Light', sans-serif;
-}
-
-#send-button:disabled {
-    color: gray;
-    background-color: #CCCCCC;
-}
-
 .messages-list {
     width: 100%;
     padding: 0;
