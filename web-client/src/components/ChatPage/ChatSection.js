@@ -1,11 +1,14 @@
 import ChatMessages from "./ChatMessages";
 import './ChatSection.css';
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 
 const ChatSection = (props) => {
     const messageBox = useRef(null);
     // Set state for send button disabled state
     const [sendButtonDisabled, setSendButtonDisabled] = useState(true);
+
+    // Create a cache for the messages the user has written to each contact
+    const [messagesCache, setMessagesCache] = useState({});
 
     const sendMessage = () => {
         const message = messageBox.current.value.trim();
@@ -33,6 +36,9 @@ const ChatSection = (props) => {
 
             // Clear message box
             messageBox.current.value = "";
+            // Delete the current contact from the cache
+            setMessagesCache(cache => { delete cache[props.contacts[props.currentContactId].username]; return cache; });
+
             // Disable send button
             setSendButtonDisabled(true);
             setInputHeight();
@@ -42,6 +48,8 @@ const ChatSection = (props) => {
     const typing = () => {
         setSendButtonDisabled(messageBox.current.value.length === 0);
         setInputHeight();
+        // Store written message for current contact in cache
+        setMessagesCache({ ...messagesCache, [props.contacts[props.currentContactId].username]: messageBox.current.value });
     };
 
     const setInputHeight = () => {
@@ -66,6 +74,23 @@ const ChatSection = (props) => {
             e.preventDefault();
         }
     }
+
+    const updateMessageBox = () => {
+        // Clear message box
+        if (messageBox.current) {
+            messageBox.current.value = "";
+        }
+
+        // Check if current contact is in cache
+        if (Object.keys(messagesCache).length > 0 && messagesCache[props.contacts[props.currentContactId].username]) {
+            // Set message box value to the message from cache
+            messageBox.current.value = messagesCache[props.contacts[props.currentContactId].username];
+        }
+
+        setInputHeight();
+    };
+
+    useEffect(updateMessageBox, [messagesCache, props.contacts, props.currentContactId]);
 
     return (
         <>
