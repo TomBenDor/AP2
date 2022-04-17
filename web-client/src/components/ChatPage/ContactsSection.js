@@ -32,7 +32,7 @@ const ContactsSection = (props) => {
                 </span>
                 <span className="contacts-section-header-controls">
                     <button className="add-contact-button" onClick={openContactDialog}>
-                        <i className="bi bi-plus-circle"/>
+                        <i className="bi bi-person-plus"/>
                     </button>
                 </span>
             </div>
