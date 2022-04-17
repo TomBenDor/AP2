@@ -162,12 +162,14 @@ const ChatSection = (props) => {
                                             <div onMouseLeave={() => {
                                                 setShowAttachments(false);
                                             }}>
-                                                <button className="chat-button">
+                                                <label className="chat-button">
+                                                    <input type="file" className="upload-file-button" accept="image/*"/>
                                                     <i className="bi bi-image"/>
-                                                </button>
-                                                <button className="chat-button">
+                                                </label>
+                                                <label className="chat-button">
+                                                    <input type="file" className="upload-file-button" accept="video/*"/>
                                                     <i className="bi bi-camera-video"/>
-                                                </button>
+                                                </label>
                                                 <button className="chat-button">
                                                     <i className="bi bi-mic"/>
                                                 </button>
