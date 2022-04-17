@@ -1,7 +1,8 @@
-﻿.message-right, .message-left {
+﻿.message {
     padding: 5px;
     flex: 1;
     overflow: auto;
+    max-width: 60%;
 }
 
 .message-right {
@@ -37,5 +38,6 @@
 
 .message-text {
     font: 16px 'Lato', sans-serif;
-    white-space: pre;
+    word-wrap: break-word;
+    white-space: pre-wrap;
 }
