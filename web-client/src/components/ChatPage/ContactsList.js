@@ -11,9 +11,16 @@ const ContactsList = (props) => {
         }));
     }
 
+    // Copy the contacts array and sort it by time of last message
+    const sortedContacts = props.contacts.slice().sort((c1, c2) => {
+        const a = c1.messages.length > 0 ? c1.messages.at(-1).timestamp : 0;
+        const b = c2.messages.length > 0 ? c2.messages.at(-1).timestamp : 0;
+        return Date.parse(b).valueOf() - Date.parse(a).valueOf();
+    });
+
     return (
         <ol className="contacts-list">
-            {props.contacts.map(contact => (
+            {sortedContacts.map(contact => (
                 <ul className={(props.currentContactId !== -1 && props.contacts[props.currentContactId].username === contact.username) ? "contact active" : "contact"}
                     key={contact.username} onClick={() => {
                     selectContact(contact)
@@ -26,7 +33,11 @@ const ContactsList = (props) => {
                         }
                         <div className="last-message-time">
                             <h6>
-                                {(contact.messages.length) ? contact.messages.at(-1).timestamp : ''}
+                                {(contact.messages.length) ? new Date(contact.messages.at(-1).timestamp).toLocaleTimeString('en-US', {
+                                    hour12: false,
+                                    hour: "numeric",
+                                    minute: "numeric"
+                                }) : ''}
                             </h6>
                         </div>
                     </span>

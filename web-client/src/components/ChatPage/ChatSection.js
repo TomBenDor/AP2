@@ -16,11 +16,7 @@ const ChatSection = (props) => {
         const message = messageBox.current.value.trim();
         if (message.length > 0) {
             // Get current time in hh:mm format
-            const currentTime = new Date().toLocaleTimeString('en-US', {
-                hour: 'numeric',
-                minute: 'numeric',
-                hour12: false,
-            });
+            const currentTime = new Date().toLocaleString('en-US', {hour12: false});
             // Create new message object
             const newMessage = {
                 id: props.contacts[props.currentContactId].messages.length + 1,
