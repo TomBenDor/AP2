@@ -12,7 +12,29 @@ const ChatSection = (props) => {
     const [messagesCache, setMessagesCache] = useState({});
     const [showAttachments, setShowAttachments] = useState(false);
 
-    const sendMessage = () => {
+    const sendMessage = (message) => {
+        // Add new message to current contact's messages
+        props.setContacts(props.contacts.map(c => {
+            if (c.username === props.contacts[props.currentContactId].username) {
+                c.messages.push(message);
+            }
+            return c;
+        }));
+
+        // Clear message box
+        messageBox.current.value = "";
+        // Delete the current contact from the cache
+        setMessagesCache(cache => {
+            delete cache[props.contacts[props.currentContactId].username];
+            return cache;
+        });
+
+        // Disable send button
+        setMessageEmpty(true);
+        setInputHeight();
+    };
+
+    const sendTextMessage = () => {
         const message = messageBox.current.value.trim();
         if (message.length > 0) {
             // Get current time in hh:mm format
@@ -22,27 +44,10 @@ const ChatSection = (props) => {
                 id: props.contacts[props.currentContactId].messages.length + 1,
                 sender: 'left',
                 text: message,
-                timestamp: currentTime
+                timestamp: currentTime,
+                type: 'text'
             };
-            // Add new message to current contact's messages
-            props.setContacts(props.contacts.map(c => {
-                if (c.username === props.contacts[props.currentContactId].username) {
-                    c.messages.push(newMessage);
-                }
-                return c;
-            }));
-
-            // Clear message box
-            messageBox.current.value = "";
-            // Delete the current contact from the cache
-            setMessagesCache(cache => {
-                delete cache[props.contacts[props.currentContactId].username];
-                return cache;
-            });
-
-            // Disable send button
-            setMessageEmpty(true);
-            setInputHeight();
+            sendMessage(newMessage);
         }
     };
 
@@ -75,7 +80,7 @@ const ChatSection = (props) => {
         if (messageBox.current.value === "" && (/\s/.test(e.key) || e.key === "Enter")) {
             e.preventDefault();
         } else if (e.key === "Enter" && !e.shiftKey) {
-            sendMessage();
+            sendTextMessage();
             e.preventDefault();
         }
     }
@@ -113,6 +118,31 @@ const ChatSection = (props) => {
     // Scroll to the bottom when the number of messages changes
     useEffect(scrollToBottom, [messagesLength]);
 
+    const onSelectImage = (e) => {
+        // Get the file
+        const file = e.target.files[0];
+        // If no file was selected, return
+        if (!file) {
+            return;
+        }
+        // Create a new file reader
+        const reader = new FileReader();
+        // Set the file reader onload function
+        reader.onload = (e) => {
+            // Create a new message object
+            const newMessage = {
+                id: props.contacts[props.currentContactId].messages.length + 1,
+                sender: 'left',
+                text: e.target.result,
+                timestamp: new Date().toLocaleString('en-US', {hour12: false}),
+                type: 'image'
+            };
+            sendMessage(newMessage);
+        };
+        // Read the file
+        reader.readAsDataURL(file);
+    };
+
     return (
         <>
             {(props.currentContactId !== -1 &&
@@ -145,7 +175,7 @@ const ChatSection = (props) => {
                             </span>
                             <span className="chat-buttons">
                                 {(!messageEmpty &&
-                                        <button className="center chat-button" onClick={sendMessage}>
+                                        <button className="center chat-button" onClick={sendTextMessage}>
                                             <i className="bi bi-send"/>
                                         </button>
                                     ) ||
@@ -161,12 +191,14 @@ const ChatSection = (props) => {
                                             <div onMouseLeave={() => {
                                                 setShowAttachments(false);
                                             }}>
-                                                <button className="chat-button">
+                                                <label className="chat-button">
+                                                    <input onChange={onSelectImage} type="file" className="upload-file-button" accept="image/*"/>
                                                     <i className="bi bi-image"/>
-                                                </button>
-                                                <button className="chat-button">
+                                                </label>
+                                                <label className="chat-button">
+                                                    <input type="file" className="upload-file-button" accept="video/*"/>
                                                     <i className="bi bi-camera-video"/>
-                                                </button>
+                                                </label>
                                                 <button className="chat-button">
                                                     <i className="bi bi-mic"/>
                                                 </button>

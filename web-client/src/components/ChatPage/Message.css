@@ -41,3 +41,10 @@
     word-wrap: break-word;
     white-space: pre-wrap;
 }
+
+.message-image {
+    max-height: 300px;
+    max-width: 100%;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}

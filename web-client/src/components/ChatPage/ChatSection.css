@@ -93,3 +93,7 @@
 .chat-button > i {
     font-size: 24px;
 }
+
+.upload-file-button {
+    display: none;
+}

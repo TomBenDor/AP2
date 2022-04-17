@@ -38,6 +38,10 @@
     text-overflow: ellipsis;
 }
 
+.last-message-sent > i {
+    margin-right: 5px;
+}
+
 .contact-meta-data {
     float: right;
     height: 100%;
