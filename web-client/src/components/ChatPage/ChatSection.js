@@ -243,11 +243,15 @@ const ChatSection = (props) => {
                                           onKeyDown={keyPressed}/>
                             </span>
                             <span className="chat-buttons">
-                                {(!messageEmpty &&
+                                {(!messageEmpty && !recording) &&
                                         <button className="center chat-button" onClick={sendTextMessage}>
                                             <i className="bi bi-send"/>
                                         </button>
-                                    ) ||
+                                    || (recording &&
+                                        <button className="center chat-button" onClick={onSelectRecording}>
+                                            <i className="bi bi-stop"/>
+                                        </button>)
+                                    ||
                                     <div className="center">
                                         {(!showAttachments &&
                                                 <button className="chat-button"
