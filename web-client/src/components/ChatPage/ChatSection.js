@@ -9,7 +9,12 @@ const ChatSection = (props) => {
     const messagesLength = props.currentContactId !== -1 ? props.contacts[props.currentContactId].messages.length : 0;
 
     // Create a cache for the messages the user has written to each contact
-    const [messagesCache, setMessagesCache] = useState({});
+    const [messagesCache, setMessagesCache] = useState(Object.assign({}, ...props.contacts.map(c => c.id).map(
+        (id) => {
+            return {
+                [id]: ""
+            }
+        })));
     const [showAttachments, setShowAttachments] = useState(false);
 
     // State for recording audio
@@ -62,7 +67,7 @@ const ChatSection = (props) => {
         // Store written message for current contact in cache
         setMessagesCache({
             ...messagesCache,
-            [props.contacts[props.currentContactId].username]: messageBox.current.value
+            [props.currentContactId]: messageBox.current.value
         });
     };
 
@@ -91,24 +96,13 @@ const ChatSection = (props) => {
     }
 
     const updateMessageBox = () => {
-        // Update message box only if the message box is empty
-        if (messageBox.current && messageBox.current.value.length === 0) {
-            // Check if current contact is in cache
-            if (Object.keys(messagesCache).length > 0 && messagesCache[props.contacts[props.currentContactId].username]) {
-                // Set message box value to the message from cache
-                messageBox.current.value = messagesCache[props.contacts[props.currentContactId].username];
-            }
+        if (messageBox.current) {
+            // Set message box value to the message from cache
+            messageBox.current.value = messagesCache[props.currentContactId];
             setMessageEmpty(messageBox.current.value.length === 0);
         }
         setInputHeight();
-    };
-
-    // Clear message box when current contact changes
-    useEffect(() => {
-        if (props.currentContactId !== -1) {
-            messageBox.current.value = "";
-        }
-    }, [props.currentContactId]);
+    }
 
     useEffect(updateMessageBox, [messagesCache, props.contacts, props.currentContactId]);
 
@@ -186,6 +180,7 @@ const ChatSection = (props) => {
                     // Add the blob to the blob array
                     blobs.push(e.data);
                 };
+
                 // Set the media recorder on stop function
                 tempMediaRecorder.onstop = (e) => {
                     // Create a new message object
