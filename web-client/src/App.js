@@ -131,6 +131,50 @@ const App = () => {
                 },
             ]
         },
+        {
+            id: 4,
+            username: 'zuckyhomeboy',
+            name: 'Mark Zuckerberg',
+            profilePicture: 'zuck.jpg',
+            unreadMessages: 3,
+            messages: [
+                {
+                    id: 1,
+                    sender: 'right',
+                    text: 'Listen, I got a crazy idea. But don\'t tell anyone about it.',
+                    timestamp: '4/20/2021, 8:42:00',
+                    type: 'text'
+                },
+                {
+                    id: 2,
+                    sender: 'left',
+                    text: 'What is it?',
+                    timestamp: '4/20/2021, 8:43:00',
+                    type: 'text'
+                },
+                {
+                    id: 4,
+                    sender: 'right',
+                    text: 'So it goes like this:\n\nLet\'s create like an app that lets you send messages to other people. Like a messenger app.\nand like create group chats and stuff..\nIt will look something like this:',
+                    timestamp: '4/19/2021, 8:45:00',
+                    type: 'text'
+                },
+                {
+                    id: 7,
+                    sender: 'right',
+                    text: 'screenshot.jpg',
+                    timestamp: '4/19/2021, 8:45:23',
+                    type: 'image'
+                },
+                {
+                    id: 8,
+                    sender: 'right',
+                    text: 'I even thought about a name for it, "WhatsApp".\nWhat you thinking bro?',
+                    timestamp: '4/19/2021, 8:46:24',
+                    type: 'text'
+                },
+            ]
+        },
     ]);
 
     return (
