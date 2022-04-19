@@ -184,6 +184,7 @@ const ChatSection = (props) => {
                 // Set the media recorder on data available function
                 tempMediaRecorder.ondataavailable = (e) => {
                     // Add the blob to the blob array
+                    console.log("Boo");
                     blobs.push(e.data);
                 };
                 // Set the media recorder on stop function
@@ -243,15 +244,15 @@ const ChatSection = (props) => {
                                           onKeyDown={keyPressed}/>
                             </span>
                             <span className="chat-buttons">
-                                {(!messageEmpty && !recording) &&
+                                {((!messageEmpty && !recording) &&
                                         <button className="center chat-button" onClick={sendTextMessage}>
                                             <i className="bi bi-send"/>
                                         </button>
-                                    || (recording &&
+                                    ) || (recording &&
                                         <button className="center chat-button" onClick={onSelectRecording}>
                                             <i className="bi bi-stop"/>
-                                        </button>)
-                                    ||
+                                        </button>
+                                    ) ||
                                     <div className="center">
                                         {(!showAttachments &&
                                                 <button className="chat-button"
