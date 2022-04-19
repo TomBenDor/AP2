@@ -12,6 +12,11 @@ const ChatSection = (props) => {
     const [messagesCache, setMessagesCache] = useState({});
     const [showAttachments, setShowAttachments] = useState(false);
 
+    // State for recording audio
+    const [recording, setRecording] = useState(false);
+    // State for media stream
+    const [mediaRecorder, setMediaRecorder] = useState(null);
+
     const sendMessage = (message) => {
         // Add new message to current contact's messages
         props.setContacts(props.contacts.map(c => {
@@ -168,6 +173,45 @@ const ChatSection = (props) => {
         reader.readAsDataURL(file);
     };
 
+    const startRecording = () => {
+        // Record audio
+        navigator.mediaDevices.getUserMedia({audio: true})
+            .then(stream => {
+                // Create a new media recorder
+                const tempMediaRecorder = new MediaRecorder(stream);
+                // Create a new blob array
+                const blobs = [];
+                // Set the media recorder on data available function
+                tempMediaRecorder.ondataavailable = (e) => {
+                    // Add the blob to the blob array
+                    blobs.push(e.data);
+                };
+                // Set the media recorder on stop function
+                tempMediaRecorder.onstop = (e) => {
+                    // Create a new message object
+                    const newMessage = {
+                        id: props.contacts[props.currentContactId].messages.length + 1,
+                        sender: 'left',
+                        text: URL.createObjectURL(new Blob(blobs, {type: 'audio/ogg'})),
+                        timestamp: new Date().toLocaleString('en-US', {hour12: false}),
+                        type: 'audio'
+                    };
+                    // Send the message
+                    sendMessage(newMessage);
+                };
+                // Start recording
+                tempMediaRecorder.start();
+                setMediaRecorder(tempMediaRecorder);
+            });
+    };
+
+    const onSelectRecording = (e) => {
+        // If recording is in progress, stop it. Otherwise, start.
+        recording ? mediaRecorder.stop() : startRecording();
+        // Update recording state
+        setRecording(!recording);
+    };
+
     return (
         <>
             {(props.currentContactId !== -1 &&
@@ -226,7 +270,7 @@ const ChatSection = (props) => {
                                                            className="upload-file-button" accept="video/*"/>
                                                     <i className="bi bi-camera-video"/>
                                                 </label>
-                                                <button className="chat-button">
+                                                <button onClick={onSelectRecording} className="chat-button">
                                                     <i className="bi bi-mic"/>
                                                 </button>
                                             </div>
