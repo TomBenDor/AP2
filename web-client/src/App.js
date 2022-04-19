@@ -57,6 +57,50 @@ const App = () => {
                 },
             ]
         },
+        {
+            id: 2,
+            username: 'Crisr7',
+            name: 'Cristiano Ronaldo',
+            profilePicture: 'cr7.jpg',
+            unreadMessages: 1,
+            messages: [
+                {
+                    id: 1,
+                    sender: 'right',
+                    text: 'Ayo my dude, remember my celebration?',
+                    timestamp: '4/18/2022, 12:41:00',
+                    type: 'text'
+                },
+                {
+                    id: 2,
+                    sender: 'left',
+                    text: 'No, I forgot. Sorry 🙁',
+                    timestamp: '4/18/2022, 12:42:42',
+                    type: 'text'
+                },
+                {
+                    id: 3,
+                    sender: 'right',
+                    text: 'Ok, I got you covered my boi.',
+                    timestamp: '4/18/2022, 12:42:43',
+                    type: 'text'
+                },
+                {
+                    id: 4,
+                    sender: 'right',
+                    text: 'cr7-siuuu.mp4',
+                    timestamp: '4/18/2022, 12:42:55',
+                    type: 'video'
+                },
+                {
+                    id: 5,
+                    sender: 'right',
+                    text: 'siuuu.gif',
+                    timestamp: '4/18/2022, 12:42:45',
+                    type: 'image'
+                },
+            ]
+        },
     ]);
 
     return (
