@@ -96,7 +96,7 @@ const App = () => {
                     id: 5,
                     sender: 'right',
                     text: 'siuuu.gif',
-                    timestamp: '4/18/2022, 12:42:45',
+                    timestamp: '4/18/2022, 12:42:59',
                     type: 'image'
                 },
             ]
