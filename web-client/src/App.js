@@ -62,7 +62,7 @@ const App = () => {
             username: 'Crisr7',
             name: 'Cristiano Ronaldo',
             profilePicture: 'cr7.jpg',
-            unreadMessages: 1,
+            unreadMessages: 3,
             messages: [
                 {
                     id: 1,
