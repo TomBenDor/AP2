@@ -184,7 +184,6 @@ const ChatSection = (props) => {
                 // Set the media recorder on data available function
                 tempMediaRecorder.ondataavailable = (e) => {
                     // Add the blob to the blob array
-                    console.log("Boo");
                     blobs.push(e.data);
                 };
                 // Set the media recorder on stop function
