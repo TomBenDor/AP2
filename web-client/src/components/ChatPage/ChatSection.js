@@ -26,8 +26,6 @@ const ChatSection = (props) => {
             return c;
         }));
 
-        // Clear message box
-        messageBox.current.value = "";
         // Delete the current contact from the cache
         setMessagesCache(cache => {
             delete cache[props.contacts[props.currentContactId].username];
@@ -53,6 +51,8 @@ const ChatSection = (props) => {
                 type: 'text'
             };
             sendMessage(newMessage);
+            // Clear the message box
+            messageBox.current.value = '';
         }
     };
 
@@ -105,7 +105,7 @@ const ChatSection = (props) => {
 
     // Clear message box when current contact changes
     useEffect(() => {
-        if(props.currentContactId !== -1) {
+        if (props.currentContactId !== -1) {
             messageBox.current.value = "";
         }
     }, [props.currentContactId]);
@@ -238,9 +238,18 @@ const ChatSection = (props) => {
                         </div>
                         <div id="input-section">
                             <span className="chat-input">
-                                <textarea ref={messageBox} id="message-input" placeholder="Type a message..."
-                                          onChange={typing}
-                                          onKeyDown={keyPressed}/>
+                                {!recording &&
+                                    (
+                                        (<textarea ref={messageBox} id="message-input" placeholder="Type a message..."
+                                                   onChange={typing}
+                                                   onKeyDown={keyPressed}/>
+                                        )
+                                        || (
+                                            <div className="center">Recording</div>
+                                        )
+                                    )
+                                }
+
                             </span>
                             <span className="chat-buttons">
                                 {((!messageEmpty && !recording) &&
