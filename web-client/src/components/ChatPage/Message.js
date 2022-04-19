@@ -17,6 +17,11 @@ const Message = ({message}) => {
                         <source src={message.text}/>
                     </video>
                 }
+                {message.type === 'audio' &&
+                    <audio controls>
+                        <source src={message.text}/>
+                    </audio>
+                }
                 <div className="message-timestamp">{new Date(message.timestamp).toLocaleTimeString("en-US", {
                     hour12: false,
                     hour: "numeric",
