@@ -210,6 +210,7 @@ const ChatSection = (props) => {
         if (recording) {
             mediaRecorder.stop();
             setRecording(false);
+            setShowAttachments(false);
         }
     }, [props.currentContactId]);
 
