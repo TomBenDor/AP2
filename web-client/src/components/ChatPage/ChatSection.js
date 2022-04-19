@@ -212,7 +212,7 @@ const ChatSection = (props) => {
             setRecording(false);
             setShowAttachments(false);
         }
-    }, [props.currentContactId]);
+    }, [props.currentContactId]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <>
