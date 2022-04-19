@@ -101,6 +101,36 @@ const App = () => {
                 },
             ]
         },
+        {
+            id: 3,
+            username: 'drake6942',
+            name: 'Drake',
+            profilePicture: 'drake.jpg',
+            unreadMessages: 0,
+            messages: [
+                {
+                    id: 1,
+                    sender: 'right',
+                    text: 'Yo hear my new song bro',
+                    timestamp: '4/19/2021, 8:42:00',
+                    type: 'text'
+                },
+                {
+                    id: 2,
+                    sender: 'right',
+                    text: 'sheesh.mp3',
+                    timestamp: '4/19/2021, 8:44:00',
+                    type: 'audio'
+                },
+                {
+                    id: 3,
+                    sender: 'left',
+                    text: 'Lit bro 🔥🔥🔥🔥',
+                    timestamp: '4/19/2021, 8:45:00',
+                    type: 'text'
+                },
+            ]
+        },
     ]);
 
     return (
