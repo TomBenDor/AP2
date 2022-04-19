@@ -205,6 +205,14 @@ const ChatSection = (props) => {
         setRecording(!recording);
     };
 
+    // Send recording when contact changes
+    useEffect(() => {
+        if (recording) {
+            mediaRecorder.stop();
+            setRecording(false);
+        }
+    }, [props.currentContactId]);
+
     return (
         <>
             {(props.currentContactId !== -1 && <>
