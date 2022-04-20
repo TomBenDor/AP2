@@ -17,6 +17,9 @@ const ContactsSection = (props) => {
     }
     const addContact = () => {
         const contactUser = props.users.find(user => user.username === contactInput.current.value);
+        if(contactUser.username===props.user.username){
+            return;
+        }
         if (contactUser) {
             const contact = {
                 id: props.contacts.length,
