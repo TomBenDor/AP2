@@ -15,7 +15,23 @@ const App = () => {
         "password": "pass123",
         "displayName": "Coolest dude ever",
         "profilePicture": "media/profile_picture.png"
-    }]);
+    },{
+        "username":"red",
+        "password":"notImposter123",
+        "displayName":"Red",
+        "profilePicture":"media/red.png"
+    },{
+        "username":"juanTheKing123",
+        "password":"password1A",
+        "displayName":"Juan",
+        "profilePicture":"media/juan.jpg"
+    },{
+        "username":"Harambe",
+        "password":"Harambe123",
+        "displayName":"Harambe",
+        "profilePicture":"media/harambe.jpg"
+    }
+    ]);
 
     const [contacts, setContacts] = useState([
         {
