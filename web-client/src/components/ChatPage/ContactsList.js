@@ -18,6 +18,11 @@ const ContactsList = (props) => {
         return Date.parse(b).valueOf() - Date.parse(a).valueOf();
     });
 
+    const lastMessageDict = {
+        "image": <><i className="bi bi-image"/> Image </>,
+        "video": <><i className="bi bi-film"/> Video </>,
+    };
+
     return (
         <ol className="contacts-list">
             {sortedContacts.map(contact => (
@@ -53,7 +58,8 @@ const ContactsList = (props) => {
                                     {contact.name}
                                 </h6>
                                 <h6 className="last-message-sent">
-                                    {(contact.messages.length) ? contact.messages.at(-1).text : ''}
+                                    {/* If last message sent is a text message, display its content. Else, display the right description */}
+                                    {(contact.messages.length) ? (contact.messages.at(-1).type === "text" ? (contact.messages.at(-1).text) : (lastMessageDict[contact.messages.at(-1).type])) : ''}
                                 </h6>
                             </div>
                         </span>
