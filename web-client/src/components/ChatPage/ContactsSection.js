@@ -41,6 +41,8 @@ const ContactsSection = (props) => {
                 messages: []
             }
             props.setContacts([...props.contacts, contact]);
+            // Clear input field
+            contactInput.current.value = "";
         } else {
             document.getElementById("add-contact-input").classList.add("is-invalid");
             document.getElementById("add-contact-error").innerHTML = "User not found";
