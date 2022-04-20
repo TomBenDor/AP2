@@ -22,24 +22,28 @@
 }
 
 .contacts-section-header-controls {
-    float: right;
+    float: left;
     height: 100%;
     width: 30px;
+    flex-shrink: 0;
 }
 
 .add-contact-button {
-    width: 100%;
-    height: 100%;
+    margin-top: 2%;
+    padding: 5px 10px 5px 10px;
+    background-color: transparent;
     border: none;
-    background: none;
-    user-select: none;
+    color: black;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.add-contact-button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 .add-contact-button i {
-    position: relative;
-    right: 5px;
-    font-size: 25px;
-    color: black;
+    font-size: 24px;
 }
 
 

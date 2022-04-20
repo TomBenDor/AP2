@@ -12,7 +12,7 @@ const ContactsSection = (props) => {
     const ContactDialog = () => {
         return (<div>
             <input type="text" ref={contactInput}/>
-            <button className="btn btn-primary" onClick={addContact}>add contact</button>
+            <button className="btn btn-primary" onClick={addContact}>ADD CONTACT</button>
         </div>)
     }
     const addContact = () => {
