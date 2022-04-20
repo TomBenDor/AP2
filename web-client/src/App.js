@@ -15,11 +15,6 @@ const App = () => {
         "password": "pass123",
         "displayName": "Coolest dude ever",
         "profilePicture": "profile_picture.png"
-    },{
-        "username":"red",
-        "password":"notImposter123",
-        "displayName":"Red",
-        "profilePicture":"red.png"
     }]);
 
     const [contacts, setContacts] = useState([
