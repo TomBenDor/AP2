@@ -14,7 +14,7 @@ const App = () => {
         "username": "user123",
         "password": "pass123",
         "displayName": "Coolest dude ever",
-        "profilePicture": "profile_picture.png"
+        "profilePicture": "media/profile_picture.png"
     }]);
 
     const [contacts, setContacts] = useState([
@@ -22,7 +22,7 @@ const App = () => {
             id: 0,
             username: 'Panda',
             name: 'Panda Bear',
-            profilePicture: 'panda.jpg',
+            profilePicture: 'media/panda.jpg',
             unreadMessages: 1,
             messages: [
                 {
@@ -45,7 +45,7 @@ const App = () => {
             id: 1,
             username: 'Koala',
             name: 'Koala Bear',
-            profilePicture: 'koala.jpg',
+            profilePicture: 'media/koala.jpg',
             unreadMessages: 1,
             messages: [
                 {
@@ -61,7 +61,7 @@ const App = () => {
             id: 2,
             username: 'Crisr7',
             name: 'Cristiano Ronaldo',
-            profilePicture: 'cr7.jpg',
+            profilePicture: 'media/cr7.jpg',
             unreadMessages: 3,
             messages: [
                 {
@@ -88,14 +88,14 @@ const App = () => {
                 {
                     id: 4,
                     sender: 'right',
-                    text: 'cr7-siuuu.mp4',
+                    text: 'media/cr7-siuuu.mp4',
                     timestamp: '4/18/2022, 12:42:55',
                     type: 'video'
                 },
                 {
                     id: 5,
                     sender: 'right',
-                    text: 'siuuu.gif',
+                    text: 'media/siuuu.gif',
                     timestamp: '4/18/2022, 12:42:59',
                     type: 'image'
                 },
@@ -105,7 +105,7 @@ const App = () => {
             id: 3,
             username: 'drake6942',
             name: 'Drake',
-            profilePicture: 'drake.jpg',
+            profilePicture: 'media/drake.jpg',
             unreadMessages: 0,
             messages: [
                 {
@@ -118,7 +118,7 @@ const App = () => {
                 {
                     id: 2,
                     sender: 'right',
-                    text: 'sheesh.mp3',
+                    text: 'media/sheesh.mp3',
                     timestamp: '4/19/2021, 8:44:00',
                     type: 'audio'
                 },
@@ -135,7 +135,7 @@ const App = () => {
             id: 4,
             username: 'zuckyhomeboy',
             name: 'Mark Zuckerberg',
-            profilePicture: 'zuck.jpg',
+            profilePicture: 'media/zuck.jpg',
             unreadMessages: 3,
             messages: [
                 {
@@ -162,7 +162,7 @@ const App = () => {
                 {
                     id: 7,
                     sender: 'right',
-                    text: 'screenshot.jpg',
+                    text: 'media/screenshot.jpg',
                     timestamp: '4/19/2021, 8:45:23',
                     type: 'image'
                 },
