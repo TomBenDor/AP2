@@ -23,7 +23,7 @@ const Message = ({message}) => {
                     </audio>
                 }
                 <div className="message-timestamp">{new Date(message.timestamp).toLocaleTimeString("en-US", {
-                    hour12: false,
+                    hourCycle: 'h23',
                     hour: "numeric",
                     minute: "numeric"
                 })}</div>
