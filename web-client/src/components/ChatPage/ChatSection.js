@@ -57,6 +57,7 @@ const ChatSection = (props) => {
             sendMessage(newMessage);
             // Clear the message box
             messageBox.current.value = '';
+            typing();
         }
     };
 
