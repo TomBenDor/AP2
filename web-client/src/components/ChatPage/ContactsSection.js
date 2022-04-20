@@ -66,8 +66,8 @@ const ContactsSection = (props) => {
                         </div>
                     </span>
                 </span>
-                <span className="contacts-section-header-controls">
-                    <button className="add-contact-button center" data-bs-toggle="modal" data-bs-target="#myModal">
+                <span className="buttons">
+                    <button className="icon-button center" data-bs-toggle="modal" data-bs-target="#myModal">
                         <i className="bi bi-person-plus"/>
                     </button>
                 </span>
@@ -104,7 +104,7 @@ const ContactsSection = (props) => {
                         </div>
 
                         <div className="modal-footer">
-                            <button type="button" className="add-contact-button" onClick={addContact}>
+                            <button type="button" className="icon-button" onClick={addContact}>
                                 <i className="bi bi-plus-circle"/>
                             </button>
                         </div>
