@@ -12,12 +12,15 @@ const ContactsSection = (props) => {
         const requestedContact = contactInput.current.value;
         if (requestedContact === "") {
             document.getElementById("add-contact-error").innerHTML = "Contact name cannot be empty";
+            hasError= true;
         }
         if (requestedContact === props.user.username) {
             document.getElementById("add-contact-error").innerHTML = "You can't add yourself";
+            hasError= true;
         }
         if (props.contacts.find(contact => contact.username === requestedContact)) {
             document.getElementById("add-contact-error").innerHTML = "This contact is already in your list";
+            hasError= true;
         }
 
         if (hasError) {
