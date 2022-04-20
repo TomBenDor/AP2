@@ -10,12 +10,20 @@ const App = () => {
     // currentUser: { username: "", displayName: "", profilePicture: "" }
     const [currentUser, setCurrentUser] = useState(null);
     // Users from the database (for now it's just hardcoded)
-    const [users, setUsers] = useState([{
-        "username": "user123",
-        "password": "pass123",
-        "displayName": "Coolest dude ever",
-        "profilePicture": "profile_picture.png"
-    }]);
+    const [users, setUsers] = useState([
+        {
+            "username": "user123",
+            "password": "pass123",
+            "displayName": "Coolest dude ever",
+            "profilePicture": "profile_picture.png"
+        },
+        {
+            "username": "user456",
+            "password": "pass456",
+            "displayName": "Lion",
+            "profilePicture": "profile_picture.png"
+        },
+    ]);
 
     const [contacts, setContacts] = useState([
         {
@@ -67,7 +75,8 @@ const App = () => {
                         <Route path='/' element={
                             // Check if user is signed in or not. If not, render landing page.
                             // If signed in, Render the Chat page.
-                            currentUser ? <ChatPage user={currentUser} contacts={contacts} setContacts={setContacts}/> :
+                            currentUser ? <ChatPage user={currentUser} contacts={contacts} setContacts={setContacts}
+                                                    users={users}/> :
                                 <LandingPage/>
                         }/>
                         <Route path='/signin' element={

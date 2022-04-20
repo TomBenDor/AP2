@@ -249,16 +249,16 @@ const ChatSection = (props) => {
                     }
 
                 </span>
-                        <span className="chat-buttons">
+                        <span className="buttons">
                                 {((!messageEmpty && !recording) &&
-                                    <button className="center chat-button" onClick={sendTextMessage}>
+                                    <button className="center icon-button" onClick={sendTextMessage}>
                                         <i className="bi bi-send"/>
                                     </button>) || (recording &&
-                                    <button className="center chat-button" onClick={onSelectRecording}>
+                                    <button className="center icon-button" onClick={onSelectRecording}>
                                         <i className="bi bi-stop"/>
                                     </button>) || <div className="center">
                                     {(!showAttachments &&
-                                            <button className="chat-button"
+                                            <button className="icon-button"
                                                     onMouseEnter={() => {
                                                         setShowAttachments(true);
                                                     }}>
@@ -268,17 +268,17 @@ const ChatSection = (props) => {
                                         <div onMouseLeave={() => {
                                             setShowAttachments(false);
                                         }}>
-                                            <label className="chat-button">
+                                            <label className="icon-button">
                                                 <input onChange={onSelectImage} type="file"
                                                        className="upload-file-button" accept="image/*"/>
                                                 <i className="bi bi-image"/>
                                             </label>
-                                            <label className="chat-button">
+                                            <label className="icon-button">
                                                 <input onChange={onSelectVideo} type="file"
                                                        className="upload-file-button" accept="video/*"/>
                                                 <i className="bi bi-camera-video"/>
                                             </label>
-                                            <button onClick={onSelectRecording} className="chat-button">
+                                            <button onClick={onSelectRecording} className="icon-button">
                                                 <i className="bi bi-mic"/>
                                             </button>
                                         </div>
