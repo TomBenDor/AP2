@@ -73,3 +73,16 @@
     width: 100%;
     padding: 0;
 }
+
+.add-contact-input {
+    width: 100%;
+}
+
+.close-button {
+    background-color: transparent;
+    border: none;
+}
+
+.close-button i {
+    font-size: 40px;
+}

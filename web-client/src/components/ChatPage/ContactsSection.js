@@ -7,13 +7,28 @@ const ContactsSection = (props) => {
     const [profilePicture, setProfilePicture] = useState(props.user.profilePicture);
 
     const addContact = () => {
+        document.getElementById("add-contact-input").classList.remove("is-invalid");
         const requestedContact = contactInput.current.value;
-        if (requestedContact === "" || requestedContact === props.user.username) {
+        if (requestedContact === "") {
+            document.getElementById("add-contact-input").classList.add("is-invalid");
+            document.getElementById("add-contact-error").innerHTML = "Contact name cannot be empty";
             return;
         }
+        if (requestedContact === props.user.username) {
+            document.getElementById("add-contact-input").classList.add("is-invalid");
+            document.getElementById("add-contact-error").innerHTML = "You can't add yourself";
+            return;
+        }
+
+        if (props.contacts.find(contact => contact.username === requestedContact)) {
+            document.getElementById("add-contact-input").classList.add("is-invalid");
+            document.getElementById("add-contact-error").innerHTML = "This contact is already in your list";
+            return;
+        }
+
         // Search for user in database
         const contactUser = props.users.find(user => user.username === requestedContact);
-        
+
         if (contactUser) {
             const contact = {
                 id: props.contacts.length,
@@ -24,6 +39,9 @@ const ContactsSection = (props) => {
                 messages: []
             }
             props.setContacts([...props.contacts, contact]);
+        } else {
+            document.getElementById("add-contact-input").classList.add("is-invalid");
+            document.getElementById("add-contact-error").innerHTML = "User not found";
         }
     };
 
@@ -64,21 +82,32 @@ const ContactsSection = (props) => {
                               setCurrentContactId={props.setCurrentContactId}/>
             </div>
 
-            <div className="modal" id="myModal">
+            <div className="modal fade" id="myModal">
                 <div className="modal-dialog">
                     <div className="modal-content">
-
                         <div className="modal-header">
                             <h4 className="modal-title">Add Contact</h4>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal"></button>
+                            <button type="button" className="close-button" data-bs-dismiss="modal"
+                                    onClick={() => {
+                                        contactInput.current.value = "";
+                                        document.getElementById("add-contact-input").classList.remove("is-invalid");
+                                    }}>
+                                <i className="bi bi-x"/>
+                            </button>
                         </div>
 
                         <div className="modal-body">
-                            Some input here
+                            <div className="form-group">
+                                <input type="text" ref={contactInput} className="add-contact-input form-control"
+                                       id="add-contact-input"/>
+                                <label className="invalid-feedback" id="add-contact-error"/>
+                            </div>
                         </div>
 
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal">Add</button>
+                            <button type="button" className="add-contact-button" onClick={addContact}>
+                                <i className="bi bi-plus-circle"/>
+                            </button>
                         </div>
 
                     </div>
