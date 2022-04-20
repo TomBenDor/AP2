@@ -45,7 +45,7 @@ const ChatSection = (props) => {
         const message = messageBox.current.value.trim();
         if (message.length > 0) {
             // Get current time in hh:mm format
-            const currentTime = new Date().toLocaleString('en-US', {hour12: false});
+            const currentTime = new Date().toLocaleString('en-US', {hourCycle: 'h23'});
             // Create new message object
             const newMessage = {
                 id: props.contacts[props.currentContactId].messages.length + 1,
@@ -57,6 +57,7 @@ const ChatSection = (props) => {
             sendMessage(newMessage);
             // Clear the message box
             messageBox.current.value = '';
+            typing();
         }
     };
 
@@ -131,7 +132,7 @@ const ChatSection = (props) => {
                 id: props.contacts[props.currentContactId].messages.length + 1,
                 sender: 'left',
                 text: e.target.result,
-                timestamp: new Date().toLocaleString('en-US', {hour12: false}),
+                timestamp: new Date().toLocaleString('en-US', {hourCycle: 'h23'}),
                 type: 'image'
             };
             sendMessage(newMessage);
@@ -156,7 +157,7 @@ const ChatSection = (props) => {
                 id: props.contacts[props.currentContactId].messages.length + 1,
                 sender: 'left',
                 text: e.target.result,
-                timestamp: new Date().toLocaleString('en-US', {hour12: false}),
+                timestamp: new Date().toLocaleString('en-US', {hourCycle: 'h23'}),
                 type: 'video'
             };
             sendMessage(newMessage);
@@ -186,7 +187,7 @@ const ChatSection = (props) => {
                         id: props.contacts[props.currentContactId].messages.length + 1,
                         sender: 'left',
                         text: URL.createObjectURL(new Blob(blobs, {type: 'audio/ogg'})),
-                        timestamp: new Date().toLocaleString('en-US', {hour12: false}),
+                        timestamp: new Date().toLocaleString('en-US', {hourCycle: 'h23'}),
                         type: 'audio'
                     };
                     // Send the message
