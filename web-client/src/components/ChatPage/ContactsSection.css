@@ -22,14 +22,13 @@
 }
 
 .contacts-section-header-controls {
-    float: left;
+    float: right;
     height: 100%;
-    width: 30px;
+    width: 50px;
     flex-shrink: 0;
 }
 
 .add-contact-button {
-    margin-top: 4%;
     padding: 5px 10px 5px 10px;
     background-color: transparent;
     border: none;

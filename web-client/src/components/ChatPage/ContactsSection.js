@@ -59,7 +59,7 @@ const ContactsSection = (props) => {
                     </span>
                 </span>
                 <span className="contacts-section-header-controls">
-                    <button className="add-contact-button" onClick={openContactDialog}>
+                    <button className="add-contact-button center" onClick={openContactDialog}>
                         <i className="bi bi-person-plus"/>
                     </button>
                 </span>
