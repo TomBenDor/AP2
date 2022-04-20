@@ -9,8 +9,17 @@ const ChatSection = (props) => {
     const messagesLength = props.currentContactId !== -1 ? props.contacts[props.currentContactId].messages.length : 0;
 
     // Create a cache for the messages the user has written to each contact
-    const [messagesCache, setMessagesCache] = useState({});
+    const [messagesCache, setMessagesCache] = useState(Object.assign({}, ...props.contacts.map(c => c.id).map((id) => {
+        return {
+            [id]: ""
+        }
+    })));
     const [showAttachments, setShowAttachments] = useState(false);
+
+    // State for recording audio
+    const [recording, setRecording] = useState(false);
+    // State for media stream
+    const [mediaRecorder, setMediaRecorder] = useState(null);
 
     const sendMessage = (message) => {
         // Add new message to current contact's messages
@@ -21,8 +30,6 @@ const ChatSection = (props) => {
             return c;
         }));
 
-        // Clear message box
-        messageBox.current.value = "";
         // Delete the current contact from the cache
         setMessagesCache(cache => {
             delete cache[props.contacts[props.currentContactId].username];
@@ -48,6 +55,8 @@ const ChatSection = (props) => {
                 type: 'text'
             };
             sendMessage(newMessage);
+            // Clear the message box
+            messageBox.current.value = '';
         }
     };
 
@@ -56,8 +65,7 @@ const ChatSection = (props) => {
         setInputHeight();
         // Store written message for current contact in cache
         setMessagesCache({
-            ...messagesCache,
-            [props.contacts[props.currentContactId].username]: messageBox.current.value
+            ...messagesCache, [props.currentContactId]: messageBox.current.value
         });
     };
 
@@ -86,24 +94,13 @@ const ChatSection = (props) => {
     }
 
     const updateMessageBox = () => {
-        // Update message box only if the message box is empty
-        if (messageBox.current && messageBox.current.value.length === 0) {
-            // Check if current contact is in cache
-            if (Object.keys(messagesCache).length > 0 && messagesCache[props.contacts[props.currentContactId].username]) {
-                // Set message box value to the message from cache
-                messageBox.current.value = messagesCache[props.contacts[props.currentContactId].username];
-            }
+        if (messageBox.current) {
+            // Set message box value to the message from cache
+            messageBox.current.value = messagesCache[props.currentContactId];
             setMessageEmpty(messageBox.current.value.length === 0);
         }
         setInputHeight();
-    };
-
-    // Clear message box when current contact changes
-    useEffect(() => {
-        if(props.currentContactId !== -1) {
-            messageBox.current.value = "";
-        }
-    }, [props.currentContactId]);
+    }
 
     useEffect(updateMessageBox, [messagesCache, props.contacts, props.currentContactId]);
 
@@ -168,11 +165,59 @@ const ChatSection = (props) => {
         reader.readAsDataURL(file);
     };
 
+    const startRecording = () => {
+        // Record audio
+        navigator.mediaDevices.getUserMedia({audio: true})
+            .then(stream => {
+                // Create a new media recorder
+                const tempMediaRecorder = new MediaRecorder(stream);
+                // Create a new blob array
+                const blobs = [];
+                // Set the media recorder on data available function
+                tempMediaRecorder.ondataavailable = (e) => {
+                    // Add the blob to the blob array
+                    blobs.push(e.data);
+                };
+
+                // Set the media recorder on stop function
+                tempMediaRecorder.onstop = (e) => {
+                    // Create a new message object
+                    const newMessage = {
+                        id: props.contacts[props.currentContactId].messages.length + 1,
+                        sender: 'left',
+                        text: URL.createObjectURL(new Blob(blobs, {type: 'audio/ogg'})),
+                        timestamp: new Date().toLocaleString('en-US', {hour12: false}),
+                        type: 'audio'
+                    };
+                    // Send the message
+                    sendMessage(newMessage);
+                };
+                // Start recording
+                tempMediaRecorder.start();
+                setMediaRecorder(tempMediaRecorder);
+            });
+    };
+
+    const onSelectRecording = (e) => {
+        // If recording is in progress, stop it. Otherwise, start.
+        recording ? mediaRecorder.stop() : startRecording();
+        // Update recording state
+        setRecording(!recording);
+    };
+
+    // Send recording when contact changes
+    useEffect(() => {
+        if (recording) {
+            mediaRecorder.stop();
+            setRecording(false);
+            setShowAttachments(false);
+        }
+    }, [props.currentContactId]); // eslint-disable-line react-hooks/exhaustive-deps
+
     return (
         <>
-            {(props.currentContactId !== -1 &&
-                    <>
-                        <div className="chat-section-header">
+            {(props.currentContactId !== -1 && <>
+                    <div className="chat-section-header">
                             <span className="user-header">
                                 <span className="profile-pic">
                                     <img
@@ -185,63 +230,68 @@ const ChatSection = (props) => {
                                     </div>
                                 </span>
                             </span>
-                        </div>
-                        <div className="chat-section-messages">
-                            <ChatMessages user={props.user}
-                                          contacts={props.contacts}
-                                          setContacts={props.setContacts}
-                                          currentContactId={props.currentContactId}/>
-                        </div>
-                        <div id="input-section">
-                            <span className="chat-input">
-                                <textarea ref={messageBox} id="message-input" placeholder="Type a message..."
-                                          onChange={typing}
-                                          onKeyDown={keyPressed}/>
-                            </span>
-                            <span className="chat-buttons">
-                                {(!messageEmpty &&
-                                        <button className="center chat-button" onClick={sendTextMessage}>
-                                            <i className="bi bi-send"/>
-                                        </button>
-                                    ) ||
-                                    <div className="center">
-                                        {(!showAttachments &&
-                                                <button className="chat-button"
-                                                        onMouseEnter={() => {
-                                                            setShowAttachments(true);
-                                                        }}>
-                                                    <i className="bi bi-paperclip"/>
-                                                </button>
-                                            ) ||
-                                            <div onMouseLeave={() => {
-                                                setShowAttachments(false);
-                                            }}>
-                                                <label className="chat-button">
-                                                    <input onChange={onSelectImage} type="file"
-                                                           className="upload-file-button" accept="image/*"/>
-                                                    <i className="bi bi-image"/>
-                                                </label>
-                                                <label className="chat-button">
-                                                    <input onChange={onSelectVideo} type="file"
-                                                           className="upload-file-button" accept="video/*"/>
-                                                    <i className="bi bi-camera-video"/>
-                                                </label>
-                                                <button className="chat-button">
-                                                    <i className="bi bi-mic"/>
-                                                </button>
-                                            </div>
-                                        }
-                                    </div>
+                    </div>
+                    <div className="chat-section-messages">
+                        <ChatMessages user={props.user}
+                                      contacts={props.contacts}
+                                      setContacts={props.setContacts}
+                                      currentContactId={props.currentContactId}/>
+                    </div>
+                    <div id="input-section">
+                <span className="chat-input">
+                    {(!recording &&
+                            <textarea ref={messageBox} id="message-input" placeholder="Type a message..."
+                                      onChange={typing}
+                                      onKeyDown={keyPressed}/>
+                        ) ||
+                        <div className="center"><b>Recording...</b></div>
+                    }
+
+                </span>
+                        <span className="chat-buttons">
+                                {((!messageEmpty && !recording) &&
+                                    <button className="center chat-button" onClick={sendTextMessage}>
+                                        <i className="bi bi-send"/>
+                                    </button>) || (recording &&
+                                    <button className="center chat-button" onClick={onSelectRecording}>
+                                        <i className="bi bi-stop"/>
+                                    </button>) || <div className="center">
+                                    {(!showAttachments &&
+                                            <button className="chat-button"
+                                                    onMouseEnter={() => {
+                                                        setShowAttachments(true);
+                                                    }}>
+                                                <i className="bi bi-paperclip"/>
+                                            </button>
+                                        ) ||
+                                        <div onMouseLeave={() => {
+                                            setShowAttachments(false);
+                                        }}>
+                                            <label className="chat-button">
+                                                <input onChange={onSelectImage} type="file"
+                                                       className="upload-file-button" accept="image/*"/>
+                                                <i className="bi bi-image"/>
+                                            </label>
+                                            <label className="chat-button">
+                                                <input onChange={onSelectVideo} type="file"
+                                                       className="upload-file-button" accept="video/*"/>
+                                                <i className="bi bi-camera-video"/>
+                                            </label>
+                                            <button onClick={onSelectRecording} className="chat-button">
+                                                <i className="bi bi-mic"/>
+                                            </button>
+                                        </div>
+                                    }
+                                </div>
                                 }
                             </span>
-                        </div>
-                    </>
-                ) ||
-                <div className="max">
-                    <div className="welcome center">
-                        Select a contact to start messaging...
                     </div>
+                </>
+            ) || <div className="max">
+                <div className="welcome center">
+                    Select a contact to start messaging...
                 </div>
+            </div>
             }
         </>
     );
