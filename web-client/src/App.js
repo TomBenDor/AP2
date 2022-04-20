@@ -64,7 +64,8 @@ const App = () => {
                         <Route path='/' element={
                             // Check if user is signed in or not. If not, render landing page.
                             // If signed in, Render the Chat page.
-                            currentUser ? <ChatPage user={currentUser} contacts={contacts} setContacts={setContacts}/> :
+                            currentUser ? <ChatPage user={currentUser} contacts={contacts} setContacts={setContacts}
+                                                    users={users}/> :
                                 <LandingPage/>
                         }/>
                         <Route path='/signin' element={

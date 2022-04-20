@@ -19,7 +19,8 @@ const ChatPage = (props) => {
                                  contacts={props.contacts}
                                  setContacts={props.setContacts}
                                  currentContactId={currentContactId}
-                                 setCurrentContactId={setCurrentContactId}/>
+                                 setCurrentContactId={setCurrentContactId}
+                                 users={props.users}/>
             </div>
         </div>
     );

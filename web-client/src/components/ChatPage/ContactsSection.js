@@ -1,11 +1,33 @@
 import './ContactsSection.css'
 import ContactsList from "./ContactsList";
-import {useState} from "react";
+import {useRef, useState} from "react";
 
 const ContactsSection = (props) => {
+    const [showInput, setShowInput] = useState(false);
+    const contactInput = useRef(null);
     const [profilePicture, setProfilePicture] = useState(props.user.profilePicture);
     const openContactDialog = () => {
-        console.log("openContactDialog");
+        setShowInput(!showInput);
+    };
+    const ContactDialog = () => {
+        return (<div>
+            <input type="text" ref={contactInput}/>
+            <button className="btn btn-primary" onClick={addContact}>add contact</button>
+        </div>)
+    }
+    const addContact = () => {
+        const contactUser = props.users.find(user => user.username === contactInput.current.value);
+        if (contactUser) {
+            const contact = {
+                id: props.contacts.length,
+                username: contactUser.username,
+                name: contactUser.displayName,
+                profilePicture: contactUser.profilePicture,
+                unreadMessages: 0,
+                messages: []
+            }
+            props.setContacts([...props.contacts, contact]);
+        }
     };
 
     const reader = new FileReader();
@@ -36,6 +58,8 @@ const ContactsSection = (props) => {
                     </button>
                 </span>
             </div>
+            {showInput ? <ContactDialog/> : null}
+
             <div className="contacts">
                 <ContactsList user={props.user}
                               contacts={props.contacts}
