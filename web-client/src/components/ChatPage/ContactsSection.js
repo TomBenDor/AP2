@@ -3,18 +3,9 @@ import ContactsList from "./ContactsList";
 import {useRef, useState} from "react";
 
 const ContactsSection = (props) => {
-    const [showInput, setShowInput] = useState(false);
     const contactInput = useRef(null);
     const [profilePicture, setProfilePicture] = useState(props.user.profilePicture);
-    const openContactDialog = () => {
-        setShowInput(!showInput);
-    };
-    const ContactDialog = () => {
-        return (<div>
-            <input type="text" ref={contactInput}/>
-            <button className="btn btn-primary" onClick={addContact}>ADD CONTACT</button>
-        </div>)
-    }
+
     const addContact = () => {
         const requestedContact = contactInput.current.value;
         if (requestedContact === "" || requestedContact === props.user.username) {
@@ -59,12 +50,11 @@ const ContactsSection = (props) => {
                     </span>
                 </span>
                 <span className="contacts-section-header-controls">
-                    <button className="add-contact-button center" onClick={openContactDialog}>
+                    <button className="add-contact-button center" data-bs-toggle="modal" data-bs-target="#myModal">
                         <i className="bi bi-person-plus"/>
                     </button>
                 </span>
             </div>
-            {showInput ? <ContactDialog/> : null}
 
             <div className="contacts">
                 <ContactsList user={props.user}
@@ -72,6 +62,27 @@ const ContactsSection = (props) => {
                               setContacts={props.setContacts}
                               currentContactId={props.currentContactId}
                               setCurrentContactId={props.setCurrentContactId}/>
+            </div>
+
+            <div className="modal" id="myModal">
+                <div className="modal-dialog">
+                    <div className="modal-content">
+
+                        <div className="modal-header">
+                            <h4 className="modal-title">Add Contact</h4>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+
+                        <div className="modal-body">
+                            Some input here
+                        </div>
+
+                        <div className="modal-footer">
+                            <button type="button" className="btn btn-primary" data-bs-dismiss="modal">Add</button>
+                        </div>
+
+                    </div>
+                </div>
             </div>
         </>
     );
