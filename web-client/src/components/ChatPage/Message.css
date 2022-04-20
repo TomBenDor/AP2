@@ -42,7 +42,7 @@
     white-space: pre-wrap;
 }
 
-.message-image, .message-video {
+.message-media {
     max-height: 300px;
     max-width: 100%;
     border-radius: 5px;

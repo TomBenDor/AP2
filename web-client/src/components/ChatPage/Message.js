@@ -10,12 +10,17 @@ const Message = ({message}) => {
                     </div>
                 }
                 {message.type === 'image' &&
-                    <img className="message-image" src={message.text} alt="sent"/>
+                    <img className="message-media" src={message.text} alt="sent"/>
                 }
                 {message.type === 'video' &&
-                    <video className="message-video" controls>
+                    <video className="message-media" controls>
                         <source src={message.text}/>
                     </video>
+                }
+                {message.type === 'audio' &&
+                    <audio className="message-media" controls>
+                        <source src={message.text}/>
+                    </audio>
                 }
                 <div className="message-timestamp">{new Date(message.timestamp).toLocaleTimeString("en-US", {
                     hour12: false,
