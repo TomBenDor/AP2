@@ -8,21 +8,20 @@ const ContactsSection = (props) => {
 
     const addContact = () => {
         document.getElementById("add-contact-input").classList.remove("is-invalid");
+        let hasError = false;
         const requestedContact = contactInput.current.value;
         if (requestedContact === "") {
-            document.getElementById("add-contact-input").classList.add("is-invalid");
             document.getElementById("add-contact-error").innerHTML = "Contact name cannot be empty";
-            return;
         }
         if (requestedContact === props.user.username) {
-            document.getElementById("add-contact-input").classList.add("is-invalid");
             document.getElementById("add-contact-error").innerHTML = "You can't add yourself";
-            return;
+        }
+        if (props.contacts.find(contact => contact.username === requestedContact)) {
+            document.getElementById("add-contact-error").innerHTML = "This contact is already in your list";
         }
 
-        if (props.contacts.find(contact => contact.username === requestedContact)) {
+        if (hasError) {
             document.getElementById("add-contact-input").classList.add("is-invalid");
-            document.getElementById("add-contact-error").innerHTML = "This contact is already in your list";
             return;
         }
 
