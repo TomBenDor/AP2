@@ -40,7 +40,7 @@ const ContactsList = (props) => {
                         <div className="last-message-time">
                             <h6>
                                 {(contact.messages.length) ? new Date(contact.messages.at(-1).timestamp).toLocaleTimeString('en-US', {
-                                    hour12: false,
+                                    hourCycle: 'h23',
                                     hour: "numeric",
                                     minute: "numeric"
                                 }) : ''}
