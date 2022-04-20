@@ -16,10 +16,13 @@ const ContactsSection = (props) => {
         </div>)
     }
     const addContact = () => {
-        const contactUser = props.users.find(user => user.username === contactInput.current.value);
-        if(contactUser.username===props.user.username){
+        const requestedContact = contactInput.current.value;
+        if (requestedContact === "" || requestedContact === props.user.username) {
             return;
         }
+        // Search for user in database
+        const contactUser = props.users.find(user => user.username === requestedContact);
+        
         if (contactUser) {
             const contact = {
                 id: props.contacts.length,
