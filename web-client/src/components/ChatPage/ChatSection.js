@@ -244,7 +244,7 @@ const ChatSection = (props) => {
                                       onChange={typing}
                                       onKeyDown={keyPressed}/>
                         ) ||
-                        <div className="center">Recording</div>
+                        <div className="center"><b>Recording...</b></div>
                     }
 
                 </span>
