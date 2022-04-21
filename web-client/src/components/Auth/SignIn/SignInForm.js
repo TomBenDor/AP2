@@ -82,7 +82,7 @@ const SignInForm = ({users, currentUser, setCurrentUser}) => {
                     <input type={isVisible ? "text" : "password"} ref={passwordBox} className="form-control"
                            maxLength="30" onChange={handleChange}/>
                     <button className="show-password-button" type="button" onClick={toggleVisibility}>
-                        <span className={"bi".concat(" ",isVisible?"bi-eye-slash":"bi-eye")}/>
+                        <span className={"bi".concat(" ", isVisible ? "bi-eye-slash" : "bi-eye")}/>
                     </button>
                 </div>
                 <button type="submit" className="submit-button" id="sign-in-button" disabled>SIGN IN</button>
