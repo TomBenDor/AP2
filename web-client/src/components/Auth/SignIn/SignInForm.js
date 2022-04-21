@@ -81,9 +81,8 @@ const SignInForm = ({users, currentUser, setCurrentUser}) => {
                     <label htmlFor="password" className="form-help" id="password-label">Password</label>
                     <input type={isVisible ? "text" : "password"} ref={passwordBox} className="form-control"
                            maxLength="30" onChange={handleChange}/>
-                    <button className="show-password-button" type="button" onMouseUp={toggleVisibility}
-                            onMouseDown={toggleVisibility}>
-                        <span className="bi bi-eye"/>
+                    <button className="show-password-button" type="button" onClick={toggleVisibility}>
+                        <span className={isVisible ? "bi-eye-slash" : "bi-eye"}/>
                     </button>
                 </div>
                 <button type="submit" className="submit-button" id="sign-in-button" disabled>SIGN IN</button>
