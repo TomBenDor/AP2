@@ -179,7 +179,6 @@ const ChatSection = (props) => {
                     // Add the blob to the blob array
                     blobs.push(e.data);
                 };
-
                 // Set the media recorder on stop function
                 tempMediaRecorder.onstop = (e) => {
                     // Create a new message object
@@ -204,6 +203,14 @@ const ChatSection = (props) => {
         recording ? mediaRecorder.stop() : startRecording();
         // Update recording state
         setRecording(!recording);
+    };
+
+    const cancelRecording = () => {
+        mediaRecorder.onstop= null;
+        // Stop the media recorder
+        mediaRecorder.stop();
+        // Update recording state
+        setRecording(false);
     };
 
     // Send recording when contact changes
@@ -254,9 +261,14 @@ const ChatSection = (props) => {
                                     <button className="center icon-button" onClick={sendTextMessage}>
                                         <i className="bi bi-send"/>
                                     </button>) || (recording &&
-                                    <button className="center icon-button" onClick={onSelectRecording}>
-                                        <i className="bi bi-stop"/>
-                                    </button>) || <div className="center">
+                                    <div className="recording-controls">
+                                        <button className="icon-button center" onClick={onSelectRecording}>
+                                            <i className="bi bi-stop-circle"/>
+                                        </button>
+                                        <button className="icon-button center" onClick={cancelRecording}>
+                                            <i className="bi bi-trash"/>
+                                        </button>
+                                    </div>) || <div className="center">
                                     {(!showAttachments &&
                                             <button className="icon-button"
                                                     onMouseEnter={() => {
