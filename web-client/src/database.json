@@ -26,6 +26,31 @@
             "password":"Harambe123",
             "displayName":"Harambe",
             "profilePicture":"media/harambe.jpg"
+        },{
+            "username":"Panda",
+            "password":"Pandag4",
+            "displayName":"Panda Bear",
+            "profilePicture":"media/panda.jpg"
+        },{
+            "username":"Koala",
+            "password":"Koal653",
+            "displayName":"Koala Bear",
+            "profilePicture":"media/koala.jpg"
+        },{
+            "username":"Crisr7",
+            "password":"Crr9876",
+            "displayName":"Cristiano Ronaldo",
+            "profilePicture":"media/cr7.jpg"
+        },{
+            "username":"drake6942",
+            "password":"DDdsf5",
+            "displayName":"Drake",
+            "profilePicture":"media/drake.jpg"
+        },{
+            "username":"zuckyhomeboy",
+            "password":"Markie(6)",
+            "displayName":"Mark Zuckerberg",
+            "profilePicture":"media/zuck.jpg"
         }
     ],
     "contacts": [
