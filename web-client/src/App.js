@@ -4,15 +4,14 @@ import SignInForm from "./components/Auth/SignIn/SignInForm";
 import SignUpForm from "./components/Auth/SignUp/SignUpForm";
 import ChatPage from "./components/ChatPage/ChatPage";
 import LandingPage from "./components/LandingPage/LandingPage";
-import {usersDB, contactsDB} from './Data';
+let DB = require('./database.json');
 
 const App = () => {
     // Current signed in user
-    // currentUser: { username: "", displayName: "", profilePicture: "" }
     const [currentUser, setCurrentUser] = useState(null);
 
-    const [users, setUsers] = useState(usersDB);
-    const [contacts, setContacts] = useState(contactsDB);
+    const [users, setUsers] = useState(DB.users);
+    const [contacts, setContacts] = useState(DB.contacts);
 
     return (
         <Router>
