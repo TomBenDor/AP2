@@ -7,7 +7,7 @@
 .user-header {
     float: left;
     height: 100%;
-    width: calc(100% - 50px);
+    width: calc(100% - 60px);
 }
 
 .user-header-title {
@@ -15,33 +15,39 @@
     height: 100%;
     padding: 5px;
     width: calc(100% - 70px);
+}
+
+.user-header-title > div {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     font: bold 18px 'Lato', sans-serif;
 }
 
-.contacts-section-header-controls {
+.buttons {
+    padding: 5px;
     float: right;
     height: 100%;
-    width: 30px;
+    flex-shrink: 0;
 }
 
-.add-contact-button {
-    width: 100%;
-    height: 100%;
+.icon-button {
+    background-color: transparent;
     border: none;
-    background: none;
-    user-select: none;
-}
-
-.add-contact-button i {
-    position: relative;
-    right: 5px;
-    font-size: 25px;
     color: black;
+    padding: 5px 10px 5px 10px;
+    text-align: center;
+    border-radius: 50%;
+    cursor: pointer;
 }
 
+.icon-button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.icon-button > i {
+    font-size: 24px;
+}
 
 .profile-pic {
     float: left;
@@ -66,4 +72,17 @@
 .contacts-list {
     width: 100%;
     padding: 0;
+}
+
+.add-contact-input {
+    width: 100%;
+}
+
+.close-button {
+    background-color: transparent;
+    border: none;
+}
+
+.close-button i {
+    font-size: 40px;
 }

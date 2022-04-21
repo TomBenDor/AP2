@@ -63,36 +63,8 @@
     border: 1px solid var(--main-bright);
 }
 
-.input-buttons {
-    float: right;
-    width: 90px;
-    height: 100%;
-}
-
 .chat-input {
     width: 100%;
-}
-
-.chat-buttons {
-    padding: 5px;
-    flex-shrink: 0;
-}
-
-.chat-button {
-    padding: 5px 10px 5px 10px;
-    background-color: transparent;
-    border: none;
-    color: black;
-    border-radius: 50%;
-    cursor: pointer;
-}
-
-.chat-button:hover {
-    background-color: rgba(0, 0, 0, 0.1);
-}
-
-.chat-button > i {
-    font-size: 24px;
 }
 
 .upload-file-button {
