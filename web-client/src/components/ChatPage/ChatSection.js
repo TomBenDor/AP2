@@ -8,12 +8,7 @@ const ChatSection = (props) => {
     const [messageEmpty, setMessageEmpty] = useState(true);
     const messagesLength = props.currentContactId !== -1 ? props.contacts[props.currentContactId].messages.length : 0;
 
-    // Create a cache for the messages the user has written to each contact
-    const [messagesCache, setMessagesCache] = useState(Object.assign({}, ...props.contacts.map(c => c.id).map((id) => {
-        return {
-            [id]: ""
-        }
-    })));
+
     const [showAttachments, setShowAttachments] = useState(false);
 
     // State for recording audio
@@ -31,7 +26,7 @@ const ChatSection = (props) => {
         }));
 
         // Delete the current contact from the cache
-        setMessagesCache(cache => {
+        props.setMessagesCache(cache => {
             delete cache[props.contacts[props.currentContactId].username];
             return cache;
         });
@@ -65,8 +60,8 @@ const ChatSection = (props) => {
         setMessageEmpty(messageBox.current.value.length === 0);
         setInputHeight();
         // Store written message for current contact in cache
-        setMessagesCache({
-            ...messagesCache, [props.currentContactId]: messageBox.current.value
+        props.setMessagesCache({
+            ...props.messagesCache, [props.currentContactId]: messageBox.current.value
         });
     };
 
@@ -97,13 +92,13 @@ const ChatSection = (props) => {
     const updateMessageBox = () => {
         if (messageBox.current) {
             // Set message box value to the message from cache
-            messageBox.current.value = messagesCache[props.currentContactId];
+            messageBox.current.value = props.messagesCache[props.currentContactId];
             setMessageEmpty(messageBox.current.value.length === 0);
         }
         setInputHeight();
     }
 
-    useEffect(updateMessageBox, [messagesCache, props.contacts, props.currentContactId]);
+    useEffect(updateMessageBox, [props.messagesCache, props.contacts, props.currentContactId]);
 
     const scrollToBottom = () => {
         const messageBubbles = document.getElementsByClassName('message-bubble');

@@ -12,15 +12,15 @@ const ContactsSection = (props) => {
         const requestedContact = contactInput.current.value.trim();
         if (requestedContact === "") {
             document.getElementById("add-contact-error").innerHTML = "Contact name cannot be empty";
-            hasError= true;
+            hasError = true;
         }
         if (requestedContact === props.user.username) {
             document.getElementById("add-contact-error").innerHTML = "You can't add yourself";
-            hasError= true;
+            hasError = true;
         }
         if (props.contacts.find(contact => contact.username === requestedContact)) {
             document.getElementById("add-contact-error").innerHTML = "This contact is already in your list";
-            hasError= true;
+            hasError = true;
         }
 
         if (hasError) {
@@ -41,6 +41,9 @@ const ContactsSection = (props) => {
                 messages: []
             }
             props.setContacts([...props.contacts, contact]);
+            props.setMessagesCache({
+                ...props.messagesCache, [contact.id]: ""
+            });
             // Clear input field
             contactInput.current.value = "";
         } else {
