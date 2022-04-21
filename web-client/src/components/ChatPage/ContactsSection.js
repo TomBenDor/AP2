@@ -9,7 +9,7 @@ const ContactsSection = (props) => {
     const addContact = () => {
         document.getElementById("add-contact-input").classList.remove("is-invalid");
         let hasError = false;
-        const requestedContact = contactInput.current.value;
+        const requestedContact = contactInput.current.value.trim();
         if (requestedContact === "") {
             document.getElementById("add-contact-error").innerHTML = "Contact name cannot be empty";
             hasError= true;
@@ -41,6 +41,8 @@ const ContactsSection = (props) => {
                 messages: []
             }
             props.setContacts([...props.contacts, contact]);
+            // Clear input field
+            contactInput.current.value = "";
         } else {
             document.getElementById("add-contact-input").classList.add("is-invalid");
             document.getElementById("add-contact-error").innerHTML = "User not found";
