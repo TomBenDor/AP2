@@ -179,7 +179,6 @@ const ChatSection = (props) => {
                     // Add the blob to the blob array
                     blobs.push(e.data);
                 };
-
                 // Set the media recorder on stop function
                 tempMediaRecorder.onstop = (e) => {
                     // Create a new message object
@@ -204,6 +203,14 @@ const ChatSection = (props) => {
         recording ? mediaRecorder.stop() : startRecording();
         // Update recording state
         setRecording(!recording);
+    };
+
+    const cancelRecording = () => {
+        mediaRecorder.onstop = null;
+        // Stop the media recorder
+        mediaRecorder.stop();
+        // Update recording state
+        setRecording(false);
     };
 
     // Send recording when contact changes
@@ -251,39 +258,48 @@ const ChatSection = (props) => {
                 </span>
                         <span className="buttons">
                                 {((!messageEmpty && !recording) &&
-                                    <button className="center icon-button" onClick={sendTextMessage}>
-                                        <i className="bi bi-send"/>
-                                    </button>) || (recording &&
-                                    <button className="center icon-button" onClick={onSelectRecording}>
-                                        <i className="bi bi-stop"/>
-                                    </button>) || <div className="center">
-                                    {(!showAttachments &&
-                                            <button className="icon-button"
-                                                    onMouseEnter={() => {
-                                                        setShowAttachments(true);
-                                                    }}>
-                                                <i className="bi bi-paperclip"/>
+                                        <button className="center icon-button" onClick={sendTextMessage}>
+                                            <i className="bi bi-send"/>
+                                        </button>
+                                    ) ||
+                                    (recording &&
+                                        <div className="center">
+                                            <button className="icon-button" onClick={onSelectRecording}>
+                                                <i className="bi bi-stop-circle"/>
                                             </button>
-                                        ) ||
-                                        <div onMouseLeave={() => {
-                                            setShowAttachments(false);
-                                        }}>
-                                            <label className="icon-button">
-                                                <input onChange={onSelectImage} type="file"
-                                                       className="upload-file-button" accept="image/*"/>
-                                                <i className="bi bi-image"/>
-                                            </label>
-                                            <label className="icon-button">
-                                                <input onChange={onSelectVideo} type="file"
-                                                       className="upload-file-button" accept="video/*"/>
-                                                <i className="bi bi-camera-video"/>
-                                            </label>
-                                            <button onClick={onSelectRecording} className="icon-button">
-                                                <i className="bi bi-mic"/>
+                                            <button className="icon-button" onClick={cancelRecording}>
+                                                <i className="bi bi-trash"/>
                                             </button>
                                         </div>
-                                    }
-                                </div>
+                                    ) ||
+                                    <div className="center">
+                                        {(!showAttachments &&
+                                                <button className="icon-button"
+                                                        onMouseEnter={() => {
+                                                            setShowAttachments(true);
+                                                        }}>
+                                                    <i className="bi bi-paperclip"/>
+                                                </button>
+                                            ) ||
+                                            <div onMouseLeave={() => {
+                                                setShowAttachments(false);
+                                            }}>
+                                                <label className="icon-button">
+                                                    <input onChange={onSelectImage} type="file"
+                                                           className="upload-file-button" accept="image/*"/>
+                                                    <i className="bi bi-image"/>
+                                                </label>
+                                                <label className="icon-button">
+                                                    <input onChange={onSelectVideo} type="file"
+                                                           className="upload-file-button" accept="video/*"/>
+                                                    <i className="bi bi-camera-video"/>
+                                                </label>
+                                                <button onClick={onSelectRecording} className="icon-button">
+                                                    <i className="bi bi-mic"/>
+                                                </button>
+                                            </div>
+                                        }
+                                    </div>
                                 }
                             </span>
                     </div>
