@@ -12,7 +12,7 @@ const App = () => {
   
     const [users, setUsers] = useState(DB.users);
     const [contacts, setContacts] = useState(DB.contacts);
-    const [theme, setTheme] = useState('dark');
+    const [theme, setTheme] = useState('light');
 
     return (
         <Router>
