@@ -66,6 +66,11 @@ const ContactsSection = (props) => {
             e.preventDefault();
         }
     }
+    // Clear error message on change
+    const clearUsernameError = () => {
+        document.getElementById("add-contact-input").classList.remove("is-invalid");
+        document.getElementById("add-contact-error").innerHTML = "";
+    }
 
     const reader = new FileReader();
     reader.addEventListener("loadend", () => {
@@ -122,7 +127,7 @@ const ContactsSection = (props) => {
                             <div className="modal-body">
                                 <div className="form-group">
                                     <input type="text" ref={contactInput} className="add-contact-input form-control"
-                                           id="add-contact-input" onKeyPress={enforceUsernameRegEx}/>
+                                           id="add-contact-input" onKeyPress={enforceUsernameRegEx} onChange={clearUsernameError}/>
                                     <label className="invalid-feedback" id="add-contact-error"/>
                                 </div>
                             </div>
