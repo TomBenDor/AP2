@@ -55,6 +55,11 @@ const ContactsSection = (props) => {
     // Prevent user from entering invalid characters
     const enforceUsernameRegEx = (e) => {
         document.getElementById("add-contact-input").classList.remove("is-invalid");
+        // If user presses enter, add contact
+        if (e.key === "Enter") {
+            addContact(e);
+            return;
+        }
         if (!/[a-zA-Z0-9-]$/.test(e.key)) {
             document.getElementById("add-contact-error").innerHTML = "Username must contain only letters, numbers, and hyphens";
             document.getElementById("add-contact-input").classList.add("is-invalid");
