@@ -6,7 +6,8 @@ const ContactsSection = (props) => {
     const contactInput = useRef(null);
     const [profilePicture, setProfilePicture] = useState(props.user.profilePicture);
 
-    const addContact = () => {
+    const addContact = (e) => {
+        e.preventDefault()
         document.getElementById("add-contact-input").classList.remove("is-invalid");
         let hasError = false;
         const requestedContact = contactInput.current.value.trim();
@@ -52,6 +53,7 @@ const ContactsSection = (props) => {
         }
     };
 
+
     const reader = new FileReader();
     reader.addEventListener("loadend", () => {
         setProfilePicture(reader.result);
@@ -59,6 +61,7 @@ const ContactsSection = (props) => {
     if (typeof props.user.profilePicture !== 'string') {
         reader.readAsDataURL(props.user.profilePicture);
     }
+
     return (
         <>
             <div className="contacts-section-header">
@@ -102,20 +105,21 @@ const ContactsSection = (props) => {
                                 <i className="bi bi-x"/>
                             </button>
                         </div>
-
-                        <div className="modal-body">
-                            <div className="form-group">
-                                <input type="text" ref={contactInput} className="add-contact-input form-control"
-                                       id="add-contact-input"/>
-                                <label className="invalid-feedback" id="add-contact-error"/>
+                        <form onSubmit={addContact}>
+                            <div className="modal-body">
+                                <div className="form-group">
+                                    <input type="text" ref={contactInput} className="add-contact-input form-control"
+                                           id="add-contact-input"/>
+                                    <label className="invalid-feedback" id="add-contact-error"/>
+                                </div>
                             </div>
-                        </div>
 
-                        <div className="modal-footer">
-                            <button type="button" className="icon-button" onClick={addContact}>
-                                <i className="bi bi-plus-circle"/>
-                            </button>
-                        </div>
+                            <div className="modal-footer">
+                                <button type="submit" className="icon-button">
+                                    <i className="bi bi-plus-circle"/>
+                                </button>
+                            </div>
+                        </form>
 
                     </div>
                 </div>
