@@ -8,7 +8,7 @@
 [data-theme='dark'] {
     --contacts-section-header-border: #1c282e;
     --icon-button-text: #e9edef;
-    --icon-button-background-hover: rgba(0, 0, 0, 0.1);
+    --icon-button-background-hover: rgba(255, 255, 255, 0.1);
     --popup-background-color: rgba(31, 44, 51, 255);
 }
 
