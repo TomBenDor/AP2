@@ -52,7 +52,15 @@ const ContactsSection = (props) => {
             document.getElementById("add-contact-error").innerHTML = "User not found";
         }
     };
-
+    // Prevent user from entering invalid characters
+    const enforceUsernameRegEx = (e) => {
+        document.getElementById("add-contact-input").classList.remove("is-invalid");
+        if (!/[a-zA-Z0-9-]$/.test(e.key)) {
+            document.getElementById("add-contact-error").innerHTML = "Username must contain only letters, numbers, and hyphens";
+            document.getElementById("add-contact-input").classList.add("is-invalid");
+            e.preventDefault();
+        }
+    }
 
     const reader = new FileReader();
     reader.addEventListener("loadend", () => {
@@ -109,7 +117,7 @@ const ContactsSection = (props) => {
                             <div className="modal-body">
                                 <div className="form-group">
                                     <input type="text" ref={contactInput} className="add-contact-input form-control"
-                                           id="add-contact-input"/>
+                                           id="add-contact-input" onKeyPress={enforceUsernameRegEx}/>
                                     <label className="invalid-feedback" id="add-contact-error"/>
                                 </div>
                             </div>
