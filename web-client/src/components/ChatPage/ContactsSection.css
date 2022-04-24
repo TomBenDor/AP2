@@ -2,12 +2,14 @@
     --contacts-section-header-border: gray;
     --icon-button-text: black;
     --icon-button-background-hover: rgba(0, 0, 0, 0.1);
+    --popup-background-color: white;
 }
 
 [data-theme='dark'] {
     --contacts-section-header-border: #1c282e;
     --icon-button-text: #e9edef;
     --icon-button-background-hover: rgba(0, 0, 0, 0.1);
+    --popup-background-color: rgba(31, 44, 51, 255);
 }
 
 .contacts-section-header {
@@ -82,6 +84,11 @@
     overflow-y: auto;
 }
 
+.add-contact-popup {
+    background-color: var(--popup-background-color);
+    color: var(--primary-text-color);
+}
+
 .contacts-list {
     width: 100%;
     padding: 0;
@@ -94,6 +101,7 @@
 .close-button {
     background-color: transparent;
     border: none;
+    color: var(--icon-button-text);
 }
 
 .close-button i {
