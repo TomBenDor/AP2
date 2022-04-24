@@ -3,6 +3,7 @@
     --contact-active-background-color: rgba(0, 0, 0, 0.05);
     --contact-hover-not: rgba(0, 0, 0, 0.02);
     --unread-text-color: white;
+    --unread-background-color: #36D1DC;
 }
 
 [data-theme='dark'] {
@@ -10,6 +11,7 @@
     --contact-active-background-color: rgba(0, 0, 0, 0.05);
     --contact-hover-not: rgba(0, 0, 0, 0.02);
     --unread-text-color: white;
+    --unread-background-color: #36D1DC;
 }
 
 .contact {
@@ -66,7 +68,7 @@
     float: right;
     display: inline-block;
     color: var(--unread-text-color);
-    background-color: var(--main-bright);
+    background-color: var(--unread-background-color);
     border-radius: 15px;
     padding: 4px 7px 4px 7px;
     text-align: center;
