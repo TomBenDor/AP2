@@ -234,7 +234,7 @@ const ChatSection = (props) => {
                                     </div>
                                 </span>
                             </span>
-                            <span>
+                        <span className="buttons">
                                 <ToggleTheme theme={props.theme} setTheme={props.setTheme}/>
                             </span>
                     </div>
