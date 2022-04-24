@@ -94,6 +94,11 @@
     padding: 0;
 }
 
+#add-contact-input {
+    background-color: var(--input-background-color);
+    color: var(--primary-text-color);
+}
+
 .add-contact-input {
     width: 100%;
 }
