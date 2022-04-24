@@ -3,7 +3,7 @@
 }
 
 [data-theme='dark'] {
-    --contacts-section-border: gray;
+    --contacts-section-border: #1c282e;
 }
 
 .chat-section {

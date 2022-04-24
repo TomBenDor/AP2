@@ -5,8 +5,8 @@
 }
 
 [data-theme='dark'] {
-    --contacts-section-header-border: gray;
-    --icon-button-text: black;
+    --contacts-section-header-border: #1c282e;
+    --icon-button-text: #e9edef;
     --icon-button-background-hover: rgba(0, 0, 0, 0.1);
 }
 
@@ -20,6 +20,7 @@
     float: left;
     height: 100%;
     width: calc(100% - 60px);
+    color: var(--primary-text-color);
 }
 
 .user-header-title {

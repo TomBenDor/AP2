@@ -8,10 +8,10 @@
 
 [data-theme='dark'] {
     --message-bubble-shadow: rgba(0, 0, 0, 0.2);
-    --message-bubble-text: black;
-    --message-bubble-left-background: rgba(223, 255, 182, 1);
-    --message-bubble-right-background: white;
-    --message-timestamp-text: gray;
+    --message-bubble-text: #e9edef;
+    --message-bubble-left-background: #005c4b;
+    --message-bubble-right-background: #1f2c33;
+    --message-timestamp-text: rgba(255, 255, 255, 0.6);
 }
 
 .message {
