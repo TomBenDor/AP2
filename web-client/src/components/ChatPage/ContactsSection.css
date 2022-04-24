@@ -97,6 +97,7 @@
 #add-contact-input {
     background-color: var(--input-background-color);
     color: var(--primary-text-color);
+    border-color: var(--contact-border-color);
 }
 
 .add-contact-input {
@@ -111,4 +112,12 @@
 
 .close-button i {
     font-size: 40px;
+}
+
+.modal-header {
+    border-bottom-color: var(--contact-border-color);
+}
+
+.modal-footer {
+    border-top-color: var(--contact-border-color);
 }
