@@ -9,7 +9,7 @@ let DB = require('./database.json');
 const App = () => {
     // Current signed in user
     const [currentUser, setCurrentUser] = useState(null);
-
+  
     const [users, setUsers] = useState(DB.users);
     const [contacts, setContacts] = useState(DB.contacts);
 
