@@ -20,6 +20,7 @@ const ChatPage = (props) => {
                              currentContactId={currentContactId}
                              messagesCache={messagesCache}
                              setMessagesCache={setMessagesCache}
+                             theme={props.theme} setTheme={props.setTheme}
                 />
             </div>
             <div className="contacts-section">
