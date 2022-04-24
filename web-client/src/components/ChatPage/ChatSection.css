@@ -87,6 +87,7 @@
 
 .chat-input {
     width: 100%;
+    color: var(--primary-text-color);
 }
 
 .upload-file-button {
