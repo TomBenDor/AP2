@@ -6,7 +6,8 @@ const ContactsSection = (props) => {
     const contactInput = useRef(null);
     const [profilePicture, setProfilePicture] = useState(props.user.profilePicture);
 
-    const addContact = () => {
+    const addContact = (e) => {
+        e.preventDefault()
         document.getElementById("add-contact-input").classList.remove("is-invalid");
         let hasError = false;
         const requestedContact = contactInput.current.value.trim();
@@ -51,6 +52,25 @@ const ContactsSection = (props) => {
             document.getElementById("add-contact-error").innerHTML = "User not found";
         }
     };
+    // Prevent user from entering invalid characters
+    const enforceUsernameRegEx = (e) => {
+        document.getElementById("add-contact-input").classList.remove("is-invalid");
+        // If user presses enter, add contact
+        if (e.key === "Enter") {
+            addContact(e);
+            return;
+        }
+        if (!/[a-zA-Z0-9-]$/.test(e.key)) {
+            document.getElementById("add-contact-error").innerHTML = "Username must contain only letters, numbers, and hyphens";
+            document.getElementById("add-contact-input").classList.add("is-invalid");
+            e.preventDefault();
+        }
+    }
+    // Clear error message on change
+    const clearUsernameError = () => {
+        document.getElementById("add-contact-input").classList.remove("is-invalid");
+        document.getElementById("add-contact-error").innerHTML = "";
+    }
 
     const reader = new FileReader();
     reader.addEventListener("loadend", () => {
@@ -59,6 +79,7 @@ const ContactsSection = (props) => {
     if (typeof props.user.profilePicture !== 'string') {
         reader.readAsDataURL(props.user.profilePicture);
     }
+
     return (
         <>
             <div className="contacts-section-header">
@@ -102,20 +123,21 @@ const ContactsSection = (props) => {
                                 <i className="bi bi-x"/>
                             </button>
                         </div>
-
-                        <div className="modal-body">
-                            <div className="form-group">
-                                <input type="text" ref={contactInput} className="add-contact-input form-control"
-                                       id="add-contact-input"/>
-                                <label className="invalid-feedback" id="add-contact-error"/>
+                        <form onSubmit={addContact}>
+                            <div className="modal-body">
+                                <div className="form-group">
+                                    <input type="text" ref={contactInput} className="add-contact-input form-control"
+                                           id="add-contact-input" onKeyPress={enforceUsernameRegEx} onChange={clearUsernameError}/>
+                                    <label className="invalid-feedback" id="add-contact-error"/>
+                                </div>
                             </div>
-                        </div>
 
-                        <div className="modal-footer">
-                            <button type="button" className="icon-button" onClick={addContact}>
-                                <i className="bi bi-plus-circle"/>
-                            </button>
-                        </div>
+                            <div className="modal-footer">
+                                <button type="submit" className="icon-button">
+                                    <i className="bi bi-plus-circle"/>
+                                </button>
+                            </div>
+                        </form>
 
                     </div>
                 </div>
