@@ -49,4 +49,4 @@ red:notImposter123
 
 **Enjoy!**
 
-<img src="https://user-images.githubusercontent.com/76645845/165179081-f65eb6fb-2ab6-4ea7-956d-32cc3f46653c.gif" alt="Spider man having a chat" height="250">
+<img src="https://user-images.githubusercontent.com/76645845/165180661-2063cdb4-07db-4040-9720-87e7742a3181.gif" alt="Spider man having a chat" height="250">
