@@ -33,15 +33,6 @@ const ChatSection = ({user, setUser, DB, setDB, currentChatID, messagesCache, se
                 }
             });
         }
-        // Delete the current contact from the cache
-        setMessagesCache(cache => {
-            delete cache[currentChatID];
-            return cache;
-        });
-
-        // Disable send button
-        setMessageEmpty(true);
-        setInputHeight();
     };
 
     const sendTextMessage = () => {
@@ -58,9 +49,16 @@ const ChatSection = ({user, setUser, DB, setDB, currentChatID, messagesCache, se
                 type: 'text'
             };
             sendMessage(newMessage);
-            // Clear the message box
+            // Delete the current contact from the cache
+            setMessagesCache(cache => {
+                cache[currentChatID] = "";
+                return cache;
+            });
+
+            // Disable send button
+            setMessageEmpty(true);
             messageBox.current.value = '';
-            typing();
+            setInputHeight();
         }
     };
 
