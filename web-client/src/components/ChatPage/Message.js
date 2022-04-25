@@ -1,8 +1,8 @@
 import './Message.css'
 
-const Message = ({message}) => {
+const Message = ({message, user}) => {
     return (
-        <div className={"message message-" + message.sender}>
+        <div className={"message message-" + (message.sender === user.username ? "left" : "right")}>
             <div className="message-bubble">
                 {message.type === 'text' &&
                     <div className="message-text">
