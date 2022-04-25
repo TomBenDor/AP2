@@ -41,8 +41,11 @@ juanTheKing123:password1A
 red:notImposter123
 ```
 
-<br>
+## License
 
+[![License: MIT](https://shields.io/badge/license-MIT-informational)](https://tldrlegal.com/license/mit-license)
+
+<br>
 
 **Enjoy!**
 
