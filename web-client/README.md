@@ -1,4 +1,4 @@
-﻿# MaKore - Web Client
+# MaKore - Web Client
 
 ## Features
 - Dark and light themes
