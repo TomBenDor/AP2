@@ -31,7 +31,7 @@ const SignInForm = ({DB, currentUser, setCurrentUser}) => {
         // If a valid user was found
         if (user) {
             // Sign in user
-            let chats = Object.fromEntries(Object.entries(DB.chats)
+            const chats = Object.fromEntries(Object.entries(DB.chats)
                 .filter(([chatID, chat]) => chat.members.includes(username))
                 .map(([chatID, chat]) => [chatID, Object.assign(chat, {"unreadMessages": user.chats[chatID].unreadMessages})]));
             setCurrentUser({
