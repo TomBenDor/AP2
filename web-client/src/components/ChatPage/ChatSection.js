@@ -1,5 +1,6 @@
 import ChatMessages from "./ChatMessages";
 import './ChatSection.css';
+import ToggleTheme from './ToggleTheme'
 import {useEffect, useRef, useState} from "react";
 
 const ChatSection = (props) => {
@@ -232,6 +233,9 @@ const ChatSection = (props) => {
                                         {props.contacts[props.currentContactId].name}
                                     </div>
                                 </span>
+                            </span>
+                        <span className="buttons">
+                                <ToggleTheme theme={props.theme} setTheme={props.setTheme}/>
                             </span>
                     </div>
                     <div className="chat-section-messages">

@@ -1,13 +1,28 @@
-﻿.contacts-section-header {
+﻿:root {
+    --contacts-section-header-border: gray;
+    --icon-button-text: black;
+    --icon-button-background-hover: rgba(0, 0, 0, 0.1);
+    --popup-background-color: white;
+}
+
+[data-theme='dark'] {
+    --contacts-section-header-border: #1c282e;
+    --icon-button-text: #e9edef;
+    --icon-button-background-hover: rgba(255, 255, 255, 0.1);
+    --popup-background-color: rgba(31, 44, 51, 255);
+}
+
+.contacts-section-header {
     width: 100%;
     height: 50px;
-    border-bottom: 2px solid gray;
+    border-bottom: 2px solid var(--contacts-section-header-border);
 }
 
 .user-header {
     float: left;
     height: 100%;
     width: calc(100% - 60px);
+    color: var(--primary-text-color);
 }
 
 .user-header-title {
@@ -34,7 +49,7 @@
 .icon-button {
     background-color: transparent;
     border: none;
-    color: black;
+    color: var(--icon-button-text);
     padding: 5px 10px 5px 10px;
     text-align: center;
     border-radius: 50%;
@@ -42,7 +57,7 @@
 }
 
 .icon-button:hover {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: var(--icon-button-background-hover);
 }
 
 .icon-button > i {
@@ -69,9 +84,20 @@
     overflow-y: auto;
 }
 
+.add-contact-popup {
+    background-color: var(--popup-background-color);
+    color: var(--primary-text-color);
+}
+
 .contacts-list {
     width: 100%;
     padding: 0;
+}
+
+#add-contact-input {
+    background-color: var(--input-background-color);
+    color: var(--primary-text-color);
+    border-color: var(--contact-border-color);
 }
 
 .add-contact-input {
@@ -81,8 +107,17 @@
 .close-button {
     background-color: transparent;
     border: none;
+    color: var(--icon-button-text);
 }
 
 .close-button i {
     font-size: 40px;
+}
+
+.modal-header {
+    border-bottom-color: var(--contact-border-color);
+}
+
+.modal-footer {
+    border-top-color: var(--contact-border-color);
 }
