@@ -2,7 +2,7 @@
 
 ## Features
 - Dark and light themes
-- Support multi-line messages (`Shift+Enter` to insert a new line, `Enter` to send)
+- Support multi-line messages (<kbd>Shift</kbd>+<kbd>Enter</kbd> to insert a new line, <kbd>Enter</kbd> to send)
 - Able to delete recording before sending
 - Save messages drafts when switching between contacts
 - Sort contacts by last message date and time
