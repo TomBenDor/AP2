@@ -25,7 +25,7 @@ Visit http://localhost:3000/
 The user that has a message history with 4 other users, and has all the types of messages in it, is `user123`.
 
 All the hardcoded usernames and passwords:
-```
+```shell
 # format: username:password
 user123:pass123
 user456:pass456
