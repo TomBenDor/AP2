@@ -7,8 +7,8 @@ const ContactsSection = ({
                              setUser,
                              DB,
                              setDB,
-                             currentContactId,
-                             setCurrentContactId,
+                             currentChatID,
+                             setCurrentChatID,
                              messagesCache,
                              setMessagesCache
                          }) => {
@@ -117,8 +117,8 @@ const ContactsSection = ({
                               setUser={setUser}
                               DB={DB}
                               setDB={setDB}
-                              currentContactId={currentContactId}
-                              setCurrentContactId={setCurrentContactId}/>
+                              currentChatID={currentChatID}
+                              setCurrentChatID={setCurrentChatID}/>
             </div>
 
             <div className="modal fade" id="myModal">

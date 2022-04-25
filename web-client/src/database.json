@@ -14,13 +14,6 @@
                 }
             }
         },
-        "user": {
-            "username": "user",
-            "password": "pass123",
-            "name": "Coolest dude ever",
-            "profilePicture": "media/profile_picture.png",
-            "chats": {}
-        },
         "Panda": {
             "username": "Panda",
             "password": "pass123",

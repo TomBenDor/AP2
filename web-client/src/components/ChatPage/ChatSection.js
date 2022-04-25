@@ -2,11 +2,11 @@ import ChatMessages from "./ChatMessages";
 import './ChatSection.css';
 import {useEffect, useRef, useState} from "react";
 
-const ChatSection = ({user, setUser, DB, setDB, currentContactId, messagesCache, setMessagesCache}) => {
+const ChatSection = ({user, setUser, DB, setDB, currentChatID, messagesCache, setMessagesCache}) => {
     const messageBox = useRef(null);
     // Set state for send button disabled state
     const [messageEmpty, setMessageEmpty] = useState(true);
-    const messagesLength = currentContactId !== -1 ? user.chats[currentContactId].messages.length : 0;
+    const messagesLength = currentChatID !== -1 ? user.chats[currentChatID].messages.length : 0;
 
     const [showAttachments, setShowAttachments] = useState(false);
 
@@ -17,15 +17,15 @@ const ChatSection = ({user, setUser, DB, setDB, currentContactId, messagesCache,
 
     const sendMessage = (message) => {
         // Add new message to current chat's messages
-        if (currentContactId !== -1) {
+        if (currentChatID !== -1) {
             setUser({
                 ...user,
                 chats: {
                     ...user.chats,
-                    [currentContactId]: {
-                        ...user.chats[currentContactId],
+                    [currentChatID]: {
+                        ...user.chats[currentChatID],
                         messages: [
-                            ...user.chats[currentContactId].messages,
+                            ...user.chats[currentChatID].messages,
                             message
                         ]
                     }
@@ -34,7 +34,7 @@ const ChatSection = ({user, setUser, DB, setDB, currentContactId, messagesCache,
         }
         // Delete the current contact from the cache
         setMessagesCache(cache => {
-            delete cache[currentContactId];
+            delete cache[currentChatID];
             return cache;
         });
 
@@ -50,7 +50,7 @@ const ChatSection = ({user, setUser, DB, setDB, currentContactId, messagesCache,
             const currentTime = new Date().toLocaleString('en-US', {hourCycle: 'h23'});
             // Create new message object
             const newMessage = {
-                id: user.chats[currentContactId].messages.length + 1,
+                id: user.chats[currentChatID].messages.length + 1,
                 sender: user.username,
                 text: message,
                 timestamp: currentTime,
@@ -68,7 +68,7 @@ const ChatSection = ({user, setUser, DB, setDB, currentContactId, messagesCache,
         setInputHeight();
         // Store written message for current contact in cache
         setMessagesCache({
-            ...messagesCache, [currentContactId]: messageBox.current.value
+            ...messagesCache, [currentChatID]: messageBox.current.value
         });
     };
 
@@ -99,13 +99,13 @@ const ChatSection = ({user, setUser, DB, setDB, currentContactId, messagesCache,
     const updateMessageBox = () => {
         if (messageBox.current) {
             // Set message box value to the message from cache
-            messageBox.current.value = messagesCache[currentContactId];
+            messageBox.current.value = messagesCache[currentChatID];
             setMessageEmpty(messageBox.current.value.length === 0);
         }
         setInputHeight();
     }
 
-    useEffect(updateMessageBox, [messagesCache, user, currentContactId]);
+    useEffect(updateMessageBox, [messagesCache, user, currentChatID]);
 
     const scrollToBottom = () => {
         const messageBubbles = document.getElementsByClassName('message-bubble');
@@ -131,7 +131,7 @@ const ChatSection = ({user, setUser, DB, setDB, currentContactId, messagesCache,
         reader.onload = (e) => {
             // Create a new message object
             const newMessage = {
-                id: user.chats[currentContactId].messages.length + 1,
+                id: user.chats[currentChatID].messages.length + 1,
                 sender: user.username,
                 text: e.target.result,
                 timestamp: new Date().toLocaleString('en-US', {hourCycle: 'h23'}),
@@ -156,7 +156,7 @@ const ChatSection = ({user, setUser, DB, setDB, currentContactId, messagesCache,
         reader.onload = (e) => {
             // Create a new message object
             const newMessage = {
-                id: user.chats[currentContactId].messages.length + 1,
+                id: user.chats[currentChatID].messages.length + 1,
                 sender: user.username,
                 text: e.target.result,
                 timestamp: new Date().toLocaleString('en-US', {hourCycle: 'h23'}),
@@ -185,7 +185,7 @@ const ChatSection = ({user, setUser, DB, setDB, currentContactId, messagesCache,
                 tempMediaRecorder.onstop = (e) => {
                     // Create a new message object
                     const newMessage = {
-                        id: user.chats[currentContactId].messages.length + 1,
+                        id: user.chats[currentChatID].messages.length + 1,
                         sender: user.username,
                         text: URL.createObjectURL(new Blob(blobs, {type: 'audio/ogg'})),
                         timestamp: new Date().toLocaleString('en-US', {hourCycle: 'h23'}),
@@ -222,28 +222,28 @@ const ChatSection = ({user, setUser, DB, setDB, currentContactId, messagesCache,
             setRecording(false);
             setShowAttachments(false);
         }
-    }, [currentContactId]); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [currentChatID]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <>
-            {(currentContactId !== -1 && <>
+            {(currentChatID !== -1 && <>
                     <div className="chat-section-header">
                             <span className="user-header">
                                 <span className="profile-pic">
                                     <img
-                                        src={user.chats[currentContactId].type === "one-to-one" ? DB.users[user.chats[currentContactId].members.filter(m => m !== user.username)[0]].profilePicture : user.chats[currentContactId].picture}
+                                        src={user.chats[currentChatID].type === "one-to-one" ? DB.users[user.chats[currentChatID].members.filter(m => m !== user.username)[0]].profilePicture : user.chats[currentChatID].picture}
                                         className="center" alt="profile-pic"/>
                                 </span>
                                 <span className="user-header-title">
                                     <div className="center">
-                                        {user.chats[currentContactId].type === "one-to-one" ? DB.users[user.chats[currentContactId].members.filter(m => m !== user.username)[0]].name : user.chats[currentContactId].name}
+                                        {user.chats[currentChatID].type === "one-to-one" ? DB.users[user.chats[currentChatID].members.filter(m => m !== user.username)[0]].name : user.chats[currentChatID].name}
                                     </div>
                                 </span>
                             </span>
                     </div>
                     <div className="chat-section-messages">
                         <ChatMessages user={user}
-                                      currentContactId={currentContactId}/>
+                                      currentChatID={currentChatID}/>
                     </div>
                     <div id="input-section">
                 <span className="chat-input">

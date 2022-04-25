@@ -1,10 +1,10 @@
 import Message from "./Message";
 import "./ChatMessages.css"
 
-const ChatMessages = ({user, currentContactId}) => {
+const ChatMessages = ({user, currentChatID}) => {
     return (
         <ol className="messages-list">
-            {user.chats[currentContactId].messages.map(message => (
+            {user.chats[currentChatID].messages.map(message => (
                 <li key={message.id}>
                     <Message message={message} user={user}/>
                 </li>

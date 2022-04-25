@@ -4,7 +4,7 @@ import "./ChatPage.css";
 import {useState} from "react";
 
 const ChatPage = ({user, setUser, DB, setDB}) => {
-    const [currentContactId, setCurrentContactId] = useState(-1);
+    const [currentChatID, setCurrentChatID] = useState(-1);
     // Create a cache for the messages the user has written to each contact
     const [messagesCache, setMessagesCache] = useState(Object.assign({}, ...Object.keys(user.chats).map((id) => {
         return {
@@ -19,7 +19,7 @@ const ChatPage = ({user, setUser, DB, setDB}) => {
                              setUser={setUser}
                              DB={DB}
                              setDB={setDB}
-                             currentContactId={currentContactId}
+                             currentChatID={currentChatID}
                              messagesCache={messagesCache}
                              setMessagesCache={setMessagesCache}
                 />
@@ -29,8 +29,8 @@ const ChatPage = ({user, setUser, DB, setDB}) => {
                                  setUser={setUser}
                                  DB={DB}
                                  setDB={setDB}
-                                 currentContactId={currentContactId}
-                                 setCurrentContactId={setCurrentContactId}
+                                 currentChatID={currentChatID}
+                                 setCurrentChatID={setCurrentChatID}
                                  messagesCache={messagesCache}
                                  setMessagesCache={setMessagesCache}
                 />

@@ -1,8 +1,8 @@
 import './ContactsList.css'
 
-const ContactsList = ({user, setUser, DB, setDB, currentContactId, setCurrentContactId}) => {
+const ContactsList = ({user, setUser, DB, setDB, currentChatID, setCurrentChatID}) => {
     const selectChat = (chatID) => {
-        setCurrentContactId(chatID);
+        setCurrentChatID(chatID);
         // Mark as read
         setUser({
             ...user, chats: Object.fromEntries(Object.entries(user.chats).map(([id, chat]) => {
@@ -32,7 +32,7 @@ const ContactsList = ({user, setUser, DB, setDB, currentContactId, setCurrentCon
         <ol className="contacts-list">
             {sortedChats.map(([chatID, chat]) => (
                 <ul key={chatID}
-                    className={(currentContactId !== -1 && currentContactId === chatID) ? "contact active" : "contact"}
+                    className={(currentChatID !== -1 && currentChatID === chatID) ? "contact active" : "contact"}
                     onClick={() => {
                         selectChat(chatID)
                     }}>
