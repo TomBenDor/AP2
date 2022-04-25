@@ -1,3 +1,11 @@
+:root {
+    --contacts-section-border: gray;
+}
+
+[data-theme='dark'] {
+    --contacts-section-border: #1c282e;
+}
+
 .chat-section {
     float: right;
     width: 70%;
@@ -9,5 +17,5 @@
 .contacts-section {
     width: 30%;
     height: 100%;
-    border-right: 2px solid gray;
+    border-right: 2px solid var(--contacts-section-border);
 }

@@ -14,10 +14,10 @@
 
 /* Implement dark mode in the future */
 [data-theme='dark'] {
-    --form-frame-background: white;
+    --form-frame-background: rgba(16, 27, 33, 255);
     --box-shadow: rgba(0, 0, 0, 0.75);
-    --main-bright: #36D1DC;
-    --main-dark: #5B86E5;
+    --main-bright: #091014;
+    --main-dark: #091014;
     --main-disabled-bright: #DDDDDD;
     --main-disabled-dark: #CCCCCC;
     --form-title-text: black;

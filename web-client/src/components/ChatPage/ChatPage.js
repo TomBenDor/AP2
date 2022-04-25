@@ -3,7 +3,7 @@ import ChatSection from "./ChatSection";
 import "./ChatPage.css";
 import {useState} from "react";
 
-const ChatPage = ({user, setUser, DB, setDB}) => {
+const ChatPage = ({user, setUser, DB, setDB, theme, setTheme}) => {
     const [currentChatID, setCurrentChatID] = useState(-1);
     // Create a cache for the messages the user has written to each contact
     const [messagesCache, setMessagesCache] = useState(Object.assign({}, ...Object.keys(user.chats).map((id) => {
@@ -22,6 +22,7 @@ const ChatPage = ({user, setUser, DB, setDB}) => {
                              currentChatID={currentChatID}
                              messagesCache={messagesCache}
                              setMessagesCache={setMessagesCache}
+                             theme={theme} setTheme={setTheme}
                 />
             </div>
             <div className="contacts-section">

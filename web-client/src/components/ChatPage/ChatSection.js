@@ -1,8 +1,9 @@
 import ChatMessages from "./ChatMessages";
 import './ChatSection.css';
+import ToggleTheme from './ToggleTheme'
 import {useEffect, useRef, useState} from "react";
 
-const ChatSection = ({user, setUser, DB, setDB, currentChatID, messagesCache, setMessagesCache}) => {
+const ChatSection = ({user, setUser, DB, setDB, currentChatID, messagesCache, setMessagesCache, theme, setTheme}) => {
     const messageBox = useRef(null);
     // Set state for send button disabled state
     const [messageEmpty, setMessageEmpty] = useState(true);
@@ -239,6 +240,9 @@ const ChatSection = ({user, setUser, DB, setDB, currentChatID, messagesCache, se
                                         {user.chats[currentChatID].type === "one-to-one" ? DB.users[user.chats[currentChatID].members.filter(m => m !== user.username)[0]].name : user.chats[currentChatID].name}
                                     </div>
                                 </span>
+                            </span>
+                        <span className="buttons">
+                                <ToggleTheme theme={theme} setTheme={setTheme}/>
                             </span>
                     </div>
                     <div className="chat-section-messages">

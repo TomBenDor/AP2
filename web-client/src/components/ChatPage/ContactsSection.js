@@ -142,7 +142,7 @@ const ContactsSection = ({
 
             <div className="modal fade" id="myModal">
                 <div className="modal-dialog">
-                    <div className="modal-content">
+                    <div className="modal-content add-contact-popup">
                         <div className="modal-header">
                             <h4 className="modal-title">Add Contact</h4>
                             <button type="button" className="close-button" data-bs-dismiss="modal"

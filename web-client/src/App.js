@@ -12,17 +12,18 @@ const App = () => {
     const [currentUser, setCurrentUser] = useState(null);
 
     const [DB, setDB] = useState(FILE);
+    const [theme, setTheme] = useState('light');
 
     return (
         <Router>
-            <div className="App">
+            <div className="App" data-theme={theme}>
                 <main>
                     <Routes>
                         <Route path='/' element={
                             // Check if user is signed in or not. If not, render landing page.
                             // If signed in, Render the Chat page.
                             currentUser ?
-                                <ChatPage user={currentUser} setUser={setCurrentUser} DB={DB} setDB={setDB}/> :
+                                <ChatPage user={currentUser} setUser={setCurrentUser} DB={DB} setDB={setDB} theme={theme} setTheme={setTheme}/> :
                                 <LandingPage/>
                         }/>
                         <Route path='/signin' element={
