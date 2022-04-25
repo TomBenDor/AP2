@@ -2,10 +2,12 @@
 
 ## Features
 - Dark and light themes
-- Support multi-line messages
+- Support multi-line messages (`Shift+Enter` to insert a new line, `Enter` to send)
 - Able to delete recording before sending
 - Save messages drafts when switching between contacts
 - Sort contacts by last message date and time
+- Show password button
+- Unread messages counter
 
 ## Development
 
