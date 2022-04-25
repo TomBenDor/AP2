@@ -49,7 +49,7 @@ const ChatSection = ({user, setUser, DB, setDB, currentChatID, messagesCache, se
                 type: 'text'
             };
             sendMessage(newMessage);
-            // Delete the current contact from the cache
+            // Clear cache entry for the current chat
             setMessagesCache(cache => {
                 cache[currentChatID] = "";
                 return cache;
