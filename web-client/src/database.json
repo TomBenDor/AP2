@@ -35,6 +35,55 @@
                     "unreadMessages": 1
                 }
             }
+        },
+        "user456": {
+            "username": "user456",
+            "password": "pass456",
+            "name": "Lion",
+            "profilePicture": "media/profile_picture.png",
+            "chats": {}
+        },
+        "red": {
+            "username": "red",
+            "password": "notImposter123",
+            "name": "Red",
+            "profilePicture": "media/red.png",
+            "chats": {}
+        },
+        "juanTheKing123": {
+            "username": "juanTheKing123",
+            "password": "password1A",
+            "name": "Juan",
+            "profilePicture": "media/juan.jpg",
+            "chats": {}
+        },
+        "Harambe": {
+            "username": "Harambe",
+            "password": "Harambe123",
+            "name": "Harambe",
+            "profilePicture": "media/harambe.jpg",
+            "chats": {}
+        },
+        "Crisr7": {
+            "username": "Crisr7",
+            "password": "Crr9876",
+            "name": "Cristiano Ronaldo",
+            "profilePicture": "media/cr7.jpg",
+            "chats": {}
+        },
+        "drake6942": {
+            "username": "drake6942",
+            "password": "DDdsf5",
+            "name": "Drake",
+            "profilePicture": "media/drake.jpg",
+            "chats": {}
+        },
+        "zuckyhomeboy": {
+            "username": "zuckyhomeboy",
+            "password": "Markie(6)",
+            "name": "Mark Zuckerberg",
+            "profilePicture": "media/zuck.jpg",
+            "chats": {}
         }
     },
     "chats": {
