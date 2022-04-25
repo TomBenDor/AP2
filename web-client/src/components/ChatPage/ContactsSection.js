@@ -2,9 +2,18 @@ import './ContactsSection.css'
 import ContactsList from "./ContactsList";
 import {useRef, useState} from "react";
 
-const ContactsSection = (props) => {
+const ContactsSection = ({
+                             user,
+                             setUser,
+                             DB,
+                             setDB,
+                             currentChatID,
+                             setCurrentChatID,
+                             messagesCache,
+                             setMessagesCache
+                         }) => {
     const contactInput = useRef(null);
-    const [profilePicture, setProfilePicture] = useState(props.user.profilePicture);
+    const [profilePicture, setProfilePicture] = useState(user.profilePicture);
 
     const addContact = (e) => {
         e.preventDefault()
@@ -14,12 +23,10 @@ const ContactsSection = (props) => {
         if (requestedContact === "") {
             document.getElementById("add-contact-error").innerHTML = "Contact name cannot be empty";
             hasError = true;
-        }
-        if (requestedContact === props.user.username) {
+        } else if (requestedContact === user.username) {
             document.getElementById("add-contact-error").innerHTML = "You can't add yourself";
             hasError = true;
-        }
-        if (props.contacts.find(contact => contact.username === requestedContact)) {
+        } else if (Object.values(user.chats).find(chat => chat.type === "one-to-one" && chat.members.includes(requestedContact))) {
             document.getElementById("add-contact-error").innerHTML = "This contact is already in your list";
             hasError = true;
         }
@@ -30,20 +37,42 @@ const ContactsSection = (props) => {
         }
 
         // Search for user in database
-        const contactUser = props.users.find(user => user.username === requestedContact);
+        const contactUser = Object.keys(DB.users).find(username => username === requestedContact);
 
         if (contactUser) {
-            const contact = {
-                id: props.contacts.length,
-                username: contactUser.username,
-                name: contactUser.displayName,
-                profilePicture: contactUser.profilePicture,
-                unreadMessages: 0,
+            // Generate chat id
+            const chatID = `${user.username}-${requestedContact}`;
+            const chat = {
+                type: "one-to-one",
+                members: [user.username, requestedContact],
                 messages: []
             }
-            props.setContacts([...props.contacts, contact]);
-            props.setMessagesCache({
-                ...props.messagesCache, [contact.id]: ""
+            setUser(u => ({
+                ...u,
+                chats: {...u.chats, [chatID]: {...chat, "unreadMessages": 0}}
+            }));
+
+            // Add chat to database
+            setDB(d => ({
+                ...d,
+                chats: {...d.chats, [chatID]: chat},
+                // Add chat to user's chats
+                users: {
+                    ...d.users,
+                    [user.username]: {
+                        ...d.users[user.username],
+                        chats: {...d.users[user.username].chats, [chatID]: {"unreadMessages": 0}}
+                    },
+                    // Add chat also to the requested contact's chats
+                    [requestedContact]: {
+                        ...d.users[requestedContact],
+                        chats: {...d.users[requestedContact].chats, [chatID]: {"unreadMessages": 0}}
+                    }
+                }
+            }));
+
+            setMessagesCache({
+                ...messagesCache, [chatID]: ""
             });
             // Clear input field
             contactInput.current.value = "";
@@ -76,8 +105,8 @@ const ContactsSection = (props) => {
     reader.addEventListener("loadend", () => {
         setProfilePicture(reader.result);
     }, false);
-    if (typeof props.user.profilePicture !== 'string') {
-        reader.readAsDataURL(props.user.profilePicture);
+    if (typeof user.profilePicture !== 'string') {
+        reader.readAsDataURL(user.profilePicture);
     }
 
     return (
@@ -91,7 +120,7 @@ const ContactsSection = (props) => {
                     </span>
                     <span className="user-header-title">
                         <div className="center">
-                            {props.user.displayName}
+                            {user.name}
                         </div>
                     </span>
                 </span>
@@ -103,11 +132,12 @@ const ContactsSection = (props) => {
             </div>
 
             <div className="contacts">
-                <ContactsList user={props.user}
-                              contacts={props.contacts}
-                              setContacts={props.setContacts}
-                              currentContactId={props.currentContactId}
-                              setCurrentContactId={props.setCurrentContactId}/>
+                <ContactsList user={user}
+                              setUser={setUser}
+                              DB={DB}
+                              setDB={setDB}
+                              currentChatID={currentChatID}
+                              setCurrentChatID={setCurrentChatID}/>
             </div>
 
             <div className="modal fade" id="myModal">

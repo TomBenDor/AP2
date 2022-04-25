@@ -4,7 +4,7 @@ import "./SignInForm.css";
 import "../auth.css";
 
 
-const SignInForm = ({users, currentUser, setCurrentUser}) => {
+const SignInForm = ({DB, currentUser, setCurrentUser}) => {
     const usernameBox = useRef(null);
     const passwordBox = useRef(null);
     const navigate = useNavigate();
@@ -27,14 +27,18 @@ const SignInForm = ({users, currentUser, setCurrentUser}) => {
         });
 
         // Check if username and password are valid
-        const user = users.find(user => user.username === username && user.password === password);
+        const user = Object.values(DB.users).find((user) => user.username === username && user.password === password);
         // If a valid user was found
         if (user) {
             // Sign in user
+            const chats = Object.fromEntries(Object.entries(DB.chats)
+                .filter(([chatID, chat]) => chat.members.includes(username))
+                .map(([chatID, chat]) => [chatID, Object.assign(chat, {"unreadMessages": user.chats[chatID].unreadMessages})]));
             setCurrentUser({
                 "username": username,
-                "displayName": user.displayName,
-                "profilePicture": user.profilePicture
+                "name": user.name,
+                "profilePicture": user.profilePicture,
+                "chats": chats
             });
         } else {
             document.getElementById("floatingUsername").classList.add("is-invalid");

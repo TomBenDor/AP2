@@ -4,7 +4,7 @@ import "./SignUpForm.css";
 import "../auth.css";
 
 
-const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
+const SignUpForm = ({DB, setDB, currentUser, setCurrentUser}) => {
     const usernameBox = useRef(null);
     const passwordBox = useRef(null);
     const passwordConfirmationBox = useRef(null);
@@ -170,7 +170,7 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
         const profilePicture = profilePictureBox.current.files[0];
 
         // Check if username is already taken
-        const user = users.find(user => user.username === username);
+        const user = Object.keys(DB.users).find(uname => uname === username);
         if (user) {
             // Display error message
             document.getElementById("username-error").innerHTML = "Username is already taken";
@@ -184,12 +184,14 @@ const SignUpForm = ({users, setUsers, currentUser, setCurrentUser}) => {
         const newUser = {
             "username": username,
             "password": password,
-            "displayName": displayName,
-            "profilePicture": profilePicture
+            "name": displayName,
+            "profilePicture": profilePicture,
+            "chats": [],
         };
-        // Add new user to users array
-        setUsers([...users, newUser]);
+        // Add new user to users map in DB
+        setDB({...DB, users: {...DB.users, [username]: newUser}});
         // Sign in user
+        delete newUser.password;
         setCurrentUser(newUser);
     };
 
