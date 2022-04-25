@@ -52,6 +52,25 @@ const ContactsSection = ({
                 chats: {...u.chats, [chatID]: {...chat, "unreadMessages": 0}}
             }));
 
+            // Add chat to database
+            setDB(d => ({
+                ...d,
+                chats: {...d.chats, [chatID]: chat},
+                // Add chat to user's chats
+                users: {
+                    ...d.users,
+                    [user.username]: {
+                        ...d.users[user.username],
+                        chats: {...d.users[user.username].chats, [chatID]: {"unreadMessages": 0}}
+                    },
+                    // Add chat also to the requested contact's chats
+                    [requestedContact]: {
+                        ...d.users[requestedContact],
+                        chats: {...d.users[requestedContact].chats, [chatID]: {"unreadMessages": 0}}
+                    }
+                }
+            }));
+
             setMessagesCache({
                 ...messagesCache, [chatID]: ""
             });
