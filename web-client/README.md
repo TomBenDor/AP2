@@ -40,3 +40,10 @@ Harambe:Harambe123
 juanTheKing123:password1A
 red:notImposter123
 ```
+
+<br>
+
+
+**Enjoy!**
+
+<img src="https://user-images.githubusercontent.com/76645845/165179081-f65eb6fb-2ab6-4ea7-956d-32cc3f46653c.gif" alt="Spider man having a chat" height="250">
