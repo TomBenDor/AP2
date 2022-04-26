@@ -1,7 +1,7 @@
 ﻿:root {
     --message-bubble-shadow: rgba(0, 0, 0, 0.2);
     --message-bubble-text: black;
-    --message-bubble-left-background: rgba(223, 255, 182, 1);
+    --message-bubble-left-background: #D2E2FF;
     --message-bubble-right-background: white;
     --message-timestamp-text: gray;
 }
