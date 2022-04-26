@@ -3,33 +3,35 @@ import ChatSection from "./ChatSection";
 import "./ChatPage.css";
 import {useState} from "react";
 
-const ChatPage = (props) => {
-    const [currentContactId, setCurrentContactId] = useState(-1);
+const ChatPage = ({user, setUser, DB, setDB, theme, setTheme}) => {
+    const [currentChatID, setCurrentChatID] = useState(-1);
     // Create a cache for the messages the user has written to each contact
-    const [messagesCache, setMessagesCache] = useState(Object.assign({}, ...props.contacts.map(c => c.id).map((id) => {
+    const [messagesCache, setMessagesCache] = useState(Object.assign({}, ...Object.keys(user.chats).map((id) => {
         return {
             [id]: ""
         }
     })));
+
     return (
         <div id="content-frame">
             <div className="chat-section">
-                <ChatSection user={props.user}
-                             contacts={props.contacts}
-                             setContacts={props.setContacts}
-                             currentContactId={currentContactId}
+                <ChatSection user={user}
+                             setUser={setUser}
+                             DB={DB}
+                             setDB={setDB}
+                             currentChatID={currentChatID}
                              messagesCache={messagesCache}
                              setMessagesCache={setMessagesCache}
-                             theme={props.theme} setTheme={props.setTheme}
+                             theme={theme} setTheme={setTheme}
                 />
             </div>
             <div className="contacts-section">
-                <ContactsSection user={props.user}
-                                 contacts={props.contacts}
-                                 setContacts={props.setContacts}
-                                 currentContactId={currentContactId}
-                                 setCurrentContactId={setCurrentContactId}
-                                 users={props.users}
+                <ContactsSection user={user}
+                                 setUser={setUser}
+                                 DB={DB}
+                                 setDB={setDB}
+                                 currentChatID={currentChatID}
+                                 setCurrentChatID={setCurrentChatID}
                                  messagesCache={messagesCache}
                                  setMessagesCache={setMessagesCache}
                 />
