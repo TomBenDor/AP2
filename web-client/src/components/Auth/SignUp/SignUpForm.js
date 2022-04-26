@@ -18,6 +18,7 @@ const SignUpForm = ({DB, setDB, currentUser, setCurrentUser}) => {
     const [passwordConfirmationFieldValid, setPasswordConfirmationFieldValid] = useState(false);
     const [displayNameValid, setDisplayNameFieldValid] = useState(false);
     const [profilePictureValid, setProfilePictureValid] = useState(false);
+    const [typeInConfirmation, setTypeInConfirmation] = useState(false);
 
     // Check if all fields are empty
     const validateProfilePicture = () => {
@@ -93,6 +94,11 @@ const SignUpForm = ({DB, setDB, currentUser, setCurrentUser}) => {
     }
 
     const validatePasswordConfirmation = () => {
+        // If didn't type in confirmation field, don't validate
+        if (!typeInConfirmation) {
+            return;
+        }
+
         let hasError = false;
         const password = passwordBox.current.value;
         const passwordConfirmation = passwordConfirmationBox.current.value;
@@ -228,8 +234,11 @@ const SignUpForm = ({DB, setDB, currentUser, setCurrentUser}) => {
                     <label htmlFor="floatingConfirmedPassword" className="form-help" id="password-confirmation-label">Confirm
                         password</label>
                     <input ref={passwordConfirmationBox} className="form-control" type="password"
-                           id="floatingConfirmedPassword"
-                           onChange={validatePasswordConfirmation} maxLength="30" required/>
+                           id="floatingConfirmedPassword" maxLength="30" required
+                           onChange={() => {
+                               setTypeInConfirmation(true);
+                               validatePasswordConfirmation();
+                            }}/>
                     <label className="invalid-feedback" id="password-confirmation-error">Invalid</label>
                 </div>
                 <div className="form-group">
