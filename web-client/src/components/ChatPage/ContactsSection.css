@@ -94,14 +94,10 @@
     padding: 0;
 }
 
-#add-contact-input {
+.add-contact-input, .add-contact-input:focus {
     background-color: var(--input-background-color);
     color: var(--primary-text-color);
     border-color: var(--contact-border-color);
-}
-
-.add-contact-input {
-    width: 100%;
 }
 
 .close-button {
