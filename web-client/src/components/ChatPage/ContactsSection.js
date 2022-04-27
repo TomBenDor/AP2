@@ -1,6 +1,6 @@
 import './ContactsSection.css'
 import ContactsList from "./ContactsList";
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 
 const ContactsSection = ({
                              user,
@@ -13,9 +13,17 @@ const ContactsSection = ({
                              setMessagesCache
                          }) => {
     const contactInput = useRef(null);
+    useEffect(() => {
+        const contactModal = document.getElementById("addContactModal");
+        contactModal.addEventListener("hidden.bs.modal", () => {
+            contactInput.current.value = "";
+            document.getElementById("add-contact-input").classList.remove("is-invalid");
+        });
+    }, []);
+  
     const [profilePicture, setProfilePicture] = useState(user.profilePicture);
 
-    const addContact = (e) => {
+  const addContact = (e) => {
         e.preventDefault()
         document.getElementById("add-contact-input").classList.remove("is-invalid");
         let hasError = false;
@@ -76,19 +84,21 @@ const ContactsSection = ({
             });
             // Clear input field
             contactInput.current.value = "";
+            // Close modal
+            document.getElementById("close-modal-button").click();
         } else {
             document.getElementById("add-contact-input").classList.add("is-invalid");
             document.getElementById("add-contact-error").innerHTML = "User not found";
         }
     };
-    // Prevent user from entering invalid characters
-    const enforceUsernameRegEx = (e) => {
+    const handleKeyPress = (e) => {
         document.getElementById("add-contact-input").classList.remove("is-invalid");
         // If user presses enter, add contact
         if (e.key === "Enter") {
             addContact(e);
             return;
         }
+        //Prevent user from entering invalid characters
         if (!/[a-zA-Z0-9-]$/.test(e.key)) {
             document.getElementById("add-contact-error").innerHTML = "Username must contain only letters, numbers, and hyphens";
             document.getElementById("add-contact-input").classList.add("is-invalid");
@@ -125,7 +135,7 @@ const ContactsSection = ({
                     </span>
                 </span>
                 <span className="buttons">
-                    <button className="icon-button center" data-bs-toggle="modal" data-bs-target="#myModal">
+                    <button className="icon-button center" data-bs-toggle="modal" data-bs-target="#addContactModal">
                         <i className="bi bi-person-plus"/>
                     </button>
                 </span>
@@ -140,34 +150,30 @@ const ContactsSection = ({
                               setCurrentChatID={setCurrentChatID}/>
             </div>
 
-            <div className="modal fade" id="myModal">
+            <div className="modal fade" id="addContactModal">
                 <div className="modal-dialog">
                     <div className="modal-content add-contact-popup">
                         <div className="modal-header">
                             <h4 className="modal-title">Add Contact</h4>
                             <button type="button" className="close-button" data-bs-dismiss="modal"
-                                    onClick={() => {
-                                        contactInput.current.value = "";
-                                        document.getElementById("add-contact-input").classList.remove("is-invalid");
-                                    }}>
+                                    id="close-modal-button">
                                 <i className="bi bi-x"/>
                             </button>
                         </div>
-                        <form onSubmit={addContact}>
-                            <div className="modal-body">
-                                <div className="form-group">
-                                    <input type="text" ref={contactInput} className="add-contact-input form-control"
-                                           id="add-contact-input" onKeyPress={enforceUsernameRegEx} onChange={clearUsernameError}/>
-                                    <label className="invalid-feedback" id="add-contact-error"/>
-                                </div>
+                        <div className="modal-body">
+                            <div className="form-group">
+                                <input type="text" ref={contactInput} className="add-contact-input form-control"
+                                       id="add-contact-input" onKeyPress={handleKeyPress}
+                                       onChange={clearUsernameError}/>
+                                <label className="invalid-feedback" id="add-contact-error"/>
                             </div>
+                        </div>
 
-                            <div className="modal-footer">
-                                <button type="submit" className="icon-button">
-                                    <i className="bi bi-plus-circle"/>
-                                </button>
-                            </div>
-                        </form>
+                        <div className="modal-footer">
+                            <button type="button" className="icon-button" onClick={addContact}>
+                                <i className="bi bi-plus-circle"/>
+                            </button>
+                        </div>
 
                     </div>
                 </div>
