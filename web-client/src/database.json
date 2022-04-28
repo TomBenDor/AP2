@@ -2,7 +2,7 @@
   "users": {
     "user123": {
       "username": "user123",
-      "password": "pass123",
+      "password": "pass123A",
       "name": "Coolest dude ever",
       "profilePicture": "media/profile_picture.png",
       "chats": {
@@ -31,7 +31,7 @@
     },
     "Panda": {
       "username": "Panda",
-      "password": "pass123",
+      "password": "Pandag4",
       "name": "Panda Bear",
       "profilePicture": "media/panda.jpg",
       "chats": {
@@ -42,7 +42,7 @@
     },
     "Koala": {
       "username": "Koala",
-      "password": "pass123",
+      "password": "Koal653",
       "name": "Koala Bear",
       "profilePicture": "media/koala.jpg",
       "chats": {
@@ -52,8 +52,8 @@
       }
     },
     "user456": {
-      "username": "user456",
-      "password": "pass456",
+      "username": "user456A",
+      "password": "pass456L",
       "name": "Lion",
       "profilePicture": "media/profile_picture.png",
       "chats": {}
@@ -114,7 +114,7 @@
     },
     "joker": {
       "username": "joker",
-      "password": "joker123",
+      "password": "joKer123",
       "name": "Joker",
       "profilePicture": "media/clown.jpeg",
       "chats": {
