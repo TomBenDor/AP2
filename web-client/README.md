@@ -31,8 +31,8 @@ So to sign in to that user, use the password `pass123`.
 All the hardcoded usernames and passwords:
 ```shell
 # format: username:password
-user123:pass123
-user456:pass456
+user123:pass123A
+user456:pass456L
 Panda:Pandag4
 Koala:Koal653
 Crisr7:Crr9876
