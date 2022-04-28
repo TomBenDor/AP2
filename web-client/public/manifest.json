@@ -1,0 +1,25 @@
+{
+  "short_name": "MaKore",
+  "name": "MaKore Chat Application",
+  "icons": [
+    {
+      "src": "fav.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "logo192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "logo344.png",
+      "type": "image/png",
+      "sizes": "344x344"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

@@ -1,0 +1,371 @@
+{
+  "users": {
+    "user123": {
+      "username": "user123",
+      "password": "pass123A",
+      "name": "Coolest dude ever",
+      "profilePicture": "media/profile_picture.png",
+      "chats": {
+        "9j4senrfm56btmi9": {
+          "unreadMessages": 2
+        },
+        "bl5iku36jftcza7z": {
+          "unreadMessages": 1
+        },
+        "g6942trol786qspa": {
+          "unreadMessages": 3
+        },
+        "a8rl9874qn3jjas4": {
+          "unreadMessages": 0
+        },
+        "j9adf781u8ma74z": {
+          "unreadMessages": 3
+        },
+        "grhjSIZzC4NV4ZCv": {
+          "unreadMessages": 1
+        },
+        "Ygwg973ybBoDsOid": {
+          "unreadMessages": 0
+        }
+      }
+    },
+    "Panda": {
+      "username": "Panda",
+      "password": "Pandag4",
+      "name": "Panda Bear",
+      "profilePicture": "media/panda.jpg",
+      "chats": {
+        "9j4senrfm56btmi9": {
+          "unreadMessages": 0
+        }
+      }
+    },
+    "Koala": {
+      "username": "Koala",
+      "password": "Koal653",
+      "name": "Koala Bear",
+      "profilePicture": "media/koala.jpg",
+      "chats": {
+        "bl5iku36jftcza7z": {
+          "unreadMessages": 1
+        }
+      }
+    },
+    "user456": {
+      "username": "user456A",
+      "password": "pass456L",
+      "name": "Lion",
+      "profilePicture": "media/profile_picture.png",
+      "chats": {}
+    },
+    "red": {
+      "username": "red",
+      "password": "notImposter123",
+      "name": "Red",
+      "profilePicture": "media/red.png",
+      "chats": {}
+    },
+    "juanTheKing123": {
+      "username": "juanTheKing123",
+      "password": "password1A",
+      "name": "Juan",
+      "profilePicture": "media/juan.jpg",
+      "chats": {}
+    },
+    "Harambe": {
+      "username": "Harambe",
+      "password": "Harambe123",
+      "name": "Harambe",
+      "profilePicture": "media/harambe.jpg",
+      "chats": {}
+    },
+    "Crisr7": {
+      "username": "Crisr7",
+      "password": "Crr9876",
+      "name": "Cristiano Ronaldo",
+      "profilePicture": "media/cr7.jpg",
+      "chats": {
+        "g6942trol786qspa": {
+          "unreadMessages": 0
+        }
+      }
+    },
+    "drake6942": {
+      "username": "drake6942",
+      "password": "DDdsf5",
+      "name": "Drake",
+      "profilePicture": "media/drake.jpg",
+      "chats": {
+        "a8rl9874qn3jjas4": {
+          "unreadMessages": 1
+        }
+      }
+    },
+    "zuckyhomeboy": {
+      "username": "zuckyhomeboy",
+      "password": "Markie(6)",
+      "name": "Mark Zuckerberg",
+      "profilePicture": "media/zuck.jpg",
+      "chats": {
+        "j9adf781u8ma74z": {
+          "unreadMessages": 0
+        }
+      }
+    },
+    "joker": {
+      "username": "joker",
+      "password": "joKer123",
+      "name": "Joker",
+      "profilePicture": "media/clown.jpeg",
+      "chats": {
+        "grhjSIZzC4NV4ZCv": {
+          "unreadMessages": 0
+        }
+      }
+    },
+    "OdedPaz": {
+      "username": "OdedPaz",
+      "password": "zaziBazazi12",
+      "name": "Oded Paz",
+      "profilePicture": "media/oded.jpg",
+      "chats": {
+        "Ygwg973ybBoDsOid": {
+          "unreadMessages": 0
+        }
+      }
+    }
+  },
+  "chats": {
+    "9j4senrfm56btmi9": {
+      "type": "one-to-one",
+      "members": [
+        "user123",
+        "Panda"
+      ],
+      "messages": [
+        {
+          "id": 1,
+          "sender": "user123",
+          "text": "Do you got any bamboo left?",
+          "timestamp": "4/16/2022, 14:49:00",
+          "type": "text"
+        },
+        {
+          "id": 2,
+          "sender": "Panda",
+          "text": "Not for you, sorry.",
+          "timestamp": "4/16/2022, 15:01:00",
+          "type": "text"
+        },
+        {
+          "id": 3,
+          "sender": "Panda",
+          "text": "media/take-the-l.mp4",
+          "timestamp": "4/16/2022, 15:02:11",
+          "type": "video"
+        }
+      ]
+    },
+    "bl5iku36jftcza7z": {
+      "type": "one-to-one",
+      "members": [
+        "user123",
+        "Koala"
+      ],
+      "messages": [
+        {
+          "id": 1,
+          "sender": "Koala",
+          "text": "Wanna have a sleepover?",
+          "timestamp": "4/16/2022, 12:32:00",
+          "type": "text"
+        }
+      ]
+    },
+    "g6942trol786qspa": {
+      "type": "one-to-one",
+      "members": [
+        "user123",
+        "Crisr7"
+      ],
+      "messages": [
+        {
+          "id": 1,
+          "sender": "Crisr7",
+          "text": "Ayo my dude, remember my celebration?",
+          "timestamp": "4/18/2022, 12:41:00",
+          "type": "text"
+        },
+        {
+          "id": 2,
+          "sender": "user123",
+          "text": "No, I forgot. Sorry 🙁",
+          "timestamp": "4/18/2022, 12:42:42",
+          "type": "text"
+        },
+        {
+          "id": 3,
+          "sender": "Crisr7",
+          "text": "Ok, I got you covered my boi.",
+          "timestamp": "4/18/2022, 12:42:43",
+          "type": "text"
+        },
+        {
+          "id": 4,
+          "sender": "Crisr7",
+          "text": "media/cr7-siuuu.mp4",
+          "timestamp": "4/18/2022, 12:42:55",
+          "type": "video"
+        },
+        {
+          "id": 5,
+          "sender": "Crisr7",
+          "text": "media/siuuu.gif",
+          "timestamp": "4/18/2022, 12:42:59",
+          "type": "image"
+        }
+      ]
+    },
+    "a8rl9874qn3jjas4": {
+      "type": "one-to-one",
+      "members": [
+        "user123",
+        "drake6942"
+      ],
+      "messages": [
+        {
+          "id": 1,
+          "sender": "drake6942",
+          "text": "Yo hear my new song bro",
+          "timestamp": "4/19/2021, 8:42:00",
+          "type": "text"
+        },
+        {
+          "id": 2,
+          "sender": "drake6942",
+          "text": "media/song.mp3",
+          "timestamp": "4/19/2021, 8:44:00",
+          "type": "audio"
+        },
+        {
+          "id": 3,
+          "sender": "user123",
+          "text": "Lit bro 🔥🔥🔥🔥",
+          "timestamp": "4/19/2021, 8:45:00",
+          "type": "text"
+        },
+        {
+          "id": 4,
+          "sender": "user123",
+          "text": "media/sheesh.mp3",
+          "timestamp": "4/19/2021, 8:45:10",
+          "type": "audio"
+        }
+      ]
+    },
+    "j9adf781u8ma74z": {
+      "type": "one-to-one",
+      "members": [
+        "user123",
+        "zuckyhomeboy"
+      ],
+      "messages": [
+        {
+          "id": 1,
+          "sender": "zuckyhomeboy",
+          "text": "Listen, I got a crazy idea. But don't tell anyone about it.",
+          "timestamp": "4/20/2021, 8:42:00",
+          "type": "text"
+        },
+        {
+          "id": 2,
+          "sender": "user123",
+          "text": "What is it?",
+          "timestamp": "4/20/2021, 8:43:00",
+          "type": "text"
+        },
+        {
+          "id": 3,
+          "sender": "zuckyhomeboy",
+          "text": "So it goes like this:\n\nLet's create like an app that lets you send messages to other people. Like a messenger app.\nand like create group chats and stuff..\nIt will look something like this:",
+          "timestamp": "4/19/2021, 8:45:00",
+          "type": "text"
+        },
+        {
+          "id": 4,
+          "sender": "zuckyhomeboy",
+          "text": "media/screenshot.png",
+          "timestamp": "4/19/2021, 8:45:23",
+          "type": "image"
+        },
+        {
+          "id": 5,
+          "sender": "zuckyhomeboy",
+          "text": "I even thought on a name for it, \"WhatsApp\".\nWhat you thinking bro?",
+          "timestamp": "4/19/2021, 8:46:24",
+          "type": "text"
+        }
+      ]
+    },
+    "grhjSIZzC4NV4ZCv": {
+      "type": "one-to-one",
+      "members": [
+        "user123",
+        "joker"
+      ],
+      "messages": [
+        {
+          "id": 1,
+          "sender": "joker",
+          "text": "To me, crazy frog is just normal frog.",
+          "timestamp": "4/19/2021, 8:46:24",
+          "type": "text"
+        },
+        {
+          "id": 2,
+          "sender": "user123",
+          "text": "Wow, that's so deep...",
+          "timestamp": "4/19/2021, 8:47:24",
+          "type": "text"
+        },
+        {
+          "id": 3,
+          "sender": "joker",
+          "text": "We live in a society.",
+          "timestamp": "4/19/2021, 8:47:50",
+          "type": "text"
+        }
+      ]
+    },
+    "Ygwg973ybBoDsOid": {
+      "type": "one-to-one",
+      "members": [
+        "user123",
+        "OdedPaz"
+      ],
+      "messages": [
+        {
+          "id": 1,
+          "sender": "OdedPaz",
+          "text": "Yo, I have a new recipe for coffee, I call it \"CAFEFA\"",
+          "timestamp": "4/20/2021, 8:50:50",
+          "type": "text"
+        },
+        {
+          "id": 2,
+          "sender": "user123",
+          "text": "What is it?",
+          "timestamp": "4/20/2021, 8:51:50",
+          "type": "text"
+        },
+        {
+          "id": 3,
+          "sender": "OdedPaz",
+          "text": "I will tell you later, I have got to go! I have got to go!",
+          "timestamp": "4/20/2021, 8:51:50",
+          "type": "text"
+        }
+      ]
+    }
+  }
+}

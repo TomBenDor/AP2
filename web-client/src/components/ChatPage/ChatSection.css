@@ -1,0 +1,95 @@
+﻿:root {
+    --background-color: rgba(0, 0, 0, 0.05);
+    --chat-section-header-border: gray;
+    --welcome-background-color: rgba(0, 0, 0, 0.1);
+    --input-section-border: gray;
+    --message-input-border: gray;
+    --message-input-focus-border: #36D1DC;
+}
+
+[data-theme='dark'] {
+    --background-color: rgba(40, 57, 66, 255);
+    --chat-section-header-border: #1c282e;
+    --welcome-background-color: rgba(0, 0, 0, 0.1);
+    --input-section-border: #1c282e;
+    --message-input-border: #1c282e;
+    --message-input-focus-border: #36D1DC;
+    --input-background-color: #283942;
+    --input-placeholder: #8696a0;
+}
+
+.chat-section-header {
+    width: 100%;
+    height: 50px;
+    border-bottom: 2px solid var(--chat-section-header-border);
+    flex-shrink: 0;
+}
+
+.chat-section-messages {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    padding: 5px;
+    background-color: var(--background-color);
+}
+
+.max {
+    height: 100%;
+    width: 100%;
+}
+
+.welcome {
+    display: inline-block;
+    padding: 5px 20px 5px 20px;
+    border-radius: 20px;
+    background-color: var(--welcome-background-color);
+    font: 300 24px 'Lato', sans-serif;
+    user-select: none;
+}
+
+#input-section {
+    height: 50px;
+    max-height: 140px;
+    width: 100%;
+    border-top: 2px solid var(--input-section-border);
+    padding: 5px;
+    display: flex;
+    flex-flow: row;
+}
+
+.input-text {
+    float: left;
+    width: calc(100% - 90px);
+    height: 100%;
+    max-height: 130px;
+    line-height: 1.25em;
+}
+
+::placeholder {
+    color: var(--input-placeholder);
+}
+
+#message-input {
+    padding: 5px;
+    border: 1px solid var(--message-input-border);
+    border-radius: 5px;
+    width: 100%;
+    height: 100%;
+    outline: none;
+    resize: none;
+    background-color: var(--input-background-color);
+    color: var(--primary-text-color);
+}
+
+#message-input:focus {
+    border: 1px solid var(--message-input-focus-border);
+}
+
+.chat-input {
+    width: 100%;
+    color: var(--primary-text-color);
+}
+
+.upload-file-button {
+    display: none;
+}

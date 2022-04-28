@@ -1,0 +1,13 @@
+.form-group > .show-password-button {
+    position: relative;
+    bottom: 30px;
+    left: calc(100% - 30px);
+    font: 300 16px 'Lato', sans-serif;
+    color: var(--form-help);
+    background-color: transparent;
+    padding: 0 5px 0 5px;
+    user-select: none;
+    z-index: 4;
+    height: 100%;
+    border: none;
+}
