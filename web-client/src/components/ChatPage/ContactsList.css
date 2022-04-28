@@ -51,7 +51,7 @@
 
 .last-message-sent {
     width: 100%;
-    font: 14px 'Lato Light', sans-serif;
+    font: 300 14px 'Lato', sans-serif;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -83,6 +83,6 @@
 }
 
 .last-message-time > h6 {
-    font: 14px 'Lato Light', sans-serif;
+    font: 300 14px 'Lato', sans-serif;
     text-align: right;
 }

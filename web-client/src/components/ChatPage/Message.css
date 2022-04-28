@@ -47,7 +47,7 @@
 }
 
 .message-timestamp {
-    font: 14px 'Lato Light', sans-serif;
+    font: 300 14px 'Lato', sans-serif;
     color: var(--message-timestamp-text);
     user-select: none;
 }

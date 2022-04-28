@@ -62,7 +62,7 @@ main #form-frame {
 }
 
 .form-title {
-    font: 50px 'Lato Light', sans-serif;
+    font: 300 50px 'Lato', sans-serif;
     color: var(--form-title-text);
     text-align: center;
     margin-bottom: 5%;
@@ -89,7 +89,7 @@ main #form-frame {
 }
 
 .submit-button {
-    font: 16px 'Lato Light', sans-serif;
+    font: 300 16px 'Lato', sans-serif;
     color: var(--submit-button-text);
     padding: 10px 20px 10px 20px;
     position: relative;
@@ -129,7 +129,7 @@ main #form-frame {
 .form-question {
     position: relative;
     bottom: 2px;
-    font: 16px 'Lato Light', sans-serif;
+    font: 300 16px 'Lato', sans-serif;
     color: var(--form-question);
     margin-bottom: 0;
 }
