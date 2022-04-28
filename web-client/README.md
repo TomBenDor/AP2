@@ -41,6 +41,8 @@ zuckyhomeboy:Markie(6)
 Harambe:Harambe123
 juanTheKing123:password1A
 red:notImposter123
+joker:Joker123
+OdedPaz:zaziBazazi12
 ```
 
 ## License
