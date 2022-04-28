@@ -7,7 +7,7 @@
       "profilePicture": "media/profile_picture.png",
       "chats": {
         "9j4senrfm56btmi9": {
-          "unreadMessages": 1
+          "unreadMessages": 2
         },
         "bl5iku36jftcza7z": {
           "unreadMessages": 1
@@ -36,7 +36,7 @@
       "profilePicture": "media/panda.jpg",
       "chats": {
         "9j4senrfm56btmi9": {
-          "unreadMessages": 1
+          "unreadMessages": 0
         }
       }
     },
@@ -156,6 +156,13 @@
           "text": "Not for you, sorry.",
           "timestamp": "4/16/2022, 15:01:00",
           "type": "text"
+        },
+        {
+          "id": 3,
+          "sender": "Panda",
+          "text": "media/take-the-l.mp4",
+          "timestamp": "4/16/2022, 15:02:11",
+          "type": "video"
         }
       ]
     },
