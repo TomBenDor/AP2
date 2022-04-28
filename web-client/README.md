@@ -10,7 +10,7 @@
 - Unread messages counter
 
 ## Development
-Take a look at the [Milestone 1](https://github.com/TomBenDor/AP2/milestone/1) Page.
+Take a look at the [Milestone 1](https://github.com/TomBenDor/AP2/milestone/1?closed=1) Page.
 
 ## Installation
 ```shell
