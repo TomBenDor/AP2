@@ -45,10 +45,6 @@ joker:Joker123
 OdedPaz:zaziBazazi12
 ```
 
-## License
-
-[![License: MIT](https://shields.io/badge/license-MIT-informational)](https://tldrlegal.com/license/mit-license)
-
 <br>
 
 **Enjoy!**
