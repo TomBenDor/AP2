@@ -19,6 +19,9 @@ cd AP2/web-client
 npm install
 ```
 
+## Libraries used
+ - `react-router-dom`
+
 ## Running
 ```shell
 npm start
