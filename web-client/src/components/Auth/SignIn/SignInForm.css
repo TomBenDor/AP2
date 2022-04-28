@@ -2,7 +2,7 @@
     position: relative;
     bottom: 30px;
     left: calc(100% - 30px);
-    font: 16px 'Lato Light', sans-serif;
+    font: 300 16px 'Lato', sans-serif;
     color: var(--form-help);
     background-color: transparent;
     padding: 0 5px 0 5px;

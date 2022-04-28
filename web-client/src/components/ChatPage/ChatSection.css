@@ -43,7 +43,7 @@
     padding: 5px 20px 5px 20px;
     border-radius: 20px;
     background-color: var(--welcome-background-color);
-    font: 24px 'Lato Light', sans-serif;
+    font: 300 24px 'Lato', sans-serif;
     user-select: none;
 }
 
