@@ -23,7 +23,9 @@ jobs:
        script: |
         core.setFailed('PR is labeled draft')
     - uses: actions/checkout@v3
+    - name: Restore dependencies
+      run: dotnet restore
     - name: Build
-      run: dotnet build
+      run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
