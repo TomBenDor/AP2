@@ -13,7 +13,7 @@ defaults:
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Compile Reviews Server (ASP.NET)
+    name: Build ASP.NET Reviews Server
 
     steps:
     - name: Check if PR is ready

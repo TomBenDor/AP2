@@ -16,7 +16,7 @@ defaults:
 jobs:
   build:
     runs-on: windows-latest
-    name: Build node.js
+    name: Build Node.js Web Client
 
     steps:
       - name: Check if PR is ready
