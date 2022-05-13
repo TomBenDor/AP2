@@ -1,4 +1,4 @@
-name: Compile ASP.NET
+name: Compile Reviews Server (ASP.NET)
 
 on:
   workflow_dispatch: 
@@ -8,12 +8,12 @@ on:
 
 defaults:
     run:
-      working-directory: server
+      working-directory: reviews-website
 
 jobs:
   build:
-
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
+    name: Build ASP.NET Reviews Server
 
     steps:
     - name: Check if PR is ready

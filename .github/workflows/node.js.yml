@@ -6,7 +6,7 @@ on:
   workflow_dispatch: 
   pull_request:
     types: [unlabeled, labeled, opened, synchronize, reopened]
-    branches: [ milestone-1 ]
+    branches: [ milestone-2 ]
 
     
 defaults:
@@ -15,8 +15,8 @@ defaults:
 
 jobs:
   build:
-    runs-on: windows-latest
-    name: Build node.js
+    runs-on: ubuntu-latest
+    name: Build Node.js Web Client
 
     steps:
       - name: Check if PR is ready
