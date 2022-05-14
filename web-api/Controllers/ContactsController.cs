@@ -4,7 +4,7 @@ using class_library;
 namespace web_api.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/contacts")]
 
 public class ContactsController : ControllerBase
 {
@@ -94,17 +94,5 @@ public class ContactsController : ControllerBase
     public IActionResult DeleteMessage(int id, int id2)
     {
         return Ok("Delete Message with id: " + id2 + " sent to Contact with id: " + id);
-    }
-    
-    [HttpPost("/invitations")]
-    public IActionResult PostInvitation([FromBody] Invitation invitation)
-    {
-        return Ok("Create new Invitation");
-    }
-    
-    [HttpPost("/transfer")]
-    public IActionResult PostTransfer([FromBody] Transfer transfer)
-    {
-        return Ok("Transfer new message to user on a remote server");
     }
 }
