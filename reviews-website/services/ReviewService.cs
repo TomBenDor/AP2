@@ -4,8 +4,8 @@ namespace server.services;
 
 public class ReviewService : IReviewService
 {
-    private static List<Review> _reviews = new ();
-    
+    private static List<Review> _reviews = new();
+
 
     public void Create(String name, String comment, int rating)
     {

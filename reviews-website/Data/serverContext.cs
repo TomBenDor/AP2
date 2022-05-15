@@ -9,7 +9,7 @@ namespace server.Data
 {
     public class serverContext : DbContext
     {
-        public serverContext (DbContextOptions<serverContext> options)
+        public serverContext(DbContextOptions<serverContext> options)
             : base(options)
         {
         }
