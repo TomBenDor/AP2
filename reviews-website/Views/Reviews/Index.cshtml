@@ -4,11 +4,9 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
+
 <table class="table">
     <thead>
     <tr>
@@ -35,7 +33,20 @@
                 @Html.DisplayFor(modelItem => item.Comment)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Rating)
+                <ul id="star-list">
+                    @for(int i=0;i<item.Rating; i++)
+                    {
+                        <li>
+                            <span class="bi bi-star-fill star-list"></span>
+                        </li>
+                    }
+                    @for (int i=item.Rating; i<5; i++)
+                    {
+                        <li>
+                            <span class="bi bi-star star-list"></span>
+                        </li>
+                    }
+                </ul>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Username)
@@ -52,3 +63,9 @@
     }
     </tbody>
 </table>
+
+<footer>
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+</footer>
