@@ -11,6 +11,6 @@ public class TransferController : ControllerBase
     [HttpPost]
     public IActionResult Post([FromBody] Transfer transfer)
     {
-        return Ok("Transfer new message to user on a remote server");
+        return Ok("Got a new message from a user on a remote server");
     }
 }
