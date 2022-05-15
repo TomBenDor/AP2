@@ -9,5 +9,6 @@ public class Invitation
     [Required]
     public string To { get; set; }
     [Required]
+    // Server the invitation is sent from
     public string Server { get; set; }
 }
