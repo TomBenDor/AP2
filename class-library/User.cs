@@ -30,7 +30,7 @@ public class User
     [Required]
     public string Server { get; set; }
     
-	public List<Chat> Chats { get; set; }
+	public ICollection<Chat> Chats { get; set; }
 
     // Dictionary of Chat Id's as keys and number of unread messages as values
     public IDictionary<int, int> UnreadMessages { get; set; }
