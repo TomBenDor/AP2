@@ -14,7 +14,7 @@ public class StaticUsersService : IUsersService
         Users.Add(user);
     }
 
-    void Update(User user)
+    User Update(User user)
     {
         User existingUser = Get(user.Username);
         if (existingUser != null)
@@ -26,7 +26,9 @@ public class StaticUsersService : IUsersService
             existingUser.Server = user.Server;
             existingUser.Chats = user.Chats;
             existingUser.UnreadMessages = user.UnreadMessages;
+            return existingUser;
         }
+        return null;
     }
 
     void Delete(User user)
