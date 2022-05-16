@@ -7,29 +7,42 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using server.Data;
 using server.Models;
-using server.services;
 
 namespace server.Controllers
 {
     public class ReviewsController : Controller
     {
-        private IReviewService _reviewService;
+        private readonly serverContext _context;
 
-        public ReviewsController()
+        public ReviewsController(serverContext context)
         {
-            _reviewService = new ReviewService();
+            _context = context;
         }
 
         // GET: Reviews
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(_reviewService.GetAll());
+            return _context.Review != null
+                ? View(await _context.Review.ToListAsync())
+                : Problem("Entity set 'serverContext.Review'  is null.");
         }
 
         // GET: Reviews/Details/5
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int? id)
         {
-            return View(_reviewService.Get(id));
+            if (id == null || _context.Review == null)
+            {
+                return NotFound();
+            }
+
+            var review = await _context.Review
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (review == null)
+            {
+                return NotFound();
+            }
+
+            return View(review);
         }
 
         // GET: Reviews/Create
@@ -43,25 +56,41 @@ namespace server.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(int rating, string comment, string username)
+        public async Task<IActionResult> Create(String comment, String username, int rating)
         {
+            int id;
+            try
+            {
+                id = _context.Review.Max(r => r.Id) + 1;
+            }
+            catch (Exception)
+            {
+                id = 1;
+            }
+            Review review = new Review(id, comment, rating, username, DateTime.Now);
             if (ModelState.IsValid)
             {
-                _reviewService.Create(username, comment, rating);
+                _context.Add(review);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
 
-            return View(viewName: "Index", model: _reviewService.GetAll());
+            return View();
         }
 
         // GET: Reviews/Edit/5
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || this._reviewService.Get(id) == null)
+            if (id == null || _context.Review == null)
             {
                 return NotFound();
             }
 
-            Review review = this._reviewService.Get(id);
+            var review = await _context.Review.FindAsync(id);
+            if (review == null)
+            {
+                return NotFound();
+            }
 
             return View(review);
         }
@@ -71,26 +100,48 @@ namespace server.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, int rating, String comment, String username)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Comment,Rating,Username,Date")] Review review)
         {
-            if (ModelState.IsValid)
-            {
-                this._reviewService.Update(id, username, comment, rating);
-                return RedirectToAction(nameof(Index));
-            }
-
-            return View();
-        }
-
-        // GET: Reviews/Delete/5
-        public IActionResult Delete(int id)
-        {
-            if (id == null || this._reviewService.Get(id) == null)
+            if (id != review.Id)
             {
                 return NotFound();
             }
 
-            Review review = this._reviewService.Get(id);
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(review);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ReviewExists(review.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(review);
+        }
+
+        // GET: Reviews/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null || _context.Review == null)
+            {
+                return NotFound();
+            }
+
+            var review = await _context.Review
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (review == null)
             {
                 return NotFound();
@@ -102,25 +153,26 @@ namespace server.Controllers
         // POST: Reviews/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (this._reviewService.Get(id) == null)
+            if (_context.Review == null)
             {
                 return Problem("Entity set 'serverContext.Review'  is null.");
             }
 
-            Review review = this._reviewService.Get(id);
+            var review = await _context.Review.FindAsync(id);
             if (review != null)
             {
-                this._reviewService.Delete(id);
+                _context.Review.Remove(review);
             }
 
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ReviewExists(int id)
         {
-            return this._reviewService.Get(id) != null;
+            return (_context.Review?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
