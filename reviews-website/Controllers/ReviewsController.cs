@@ -100,14 +100,11 @@ namespace server.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Comment,Rating,Username,Date")] Review review)
+        public async Task<IActionResult> Edit(int id, String comment, String username, int rating)
         {
-            if (id != review.Id)
-            {
-                return NotFound();
-            }
+            Review review = new Review(id, comment, rating, username, DateTime.Now);
 
-            if (ModelState.IsValid)
+                if (ModelState.IsValid)
             {
                 try
                 {
