@@ -8,6 +8,10 @@ public class StaticUsersService : IUsersService
     {
         return Users.FirstOrDefault(u => u.Username == username);
     }
+    
+    public IEnumerable<User> Get(List<string> usernames){
+        return Users.Where(u => usernames.Contains(u.Username));
+    }
 
     public void Add(User user)
     {

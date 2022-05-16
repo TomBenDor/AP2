@@ -6,5 +6,6 @@ public interface IUsersService
     User Update(User user);
     void Delete(User user);
     User Get(string username);
+    IEnumerable<User> Get(List<string> usernames);
     IEnumerable<User> GetAll();
 }
