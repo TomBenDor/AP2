@@ -23,7 +23,6 @@ public class StaticUsersService : IUsersService
         User existingUser = Get(user.Username);
         if (existingUser != null)
         {
-            existingUser.Username = user.Username;
             existingUser.Password = user.Password;
             existingUser.Name = user.Name;
             existingUser.ProfilePicture = user.ProfilePicture;
