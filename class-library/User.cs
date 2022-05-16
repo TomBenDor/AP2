@@ -30,7 +30,8 @@ public class User
     [Required]
     public string Server { get; set; }
     
-	public ICollection<Chat> Chats { get; set; }
+	// Dictionary of User Id's as keys and chats as values
+    public IDictionary<string, Chat> Chats { get; set; }
 
     // Dictionary of Chat Id's as keys and number of unread messages as values
     public IDictionary<int, int> UnreadMessages { get; set; }
