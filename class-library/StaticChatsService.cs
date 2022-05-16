@@ -10,7 +10,11 @@ public class StaticChatsService : IChatsService
 
     void Remove(Chat chat)
     {
-        Chats.Remove(chat);
+		Chat existingChat = Get(chat.Id);
+        if (existingChat != null)
+        {
+            Chats.Remove(existingChat);
+        }
     }
 
     Chat Update(Chat chat)
