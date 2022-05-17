@@ -55,9 +55,8 @@ public class ContactsController : ControllerBase
         }
 
         // Create a new chat between the current user and the contact
-        var newChat = new Chat
+        var newChat = new Chat(currentUser.Username + "-" + contact.Username)
         {
-            Id = Guid.NewGuid().ToString(),
             Members = new List<User> { currentUser, contact }
         };
         _chatsService.Add(newChat);
