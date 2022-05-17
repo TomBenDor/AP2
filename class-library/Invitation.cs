@@ -11,10 +11,10 @@ public class Invitation
         Server = server;
     }
 
-    [Required] public string From { get; set; }
-    [Required] public string To { get; set; }
+    [Required] public string From { get; }
+    [Required] public string To { get; }
 
     [Required]
     // Server the invitation is sent from
-    public string Server { get; set; }
+    public string Server { get; }
 }

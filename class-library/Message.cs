@@ -4,7 +4,7 @@ namespace class_library;
 
 public class Message
 {
-    public Message(int id, string message, string sender, string receiver, DateTime date, string type)
+    public Message(int id, string message, string sender, DateTime date, string type)
     {
         Id = id;
         Text = message;
