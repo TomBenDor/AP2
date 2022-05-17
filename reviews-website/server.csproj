@@ -23,8 +23,4 @@
       <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.0-preview.4.22259.1" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Views\Reviews" />
-    </ItemGroup>
-
 </Project>
