@@ -4,10 +4,7 @@ namespace class_library;
 
 public class Chat
 {
-    [Key]
-    public int Id { get; set;}
-    [Required]
-    public ICollection<User> Members { get; set; }
-    [Required]
-    public ICollection<Message> Messages { get; set; }
+    [Key] public string Id { get; set; }
+    [Required] public ICollection<User> Members { get; set; }
+    [Required] public ICollection<Message> Messages { get; set; }
 }

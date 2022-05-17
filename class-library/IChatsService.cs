@@ -1,11 +1,13 @@
+using class_library;
+
 namespace DefaultNamespace;
 
-public class IChatsService
+public interface IChatsService
 {
     void Add(Chat chat);
     void Remove(Chat chat);
     Chat Update(Chat chat);
-    Chat Get(int id);
-    IEnumerable<Chat> Get(IEnumerable<int> ids);
+    Chat Get(string id);
+    IEnumerable<Chat> Get(IEnumerable<string> ids);
     IEnumerable<Chat> GetAll();
 }

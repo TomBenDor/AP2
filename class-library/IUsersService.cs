@@ -1,3 +1,5 @@
+using class_library;
+
 namespace DefaultNamespace;
 
 public interface IUsersService

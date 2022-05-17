@@ -4,22 +4,23 @@ namespace DefaultNamespace;
 
 public class StaticChatsService : IChatsService
 {
-    private static List<Chat> Chats = new List<User>();
-    void Add(Chat chat)
+    private static List<Chat> Chats = new List<Chat>();
+
+    public void Add(Chat chat)
     {
         Chats.Add(chat);
     }
 
-    void Remove(Chat chat)
+    public void Remove(Chat chat)
     {
-		Chat existingChat = Get(chat.Id);
+        Chat existingChat = Get(chat.Id);
         if (existingChat != null)
         {
             Chats.Remove(existingChat);
         }
     }
 
-    Chat Update(Chat chat)
+    public Chat Update(Chat chat)
     {
         Chat existingChat = Get(chat.Id);
         if (existingChat != null)
@@ -28,20 +29,21 @@ public class StaticChatsService : IChatsService
             existingChat.Messages = chat.Messages;
             return existingChat;
         }
+
         return null;
     }
 
-    Chat Get(int id)
+    public Chat Get(string id)
     {
         return Chats.FirstOrDefault(c => c.Id == id);
     }
 
-    IEnumerable<Chat> Get(IEnumerable<int> ids)
+    public IEnumerable<Chat> Get(IEnumerable<string> ids)
     {
         return Chats.Where(c => ids.Contains(c.Id));
     }
 
-    IEnumerable<Chat> GetAll()
+    public IEnumerable<Chat> GetAll()
     {
         return Chats;
     }

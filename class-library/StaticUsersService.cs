@@ -1,3 +1,5 @@
+using class_library;
+
 namespace DefaultNamespace;
 
 public class StaticUsersService : IUsersService
@@ -8,8 +10,9 @@ public class StaticUsersService : IUsersService
     {
         return Users.FirstOrDefault(u => u.Username == username);
     }
-    
-    public IEnumerable<User> Get(List<string> usernames){
+
+    public IEnumerable<User> Get(List<string> usernames)
+    {
         return Users.Where(u => usernames.Contains(u.Username));
     }
 
@@ -18,7 +21,7 @@ public class StaticUsersService : IUsersService
         Users.Add(user);
     }
 
-    User Update(User user)
+    public User Update(User user)
     {
         User existingUser = Get(user.Username);
         if (existingUser != null)
@@ -31,10 +34,11 @@ public class StaticUsersService : IUsersService
             existingUser.UnreadMessages = user.UnreadMessages;
             return existingUser;
         }
+
         return null;
     }
 
-    void Delete(User user)
+    public void Delete(User user)
     {
         User existingUser = Get(user.Username);
         if (existingUser != null)
@@ -42,7 +46,7 @@ public class StaticUsersService : IUsersService
             Users.Remove(existingUser);
         }
     }
-    
+
     public IEnumerable<User> GetAll()
     {
         return Users;
