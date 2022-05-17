@@ -6,7 +6,7 @@ public class StaticUsersService : IUsersService
 {
     private static List<User> Users = new List<User>();
 
-    public User Get(string username)
+    public User? Get(string username)
     {
         return Users.FirstOrDefault(u => u.Username == username);
     }
@@ -21,9 +21,9 @@ public class StaticUsersService : IUsersService
         Users.Add(user);
     }
 
-    public User Update(User user)
+    public User? Update(User user)
     {
-        User existingUser = Get(user.Username);
+        var existingUser = Get(user.Username);
         if (existingUser != null)
         {
             existingUser.Password = user.Password;
@@ -40,7 +40,7 @@ public class StaticUsersService : IUsersService
 
     public void Delete(User user)
     {
-        User existingUser = Get(user.Username);
+        var existingUser = Get(user.Username);
         if (existingUser != null)
         {
             Users.Remove(existingUser);

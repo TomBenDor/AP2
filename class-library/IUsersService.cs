@@ -5,9 +5,9 @@ namespace DefaultNamespace;
 public interface IUsersService
 {
     void Add(User user);
-    User Update(User user);
+    User? Update(User user);
     void Delete(User user);
-    User Get(string username);
+    User? Get(string username);
     IEnumerable<User> Get(List<string> usernames);
     IEnumerable<User> GetAll();
 }

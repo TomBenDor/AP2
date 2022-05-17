@@ -13,16 +13,16 @@ public class StaticChatsService : IChatsService
 
     public void Remove(Chat chat)
     {
-        Chat existingChat = Get(chat.Id);
+        var existingChat = Get(chat.Id);
         if (existingChat != null)
         {
             Chats.Remove(existingChat);
         }
     }
 
-    public Chat Update(Chat chat)
+    public Chat? Update(Chat chat)
     {
-        Chat existingChat = Get(chat.Id);
+        var existingChat = Get(chat.Id);
         if (existingChat != null)
         {
             existingChat.Members = chat.Members;
@@ -33,7 +33,7 @@ public class StaticChatsService : IChatsService
         return null;
     }
 
-    public Chat Get(string id)
+    public Chat? Get(string id)
     {
         return Chats.FirstOrDefault(c => c.Id == id);
     }
