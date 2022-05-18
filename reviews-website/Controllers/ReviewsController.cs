@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using server.Data;
 using server.Models;
 
@@ -19,12 +21,30 @@ namespace server.Controllers
             _context = context;
         }
 
-        // GET: Reviews
         public async Task<IActionResult> Index()
         {
-            return _context.Review != null
-                ? View(await _context.Review.ToListAsync())
-                : Problem("Entity set 'serverContext.Review'  is null.");
+            var reviews = from m in _context.Review
+                select m;
+
+            return View(await reviews.ToListAsync());
+        }
+
+        public async Task<IActionResult> Search(String query)
+        {
+            var reviews = from m in _context.Review
+                select m;
+
+            if (!String.IsNullOrEmpty(query))
+            {
+                reviews = reviews.Where(s => s.Comment.Contains(query) || s.Username.Contains(query));
+            }
+
+            var reviewList = await reviews.ToListAsync();
+
+            var results = JsonConvert.SerializeObject(reviewList,
+                new IsoDateTimeConverter() { DateTimeFormat = "dd/mm/yyyy HH:mm:ss" });
+
+            return Content(results);
         }
 
         // GET: Reviews/Details/5
@@ -67,6 +87,7 @@ namespace server.Controllers
             {
                 id = 1;
             }
+
             Review review = new Review(id, comment, rating, username, DateTime.Now);
             if (ModelState.IsValid)
             {
@@ -104,7 +125,7 @@ namespace server.Controllers
         {
             Review review = new Review(id, comment, rating, username, DateTime.Now);
 
-                if (ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 try
                 {

@@ -19,9 +19,9 @@ main #content-frame {
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.75);
 }
 
-#star-list {
+.star-list {
     display:inline;
 }
-#star-list li{
+.star-list li{
     display: inline;
 }
