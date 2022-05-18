@@ -33,14 +33,9 @@ public class ContactsController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Post([FromBody] User? contact)
+    public IActionResult Post([FromBody] string id, [FromBody] string name, [FromBody] string server)
     {
         // Add contact to the current user
-
-        if (contact == null || _usersService.Get(contact.Username) == null)
-        {
-            return BadRequest();
-        }
 
         var currentUser = _usersService.GetAll().FirstOrDefault(); // TODO: get current user from JWT
         if (currentUser == null)
@@ -49,9 +44,23 @@ public class ContactsController : ControllerBase
         }
 
         // If the contact is already in the current user's contacts, return BadRequest
-        if (currentUser.Chats.ContainsKey(contact.Username))
+        if (currentUser.Chats.ContainsKey(id))
         {
             return BadRequest();
+        }
+
+        User? contact = _usersService.Get(id);
+        // If the contact doesn't exist, create it
+        if (contact == null)
+        {
+            if (server == "localhost")
+            {
+                return BadRequest();
+            }
+
+            // Create the remote contact
+            contact = new User(id, name, server);
+            _usersService.Add(contact);
         }
 
         // Create a new chat between the current user and the contact
@@ -74,7 +83,7 @@ public class ContactsController : ControllerBase
             // TODO: add new chat to contact on a remote server
         }
 
-        return Ok(contact);
+        return Ok();
     }
 
     [HttpGet("{id}")]
@@ -109,15 +118,9 @@ public class ContactsController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public IActionResult Put(string? id, [FromBody] User newContact)
+    public IActionResult Put(string id, [FromBody] string name, [FromBody] string server)
     {
         // Update a contact of the current user by id
-
-        // If trying to cheat
-        if (id == null || id != newContact.Username)
-        {
-            return BadRequest();
-        }
 
         if (_usersService.Get(id) == null)
         {
@@ -136,24 +139,27 @@ public class ContactsController : ControllerBase
             return NotFound();
         }
 
-        var updatedContact = _usersService.Update(newContact);
-        if (updatedContact == null)
+        var newContact = _usersService.Get(id);
+        if (newContact == null)
         {
             return NotFound();
         }
 
-        return Ok(updatedContact);
+        newContact.Name = name;
+        newContact.Server = server;
+
+        if (_usersService.Update(newContact) == null)
+        {
+            return NotFound();
+        }
+
+        return Ok();
     }
 
     [HttpDelete("{id}")]
-    public IActionResult Delete(string? id)
+    public IActionResult Delete(string id)
     {
         // Delete a contact of the current user by id
-
-        if (id == null)
-        {
-            return NotFound();
-        }
 
         var currentUser = _usersService.GetAll().FirstOrDefault(); // TODO: get current user from JWT
         if (currentUser == null)
@@ -185,11 +191,11 @@ public class ContactsController : ControllerBase
     }
 
     [HttpGet("{id}/messages")]
-    public IActionResult GetMessages(string? id)
+    public IActionResult GetMessages(string id)
     {
         // Get all messages between the current user and the contact by id
 
-        if (id == null || _usersService.Get(id) == null)
+        if (_usersService.Get(id) == null)
         {
             return NotFound();
         }
@@ -201,7 +207,7 @@ public class ContactsController : ControllerBase
         }
 
         // If the contact is not in the current user's contacts, return NotFound
-        if (currentUser.Chats.Keys.ToList().Find(username => username == id) == null)
+        if (!currentUser.Chats.ContainsKey(id))
         {
             return NotFound();
         }
@@ -210,52 +216,51 @@ public class ContactsController : ControllerBase
     }
 
     [HttpPost("{id}/messages")]
-    public IActionResult PostNewMessage(string id, [FromBody] Message message)
+    public IActionResult PostNewMessage(string id, [FromBody] string content)
     {
         // Add a new message between the current user and the contact by id
 
         var contact = _usersService.Get(id);
-        if (id == null || contact == null)
+        if (contact == null)
         {
             return NotFound();
         }
 
-        if (message == null)
-        {
-            return BadRequest();
-        }
-
-        User? currentUser = _usersService.GetAll().FirstOrDefault(); // TODO: get current user from JWT
+        var currentUser = _usersService.GetAll().FirstOrDefault(); // TODO: get current user from JWT
         if (currentUser == null)
         {
             return NotFound();
         }
 
         // If the contact is not in the current user's contacts, return NotFound
-        if (currentUser.Chats.Keys.ToList().Find(username => username == id) == null)
+        if (!currentUser.Chats.ContainsKey(id))
         {
             return NotFound();
         }
 
         // Add the new message to the chat
         Chat chat = currentUser.Chats[id];
+        // Create a new message
+        int lastMessageId = chat.Messages.Count > 0 ? chat.Messages.Max(m => m.Id) : 0;
+        var message = new Message(lastMessageId + 1, content, currentUser.Username, DateTime.Now, "text");
         chat.Messages.Add(message);
         _chatsService.Update(chat);
         // Add the new message to the contact if on a remote server
         if (contact.Server != "localhost")
         {
             // TODO: add new message to contact on a remote server
+            // Send transfer request
         }
 
-        return Ok(message);
+        return Ok();
     }
 
     [HttpGet("{id}/messages/{id2}")]
-    public IActionResult GetMessage(string? id, int id2)
+    public IActionResult GetMessage(string id, int id2)
     {
         // Get a message with id2 between the current user and the contact by id
 
-        if (id == null || _usersService.Get(id) == null)
+        if (_usersService.Get(id) == null)
         {
             return NotFound();
         }
@@ -267,7 +272,7 @@ public class ContactsController : ControllerBase
         }
 
         // If the contact is not in the current user's contacts, return NotFound
-        if (currentUser.Chats.Keys.ToList().Find(username => username == id) == null)
+        if (!currentUser.Chats.ContainsKey(id))
         {
             return NotFound();
         }
@@ -283,24 +288,14 @@ public class ContactsController : ControllerBase
     }
 
     [HttpPut("{id}/messages/{id2}")]
-    public IActionResult PutMessage(string? id, int id2, [FromBody] Message? newMessage)
+    public IActionResult PutMessage(string id, int id2, [FromBody] string content)
     {
         // Update a message with id2 between the current user and the contact by id
-
-        if (id == null)
-        {
-            return BadRequest();
-        }
 
         var contact = _usersService.Get(id);
         if (contact == null)
         {
             return NotFound();
-        }
-
-        if (newMessage == null)
-        {
-            return BadRequest();
         }
 
         var currentUser = _usersService.GetAll().FirstOrDefault(); // TODO: get current user from JWT
@@ -310,7 +305,7 @@ public class ContactsController : ControllerBase
         }
 
         // If the contact is not in the current user's contacts, return NotFound
-        if (currentUser.Chats.Keys.ToList().Find(username => username == id) == null)
+        if (!currentUser.Chats.ContainsKey(id))
         {
             return NotFound();
         }
@@ -323,10 +318,7 @@ public class ContactsController : ControllerBase
         }
 
         // Update the message
-        message.Sender = newMessage.Sender;
-        message.Text = newMessage.Text;
-        message.Timestamp = newMessage.Timestamp;
-        message.Type = newMessage.Type;
+        message.Text = content;
         // Update the chat
         Chat chat = currentUser.Chats[id];
         _chatsService.Update(chat);
@@ -336,7 +328,7 @@ public class ContactsController : ControllerBase
             // TODO: update message on a remote server
         }
 
-        return Ok(message);
+        return Ok();
     }
 
     [HttpDelete("{id}/messages/{id2}")]
@@ -345,7 +337,7 @@ public class ContactsController : ControllerBase
         // Delete a message with id2 between the current user and the contact by id
 
         var contact = _usersService.Get(id);
-        if (id == null || contact == null)
+        if (contact == null)
         {
             return NotFound();
         }
@@ -357,7 +349,7 @@ public class ContactsController : ControllerBase
         }
 
         // If the contact is not in the current user's contacts, return NotFound
-        if (currentUser.Chats.Keys.ToList().Find(username => username == id) == null)
+        if (!currentUser.Chats.ContainsKey(id))
         {
             return NotFound();
         }
