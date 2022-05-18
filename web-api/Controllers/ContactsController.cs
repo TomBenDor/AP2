@@ -212,7 +212,16 @@ public class ContactsController : ControllerBase
             return NotFound();
         }
 
-        return Ok(currentUser.Chats[id].Messages);
+        List<OuterMessage> outerMessages = new List<OuterMessage>();
+        // Loop over currentUser.Chats[id].Messages
+        foreach (var m in currentUser.Chats[id].Messages)
+        {
+            // Create a new OuterMessage
+            OuterMessage outerMessage = new OuterMessage(m, currentUser.Username);
+            outerMessages.Add(outerMessage);
+        }
+
+        return Ok(outerMessages);
     }
 
     [HttpPost("{id}/messages")]
@@ -284,7 +293,8 @@ public class ContactsController : ControllerBase
             return NotFound();
         }
 
-        return Ok(message);
+        OuterMessage outerMessage = new OuterMessage(message, currentUser.Name);
+        return Ok(outerMessage);
     }
 
     [HttpPut("{id}/messages/{id2}")]
