@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using class_library;
 using DefaultNamespace;
@@ -33,9 +34,26 @@ public class ContactsController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Post([FromBody] string id, [FromBody] string name, [FromBody] string server)
+    public IActionResult Post([FromBody] JsonElement body)
     {
         // Add contact to the current user
+
+        string? id, name, server;
+        try
+        {
+            id = body.GetProperty("id").GetString();
+            name = body.GetProperty("name").GetString();
+            server = body.GetProperty("server").GetString();
+        }
+        catch (Exception)
+        {
+            return BadRequest();
+        }
+
+        if (id == null || name == null || server == null)
+        {
+            return BadRequest();
+        }
 
         var currentUser = _usersService.GetAll().FirstOrDefault(); // TODO: get current user from JWT
         if (currentUser == null)
@@ -87,11 +105,11 @@ public class ContactsController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public IActionResult Get(string? id)
+    public IActionResult Get(string id)
     {
         // Get a contact of the current user by id
 
-        if (id == null || _usersService.Get(id) == null)
+        if (_usersService.Get(id) == null)
         {
             return NotFound();
         }
@@ -118,9 +136,25 @@ public class ContactsController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public IActionResult Put(string id, [FromBody] string name, [FromBody] string server)
+    public IActionResult Put(string id, [FromBody] JsonElement body)
     {
         // Update a contact of the current user by id
+
+        string? name, server;
+        try
+        {
+            name = body.GetProperty("name").GetString();
+            server = body.GetProperty("server").GetString();
+        }
+        catch (Exception)
+        {
+            return BadRequest();
+        }
+
+        if (name == null || server == null)
+        {
+            return BadRequest();
+        }
 
         if (_usersService.Get(id) == null)
         {
