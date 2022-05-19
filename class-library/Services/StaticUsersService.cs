@@ -1,6 +1,4 @@
-using class_library;
-
-namespace DefaultNamespace;
+namespace class_library.Services;
 
 public class StaticUsersService : IUsersService
 {

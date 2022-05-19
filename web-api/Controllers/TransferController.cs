@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using class_library;
-using DefaultNamespace;
+using class_library.Services;
 
 namespace web_api.Controllers;
 
@@ -34,7 +34,7 @@ public class TransferController : ControllerBase
         {
             return NotFound();
         }
-        
+
         // Create a new message
         int lastMessageId = chat.Messages.Count > 0 ? chat.Messages.Max(m => m.Id) : 0;
         var message = new Message(lastMessageId + 1, transfer.Content, transfer.From, DateTime.Now, "text");

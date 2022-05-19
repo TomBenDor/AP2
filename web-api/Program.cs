@@ -1,4 +1,4 @@
-using DefaultNamespace;
+using class_library.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
