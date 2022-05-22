@@ -175,12 +175,7 @@ public class ContactsController : ControllerBase
             var invitation = new Invitation(currentUser.Username, contact.Username, "localhost");
             var json = JsonSerializer.Serialize(invitation, _jsonSerializerOptions);
             var stringContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
-            var response = _httpClient.PostAsync("https://" + contact.Server + "/api/invitations", stringContent)
-                .Result;
-            if (response.StatusCode != System.Net.HttpStatusCode.OK)
-            {
-                return BadRequest();
-            }
+            _httpClient.PostAsync("https://" + contact.Server + "/api/invitations", stringContent).Wait();
         }
 
         return Created("", null);
@@ -402,11 +397,7 @@ public class ContactsController : ControllerBase
             var transfer = new Transfer(currentUser.Username, contact.Username, content);
             var json = JsonSerializer.Serialize(transfer, _jsonSerializerOptions);
             var stringContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
-            var response = _httpClient.PostAsync("https://" + contact.Server + "/api/transfer", stringContent).Result;
-            if (response.StatusCode != System.Net.HttpStatusCode.OK)
-            {
-                return BadRequest();
-            }
+            _httpClient.PostAsync("https://" + contact.Server + "/api/transfer", stringContent).Wait();
         }
 
         return Created("", null);
