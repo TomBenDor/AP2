@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 using class_library;
 using class_library.Services;
@@ -42,7 +43,26 @@ public class ContactsController : ControllerBase
             return BadRequest();
         }
 
+        // Check regex for username
+        if (username.Length < 3 || !Regex.IsMatch(username, @"^[a-zA-Z0-9-]+$"))
+        {
+            return BadRequest();
+        }
+
+        // Ensure passwords match
         if (password != confirmPassword)
+        {
+            return BadRequest();
+        }
+
+        // Check if password contains at least one number, one lowercase and one uppercase character
+        if (password.Length < 6 || !Regex.IsMatch(password, @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$"))
+        {
+            return BadRequest();
+        }
+
+        // Check regex for name (display name)
+        if (name.Length < 3 || !Regex.IsMatch(name, @"^[a-zA-Z '\-.,]+$"))
         {
             return BadRequest();
         }
