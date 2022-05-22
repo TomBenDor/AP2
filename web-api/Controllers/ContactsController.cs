@@ -18,6 +18,51 @@ public class ContactsController : ControllerBase
         _chatsService = chatsService;
     }
 
+    [HttpPost("signup")]
+    public IActionResult SignUp([FromBody] JsonElement body)
+    {
+        // Sign up new user
+
+        string? username, password, confirmPassword, name, profilePicture;
+        try
+        {
+            username = body.GetProperty("username").GetString();
+            password = body.GetProperty("password").GetString();
+            confirmPassword = body.GetProperty("confirmPassword").GetString();
+            name = body.GetProperty("name").GetString();
+            profilePicture = body.GetProperty("profilePicture").GetString();
+        }
+        catch (Exception)
+        {
+            return BadRequest();
+        }
+
+        if (username == null || password == null || confirmPassword == null || name == null || profilePicture == null)
+        {
+            return BadRequest();
+        }
+
+        if (password != confirmPassword)
+        {
+            return BadRequest();
+        }
+
+        if (_usersService.Get(username) != null)
+        {
+            return BadRequest();
+        }
+
+        // Create new user
+        User newUser = new User(username, name, "localhost")
+        {
+            ProfilePicture = profilePicture, Password = password
+        };
+        _usersService.Add(newUser);
+
+        return Ok();
+    }
+
+
     [HttpGet]
     public IActionResult Get()
     {
