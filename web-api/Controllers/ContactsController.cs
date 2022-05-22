@@ -82,7 +82,7 @@ public class ContactsController : ControllerBase
         var newUser = new User(username, name, "localhost", password, profilePicture);
         _usersService.Add(newUser);
 
-        return Ok();
+        return Created("", null);
     }
 
 
@@ -183,7 +183,7 @@ public class ContactsController : ControllerBase
             }
         }
 
-        return Ok();
+        return Created("", null);
     }
 
     [HttpGet("{id}")]
@@ -279,7 +279,7 @@ public class ContactsController : ControllerBase
             return NotFound();
         }
 
-        return Ok();
+        return NoContent();
     }
 
     [HttpDelete("{id}")]
@@ -318,7 +318,7 @@ public class ContactsController : ControllerBase
         // Delete the currentUser from the contact
         contact.Chats.Remove(currentUser.Username);
         _usersService.Update(contact);
-        return Ok();
+        return NoContent();
     }
 
     [HttpGet("{id}/messages")]
@@ -409,7 +409,7 @@ public class ContactsController : ControllerBase
             }
         }
 
-        return Ok();
+        return Created("", null);
     }
 
     [HttpGet("{id}/messages/{id2}")]
@@ -492,7 +492,7 @@ public class ContactsController : ControllerBase
         _chatsService.Update(chat);
         // No API exists for updating the contact if on a remote server
 
-        return Ok();
+        return NoContent();
     }
 
     [HttpDelete("{id}/messages/{id2}")]
@@ -535,6 +535,6 @@ public class ContactsController : ControllerBase
         chat.Messages.Remove(message);
         _chatsService.Update(chat);
         // No API exists for deleting a message from the contact if on a remote server
-        return Ok();
+        return NoContent();
     }
 }
