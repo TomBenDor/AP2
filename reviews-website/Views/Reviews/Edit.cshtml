@@ -6,8 +6,9 @@
 
 <div id="form-frame">
     <h1 class="form-title">Edit Review</h1>
-    <form asp-action="Create">
+    <form asp-action="Edit">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id"/>
         <div class="form-group">
             <label asp-for="Comment" class="control-label"></label>
             <input asp-for="Comment" class="form-control"/>
