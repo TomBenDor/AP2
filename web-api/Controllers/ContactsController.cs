@@ -97,8 +97,8 @@ public class ContactsController : ControllerBase
             return NotFound();
         }
 
-        List<string> contacsIds = currentUser.Chats.Keys.ToList();
-        return Ok(_usersService.Get(contacsIds));
+        List<string> contactsIds = currentUser.Chats.Keys.ToList();
+        return Ok(_usersService.Get(contactsIds));
     }
 
     [HttpPost]
