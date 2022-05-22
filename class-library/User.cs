@@ -13,6 +13,13 @@ public class User
         UnreadMessages = new Dictionary<string, int>();
     }
 
+    public User(string username, string name, string server, string password, string profilePicture) : this(username,
+        name, server)
+    {
+        Password = password;
+        ProfilePicture = profilePicture;
+    }
+
     // Username must contain only letters, numbers, and hyphens
     [Key, RegularExpression(@"^[a-zA-Z0-9-]+$")]
     // Username must be at least 3 characters long

@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 using class_library;
 using class_library.Services;
@@ -17,6 +18,67 @@ public class ContactsController : ControllerBase
         _usersService = usersService;
         _chatsService = chatsService;
     }
+
+    [HttpPost("signup")]
+    public IActionResult SignUp([FromBody] JsonElement body)
+    {
+        // Sign up new user
+
+        string? username, password, confirmPassword, name, profilePicture;
+        try
+        {
+            username = body.GetProperty("username").GetString();
+            password = body.GetProperty("password").GetString();
+            confirmPassword = body.GetProperty("confirmPassword").GetString();
+            name = body.GetProperty("name").GetString();
+            profilePicture = body.GetProperty("profilePicture").GetString();
+        }
+        catch (Exception)
+        {
+            return BadRequest();
+        }
+
+        if (username == null || password == null || confirmPassword == null || name == null || profilePicture == null)
+        {
+            return BadRequest();
+        }
+
+        // Check regex for username
+        if (username.Length < 3 || !Regex.IsMatch(username, @"^[a-zA-Z0-9-]+$"))
+        {
+            return BadRequest();
+        }
+
+        // Ensure passwords match
+        if (password != confirmPassword)
+        {
+            return BadRequest();
+        }
+
+        // Check if password contains at least one number, one lowercase and one uppercase character
+        if (password.Length < 6 || !Regex.IsMatch(password, @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$"))
+        {
+            return BadRequest();
+        }
+
+        // Check regex for name (display name)
+        if (name.Length < 3 || !Regex.IsMatch(name, @"^[a-zA-Z '\-.,]+$"))
+        {
+            return BadRequest();
+        }
+
+        if (_usersService.Get(username) != null)
+        {
+            return BadRequest();
+        }
+
+        // Create new user
+        User newUser = new User(username, name, "localhost", password, profilePicture);
+        _usersService.Add(newUser);
+
+        return Ok();
+    }
+
 
     [HttpGet]
     public IActionResult Get()
@@ -59,6 +121,11 @@ public class ContactsController : ControllerBase
         if (currentUser == null)
         {
             return NotFound();
+        }
+
+        if (currentUser.Username == id)
+        {
+            return BadRequest();
         }
 
         // If the contact is already in the current user's contacts, return BadRequest
@@ -120,6 +187,11 @@ public class ContactsController : ControllerBase
             return NotFound();
         }
 
+        if (currentUser.Username == id)
+        {
+            return BadRequest();
+        }
+
         string? contactId = currentUser.Chats.Keys.ToList().Find(username => username == id);
         if (contactId == null)
         {
@@ -167,6 +239,11 @@ public class ContactsController : ControllerBase
             return NotFound();
         }
 
+        if (currentUser.Username == id)
+        {
+            return BadRequest();
+        }
+
         var contactId = currentUser.Chats.Keys.ToList().Find(username => username == id);
         if (contactId == null)
         {
@@ -199,6 +276,11 @@ public class ContactsController : ControllerBase
         if (currentUser == null)
         {
             return NotFound();
+        }
+
+        if (currentUser.Username == id)
+        {
+            return BadRequest();
         }
 
         var contact = _usersService.Get(id);
@@ -240,6 +322,11 @@ public class ContactsController : ControllerBase
             return NotFound();
         }
 
+        if (currentUser.Username == id)
+        {
+            return BadRequest();
+        }
+
         // If the contact is not in the current user's contacts, return NotFound
         if (!currentUser.Chats.ContainsKey(id))
         {
@@ -273,6 +360,11 @@ public class ContactsController : ControllerBase
         if (currentUser == null)
         {
             return NotFound();
+        }
+
+        if (currentUser.Username == id)
+        {
+            return BadRequest();
         }
 
         // If the contact is not in the current user's contacts, return NotFound
@@ -314,6 +406,11 @@ public class ContactsController : ControllerBase
             return NotFound();
         }
 
+        if (currentUser.Username == id)
+        {
+            return BadRequest();
+        }
+
         // If the contact is not in the current user's contacts, return NotFound
         if (!currentUser.Chats.ContainsKey(id))
         {
@@ -346,6 +443,11 @@ public class ContactsController : ControllerBase
         if (currentUser == null)
         {
             return NotFound();
+        }
+
+        if (currentUser.Username == id)
+        {
+            return BadRequest();
         }
 
         // If the contact is not in the current user's contacts, return NotFound
@@ -390,6 +492,11 @@ public class ContactsController : ControllerBase
         if (currentUser == null)
         {
             return NotFound();
+        }
+
+        if (currentUser.Username == id)
+        {
+            return BadRequest();
         }
 
         // If the contact is not in the current user's contacts, return NotFound
