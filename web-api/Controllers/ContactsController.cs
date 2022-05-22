@@ -106,6 +106,11 @@ public class ContactsController : ControllerBase
             return NotFound();
         }
 
+        if (currentUser.Username == id)
+        {
+            return BadRequest();
+        }
+
         // If the contact is already in the current user's contacts, return BadRequest
         if (currentUser.Chats.ContainsKey(id))
         {
@@ -165,6 +170,11 @@ public class ContactsController : ControllerBase
             return NotFound();
         }
 
+        if (currentUser.Username == id)
+        {
+            return BadRequest();
+        }
+
         string? contactId = currentUser.Chats.Keys.ToList().Find(username => username == id);
         if (contactId == null)
         {
@@ -212,6 +222,11 @@ public class ContactsController : ControllerBase
             return NotFound();
         }
 
+        if (currentUser.Username == id)
+        {
+            return BadRequest();
+        }
+
         var contactId = currentUser.Chats.Keys.ToList().Find(username => username == id);
         if (contactId == null)
         {
@@ -244,6 +259,11 @@ public class ContactsController : ControllerBase
         if (currentUser == null)
         {
             return NotFound();
+        }
+
+        if (currentUser.Username == id)
+        {
+            return BadRequest();
         }
 
         var contact = _usersService.Get(id);
@@ -285,6 +305,11 @@ public class ContactsController : ControllerBase
             return NotFound();
         }
 
+        if (currentUser.Username == id)
+        {
+            return BadRequest();
+        }
+
         // If the contact is not in the current user's contacts, return NotFound
         if (!currentUser.Chats.ContainsKey(id))
         {
@@ -318,6 +343,11 @@ public class ContactsController : ControllerBase
         if (currentUser == null)
         {
             return NotFound();
+        }
+
+        if (currentUser.Username == id)
+        {
+            return BadRequest();
         }
 
         // If the contact is not in the current user's contacts, return NotFound
@@ -359,6 +389,11 @@ public class ContactsController : ControllerBase
             return NotFound();
         }
 
+        if (currentUser.Username == id)
+        {
+            return BadRequest();
+        }
+
         // If the contact is not in the current user's contacts, return NotFound
         if (!currentUser.Chats.ContainsKey(id))
         {
@@ -391,6 +426,11 @@ public class ContactsController : ControllerBase
         if (currentUser == null)
         {
             return NotFound();
+        }
+
+        if (currentUser.Username == id)
+        {
+            return BadRequest();
         }
 
         // If the contact is not in the current user's contacts, return NotFound
@@ -435,6 +475,11 @@ public class ContactsController : ControllerBase
         if (currentUser == null)
         {
             return NotFound();
+        }
+
+        if (currentUser.Username == id)
+        {
+            return BadRequest();
         }
 
         // If the contact is not in the current user's contacts, return NotFound
