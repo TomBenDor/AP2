@@ -31,12 +31,7 @@ public class ContactsController : ControllerBase
     public IActionResult Login(string username, string password)
     {
         var user = _usersService.Get(username);
-        if (user == null)
-        {
-            return NotFound();
-        }
-
-        if (user.Password != password)
+        if (user == null || user.Password != password)
         {
             return Unauthorized();
         }
