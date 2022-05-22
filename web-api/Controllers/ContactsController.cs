@@ -12,6 +12,12 @@ public class ContactsController : ControllerBase
 {
     private readonly IUsersService _usersService;
     private readonly IChatsService _chatsService;
+    private readonly HttpClient _httpClient = new HttpClient();
+
+    private readonly JsonSerializerOptions _jsonSerializerOptions = new JsonSerializerOptions
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+    };
 
     public ContactsController(IUsersService usersService, IChatsService chatsService)
     {
@@ -73,7 +79,7 @@ public class ContactsController : ControllerBase
         }
 
         // Create new user
-        User newUser = new User(username, name, "localhost", password, profilePicture);
+        var newUser = new User(username, name, "localhost", password, profilePicture);
         _usersService.Add(newUser);
 
         return Ok();
@@ -165,7 +171,16 @@ public class ContactsController : ControllerBase
         }
         else
         {
-            // TODO: add new chat to contact on a remote server
+            // Send an invitation to the contact on the remote server
+            var invitation = new Invitation(currentUser.Username, contact.Username, "localhost");
+            var json = JsonSerializer.Serialize(invitation, _jsonSerializerOptions);
+            var stringContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+            var response = _httpClient.PostAsync("https://" + contact.Server + "/api/invitations", stringContent)
+                .Result;
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                return BadRequest();
+            }
         }
 
         return Ok();
@@ -383,8 +398,15 @@ public class ContactsController : ControllerBase
         // Add the new message to the contact if on a remote server
         if (contact.Server != "localhost")
         {
-            // TODO: add new message to contact on a remote server
             // Send transfer request
+            var transfer = new Transfer(currentUser.Username, contact.Username, content);
+            var json = JsonSerializer.Serialize(transfer, _jsonSerializerOptions);
+            var stringContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+            var response = _httpClient.PostAsync("https://" + contact.Server + "/api/transfer", stringContent).Result;
+            if (response.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                return BadRequest();
+            }
         }
 
         return Ok();
@@ -468,11 +490,7 @@ public class ContactsController : ControllerBase
         // Update the chat
         Chat chat = currentUser.Chats[id];
         _chatsService.Update(chat);
-        // Update the contact if on a remote server
-        if (contact.Server != "localhost")
-        {
-            // TODO: update message on a remote server
-        }
+        // No API exists for updating the contact if on a remote server
 
         return Ok();
     }
@@ -516,12 +534,7 @@ public class ContactsController : ControllerBase
         Chat chat = currentUser.Chats[id];
         chat.Messages.Remove(message);
         _chatsService.Update(chat);
-        // Delete the message from the contact if on a remote server
-        if (contact.Server != "localhost")
-        {
-            // TODO: delete message from contact on a remote server
-        }
-
+        // No API exists for deleting a message from the contact if on a remote server
         return Ok();
     }
 }
