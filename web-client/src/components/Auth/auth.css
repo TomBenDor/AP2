@@ -90,7 +90,7 @@ main #form-frame {
 
 .submit-button {
     font: 300 16px 'Lato', sans-serif;
-    color: var(--submit-button-text);
+        color: var(--submit-button-text);
     padding: 10px 20px 10px 20px;
     position: relative;
     background-image: linear-gradient(to right, var(--main-bright) 0%, var(--main-dark) 100%);

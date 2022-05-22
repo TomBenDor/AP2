@@ -5,82 +5,67 @@
 }
 
 
-<input name="query" id="search-bar"/>
+<div id="content-frame">
+    <div class="title">
+        <h1>Comments</h1>
+    </div>
+    <input name="query" id="search-bar"/>
 
-<table class="table">
-    <thead>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Comment)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Rating)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Username)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Date)
-        </th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Comment)
-            </td>
-            <td>
-                <ul class="star-list" alt=@item.Rating>
-                </ul>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Username)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>
-
-<footer>
-    <p>
-        <a asp-action="Create">Create New</a>
-    </p>
-</footer>
+    <div class="comments">
+        @foreach (var item in Model)
+        {
+            <div class="comment">
+                <div class="comment__text">
+                    @Html.DisplayFor(modelItem => item.Comment)
+                </div>
+                <div class="comment__rating">
+                    <ul class="star-list" alt=@item.Rating>
+                    </ul>
+                </div>
+                <div class="comment__author">
+                    @Html.DisplayFor(modelItem => item.Username)
+                </div>
+                <div class="comment__date">
+                    @Html.DisplayFor(modelItem => item.Date)
+                </div>
+                <div class="comment__links">
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </div>
+            </div>
+        }
+    </div>
+    <footer>
+        <p>
+            <a asp-action="Create">Create New</a>
+        </p>
+    </footer>
+</div>
 
 @section Scripts
 {
     <script type="text/html" id="template">
-        <tr>
-            <td>
+        <div class="comment">
+            <div class="comment__text">
                 {Comment}
-            </td>
-            <td>
+            </div>
+            <div class="comment__rating">
                 <ul class="star-list" alt={Rating}>
                 </ul>
-            </td>
-            <td>
+            </div>
+            <div class="comment__author">
                 {Username}
-            </td>
-            <td>
+            </div>
+            <div class="comment__date">
                 {Date}
-            </td>
-            <td>
+            </div>
+            <div>
                 <a asp-action="Edit" asp-route-id="{Id}">Edit</a> |
                 <a asp-action="Details" asp-route-id="{Id}">Details</a> |
                 <a asp-action="Delete" asp-route-id="{Id}">Delete</a>
-            </td>
-        </tr>
+            </div>
+        </div>
     </script>
     <script src="js/index.js"></script>
 }

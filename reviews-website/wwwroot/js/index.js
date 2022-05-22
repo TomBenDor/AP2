@@ -30,7 +30,7 @@ async function search() {
         results += row;
     }
 
-    $('tbody').html(results);
+    $('.comments').html(results);
     init_list();
 }
 
