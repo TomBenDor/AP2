@@ -73,10 +73,7 @@ public class ContactsController : ControllerBase
         }
 
         // Create new user
-        User newUser = new User(username, name, "localhost")
-        {
-            ProfilePicture = profilePicture, Password = password
-        };
+        User newUser = new User(username, name, "localhost", password, profilePicture);
         _usersService.Add(newUser);
 
         return Ok();
