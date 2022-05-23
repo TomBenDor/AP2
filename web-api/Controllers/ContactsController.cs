@@ -27,9 +27,25 @@ public class ContactsController : ControllerBase
         _configuration = configuration;
     }
 
-    [HttpPost("login")]
-    public IActionResult Login(string username, string password)
+    [HttpPost("Signin")]
+    public IActionResult Signin([FromBody] JsonElement body)
     {
+        string? username, password;
+        try
+        {
+            username = body.GetProperty("username").GetString();
+            password = body.GetProperty("password").GetString();
+        }
+        catch (Exception)
+        {
+            return BadRequest();
+        }
+
+        if (username == null || password == null)
+        {
+            return BadRequest();
+        }
+
         var user = _usersService.Get(username);
         if (user == null || user.Password != password)
         {
