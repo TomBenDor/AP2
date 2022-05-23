@@ -30,9 +30,29 @@ public class ContactsController : ControllerBase
         _tokenHandler = new JwtSecurityTokenHandler();
     }
 
+    private string _createJwtToken(string username)
+    {
+        var claims = new[]
+        {
+            new Claim(JwtRegisteredClaimNames.Sub, _configuration["JWTParams:Subject"]),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
+            new Claim("username", username)
+        };
+        var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWTParams:SecretKey"]));
+        var mac = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+        var token = new JwtSecurityToken(
+            _configuration["JWTParams:Issuer"], _configuration["JWTParams:Audience"], claims,
+            expires: DateTime.UtcNow.AddMinutes(20), signingCredentials: mac);
+
+        return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+
     [HttpPost("signin")]
     public IActionResult Signin([FromBody] JsonElement body)
     {
+        // Sign in user
+
         string? username, password;
         try
         {
@@ -55,20 +75,7 @@ public class ContactsController : ControllerBase
             return Unauthorized();
         }
 
-        var claims = new[]
-        {
-            new Claim(JwtRegisteredClaimNames.Sub, _configuration["JWTParams:Subject"]),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
-            new Claim("username", user.Username)
-        };
-        var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWTParams:SecretKey"]));
-        var mac = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-        var token = new JwtSecurityToken(
-            _configuration["JWTParams:Issuer"], _configuration["JWTParams:Audience"], claims,
-            expires: DateTime.UtcNow.AddMinutes(20), signingCredentials: mac);
-
-        return Ok(new JwtSecurityTokenHandler().WriteToken(token));
+        return Ok(_createJwtToken(user.Username));
     }
 
     [HttpPost("signup")]
