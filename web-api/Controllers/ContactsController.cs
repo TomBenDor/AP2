@@ -98,7 +98,15 @@ public class ContactsController : ControllerBase
         }
 
         List<string> contactsIds = currentUser.Chats.Keys.ToList();
-        return Ok(_usersService.Get(contactsIds));
+        IEnumerable<User> contacts = _usersService.Get(contactsIds);
+        // Loop over contacts and create a list of outerUsers from them
+        List<OuterUser> outerContacts = new List<OuterUser>();
+        foreach (User c in contacts)
+        {
+            outerContacts.Add(new OuterUser(c.Username, currentUser.Chats[c.Username]));
+        }
+
+        return Ok(outerContacts);
     }
 
     [HttpPost]
@@ -214,7 +222,8 @@ public class ContactsController : ControllerBase
             return NotFound();
         }
 
-        return Ok(contact);
+        var outerContact = new OuterUser(contactId, currentUser.Chats[contactId]);
+        return Ok(outerContact);
     }
 
     [HttpPut("{id}")]
