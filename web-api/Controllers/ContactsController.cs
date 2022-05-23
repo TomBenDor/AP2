@@ -146,6 +146,7 @@ public class ContactsController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize]
     public IActionResult Post([FromBody] JsonElement body)
     {
         // Add contact to the current user
