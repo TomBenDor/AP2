@@ -53,6 +53,6 @@ public class InvitationController : ControllerBase
             _usersService.Update(remoteUser);
         }
 
-        return Ok();
+        return Created("", null);
     }
 }
