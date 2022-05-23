@@ -135,7 +135,9 @@ public class ContactsController : ControllerBase
     {
         // Get all contacts of the current user
 
-        var currentUser = _usersService.GetAll().FirstOrDefault(); // TODO: get current user from JWT
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var token = tokenHandler.ReadJwtToken(Request.Headers["Authorization"].ToString().Substring("Bearer ".Length));
+        var currentUser = _usersService.Get(token.Claims.First(claim => claim.Type == "username").Value);
         if (currentUser == null)
         {
             return NotFound();
@@ -168,7 +170,9 @@ public class ContactsController : ControllerBase
             return BadRequest();
         }
 
-        var currentUser = _usersService.GetAll().FirstOrDefault(); // TODO: get current user from JWT
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var token = tokenHandler.ReadJwtToken(Request.Headers["Authorization"].ToString().Substring("Bearer ".Length));
+        var currentUser = _usersService.Get(token.Claims.First(claim => claim.Type == "username").Value);
         if (currentUser == null)
         {
             return NotFound();
@@ -233,7 +237,9 @@ public class ContactsController : ControllerBase
             return NotFound();
         }
 
-        var currentUser = _usersService.GetAll().FirstOrDefault(); // TODO: get current user from JWT
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var token = tokenHandler.ReadJwtToken(Request.Headers["Authorization"].ToString().Substring("Bearer ".Length));
+        var currentUser = _usersService.Get(token.Claims.First(claim => claim.Type == "username").Value);
         if (currentUser == null)
         {
             return NotFound();
@@ -286,7 +292,9 @@ public class ContactsController : ControllerBase
             return NotFound();
         }
 
-        var currentUser = _usersService.GetAll().FirstOrDefault(); // TODO: get current user from JWT
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var token = tokenHandler.ReadJwtToken(Request.Headers["Authorization"].ToString().Substring("Bearer ".Length));
+        var currentUser = _usersService.Get(token.Claims.First(claim => claim.Type == "username").Value);
         if (currentUser == null)
         {
             return NotFound();
@@ -326,7 +334,9 @@ public class ContactsController : ControllerBase
     {
         // Delete a contact of the current user by id
 
-        var currentUser = _usersService.GetAll().FirstOrDefault(); // TODO: get current user from JWT
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var token = tokenHandler.ReadJwtToken(Request.Headers["Authorization"].ToString().Substring("Bearer ".Length));
+        var currentUser = _usersService.Get(token.Claims.First(claim => claim.Type == "username").Value);
         if (currentUser == null)
         {
             return NotFound();
@@ -371,8 +381,9 @@ public class ContactsController : ControllerBase
             return NotFound();
         }
 
-        var currentUser = _usersService.GetAll().FirstOrDefault(); // TODO: get current user from JWT
-        if (currentUser == null)
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var token = tokenHandler.ReadJwtToken(Request.Headers["Authorization"].ToString().Substring("Bearer ".Length));
+        var currentUser = _usersService.Get(token.Claims.First(claim => claim.Type == "username").Value);        if (currentUser == null)
         {
             return NotFound();
         }
@@ -412,8 +423,9 @@ public class ContactsController : ControllerBase
             return NotFound();
         }
 
-        var currentUser = _usersService.GetAll().FirstOrDefault(); // TODO: get current user from JWT
-        if (currentUser == null)
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var token = tokenHandler.ReadJwtToken(Request.Headers["Authorization"].ToString().Substring("Bearer ".Length));
+        var currentUser = _usersService.Get(token.Claims.First(claim => claim.Type == "username").Value);        if (currentUser == null)
         {
             return NotFound();
         }
@@ -457,8 +469,9 @@ public class ContactsController : ControllerBase
             return NotFound();
         }
 
-        User? currentUser = _usersService.GetAll().FirstOrDefault(); // TODO: get current user from JWT
-        if (currentUser == null)
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var token = tokenHandler.ReadJwtToken(Request.Headers["Authorization"].ToString().Substring("Bearer ".Length));
+        var currentUser = _usersService.Get(token.Claims.First(claim => claim.Type == "username").Value);        if (currentUser == null)
         {
             return NotFound();
         }
@@ -497,8 +510,9 @@ public class ContactsController : ControllerBase
             return NotFound();
         }
 
-        var currentUser = _usersService.GetAll().FirstOrDefault(); // TODO: get current user from JWT
-        if (currentUser == null)
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var token = tokenHandler.ReadJwtToken(Request.Headers["Authorization"].ToString().Substring("Bearer ".Length));
+        var currentUser = _usersService.Get(token.Claims.First(claim => claim.Type == "username").Value);        if (currentUser == null)
         {
             return NotFound();
         }
@@ -547,8 +561,9 @@ public class ContactsController : ControllerBase
             return NotFound();
         }
 
-        User? currentUser = _usersService.GetAll().FirstOrDefault(); // TODO: get current user from JWT
-        if (currentUser == null)
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var token = tokenHandler.ReadJwtToken(Request.Headers["Authorization"].ToString().Substring("Bearer ".Length));
+        var currentUser = _usersService.Get(token.Claims.First(claim => claim.Type == "username").Value);        if (currentUser == null)
         {
             return NotFound();
         }
