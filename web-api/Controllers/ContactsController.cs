@@ -27,7 +27,7 @@ public class ContactsController : ControllerBase
         _configuration = configuration;
     }
 
-    [HttpPost("Signin")]
+    [HttpPost("signin")]
     public IActionResult Signin([FromBody] JsonElement body)
     {
         string? username, password;
