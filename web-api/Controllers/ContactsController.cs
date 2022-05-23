@@ -55,7 +55,7 @@ public class ContactsController : ControllerBase
     }
 
     [HttpPost("signin")]
-    public IActionResult Signin([FromBody] JsonElement body)
+    public IActionResult SignIn([FromBody] JsonElement body)
     {
         // Sign in user
 
