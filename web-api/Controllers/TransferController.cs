@@ -41,6 +41,6 @@ public class TransferController : ControllerBase
         chat.Messages.Add(message);
         _chatsService.Update(chat);
 
-        return Ok();
+        return Created("", null);
     }
 }

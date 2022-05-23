@@ -20,6 +20,12 @@ public class ContactsController : ControllerBase
     private readonly IChatsService _chatsService;
     private readonly IConfiguration _configuration;
     private readonly JwtSecurityTokenHandler _tokenHandler;
+    private readonly HttpClient _httpClient = new HttpClient();
+
+    private readonly JsonSerializerOptions _jsonSerializerOptions = new JsonSerializerOptions
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+    };
 
 
     public ContactsController(IUsersService usersService, IChatsService chatsService, IConfiguration configuration)
@@ -132,10 +138,10 @@ public class ContactsController : ControllerBase
         }
 
         // Create new user
-        User newUser = new User(username, name, "localhost", password, profilePicture);
+        var newUser = new User(username, name, "localhost", password, profilePicture);
         _usersService.Add(newUser);
 
-        return Ok();
+        return Created("", null);
     }
 
 
@@ -152,8 +158,8 @@ public class ContactsController : ControllerBase
             return NotFound();
         }
 
-        List<string> contacsIds = currentUser.Chats.Keys.ToList();
-        return Ok(_usersService.Get(contacsIds));
+        List<string> contactsIds = currentUser.Chats.Keys.ToList();
+        return Ok(_usersService.Get(contactsIds));
     }
 
     [HttpPost]
@@ -228,10 +234,14 @@ public class ContactsController : ControllerBase
         }
         else
         {
-            // TODO: add new chat to contact on a remote server
+            // Send an invitation to the contact on the remote server
+            var invitation = new Invitation(currentUser.Username, contact.Username, "localhost");
+            var json = JsonSerializer.Serialize(invitation, _jsonSerializerOptions);
+            var stringContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+            _httpClient.PostAsync("https://" + contact.Server + "/api/invitations", stringContent).Wait();
         }
 
-        return Ok();
+        return Created("", null);
     }
 
     [HttpGet("{id}")]
@@ -331,7 +341,7 @@ public class ContactsController : ControllerBase
             return NotFound();
         }
 
-        return Ok();
+        return NoContent();
     }
 
     [HttpDelete("{id}")]
@@ -372,7 +382,7 @@ public class ContactsController : ControllerBase
         // Delete the currentUser from the contact
         contact.Chats.Remove(currentUser.Username);
         _usersService.Update(contact);
-        return Ok();
+        return NoContent();
     }
 
     [HttpGet("{id}/messages")]
@@ -456,11 +466,14 @@ public class ContactsController : ControllerBase
         // Add the new message to the contact if on a remote server
         if (contact.Server != "localhost")
         {
-            // TODO: add new message to contact on a remote server
             // Send transfer request
+            var transfer = new Transfer(currentUser.Username, contact.Username, content);
+            var json = JsonSerializer.Serialize(transfer, _jsonSerializerOptions);
+            var stringContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+            _httpClient.PostAsync("https://" + contact.Server + "/api/transfer", stringContent).Wait();
         }
 
-        return Ok();
+        return Created("", null);
     }
 
     [HttpGet("{id}/messages/{id2}")]
@@ -545,13 +558,9 @@ public class ContactsController : ControllerBase
         // Update the chat
         Chat chat = currentUser.Chats[id];
         _chatsService.Update(chat);
-        // Update the contact if on a remote server
-        if (contact.Server != "localhost")
-        {
-            // TODO: update message on a remote server
-        }
+        // No API exists for updating the contact if on a remote server
 
-        return Ok();
+        return NoContent();
     }
 
     [HttpDelete("{id}/messages/{id2}")]
@@ -595,12 +604,7 @@ public class ContactsController : ControllerBase
         Chat chat = currentUser.Chats[id];
         chat.Messages.Remove(message);
         _chatsService.Update(chat);
-        // Delete the message from the contact if on a remote server
-        if (contact.Server != "localhost")
-        {
-            // TODO: delete message from contact on a remote server
-        }
-
-        return Ok();
+        // No API exists for deleting a message from the contact if on a remote server
+        return NoContent();
     }
 }
