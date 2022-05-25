@@ -1,8 +1,14 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 using class_library;
 using class_library.Services;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.IdentityModel.Tokens;
+using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 
 namespace web_api.Controllers;
 
@@ -12,6 +18,8 @@ public class ContactsController : ControllerBase
 {
     private readonly IUsersService _usersService;
     private readonly IChatsService _chatsService;
+    private readonly IConfiguration _configuration;
+    private readonly JwtSecurityTokenHandler _tokenHandler;
     private readonly HttpClient _httpClient = new HttpClient();
 
     private readonly JsonSerializerOptions _jsonSerializerOptions = new JsonSerializerOptions
@@ -19,10 +27,67 @@ public class ContactsController : ControllerBase
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase
     };
 
-    public ContactsController(IUsersService usersService, IChatsService chatsService)
+
+    public ContactsController(IUsersService usersService, IChatsService chatsService, IConfiguration configuration)
     {
         _usersService = usersService;
         _chatsService = chatsService;
+        _configuration = configuration;
+        _tokenHandler = new JwtSecurityTokenHandler();
+    }
+
+    private User? _getCurrentUser()
+    {
+        var token = _tokenHandler.ReadJwtToken(Request.Headers["Authorization"].ToString().Substring("Bearer ".Length));
+        return _usersService.Get(token.Claims.First(claim => claim.Type == "username").Value);
+    }
+
+    private string _createJwtToken(string username)
+    {
+        var claims = new[]
+        {
+            new Claim(JwtRegisteredClaimNames.Sub, _configuration["JWTParams:Subject"]),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
+            new Claim("username", username)
+        };
+        var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWTParams:SecretKey"]));
+        var mac = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+        var token = new JwtSecurityToken(
+            _configuration["JWTParams:Issuer"], _configuration["JWTParams:Audience"], claims,
+            expires: DateTime.UtcNow.AddMinutes(20), signingCredentials: mac);
+
+        return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+
+    [HttpPost("signin")]
+    public IActionResult SignIn([FromBody] JsonElement body)
+    {
+        // Sign in user
+
+        string? username, password;
+        try
+        {
+            username = body.GetProperty("username").GetString();
+            password = body.GetProperty("password").GetString();
+        }
+        catch (Exception)
+        {
+            return BadRequest();
+        }
+
+        if (username == null || password == null)
+        {
+            return BadRequest();
+        }
+
+        var user = _usersService.Get(username);
+        if (user == null || user.Password != password)
+        {
+            return Unauthorized();
+        }
+
+        return Ok(_createJwtToken(user.Username));
     }
 
     [HttpPost("signup")]
@@ -87,11 +152,12 @@ public class ContactsController : ControllerBase
 
 
     [HttpGet]
+    [Authorize]
     public IActionResult Get()
     {
         // Get all contacts of the current user
 
-        var currentUser = _usersService.GetAll().FirstOrDefault(); // TODO: get current user from JWT
+        var currentUser = _getCurrentUser();
         if (currentUser == null)
         {
             return NotFound();
@@ -110,6 +176,7 @@ public class ContactsController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize]
     public IActionResult Post([FromBody] JsonElement body)
     {
         // Add contact to the current user
@@ -131,7 +198,7 @@ public class ContactsController : ControllerBase
             return BadRequest();
         }
 
-        var currentUser = _usersService.GetAll().FirstOrDefault(); // TODO: get current user from JWT
+        var currentUser = _getCurrentUser();
         if (currentUser == null)
         {
             return NotFound();
@@ -190,6 +257,7 @@ public class ContactsController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [Authorize]
     public IActionResult Get(string id)
     {
         // Get a contact of the current user by id
@@ -199,7 +267,7 @@ public class ContactsController : ControllerBase
             return NotFound();
         }
 
-        var currentUser = _usersService.GetAll().FirstOrDefault(); // TODO: get current user from JWT
+        var currentUser = _getCurrentUser();
         if (currentUser == null)
         {
             return NotFound();
@@ -227,6 +295,7 @@ public class ContactsController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize]
     public IActionResult Put(string id, [FromBody] JsonElement body)
     {
         // Update a contact of the current user by id
@@ -252,7 +321,7 @@ public class ContactsController : ControllerBase
             return NotFound();
         }
 
-        var currentUser = _usersService.GetAll().FirstOrDefault(); // TODO: get current user from JWT
+        var currentUser = _getCurrentUser();
         if (currentUser == null)
         {
             return NotFound();
@@ -287,11 +356,12 @@ public class ContactsController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize]
     public IActionResult Delete(string id)
     {
         // Delete a contact of the current user by id
 
-        var currentUser = _usersService.GetAll().FirstOrDefault(); // TODO: get current user from JWT
+        var currentUser = _getCurrentUser();
         if (currentUser == null)
         {
             return NotFound();
@@ -326,6 +396,7 @@ public class ContactsController : ControllerBase
     }
 
     [HttpGet("{id}/messages")]
+    [Authorize]
     public IActionResult GetMessages(string id)
     {
         // Get all messages between the current user and the contact by id
@@ -335,7 +406,7 @@ public class ContactsController : ControllerBase
             return NotFound();
         }
 
-        var currentUser = _usersService.GetAll().FirstOrDefault(); // TODO: get current user from JWT
+        var currentUser = _getCurrentUser();
         if (currentUser == null)
         {
             return NotFound();
@@ -365,6 +436,7 @@ public class ContactsController : ControllerBase
     }
 
     [HttpPost("{id}/messages")]
+    [Authorize]
     public IActionResult PostNewMessage(string id, [FromBody] string content)
     {
         // Add a new message between the current user and the contact by id
@@ -375,7 +447,7 @@ public class ContactsController : ControllerBase
             return NotFound();
         }
 
-        var currentUser = _usersService.GetAll().FirstOrDefault(); // TODO: get current user from JWT
+        var currentUser = _getCurrentUser();
         if (currentUser == null)
         {
             return NotFound();
@@ -413,6 +485,7 @@ public class ContactsController : ControllerBase
     }
 
     [HttpGet("{id}/messages/{id2}")]
+    [Authorize]
     public IActionResult GetMessage(string id, int id2)
     {
         // Get a message with id2 between the current user and the contact by id
@@ -422,7 +495,8 @@ public class ContactsController : ControllerBase
             return NotFound();
         }
 
-        User? currentUser = _usersService.GetAll().FirstOrDefault(); // TODO: get current user from JWT
+
+        var currentUser = _getCurrentUser();
         if (currentUser == null)
         {
             return NotFound();
@@ -451,6 +525,7 @@ public class ContactsController : ControllerBase
     }
 
     [HttpPut("{id}/messages/{id2}")]
+    [Authorize]
     public IActionResult PutMessage(string id, int id2, [FromBody] string content)
     {
         // Update a message with id2 between the current user and the contact by id
@@ -461,7 +536,7 @@ public class ContactsController : ControllerBase
             return NotFound();
         }
 
-        var currentUser = _usersService.GetAll().FirstOrDefault(); // TODO: get current user from JWT
+        var currentUser = _getCurrentUser();
         if (currentUser == null)
         {
             return NotFound();
@@ -496,6 +571,7 @@ public class ContactsController : ControllerBase
     }
 
     [HttpDelete("{id}/messages/{id2}")]
+    [Authorize]
     public IActionResult DeleteMessage(string id, int id2)
     {
         // Delete a message with id2 between the current user and the contact by id
@@ -506,7 +582,8 @@ public class ContactsController : ControllerBase
             return NotFound();
         }
 
-        User? currentUser = _usersService.GetAll().FirstOrDefault(); // TODO: get current user from JWT
+
+        var currentUser = _getCurrentUser();
         if (currentUser == null)
         {
             return NotFound();
