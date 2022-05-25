@@ -180,7 +180,7 @@ public class ContactsController : ControllerBase
         else
         {
             // Send an invitation to the contact on the remote server
-            var invitation = new Invitation(currentUser.Username, contact.Username, "localhost");
+            var invitation = new Invitation(currentUser.Username, contact.Username, "localhost:42690");
             var json = JsonSerializer.Serialize(invitation, _jsonSerializerOptions);
             var stringContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
             _httpClient.PostAsync("https://" + contact.Server + "/api/invitations", stringContent).Wait();
