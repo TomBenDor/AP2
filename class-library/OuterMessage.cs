@@ -6,14 +6,14 @@ public class OuterMessage
     {
         Id = message.Id;
         Content = message.Text;
-        Created = message.Timestamp;
+        Created = message.Timestamp.ToString("MM/dd/yyyy, HH:mm:ss");
         Sent = loggedInUsername == message.Sender;
     }
 
     public int Id { get; }
     public string Content { get; }
 
-    public DateTime Created { get; }
+    public string Created { get; }
 
     // True if the current logged in user is the author of this message
     public bool Sent { get; }

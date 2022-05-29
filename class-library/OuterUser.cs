@@ -19,7 +19,7 @@ public class OuterUser
         if (lastMessage != null)
         {
             Last = lastMessage.Text;
-            LastDate = lastMessage.Timestamp.ToString();
+            LastDate = lastMessage.Timestamp.ToString("MM/dd/yyyy, HH:mm:ss");
         }
     }
 
