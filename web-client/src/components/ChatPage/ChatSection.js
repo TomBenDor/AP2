@@ -230,7 +230,7 @@ const ChatSection = ({user, setUser, currentChatID, messagesCache, setMessagesCa
                             <span className="user-header">
                                 <span className="profile-pic">
                                     <img
-                                        src={null}
+                                        src="media/profile_picture.png"
                                         className="center" alt="profile-pic"/>
                                 </span>
                                 <span className="user-header-title">
