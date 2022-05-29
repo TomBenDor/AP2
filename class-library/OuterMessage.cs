@@ -10,11 +10,11 @@ public class OuterMessage
         Sent = loggedInUsername == message.Sender;
     }
 
-    public int Id;
-    public string Content;
+    public int Id { get; }
+    public string Content { get; }
 
-    public DateTime Created;
+    public DateTime Created { get; }
 
     // True if the current logged in user is the author of this message
-    public bool Sent;
+    public bool Sent { get; }
 }

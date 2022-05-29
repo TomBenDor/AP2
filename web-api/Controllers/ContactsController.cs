@@ -27,6 +27,42 @@ public class ContactsController : ControllerBase
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase
     };
 
+    private void _initExampleChatsAndUsers()
+    {
+        // Create example users and chats
+
+        var user1 = _usersService.Get("user123");
+        if (user1 == null || user1.Chats.Count > 0)
+        {
+            return;
+        }
+
+        var cris = _usersService.Get("Crisr7");
+        var drake = _usersService.Get("drake6942");
+        var ch1 = _chatsService.Get("user123-Crisr7");
+        var ch2 = _chatsService.Get("user123-drake6942");
+        ch1.Members.Add(user1);
+        ch1.Members.Add(cris);
+        ch2.Members.Add(user1);
+        ch2.Members.Add(drake);
+        ch1.Messages.Add(new Message(1, "Ayo my dude", "user123", DateTime.Now, "text"));
+        ch1.Messages.Add(new Message(2, "Hi :)", "Crisr7", DateTime.Now, "text"));
+        ch2.Messages.Add(new Message(1, "Yo hear my new song bro", "drake6942", DateTime.Now, "text"));
+        ch2.Messages.Add(new Message(2, "Lit bro", "user123", DateTime.Now, "text"));
+        _chatsService.Update(ch1);
+        _chatsService.Update(ch2);
+        user1.Chats["Crisr7"] = ch1;
+        user1.Chats["drake6942"] = ch2;
+        cris.Chats["user123"] = ch1;
+        drake.Chats["user123"] = ch2;
+        user1.UnreadMessages[ch1.Id] = 1;
+        user1.UnreadMessages[ch2.Id] = 0;
+        cris.UnreadMessages[ch1.Id] = 0;
+        drake.UnreadMessages[ch2.Id] = 1;
+        _usersService.Update(user1);
+        _usersService.Update(cris);
+        _usersService.Update(drake);
+    }
 
     public ContactsController(IUsersService usersService, IChatsService chatsService, IConfiguration configuration)
     {
@@ -34,6 +70,8 @@ public class ContactsController : ControllerBase
         _chatsService = chatsService;
         _configuration = configuration;
         _tokenHandler = new JwtSecurityTokenHandler();
+        // For testing
+        _initExampleChatsAndUsers();
     }
 
     private User? _getCurrentUser()
