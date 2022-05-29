@@ -3,7 +3,7 @@ import './ChatSection.css';
 import ToggleTheme from './ToggleTheme'
 import {useEffect, useRef, useState} from "react";
 
-const ChatSection = ({user, setUser, DB, setDB, currentChatID, messagesCache, setMessagesCache, theme, setTheme}) => {
+const ChatSection = ({user, setUser, currentChatID, messagesCache, setMessagesCache, theme, setTheme}) => {
     const messageBox = useRef(null);
     // Set state for send button disabled state
     const [messageEmpty, setMessageEmpty] = useState(true);
@@ -230,12 +230,12 @@ const ChatSection = ({user, setUser, DB, setDB, currentChatID, messagesCache, se
                             <span className="user-header">
                                 <span className="profile-pic">
                                     <img
-                                        src={user.chats[currentChatID].type === "one-to-one" ? DB.users[user.chats[currentChatID].members.filter(m => m !== user.username)[0]].profilePicture : user.chats[currentChatID].picture}
+                                        src={null}
                                         className="center" alt="profile-pic"/>
                                 </span>
                                 <span className="user-header-title">
                                     <div className="center">
-                                        {user.chats[currentChatID].type === "one-to-one" ? DB.users[user.chats[currentChatID].members.filter(m => m !== user.username)[0]].name : user.chats[currentChatID].name}
+                                        {currentChatID}
                                     </div>
                                 </span>
                             </span>
@@ -259,51 +259,13 @@ const ChatSection = ({user, setUser, DB, setDB, currentChatID, messagesCache, se
 
                 </span>
                         <span className="buttons">
-                                {((!messageEmpty && !recording) &&
-                                        <button className="center icon-button" onClick={sendTextMessage}>
-                                            <i className="bi bi-send"/>
-                                        </button>
-                                    ) ||
-                                    (recording &&
-                                        <div className="center">
-                                            <button className="icon-button" onClick={onSelectRecording}>
-                                                <i className="bi bi-stop-circle"/>
-                                            </button>
-                                            <button className="icon-button" onClick={cancelRecording}>
-                                                <i className="bi bi-trash"/>
-                                            </button>
-                                        </div>
-                                    ) ||
-                                    <div className="center">
-                                        {(!showAttachments &&
-                                                <button className="icon-button"
-                                                        onMouseEnter={() => {
-                                                            setShowAttachments(true);
-                                                        }}>
-                                                    <i className="bi bi-paperclip"/>
-                                                </button>
-                                            ) ||
-                                            <div onMouseLeave={() => {
-                                                setShowAttachments(false);
-                                            }}>
-                                                <label className="icon-button">
-                                                    <input onChange={onSelectImage} type="file"
-                                                           className="upload-file-button" accept="image/*"/>
-                                                    <i className="bi bi-image"/>
-                                                </label>
-                                                <label className="icon-button">
-                                                    <input onChange={onSelectVideo} type="file"
-                                                           className="upload-file-button" accept="video/*"/>
-                                                    <i className="bi bi-camera-video"/>
-                                                </label>
-                                                <button onClick={onSelectRecording} className="icon-button">
-                                                    <i className="bi bi-mic"/>
-                                                </button>
-                                            </div>
-                                        }
-                                    </div>
-                                }
-                            </span>
+                            {!messageEmpty &&
+
+                                <button className="center icon-button" onClick={sendTextMessage}>
+                                    <i className="bi bi-send"/>
+                                </button>
+                            }
+                        </span>
                     </div>
                 </>
             ) || <div className="max">

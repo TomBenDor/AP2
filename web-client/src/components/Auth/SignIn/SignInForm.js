@@ -3,8 +3,55 @@ import {Link, useNavigate} from 'react-router-dom';
 import "./SignInForm.css";
 import "../auth.css";
 
+const signIn = async (username, password, setUser) => {
+    const response = await fetch("https://localhost:7090/api/contacts/signin", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            username: username, password: password
+        })
+    });
+    if (!response.ok) {
+        return 0;
+    }
+    const data = await response.json();
 
-const SignInForm = ({DB, token, setToken}) => {
+    const response1 = await fetch("https://localhost:7090/api/contacts", {
+        method: "GET",
+        headers: {
+            "Authorization": "Bearer " + data.token,
+            "Accept": "*/*",
+        }
+    });
+    let data1 = await response1.json();
+    let chats = {};
+    data1.forEach(chat => {
+        chats = {
+            ...chats,
+            [chat.id]: {
+                ...chat, messages: fetch("https://localhost:7090/api/contacts/" + chat.id + "/messages", {
+                    method: "GET",
+                    headers: {
+                        "Authorization": "Bearer " + data.token,
+                        "Accept": "*/*",
+                    }
+                })
+            }
+        }
+    });
+    const user = {
+        username: username,
+        name: data.name,
+        chats: chats,
+        token: data.token
+    }
+
+    return user;
+}
+
+const SignInForm = ({user, setUser}) => {
     const usernameBox = useRef(null);
     const passwordBox = useRef(null);
     const navigate = useNavigate();
@@ -27,32 +74,28 @@ const SignInForm = ({DB, token, setToken}) => {
         });
 
         // Check if username and password are valid
-        fetch("https://localhost:7090/api/contacts/signin", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                username: username, password: password
-            })
-        }).then(r => {
-                if (r.ok) {
-                    // Get token from response
-                    r.json().then(data => {
-                        setToken(data.token);
+        let user = signIn(username, password, setUser);
+        user.then(user => {
+            if (user) {
+                Object.values(user.chats).forEach(chat => {
+                    chat.messages.then(messages => {
+                        messages.json().then(messages => {
+                            chat.messages = messages;
+                        });
                     });
-                } else {
-                    // Show error messages
-                    document.getElementById("floatingUsername").classList.add("is-invalid");
-                    document.getElementById("username-label").classList.add("text-danger");
-                    // Disable submit button
-                    document.getElementById("sign-in-button").disabled = true;
-                }
-                ;
+                });
+                setUser(user);
+                console.log(user);
+                navigate("/");
+            } else {
+                // Show error messages
+                document.getElementById("floatingUsername").classList.add("is-invalid");
+                document.getElementById("username-label").classList.add("text-danger");
+                // Disable submit button
+                document.getElementById("sign-in-button").disabled = true;
             }
-        )
+        });
     }
-
 // Prevent user from entering invalid characters
     const enforceUsernameRegEx = (e) => {
         if (!/[a-zA-Z0-9-]$/.test(e.key)) {
@@ -64,13 +107,6 @@ const SignInForm = ({DB, token, setToken}) => {
         // Check if username and password are empty
         document.getElementById("sign-in-button").disabled = usernameBox.current.value === "" || passwordBox.current.value === "";
     };
-
-    useEffect(() => {
-        // If user is signed in, redirect to main page.
-        if (token) {
-            navigate("/");
-        }
-    }, [token, navigate]);
 
     const [isVisible, setVisible] = useState(0)
 

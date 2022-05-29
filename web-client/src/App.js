@@ -10,6 +10,7 @@ const FILE = require('./database.json');
 const App = () => {
     // Current signed in user
     const [token, setToken] = useState(null);
+    const [user, setUser] = useState(null);
 
     const [theme, setTheme] = useState('light');
 
@@ -21,20 +22,20 @@ const App = () => {
                         <Route path='/' element={
                             // Check if user is signed in or not. If not, render landing page.
                             // If signed in, Render the Chat page.
-                            token ?
-                                <ChatPage token={token} theme={theme} setTheme={setTheme}/> :
+                            user ?
+                                <ChatPage user={user} setUser={setUser} token={token} theme={theme} setTheme={setTheme}/> :
                                 <LandingPage/>
                         }/>
                         <Route path='/signin' element={
                             // Render the SignIn component.
                             <>
-                                <SignInForm token={token} setToken={setToken}/>
+                                <SignInForm user={user} setUser={setUser} token={token} setToken={setToken}/>
                             </>
                         }/>
                         <Route path='/signup' element={
                             // Render the Signup component.
                             <>
-                                <SignUpForm token={token} setToken={setToken}/>
+                                <SignUpForm user={user} setUser={setUser} token={token} setToken={setToken}/>
                             </>
                         }/>
                     </Routes>

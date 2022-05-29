@@ -127,7 +127,8 @@ public class ContactsController : ControllerBase
 
         // Return JWT token
         var token = _createJwtToken(username);
-        return Ok(new { token });
+        var name = user.Name;
+        return Ok(new { token, name });
     }
 
     [HttpPost("signup")]
@@ -287,7 +288,7 @@ public class ContactsController : ControllerBase
         else
         {
             // Send an invitation to the contact on the remote server
-            var invitation = new Invitation(currentUser.Username, contact.Username, "localhost:42690");
+            var invitation = new Invitation(currentUser.Username, contact.Username, "localhost:7090");
             var json = JsonSerializer.Serialize(invitation, _jsonSerializerOptions);
             var stringContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
             _httpClient.PostAsync("https://" + contact.Server + "/api/invitations", stringContent).Wait();

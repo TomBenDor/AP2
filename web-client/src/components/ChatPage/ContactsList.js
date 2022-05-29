@@ -1,6 +1,6 @@
 import './ContactsList.css'
 
-const ContactsList = ({user, setUser, DB, setDB, currentChatID, setCurrentChatID}) => {
+const ContactsList = ({user, setUser, currentChatID, setCurrentChatID}) => {
     const selectChat = (chatID) => {
         setCurrentChatID(chatID);
         // Mark as read
@@ -44,7 +44,7 @@ const ContactsList = ({user, setUser, DB, setDB, currentChatID, setCurrentChatID
                         }
                         <div className="last-message-time">
                             <h6>
-                                {(chat.messages.length) ? new Date(chat.messages.at(-1).timestamp).toLocaleTimeString('en-US', {
+                                {(chat.messages.length) ? new Date(chat.lastDate).toLocaleTimeString('en-US', {
                                     hourCycle: 'h23',
                                     hour: "numeric",
                                     minute: "numeric"
@@ -55,17 +55,17 @@ const ContactsList = ({user, setUser, DB, setDB, currentChatID, setCurrentChatID
                     <span className="user-header">
                         <span className="profile-pic">
                             <img
-                                src={chat.type === "one-to-one" ? DB.users[chat.members.filter(m => m !== user.username)[0]].profilePicture : chat.picture}
+                                src={null}
                                 className="center" alt="profile-pic"/>
                         </span>
                         <span className="contact-info">
                             <div className="center">
                                 <h6 className="contact-name">
-                                    {chat.type === "one-to-one" ? DB.users[chat.members.filter(m => m !== user.username)[0]].name : chat.name}
+                                    {chat.id}
                                 </h6>
                                 <h6 className="last-message-sent">
                                     {/* If last message sent is a text message, display its content. Else, display the right description */}
-                                    {(chat.messages.length) ? (chat.messages.at(-1).type === "text" ? (chat.messages.at(-1).text) : (lastMessageDict[chat.messages.at(-1).type])) : ''}
+                                    {(chat.messages.length) ? chat.last : ''}
                                 </h6>
                             </div>
                         </span>

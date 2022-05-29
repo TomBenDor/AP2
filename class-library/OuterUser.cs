@@ -12,7 +12,7 @@ public class OuterUser
         }
 
         Name = user.Name;
-        Server = user.Server == "localhost" ? "localhost:42690" : user.Server;
+        Server = user.Server == "localhost" ? "localhost:7090" : user.Server;
         // Get last message the user sent
         var lastMessage = chat.Messages.Where(x => x.Sender == username).OrderByDescending(x => x.Timestamp)
             .FirstOrDefault();
