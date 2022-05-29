@@ -2,7 +2,11 @@ namespace class_library.Services;
 
 public class StaticChatsService : IChatsService
 {
-    private static List<Chat> Chats = new List<Chat>();
+    private static List<Chat> Chats = new List<Chat>
+    {
+        new Chat("user123-Crisr7"),
+        new Chat("user123-drake6942")
+    };
 
     public void Add(Chat chat)
     {
