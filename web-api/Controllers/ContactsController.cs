@@ -478,9 +478,24 @@ public class ContactsController : ControllerBase
 
     [HttpPost("{id}/messages")]
     [Authorize]
-    public IActionResult PostNewMessage(string id, [FromBody] string content)
+    public IActionResult PostNewMessage(string id, [FromBody] JsonElement body)
     {
         // Add a new message between the current user and the contact by id
+
+        string? content;
+        try
+        {
+            content = body.GetProperty("content").GetString();
+        }
+        catch (Exception)
+        {
+            return BadRequest();
+        }
+
+        if (content == null)
+        {
+            return BadRequest();
+        }
 
         var contact = _usersService.Get(id);
         if (contact == null)
@@ -567,9 +582,24 @@ public class ContactsController : ControllerBase
 
     [HttpPut("{id}/messages/{id2}")]
     [Authorize]
-    public IActionResult PutMessage(string id, int id2, [FromBody] string content)
+    public IActionResult PutMessage(string id, int id2, [FromBody] JsonElement body)
     {
         // Update a message with id2 between the current user and the contact by id
+
+        string? content;
+        try
+        {
+            content = body.GetProperty("content").GetString();
+        }
+        catch (Exception)
+        {
+            return BadRequest();
+        }
+
+        if (content == null)
+        {
+            return BadRequest();
+        }
 
         var contact = _usersService.Get(id);
         if (contact == null)
