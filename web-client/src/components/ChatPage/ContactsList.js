@@ -64,7 +64,6 @@ const ContactsList = ({user, setUser, currentChatID, setCurrentChatID}) => {
                                     {chat.id}
                                 </h6>
                                 <h6 className="last-message-sent">
-                                    {/* If last message sent is a text message, display its content. Else, display the right description */}
                                     {(chat.messages.length) ? chat.last : ''}
                                 </h6>
                             </div>
