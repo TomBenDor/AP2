@@ -43,10 +43,9 @@ const ChatSection = ({user, setUser, currentChatID, messagesCache, setMessagesCa
             // Create new message object
             const newMessage = {
                 id: user.chats[currentChatID].messages.length + 1,
-                sender: user.username,
-                text: message,
-                timestamp: currentTime,
-                type: 'text'
+                sent: true,
+                content: message,
+                created: currentTime,
             };
             sendMessage(newMessage);
             // Clear cache entry for the current chat

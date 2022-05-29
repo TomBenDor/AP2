@@ -7,10 +7,10 @@ const Message = ({message, user}) => {
                     <div className="message-text">
                         <p>{message.content}</p>
                     </div>
-                <div className="message-timestamp">{new Date(message.timestamp).toLocaleTimeString("en-US", {
-                    // hourCycle: 'h23',
-                    // hour: "numeric",
-                    // minute: "numeric"
+                <div className="message-timestamp">{new Date(message.created).toLocaleTimeString("en-US", {
+                    hourCycle: 'h23',
+                    hour: "numeric",
+                    minute: "numeric"
                 })}</div>
             </div>
         </div>
