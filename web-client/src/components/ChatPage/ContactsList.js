@@ -16,8 +16,8 @@ const ContactsList = ({user, setUser, currentChatID, setCurrentChatID}) => {
 
     // Copy the contacts array and sort it by time of last message
     const sortedChats = Object.entries(user.chats).slice().sort(([c1ID, c1], [c2ID, c2]) => {
-        const a = c1.messages.length > 0 ? c1.messages.at(-1).timestamp : 0;
-        const b = c2.messages.length > 0 ? c2.messages.at(-1).timestamp : 0;
+        const a = c1.messages.length > 0 ? c1.messages.at(-1).created : 0;
+        const b = c2.messages.length > 0 ? c2.messages.at(-1).created : 0;
         return Date.parse(b).valueOf() - Date.parse(a).valueOf();
     });
 
@@ -44,7 +44,7 @@ const ContactsList = ({user, setUser, currentChatID, setCurrentChatID}) => {
                         }
                         <div className="last-message-time">
                             <h6>
-                                {(chat.messages.length) ? new Date(chat.lastDate).toLocaleTimeString('en-US', {
+                                {(chat.messages.length) ? new Date(chat.messages.at(-1).created).toLocaleTimeString('en-US', {
                                     hourCycle: 'h23',
                                     hour: "numeric",
                                     minute: "numeric"
@@ -64,7 +64,7 @@ const ContactsList = ({user, setUser, currentChatID, setCurrentChatID}) => {
                                     {chat.id}
                                 </h6>
                                 <h6 className="last-message-sent">
-                                    {(chat.messages.length) ? chat.last : ''}
+                                    {(chat.messages.length) ? chat.messages.at(-1).content : ''}
                                 </h6>
                             </div>
                         </span>
