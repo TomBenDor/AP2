@@ -3,6 +3,18 @@ import {Link, useNavigate} from 'react-router-dom';
 import "./SignInForm.css";
 import "../auth.css";
 
+const getMessages = async ( chatID, token) => {
+    const response = await fetch("https://localhost:7090/api/contacts/" + chatID + "/messages", {
+        method: "GET",
+        headers: {
+            "Authorization": "Bearer " + token,
+            "Accept": "*/*",
+        }
+    });
+    const messages = await response.json();
+    return messages;
+}
+
 const signIn = async (username, password, setUser) => {
     const response = await fetch("https://localhost:7090/api/contacts/signin", {
         method: "POST",
@@ -27,20 +39,17 @@ const signIn = async (username, password, setUser) => {
     });
     let data1 = await response1.json();
     let chats = {};
-    data1.forEach(chat => {
-        chats = {
-            ...chats,
-            [chat.id]: {
-                ...chat, messages: fetch("https://localhost:7090/api/contacts/" + chat.id + "/messages", {
-                    method: "GET",
-                    headers: {
-                        "Authorization": "Bearer " + data.token,
-                        "Accept": "*/*",
-                    }
-                })
-            }
-        }
-    });
+    
+    // For each chat, get messages
+    for (const chat of data1) {
+        const messages = await getMessages(chat.id, data.token);
+        // Add messages to chat
+        chats[chat.id] = {
+            ...chat,
+            messages: messages
+        };
+    }
+    
     const user = {
         username: username,
         name: data.name,
@@ -77,13 +86,6 @@ const SignInForm = ({user, setUser}) => {
         let user = signIn(username, password, setUser);
         user.then(user => {
             if (user) {
-                Object.values(user.chats).forEach(chat => {
-                    chat.messages.then(messages => {
-                        messages.json().then(messages => {
-                            chat.messages = messages;
-                        });
-                    });
-                });
                 setUser(user);
                 console.log(user);
                 navigate("/");
@@ -96,7 +98,7 @@ const SignInForm = ({user, setUser}) => {
             }
         });
     }
-// Prevent user from entering invalid characters
+    // Prevent user from entering invalid characters
     const enforceUsernameRegEx = (e) => {
         if (!/[a-zA-Z0-9-]$/.test(e.key)) {
             e.preventDefault();

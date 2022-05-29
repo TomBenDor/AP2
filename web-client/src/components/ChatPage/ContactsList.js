@@ -27,7 +27,6 @@ const ContactsList = ({user, setUser, currentChatID, setCurrentChatID}) => {
         "audio": <><i className="bi bi-mic"/> Audio </>,
     };
 
-
     return (
         <ol className="contacts-list">
             {sortedChats.map(([chatID, chat]) => (
