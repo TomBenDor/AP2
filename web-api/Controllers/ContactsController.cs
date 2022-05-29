@@ -202,7 +202,15 @@ public class ContactsController : ControllerBase
         }
 
         List<string> contactsIds = currentUser.Chats.Keys.ToList();
-        return Ok(_usersService.Get(contactsIds));
+        IEnumerable<User> contacts = _usersService.Get(contactsIds);
+        // Loop over contacts and create a list of outerUsers from them
+        List<OuterUser> outerContacts = new List<OuterUser>();
+        foreach (User c in contacts)
+        {
+            outerContacts.Add(new OuterUser(c.Username, currentUser.Chats[c.Username]));
+        }
+
+        return Ok(outerContacts);
     }
 
     [HttpPost]
@@ -277,7 +285,7 @@ public class ContactsController : ControllerBase
         else
         {
             // Send an invitation to the contact on the remote server
-            var invitation = new Invitation(currentUser.Username, contact.Username, "localhost");
+            var invitation = new Invitation(currentUser.Username, contact.Username, "localhost:42690");
             var json = JsonSerializer.Serialize(invitation, _jsonSerializerOptions);
             var stringContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
             _httpClient.PostAsync("https://" + contact.Server + "/api/invitations", stringContent).Wait();
@@ -320,7 +328,8 @@ public class ContactsController : ControllerBase
             return NotFound();
         }
 
-        return Ok(contact);
+        var outerContact = new OuterUser(contactId, currentUser.Chats[contactId]);
+        return Ok(outerContact);
     }
 
     [HttpPut("{id}")]
