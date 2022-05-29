@@ -234,7 +234,7 @@ const ChatSection = ({user, setUser, currentChatID, messagesCache, setMessagesCa
                                 </span>
                                 <span className="user-header-title">
                                     <div className="center">
-                                        {currentChatID}
+                                        {user.chats[currentChatID].name}
                                     </div>
                                 </span>
                             </span>

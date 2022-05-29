@@ -61,7 +61,7 @@ const ContactsList = ({user, setUser, currentChatID, setCurrentChatID}) => {
                         <span className="contact-info">
                             <div className="center">
                                 <h6 className="contact-name">
-                                    {chat.id}
+                                    {chat.name}
                                 </h6>
                                 <h6 className="last-message-sent">
                                     {(chat.messages.length) ? chat.messages.at(-1).content : ''}
