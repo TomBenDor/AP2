@@ -61,7 +61,6 @@ const SignInForm = ({user, setUser}) => {
         // If valid, sign in user and redirect to main page
 
         e.preventDefault();
-
         const username = usernameBox.current.value;
         const password = passwordBox.current.value;
 
@@ -85,7 +84,6 @@ const SignInForm = ({user, setUser}) => {
                     });
                 });
                 setUser(user);
-                console.log(user);
                 navigate("/");
             } else {
                 // Show error messages
@@ -138,3 +136,4 @@ const SignInForm = ({user, setUser}) => {
 }
 
 export default SignInForm;
+export {signIn};
