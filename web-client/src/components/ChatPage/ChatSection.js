@@ -9,13 +9,6 @@ const ChatSection = ({user, setUser, currentChatID, messagesCache, setMessagesCa
     const [messageEmpty, setMessageEmpty] = useState(true);
     const messagesLength = currentChatID !== -1 ? user.chats[currentChatID].messages.length : 0;
 
-    const [showAttachments, setShowAttachments] = useState(false);
-
-    // State for recording audio
-    const [recording, setRecording] = useState(false);
-    // State for media stream
-    const [mediaRecorder, setMediaRecorder] = useState(null);
-
     const sendMessage = (message) => {
         // Add new message to current chat's messages
         if (currentChatID !== -1) {
@@ -116,112 +109,6 @@ const ChatSection = ({user, setUser, currentChatID, messagesCache, setMessagesCa
     // Scroll to the bottom when the number of messages changes
     useEffect(scrollToBottom, [messagesLength]);
 
-    const onSelectImage = (e) => {
-        // Get the file
-        const file = e.target.files[0];
-        // If no file was selected, return
-        if (!file) {
-            return;
-        }
-        // Create a new file reader
-        const reader = new FileReader();
-        // Set the file reader onload function
-        reader.onload = (e) => {
-            // Create a new message object
-            const newMessage = {
-                id: user.chats[currentChatID].messages.length + 1,
-                sender: user.username,
-                text: e.target.result,
-                timestamp: new Date().toLocaleString('en-US', {hourCycle: 'h23'}),
-                type: 'image'
-            };
-            sendMessage(newMessage);
-        };
-        // Read the file
-        reader.readAsDataURL(file);
-    };
-
-    const onSelectVideo = (e) => {
-        // Get the file
-        const file = e.target.files[0];
-        // If no file was selected, return
-        if (!file) {
-            return;
-        }
-        // Create a new file reader
-        const reader = new FileReader();
-        // Set the file reader onload function
-        reader.onload = (e) => {
-            // Create a new message object
-            const newMessage = {
-                id: user.chats[currentChatID].messages.length + 1,
-                sender: user.username,
-                text: e.target.result,
-                timestamp: new Date().toLocaleString('en-US', {hourCycle: 'h23'}),
-                type: 'video'
-            };
-            sendMessage(newMessage);
-        };
-        // Read the file
-        reader.readAsDataURL(file);
-    };
-
-    const startRecording = () => {
-        // Record audio
-        navigator.mediaDevices.getUserMedia({audio: true})
-            .then(stream => {
-                // Create a new media recorder
-                const tempMediaRecorder = new MediaRecorder(stream);
-                // Create a new blob array
-                const blobs = [];
-                // Set the media recorder on data available function
-                tempMediaRecorder.ondataavailable = (e) => {
-                    // Add the blob to the blob array
-                    blobs.push(e.data);
-                };
-                // Set the media recorder on stop function
-                tempMediaRecorder.onstop = (e) => {
-                    // Create a new message object
-                    const newMessage = {
-                        id: user.chats[currentChatID].messages.length + 1,
-                        sender: user.username,
-                        text: URL.createObjectURL(new Blob(blobs, {type: 'audio/ogg'})),
-                        timestamp: new Date().toLocaleString('en-US', {hourCycle: 'h23'}),
-                        type: 'audio'
-                    };
-                    // Send the message
-                    sendMessage(newMessage);
-                };
-                // Start recording
-                tempMediaRecorder.start();
-                setMediaRecorder(tempMediaRecorder);
-            });
-    };
-
-    const onSelectRecording = (e) => {
-        // If recording is in progress, stop it. Otherwise, start.
-        recording ? mediaRecorder.stop() : startRecording();
-        // Update recording state
-        setRecording(!recording);
-    };
-
-    const cancelRecording = () => {
-        mediaRecorder.onstop = null;
-        // Stop the media recorder
-        mediaRecorder.stop();
-        // Update recording state
-        setRecording(false);
-    };
-
-    // Send recording when contact changes
-    useEffect(() => {
-        if (recording) {
-            mediaRecorder.stop();
-            setRecording(false);
-            setShowAttachments(false);
-        }
-    }, [currentChatID]); // eslint-disable-line react-hooks/exhaustive-deps
-
     return (
         <>
             {(currentChatID !== -1 && <>
@@ -248,8 +135,7 @@ const ChatSection = ({user, setUser, currentChatID, messagesCache, setMessagesCa
                     </div>
                     <div id="input-section">
                 <span className="chat-input">
-                    {(!recording &&
-                            <textarea ref={messageBox} id="message-input" placeholder="Type a message..."
+                    {(<textarea ref={messageBox} id="message-input" placeholder="Type a message..."
                                       onChange={typing}
                                       onKeyDown={keyPressed}/>
                         ) ||

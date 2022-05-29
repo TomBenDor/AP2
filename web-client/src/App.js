@@ -5,8 +5,6 @@ import SignUpForm from "./components/Auth/SignUp/SignUpForm";
 import ChatPage from "./components/ChatPage/ChatPage";
 import LandingPage from "./components/LandingPage/LandingPage";
 
-const FILE = require('./database.json');
-
 const App = () => {
     // Current signed in user
     const [token, setToken] = useState(null);

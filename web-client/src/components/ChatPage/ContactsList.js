@@ -21,12 +21,6 @@ const ContactsList = ({user, setUser, currentChatID, setCurrentChatID}) => {
         return Date.parse(b).valueOf() - Date.parse(a).valueOf();
     });
 
-    const lastMessageDict = {
-        "image": <><i className="bi bi-image"/> Image </>,
-        "video": <><i className="bi bi-film"/> Video </>,
-        "audio": <><i className="bi bi-mic"/> Audio </>,
-    };
-
     return (
         <ol className="contacts-list">
             {sortedChats.map(([chatID, chat]) => (

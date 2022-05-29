@@ -1,6 +1,6 @@
 import './ContactsSection.css'
 import ContactsList from "./ContactsList";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useRef} from "react";
 
 const ContactsSection = ({
                              user,

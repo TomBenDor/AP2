@@ -2,7 +2,7 @@ import {useEffect, useRef, useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import "./SignUpForm.css";
 import "../auth.css";
-import {handleSignIn, signIn} from "../SignIn/SignInForm";
+import {signIn} from "../SignIn/SignInForm";
 
 const SignUpForm = ({token, setToken, user, setUser}) => {
     const usernameBox = useRef(null);
@@ -173,8 +173,6 @@ const SignUpForm = ({token, setToken, user, setUser}) => {
         const username = usernameBox.current.value;
         const password = passwordBox.current.value;
         const displayName = displayNameBox.current.value;
-        const profilePicture = profilePictureBox.current.files[0];
-
 
         // Create new user
         const newUser = {
