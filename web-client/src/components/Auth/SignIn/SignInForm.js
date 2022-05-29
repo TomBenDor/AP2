@@ -15,7 +15,7 @@ const getMessages = async ( chatID, token) => {
     return messages;
 }
 
-const signIn = async (username, password, setUser) => {
+const signIn = async (username, password) => {
     const response = await fetch("https://localhost:7090/api/contacts/signin", {
         method: "POST",
         headers: {
@@ -50,6 +50,7 @@ const signIn = async (username, password, setUser) => {
         };
     }
     
+    // Create user object
     const user = {
         username: username,
         name: data.name,
@@ -60,7 +61,7 @@ const signIn = async (username, password, setUser) => {
     return user;
 }
 
-const SignInForm = ({user, setUser}) => {
+const SignInForm = ({setUser}) => {
     const usernameBox = useRef(null);
     const passwordBox = useRef(null);
     const navigate = useNavigate();
@@ -82,8 +83,8 @@ const SignInForm = ({user, setUser}) => {
         });
 
         // Check if username and password are valid
-        let user = signIn(username, password, setUser);
-        user.then(user => {
+        signIn(username, password, setUser).then(user => {
+            // If valid
             if (user) {
                 setUser(user);
                 navigate("/");
