@@ -2,9 +2,9 @@ import {useEffect, useRef, useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import "./SignUpForm.css";
 import "../auth.css";
+import {handleSignIn, signIn} from "../SignIn/SignInForm";
 
-
-const SignUpForm = ({token, setToken}) => {
+const SignUpForm = ({token, setToken, user, setUser}) => {
     const usernameBox = useRef(null);
     const passwordBox = useRef(null);
     const passwordConfirmationBox = useRef(null);
@@ -164,7 +164,7 @@ const SignUpForm = ({token, setToken}) => {
         }
     }
 
-    const handleSignUp = (e) => {
+    const handleSignUp = async (e) => {
         // Validate username, password and display name
         // If valid, create new user, sign him in and redirect to main page
 
@@ -184,41 +184,33 @@ const SignUpForm = ({token, setToken}) => {
             "name": displayName,
             "profilePicture": "<>",
         };
-        
         // Sign up user
-        fetch("https://localhost:7090/api/contacts/signup", {
-            method: "POST",
-            headers: {
+        let response = await fetch("https://localhost:7090/api/contacts/signup", {
+            method: "POST", headers: {
                 "Content-Type": "application/json"
-            },
-            body: JSON.stringify(newUser)
-        }).then(r => {
-            if (r.ok) {
-                fetch("https://localhost:7090/api/contacts/signin", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        username: username, password: password
-                    })}).then(r2 => {
-                        if (r2.ok) {
-                            // Get token from response
-                            r2.json().then(data => {
-                                setToken(data.token);
-                            });
-                        }
-                    })
+            }, body: JSON.stringify(newUser)
+        });
+        if (response.ok) {
+            let user = await signIn(username, password, setUser);
+            if (user) {
+                setUser(user);
+                navigate("/");
             } else {
-                // Since the server returns a 400 error, we can assume that the username is already taken
-                
-                document.getElementById("username-error").innerHTML = "Username is already taken";
+                // Show error messages
                 document.getElementById("floatingUsername").classList.add("is-invalid");
                 document.getElementById("username-label").classList.add("text-danger");
-                setUsernameFieldValid(false);
+                // Disable submit button
+                document.getElementById("sign-in-button").disabled = true;
             }
-        });
-    };
+        } else {
+            // Since the server returns a 400 error, we can assume that the username is already taken
+
+            document.getElementById("username-error").innerHTML = "Username is already taken";
+            document.getElementById("floatingUsername").classList.add("is-invalid");
+            document.getElementById("username-label").classList.add("text-danger");
+            setUsernameFieldValid(false);
+        }
+    }
 
     useEffect(() => {
         // If user is signed in, redirect to main page.
@@ -232,52 +224,53 @@ const SignUpForm = ({token, setToken}) => {
         document.getElementById("sign-up-button").disabled = !usernameFieldValid || !passwordFieldValid || !passwordConfirmationFieldValid || !displayNameValid || !profilePictureValid;
     }, [usernameFieldValid, passwordFieldValid, passwordConfirmationFieldValid, displayNameValid, profilePictureValid]);
 
-    return (
-        <div id="form-frame">
-            <h1 className="form-title">Sign Up</h1>
-            <form onSubmit={handleSignUp}>
-                <div className="form-group">
-                    <label htmlFor="floatingInput" className="form-help" id="username-label">Username</label>
-                    <input ref={usernameBox} className="form-control" type="text" id="floatingUsername"
-                           onChange={validateUsername} onKeyPress={enforceUsernameRegEx} onBlur={clearUsernameError}
-                           maxLength="30" required/>
-                    <label className="invalid-feedback" id="username-error">Invalid</label>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="floatingPassword" className="form-help" id="password-label">Password</label>
-                    <input ref={passwordBox} className="form-control" type="password" id="floatingPassword"
-                           onChange={() => {validatePasswordField(); validatePasswordConfirmation(); }} maxLength="30" required/>
-                    <label className="invalid-feedback" id="password-error">Invalid</label>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="floatingConfirmedPassword" className="form-help" id="password-confirmation-label">Confirm
-                        password</label>
-                    <input ref={passwordConfirmationBox} className="form-control" type="password"
-                           id="floatingConfirmedPassword" maxLength="30" required
-                           onChange={() => {
-                               setTypeInConfirmation(true);
-                               validatePasswordConfirmation();
-                            }}/>
-                    <label className="invalid-feedback" id="password-confirmation-error">Invalid</label>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="floatingInput" className="form-help" id="display-name-label">Display name</label>
-                    <input ref={displayNameBox} className="form-control" type="text" id="floatingDisplayName"
-                           onChange={validateDisplayName} onKeyPress={enforceDisplayNameRegEx}
-                           onBlur={clearDisplayNameError} maxLength="30" required/>
+    return (<div id="form-frame">
+        <h1 className="form-title">Sign Up</h1>
+        <form onSubmit={handleSignUp}>
+            <div className="form-group">
+                <label htmlFor="floatingInput" className="form-help" id="username-label">Username</label>
+                <input ref={usernameBox} className="form-control" type="text" id="floatingUsername"
+                       onChange={validateUsername} onKeyPress={enforceUsernameRegEx} onBlur={clearUsernameError}
+                       maxLength="30" required/>
+                <label className="invalid-feedback" id="username-error">Invalid</label>
+            </div>
+            <div className="form-group">
+                <label htmlFor="floatingPassword" className="form-help" id="password-label">Password</label>
+                <input ref={passwordBox} className="form-control" type="password" id="floatingPassword"
+                       onChange={() => {
+                           validatePasswordField();
+                           validatePasswordConfirmation();
+                       }} maxLength="30" required/>
+                <label className="invalid-feedback" id="password-error">Invalid</label>
+            </div>
+            <div className="form-group">
+                <label htmlFor="floatingConfirmedPassword" className="form-help" id="password-confirmation-label">Confirm
+                    password</label>
+                <input ref={passwordConfirmationBox} className="form-control" type="password"
+                       id="floatingConfirmedPassword" maxLength="30" required
+                       onChange={() => {
+                           setTypeInConfirmation(true);
+                           validatePasswordConfirmation();
+                       }}/>
+                <label className="invalid-feedback" id="password-confirmation-error">Invalid</label>
+            </div>
+            <div className="form-group">
+                <label htmlFor="floatingInput" className="form-help" id="display-name-label">Display name</label>
+                <input ref={displayNameBox} className="form-control" type="text" id="floatingDisplayName"
+                       onChange={validateDisplayName} onKeyPress={enforceDisplayNameRegEx}
+                       onBlur={clearDisplayNameError} maxLength="30" required/>
 
-                    <label className="invalid-feedback" id="display-name-error">Invalid</label>
-                </div>
-                <div>
-                    <label htmlFor="floatingProfilePicture" className="form-help">Profile picture</label>
-                    <input ref={profilePictureBox} className="form-control" type="file" id="floatingProfilePicture"
-                           onChange={validateProfilePicture} required accept="image/*"/>
-                </div>
-                <button type="submit" className="submit-button" id="sign-up-button" disabled>SIGN UP</button>
-            </form>
-            <p className="form-question">Have an account already? <Link to={"/signin"}>Sign in</Link></p>
-        </div>
-    )
+                <label className="invalid-feedback" id="display-name-error">Invalid</label>
+            </div>
+            <div>
+                <label htmlFor="floatingProfilePicture" className="form-help">Profile picture</label>
+                <input ref={profilePictureBox} className="form-control" type="file" id="floatingProfilePicture"
+                       onChange={validateProfilePicture} required accept="image/*"/>
+            </div>
+            <button type="submit" className="submit-button" id="sign-up-button" disabled>SIGN UP</button>
+        </form>
+        <p className="form-question">Have an account already? <Link to={"/signin"}>Sign in</Link></p>
+    </div>)
 };
 
 export default SignUpForm;
