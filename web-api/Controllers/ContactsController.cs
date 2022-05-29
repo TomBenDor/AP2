@@ -87,7 +87,9 @@ public class ContactsController : ControllerBase
             return Unauthorized();
         }
 
-        return Ok(_createJwtToken(user.Username));
+        // Return JWT token
+        var token = _createJwtToken(username);
+        return Ok(new { token });
     }
 
     [HttpPost("signup")]

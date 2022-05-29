@@ -4,7 +4,7 @@ import "./SignInForm.css";
 import "../auth.css";
 
 
-const SignInForm = ({DB, currentUser, setCurrentUser}) => {
+const SignInForm = ({DB, token, setToken}) => {
     const usernameBox = useRef(null);
     const passwordBox = useRef(null);
     const navigate = useNavigate();
@@ -27,27 +27,33 @@ const SignInForm = ({DB, currentUser, setCurrentUser}) => {
         });
 
         // Check if username and password are valid
-        const user = Object.values(DB.users).find((user) => user.username === username && user.password === password);
-        // If a valid user was found
-        if (user) {
-            // Sign in user
-            const chats = Object.fromEntries(Object.entries(DB.chats)
-                .filter(([chatID, chat]) => chat.members.includes(username))
-                .map(([chatID, chat]) => [chatID, Object.assign(chat, {"unreadMessages": user.chats[chatID].unreadMessages})]));
-            setCurrentUser({
-                "username": username,
-                "name": user.name,
-                "profilePicture": user.profilePicture,
-                "chats": chats
-            });
-        } else {
-            document.getElementById("floatingUsername").classList.add("is-invalid");
-            document.getElementById("username-label").classList.add("text-danger");
-            // Disable submit button
-            document.getElementById("sign-in-button").disabled = true;
-        }
-    };
-    // Prevent user from entering invalid characters
+        fetch("https://localhost:7090/api/contacts/signin", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                username: username, password: password
+            })
+        }).then(r => {
+                if (r.ok) {
+                    // Get token from response
+                    r.json().then(data => {
+                        setToken(data.token);
+                    });
+                } else {
+                    // Show error messages
+                    document.getElementById("floatingUsername").classList.add("is-invalid");
+                    document.getElementById("username-label").classList.add("text-danger");
+                    // Disable submit button
+                    document.getElementById("sign-in-button").disabled = true;
+                }
+                ;
+            }
+        )
+    }
+
+// Prevent user from entering invalid characters
     const enforceUsernameRegEx = (e) => {
         if (!/[a-zA-Z0-9-]$/.test(e.key)) {
             e.preventDefault();
@@ -61,39 +67,38 @@ const SignInForm = ({DB, currentUser, setCurrentUser}) => {
 
     useEffect(() => {
         // If user is signed in, redirect to main page.
-        if (currentUser) {
+        if (token) {
             navigate("/");
         }
-    }, [currentUser, navigate]);
+    }, [token, navigate]);
 
     const [isVisible, setVisible] = useState(0)
 
     const toggleVisibility = () => {
         setVisible(1 - isVisible)
     }
-    return (
-        <div id="form-frame">
-            <h1 className="form-title">Sign In</h1>
-            <form onSubmit={handleSignIn}>
-                <div className="form-group">
-                    <label htmlFor="username" className="form-help" id="username-label">Username</label>
-                    <input type="text" className="form-control" id="floatingUsername" ref={usernameBox}
-                           onChange={handleChange} onKeyPress={enforceUsernameRegEx} maxLength="30"/>
-                    <label className="invalid-feedback">One of the fields is invalid</label>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="password" className="form-help" id="password-label">Password</label>
-                    <input type={isVisible ? "text" : "password"} ref={passwordBox} className="form-control"
-                           maxLength="30" onChange={handleChange}/>
-                    <button className="show-password-button" type="button" onClick={toggleVisibility}>
-                        <span className={isVisible ? "bi-eye-slash" : "bi-eye"}/>
-                    </button>
-                </div>
-                <button type="submit" className="submit-button" id="sign-in-button" disabled>SIGN IN</button>
-            </form>
-            <p className="form-question">Don't have an account? <Link to="/signup">Sign up</Link></p>
-        </div>
-    )
-};
+
+    return (<div id="form-frame">
+        <h1 className="form-title">Sign In</h1>
+        <form onSubmit={handleSignIn}>
+            <div className="form-group">
+                <label htmlFor="username" className="form-help" id="username-label">Username</label>
+                <input type="text" className="form-control" id="floatingUsername" ref={usernameBox}
+                       onChange={handleChange} onKeyPress={enforceUsernameRegEx} maxLength="30"/>
+                <label className="invalid-feedback">One of the fields is invalid</label>
+            </div>
+            <div className="form-group">
+                <label htmlFor="password" className="form-help" id="password-label">Password</label>
+                <input type={isVisible ? "text" : "password"} ref={passwordBox} className="form-control"
+                       maxLength="30" onChange={handleChange}/>
+                <button className="show-password-button" type="button" onClick={toggleVisibility}>
+                    <span className={isVisible ? "bi-eye-slash" : "bi-eye"}/>
+                </button>
+            </div>
+            <button type="submit" className="submit-button" id="sign-in-button" disabled>SIGN IN</button>
+        </form>
+        <p className="form-question">Don't have an account? <Link to="/signup">Sign up</Link></p>
+    </div>)
+}
 
 export default SignInForm;

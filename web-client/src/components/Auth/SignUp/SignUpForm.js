@@ -4,7 +4,7 @@ import "./SignUpForm.css";
 import "../auth.css";
 
 
-const SignUpForm = ({DB, setDB, currentUser, setCurrentUser}) => {
+const SignUpForm = ({token, setToken}) => {
     const usernameBox = useRef(null);
     const passwordBox = useRef(null);
     const passwordConfirmationBox = useRef(null);
@@ -175,38 +175,57 @@ const SignUpForm = ({DB, setDB, currentUser, setCurrentUser}) => {
         const displayName = displayNameBox.current.value;
         const profilePicture = profilePictureBox.current.files[0];
 
-        // Check if username is already taken
-        const user = Object.keys(DB.users).find(uname => uname === username);
-        if (user) {
-            // Display error message
-            document.getElementById("username-error").innerHTML = "Username is already taken";
-            document.getElementById("floatingUsername").classList.add("is-invalid");
-            document.getElementById("username-label").classList.add("text-danger");
-            setUsernameFieldValid(false);
-            return;
-        }
 
         // Create new user
         const newUser = {
             "username": username,
             "password": password,
+            "confirmPassword": password,
             "name": displayName,
-            "profilePicture": profilePicture,
-            "chats": [],
+            "profilePicture": "<>",
         };
-        // Add new user to users map in DB
-        setDB({...DB, users: {...DB.users, [username]: newUser}});
-        // Sign in user
-        delete newUser.password;
-        setCurrentUser(newUser);
+        
+        // Sign up user
+        fetch("https://localhost:7090/api/contacts/signup", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(newUser)
+        }).then(r => {
+            if (r.ok) {
+                fetch("https://localhost:7090/api/contacts/signin", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        username: username, password: password
+                    })}).then(r2 => {
+                        if (r2.ok) {
+                            // Get token from response
+                            r2.json().then(data => {
+                                setToken(data.token);
+                            });
+                        }
+                    })
+            } else {
+                // Since the server returns a 400 error, we can assume that the username is already taken
+                
+                document.getElementById("username-error").innerHTML = "Username is already taken";
+                document.getElementById("floatingUsername").classList.add("is-invalid");
+                document.getElementById("username-label").classList.add("text-danger");
+                setUsernameFieldValid(false);
+            }
+        });
     };
 
     useEffect(() => {
         // If user is signed in, redirect to main page.
-        if (currentUser) {
+        if (token) {
             navigate("/");
         }
-    }, [currentUser, navigate]);
+    }, [token, navigate]);
 
     useEffect(() => {
         // Check if all fields are valid, if not, disable submit button
