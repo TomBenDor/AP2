@@ -243,7 +243,7 @@ public class ContactsController : ControllerBase
 
         if (currentUser.Username == id)
         {
-            return BadRequest("you can't add yourself");
+            return BadRequest("Can't add yourself");
         }
 
         // If the contact is already in the current user's contacts, return BadRequest
