@@ -37,7 +37,7 @@ const signIn = async (username, password) => {
             "Accept": "*/*",
         }
     });
-    let data1 = await response1.json();
+    const data1 = await response1.json();
     let chats = {};
     
     // For each chat, get messages

@@ -176,13 +176,13 @@ const SignUpForm = ({user, setUser}) => {
             "name": displayName,
         };
         // Sign up user
-        let response = await fetch("https://localhost:7090/api/contacts/signup", {
+        const response = await fetch("https://localhost:7090/api/contacts/signup", {
             method: "POST", headers: {
                 "Content-Type": "application/json"
             }, body: JSON.stringify(newUser)
         });
         if (response.ok) {
-            let user = await signIn(username, password, setUser);
+            const user = await signIn(username, password, setUser);
             if (user) {
                 setUser(user);
                 navigate("/");
