@@ -293,7 +293,7 @@ public class ContactsController : ControllerBase
             }
             catch (Exception)
             {
-                return BadRequest("Could not find remote server");
+                return BadRequest("Couldn't communicate with remote server");
             }
         }
 
