@@ -252,6 +252,23 @@ public class ContactsController : ControllerBase
             return BadRequest("User is already in contacts list");
         }
 
+        // Send an invitation first, to see if the remote server exists
+        if (server != "localhost" && server != "localhost:7090")
+        {
+            // Send invitation to the contact on the remote server
+            var invitation = new Invitation(currentUser.Username, id, "localhost:7090");
+            var json = JsonSerializer.Serialize(invitation, _jsonSerializerOptions);
+            var stringContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+            try
+            {
+                _httpClient.PostAsync("https://" + server + "/api/invitations", stringContent).Wait();
+            }
+            catch (Exception)
+            {
+                return BadRequest("Couldn't communicate with remote server");
+            }
+        }
+
         User? contact = _usersService.Get(id);
         // If the contact doesn't exist, create it
         if (contact == null)
@@ -280,21 +297,6 @@ public class ContactsController : ControllerBase
         {
             contact.Chats.Add(currentUser.Username, newChat);
             _usersService.Update(contact);
-        }
-        else
-        {
-            // Send an invitation to the contact on the remote server
-            var invitation = new Invitation(currentUser.Username, contact.Username, "localhost:7090");
-            var json = JsonSerializer.Serialize(invitation, _jsonSerializerOptions);
-            var stringContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
-            try
-            {
-                _httpClient.PostAsync("https://" + contact.Server + "/api/invitations", stringContent).Wait();
-            }
-            catch (Exception)
-            {
-                return BadRequest("Couldn't communicate with remote server");
-            }
         }
 
         return Created("", null);

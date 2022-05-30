@@ -86,9 +86,9 @@ const ContactsSection = ({
             }, body: JSON.stringify(contact)
         });
         if (!contactUser.ok) {
-            //get body of contactUser
+            // Get body of contactUser
             const contactUserBody = await contactUser.json();
-            if (contactUserBody === "Could not find remote server") {
+            if (contactUserBody === "Couldn't communicate with remote server") {
                 document.getElementById("add-contact-server-error").innerHTML = contactUserBody;
                 document.getElementById("contact-server-input").classList.add("is-invalid");
             } else {
