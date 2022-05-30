@@ -107,7 +107,7 @@ const ContactsSection = ({
         }
         setUser(u => ({
             ...u,
-            chats: {...u.chats, [chatID]: chat}
+            chats: {...u.chats, [requestedContact]: chat}
         }));
 
 
