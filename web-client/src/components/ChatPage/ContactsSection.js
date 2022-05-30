@@ -1,12 +1,10 @@
 import './ContactsSection.css'
 import ContactsList from "./ContactsList";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useRef} from "react";
 
 const ContactsSection = ({
                              user,
                              setUser,
-                             DB,
-                             setDB,
                              currentChatID,
                              setCurrentChatID,
                              messagesCache,
@@ -21,8 +19,6 @@ const ContactsSection = ({
         });
     }, []);
   
-    const [profilePicture, setProfilePicture] = useState(user.profilePicture);
-
   const addContact = (e) => {
         e.preventDefault()
         document.getElementById("add-contact-input").classList.remove("is-invalid");
@@ -45,7 +41,7 @@ const ContactsSection = ({
         }
 
         // Search for user in database
-        const contactUser = Object.keys(DB.users).find(username => username === requestedContact);
+        const contactUser = null;
 
         if (contactUser) {
             // Generate chat id
@@ -60,24 +56,6 @@ const ContactsSection = ({
                 chats: {...u.chats, [chatID]: {...chat, "unreadMessages": 0}}
             }));
 
-            // Add chat to database
-            setDB(d => ({
-                ...d,
-                chats: {...d.chats, [chatID]: chat},
-                // Add chat to user's chats
-                users: {
-                    ...d.users,
-                    [user.username]: {
-                        ...d.users[user.username],
-                        chats: {...d.users[user.username].chats, [chatID]: {"unreadMessages": 0}}
-                    },
-                    // Add chat also to the requested contact's chats
-                    [requestedContact]: {
-                        ...d.users[requestedContact],
-                        chats: {...d.users[requestedContact].chats, [chatID]: {"unreadMessages": 0}}
-                    }
-                }
-            }));
 
             setMessagesCache({
                 ...messagesCache, [chatID]: ""
@@ -111,21 +89,13 @@ const ContactsSection = ({
         document.getElementById("add-contact-error").innerHTML = "";
     }
 
-    const reader = new FileReader();
-    reader.addEventListener("loadend", () => {
-        setProfilePicture(reader.result);
-    }, false);
-    if (typeof user.profilePicture !== 'string') {
-        reader.readAsDataURL(user.profilePicture);
-    }
-
     return (
         <>
             <div className="contacts-section-header">
                 <span className="user-header">
                     <span className="profile-pic">
                         <img
-                            src={profilePicture}
+                            src="media/profile_picture.png"
                             className="center" alt="profile-pic"/>
                     </span>
                     <span className="user-header-title">
@@ -142,12 +112,7 @@ const ContactsSection = ({
             </div>
 
             <div className="contacts">
-                <ContactsList user={user}
-                              setUser={setUser}
-                              DB={DB}
-                              setDB={setDB}
-                              currentChatID={currentChatID}
-                              setCurrentChatID={setCurrentChatID}/>
+                <ContactsList user={user} setUser={setUser} currentChatID={currentChatID} setCurrentChatID={setCurrentChatID}/>
             </div>
 
             <div className="modal fade" id="addContactModal">

@@ -55,10 +55,6 @@ public class ContactsController : ControllerBase
         user1.Chats["drake6942"] = ch2;
         cris.Chats["user123"] = ch1;
         drake.Chats["user123"] = ch2;
-        user1.UnreadMessages[ch1.Id] = 1;
-        user1.UnreadMessages[ch2.Id] = 0;
-        cris.UnreadMessages[ch1.Id] = 0;
-        drake.UnreadMessages[ch2.Id] = 1;
         _usersService.Update(user1);
         _usersService.Update(cris);
         _usersService.Update(drake);
@@ -125,7 +121,10 @@ public class ContactsController : ControllerBase
             return Unauthorized();
         }
 
-        return Ok(_createJwtToken(user.Username));
+        // Return JWT token
+        var token = _createJwtToken(username);
+        var name = user.Name;
+        return Ok(new { token, name });
     }
 
     [HttpPost("signup")]
@@ -133,21 +132,20 @@ public class ContactsController : ControllerBase
     {
         // Sign up new user
 
-        string? username, password, confirmPassword, name, profilePicture;
+        string? username, password, confirmPassword, name;
         try
         {
             username = body.GetProperty("username").GetString();
             password = body.GetProperty("password").GetString();
             confirmPassword = body.GetProperty("confirmPassword").GetString();
             name = body.GetProperty("name").GetString();
-            profilePicture = body.GetProperty("profilePicture").GetString();
         }
         catch (Exception)
         {
             return BadRequest();
         }
 
-        if (username == null || password == null || confirmPassword == null || name == null || profilePicture == null)
+        if (username == null || password == null || confirmPassword == null || name == null)
         {
             return BadRequest();
         }
@@ -182,7 +180,7 @@ public class ContactsController : ControllerBase
         }
 
         // Create new user
-        var newUser = new User(username, name, "localhost", password, profilePicture);
+        var newUser = new User(username, name, "localhost", password);
         _usersService.Add(newUser);
 
         return Created("", null);
@@ -285,7 +283,7 @@ public class ContactsController : ControllerBase
         else
         {
             // Send an invitation to the contact on the remote server
-            var invitation = new Invitation(currentUser.Username, contact.Username, "localhost:42690");
+            var invitation = new Invitation(currentUser.Username, contact.Username, "localhost:7090");
             var json = JsonSerializer.Serialize(invitation, _jsonSerializerOptions);
             var stringContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
             _httpClient.PostAsync("https://" + contact.Server + "/api/invitations", stringContent).Wait();
@@ -475,9 +473,24 @@ public class ContactsController : ControllerBase
 
     [HttpPost("{id}/messages")]
     [Authorize]
-    public IActionResult PostNewMessage(string id, [FromBody] string content)
+    public IActionResult PostNewMessage(string id, [FromBody] JsonElement body)
     {
         // Add a new message between the current user and the contact by id
+
+        string? content;
+        try
+        {
+            content = body.GetProperty("content").GetString();
+        }
+        catch (Exception)
+        {
+            return BadRequest();
+        }
+
+        if (content == null)
+        {
+            return BadRequest();
+        }
 
         var contact = _usersService.Get(id);
         if (contact == null)
@@ -564,9 +577,24 @@ public class ContactsController : ControllerBase
 
     [HttpPut("{id}/messages/{id2}")]
     [Authorize]
-    public IActionResult PutMessage(string id, int id2, [FromBody] string content)
+    public IActionResult PutMessage(string id, int id2, [FromBody] JsonElement body)
     {
         // Update a message with id2 between the current user and the contact by id
+
+        string? content;
+        try
+        {
+            content = body.GetProperty("content").GetString();
+        }
+        catch (Exception)
+        {
+            return BadRequest();
+        }
+
+        if (content == null)
+        {
+            return BadRequest();
+        }
 
         var contact = _usersService.Get(id);
         if (contact == null)

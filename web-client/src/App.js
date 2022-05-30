@@ -5,13 +5,11 @@ import SignUpForm from "./components/Auth/SignUp/SignUpForm";
 import ChatPage from "./components/ChatPage/ChatPage";
 import LandingPage from "./components/LandingPage/LandingPage";
 
-const FILE = require('./database.json');
-
 const App = () => {
     // Current signed in user
-    const [currentUser, setCurrentUser] = useState(null);
+    const [token, setToken] = useState(null);
+    const [user, setUser] = useState(null);
 
-    const [DB, setDB] = useState(FILE);
     const [theme, setTheme] = useState('light');
 
     return (
@@ -22,21 +20,20 @@ const App = () => {
                         <Route path='/' element={
                             // Check if user is signed in or not. If not, render landing page.
                             // If signed in, Render the Chat page.
-                            currentUser ?
-                                <ChatPage user={currentUser} setUser={setCurrentUser} DB={DB} setDB={setDB} theme={theme} setTheme={setTheme}/> :
+                            user ?
+                                <ChatPage user={user} setUser={setUser} token={token} theme={theme} setTheme={setTheme}/> :
                                 <LandingPage/>
                         }/>
                         <Route path='/signin' element={
                             // Render the SignIn component.
                             <>
-                                <SignInForm DB={DB} currentUser={currentUser} setCurrentUser={setCurrentUser}/>
+                                <SignInForm user={user} setUser={setUser} token={token} setToken={setToken}/>
                             </>
                         }/>
                         <Route path='/signup' element={
                             // Render the Signup component.
                             <>
-                                <SignUpForm DB={DB} setDB={setDB} currentUser={currentUser}
-                                            setCurrentUser={setCurrentUser}/>
+                                <SignUpForm user={user} setUser={setUser} token={token} setToken={setToken}/>
                             </>
                         }/>
                     </Routes>
