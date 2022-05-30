@@ -2,8 +2,7 @@ namespace class_library.Services;
 
 public class StaticUsersService : IUsersService
 {
-    private static List<User> Users = new List<User>
-    {
+    private static List<User> Users = new List<User> {
         new User("user123", "Coolest dude ever", "localhost", "pass123A"),
         new User("Crisr7", "Cristiano Ronaldo", "localhost", "Crr9876"),
         new User("drake6942", "Drake", "localhost", "DDdsf5"),
