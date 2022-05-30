@@ -98,8 +98,7 @@ const ContactsSection = ({
             return;
         }
 
-        // Generate chat id
-        const chatID = `${user.username}-${requestedContact}`;
+        // Create chat
         const chat = {
             id: requestedContact,
             name: contact.name,
@@ -112,7 +111,7 @@ const ContactsSection = ({
 
 
         setMessagesCache({
-            ...messagesCache, [chatID]: ""
+            ...messagesCache, [requestedContact]: ""
         });
         // Clear input field
         contactUsernameInput.current.value = "";
