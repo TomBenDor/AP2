@@ -102,7 +102,7 @@ const ContactsSection = ({
         const chatID = `${user.username}-${requestedContact}`;
         const chat = {
             id: chatID,
-            name: requestedContact,
+            name: contact.name,
             messages: []
         }
         setUser(u => ({
