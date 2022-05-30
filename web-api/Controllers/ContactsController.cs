@@ -256,7 +256,7 @@ public class ContactsController : ControllerBase
         // If the contact doesn't exist, create it
         if (contact == null)
         {
-            if (server == "localhost")
+            if (server == "localhost" || server == "localhost:7090")
             {
                 return BadRequest("Contact doesn't exist");
             }
