@@ -249,7 +249,7 @@ public class ContactsController : ControllerBase
         // If the contact is already in the current user's contacts, return BadRequest
         if (currentUser.Chats.ContainsKey(id))
         {
-            return BadRequest("contact already in contacts");
+            return BadRequest("User is already in contacts list");
         }
 
         User? contact = _usersService.Get(id);
