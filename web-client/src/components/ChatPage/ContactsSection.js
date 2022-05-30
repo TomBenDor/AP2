@@ -101,13 +101,13 @@ const ContactsSection = ({
         // Generate chat id
         const chatID = `${user.username}-${requestedContact}`;
         const chat = {
-            type: "one-to-one",
-            members: [user.username, requestedContact],
+            id: chatID,
+            name: requestedContact,
             messages: []
         }
         setUser(u => ({
             ...u,
-            chats: {...u.chats, [chatID]: {...chat, "unreadMessages": 0}}
+            chats: {...u.chats, [chatID]: chat}
         }));
 
 
