@@ -19,6 +19,10 @@ const ContactsSection = ({
         contactModal.addEventListener("hidden.bs.modal", () => {
             contactUsernameInput.current.value = "";
             document.getElementById("add-contact-input").classList.remove("is-invalid");
+            contactNameInput.current.value = "";
+            document.getElementById("contact-name-input").classList.remove("is-invalid");
+            contactServerInput.current.value = "";
+            document.getElementById("contact-server-input").classList.remove("is-invalid");
         });
     }, []);
 
