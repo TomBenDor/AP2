@@ -1,4 +1,5 @@
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
@@ -242,13 +243,13 @@ public class ContactsController : ControllerBase
 
         if (currentUser.Username == id)
         {
-            return BadRequest();
+            return BadRequest("you can't add yourself");
         }
 
         // If the contact is already in the current user's contacts, return BadRequest
         if (currentUser.Chats.ContainsKey(id))
         {
-            return BadRequest();
+            return BadRequest("contact already in contacts");
         }
 
         User? contact = _usersService.Get(id);
@@ -257,7 +258,7 @@ public class ContactsController : ControllerBase
         {
             if (server == "localhost")
             {
-                return BadRequest();
+                return BadRequest("Contact doesn't exist");
             }
 
             // Create the remote contact
@@ -286,7 +287,14 @@ public class ContactsController : ControllerBase
             var invitation = new Invitation(currentUser.Username, contact.Username, "localhost:7090");
             var json = JsonSerializer.Serialize(invitation, _jsonSerializerOptions);
             var stringContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
-            _httpClient.PostAsync("https://" + contact.Server + "/api/invitations", stringContent).Wait();
+            try
+            {
+                _httpClient.PostAsync("https://" + contact.Server + "/api/invitations", stringContent).Wait();
+            }
+            catch (Exception)
+            {
+                return BadRequest("Could not find remote server");
+            }
         }
 
         return Created("", null);

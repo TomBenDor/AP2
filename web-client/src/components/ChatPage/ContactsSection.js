@@ -8,22 +8,25 @@ const ContactsSection = ({
                              currentChatID,
                              setCurrentChatID,
                              messagesCache,
-                             setMessagesCache
+                             setMessagesCache,
+                             token
                          }) => {
-    const contactInput = useRef(null);
+    const contactUsernameInput = useRef(null);
+    const contactNameInput = useRef(null);
+    const contactServerInput = useRef(null);
     useEffect(() => {
         const contactModal = document.getElementById("addContactModal");
         contactModal.addEventListener("hidden.bs.modal", () => {
-            contactInput.current.value = "";
+            contactUsernameInput.current.value = "";
             document.getElementById("add-contact-input").classList.remove("is-invalid");
         });
     }, []);
-  
-  const addContact = (e) => {
+
+    const addContact = async (e) => {
         e.preventDefault()
         document.getElementById("add-contact-input").classList.remove("is-invalid");
         let hasError = false;
-        const requestedContact = contactInput.current.value.trim();
+        const requestedContact = contactUsernameInput.current.value.trim();
         if (requestedContact === "") {
             document.getElementById("add-contact-error").innerHTML = "Contact name cannot be empty";
             hasError = true;
@@ -39,9 +42,32 @@ const ContactsSection = ({
             document.getElementById("add-contact-input").classList.add("is-invalid");
             return;
         }
+        const contact = {
+            "id": contactUsernameInput.current.value,
+            "name": contactNameInput.current.value,
+            "server": contactServerInput.current.value
+        };
 
         // Search for user in database
-        const contactUser = null;
+        const contactUser = await fetch('https://localhost:7090/api/contacts', {
+            method: "POST", headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token,
+                'Accept': 'application/json',
+            }, body: JSON.stringify(contact)
+        });
+        if (!contactUser.ok) {
+            //get body of contactUser
+            const contactUserBody = await contactUser.json();
+            if (contactUserBody === "Could not find remote server") {
+                document.getElementById("add-contact-server-error").innerHTML = contactUserBody;
+                document.getElementById("contact-server-input").classList.add("is-invalid");
+            } else {
+                document.getElementById("add-contact-error").innerHTML = contactUserBody;
+                document.getElementById("add-contact-input").classList.add("is-invalid");
+            }
+            return;
+        }
 
         if (contactUser) {
             // Generate chat id
@@ -61,7 +87,7 @@ const ContactsSection = ({
                 ...messagesCache, [chatID]: ""
             });
             // Clear input field
-            contactInput.current.value = "";
+            contactUsernameInput.current.value = "";
             // Close modal
             document.getElementById("close-modal-button").click();
         } else {
@@ -112,7 +138,8 @@ const ContactsSection = ({
             </div>
 
             <div className="contacts">
-                <ContactsList user={user} setUser={setUser} currentChatID={currentChatID} setCurrentChatID={setCurrentChatID}/>
+                <ContactsList user={user} setUser={setUser} currentChatID={currentChatID}
+                              setCurrentChatID={setCurrentChatID}/>
             </div>
 
             <div className="modal fade" id="addContactModal">
@@ -127,10 +154,22 @@ const ContactsSection = ({
                         </div>
                         <div className="modal-body">
                             <div className="form-group">
-                                <input type="text" ref={contactInput} className="add-contact-input form-control"
+                                <label htmlFor="floatingInput" className="form-help"
+                                       id="username-label">username</label>
+                                <input type="text" ref={contactUsernameInput} className="add-contact-input form-control"
                                        id="add-contact-input" onKeyPress={handleKeyPress}
                                        onChange={clearUsernameError}/>
                                 <label className="invalid-feedback" id="add-contact-error"/>
+                                <label htmlFor="floatingInput" className="form-help" id="username-label">display
+                                    name</label>
+                                <input type="text" ref={contactNameInput} className="add-contact-input form-control"
+                                       id="contact-name-input"/>
+                                <label className="invalid-feedback" id="add-contact-name-error"/>
+                                <label htmlFor="floatingInput" className="form-help" id="username-label">server</label>
+                                <input type="text" ref={contactServerInput} className="add-contact-input form-control"
+                                       id="contact-server-input"/>
+                                <label className="invalid-feedback" id="add-contact-server-error"/>
+
                             </div>
                         </div>
 

@@ -100,6 +100,17 @@
     border-color: var(--contact-border-color);
 }
 
+.form-help {
+    color: var(--form-help);
+    position: relative;
+    top: 10px;
+    left: 10px;
+    background-color: var(--form-frame-background);
+    padding: 0 5px 0 5px;
+    user-select: none;
+    z-index: 4;
+}
+
 .close-button {
     background-color: transparent;
     border: none;
