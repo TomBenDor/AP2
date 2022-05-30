@@ -10,14 +10,12 @@ public class User
         Name = name;
         Server = server;
         Chats = new Dictionary<string, Chat>();
-        UnreadMessages = new Dictionary<string, int>();
     }
 
-    public User(string username, string name, string server, string password, string profilePicture) : this(username,
+    public User(string username, string name, string server, string password) : this(username,
         name, server)
     {
         Password = password;
-        ProfilePicture = profilePicture;
     }
 
     // Username must contain only letters, numbers, and hyphens
@@ -40,13 +38,8 @@ public class User
     [RegularExpression(@"^[a-zA-Z0-9- .,]+$")]
     public string Name { get; set; }
 
-    [Required] public string? ProfilePicture { get; set; }
-
     [Required] public string Server { get; set; }
 
     // Dictionary of User Id's as keys and chats as values
     public IDictionary<string, Chat> Chats { get; set; }
-
-    // Dictionary of Chat Id's as keys and number of unread messages as values
-    public IDictionary<string, int> UnreadMessages { get; set; }
 }

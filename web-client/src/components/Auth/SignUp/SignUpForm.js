@@ -4,12 +4,11 @@ import "./SignUpForm.css";
 import "../auth.css";
 import {signIn} from "../SignIn/SignInForm";
 
-const SignUpForm = ({token, setToken, user, setUser}) => {
+const SignUpForm = ({user, setUser}) => {
     const usernameBox = useRef(null);
     const passwordBox = useRef(null);
     const passwordConfirmationBox = useRef(null);
     const displayNameBox = useRef(null);
-    const profilePictureBox = useRef(null);
 
     const navigate = useNavigate();
 
@@ -17,13 +16,8 @@ const SignUpForm = ({token, setToken, user, setUser}) => {
     const [passwordFieldValid, setPasswordFieldValid] = useState(false);
     const [passwordConfirmationFieldValid, setPasswordConfirmationFieldValid] = useState(false);
     const [displayNameValid, setDisplayNameFieldValid] = useState(false);
-    const [profilePictureValid, setProfilePictureValid] = useState(false);
     const [typeInConfirmation, setTypeInConfirmation] = useState(false);
 
-    // Check if all fields are empty
-    const validateProfilePicture = () => {
-        setProfilePictureValid(profilePictureBox.current.files.length !== 0);
-    }
 
     // Prevent user from entering invalid characters
     const enforceUsernameRegEx = (e) => {
@@ -180,7 +174,6 @@ const SignUpForm = ({token, setToken, user, setUser}) => {
             "password": password,
             "confirmPassword": password,
             "name": displayName,
-            "profilePicture": "<>",
         };
         // Sign up user
         let response = await fetch("https://localhost:7090/api/contacts/signup", {
@@ -211,16 +204,9 @@ const SignUpForm = ({token, setToken, user, setUser}) => {
     }
 
     useEffect(() => {
-        // If user is signed in, redirect to main page.
-        if (token) {
-            navigate("/");
-        }
-    }, [token, navigate]);
-
-    useEffect(() => {
         // Check if all fields are valid, if not, disable submit button
-        document.getElementById("sign-up-button").disabled = !usernameFieldValid || !passwordFieldValid || !passwordConfirmationFieldValid || !displayNameValid || !profilePictureValid;
-    }, [usernameFieldValid, passwordFieldValid, passwordConfirmationFieldValid, displayNameValid, profilePictureValid]);
+        document.getElementById("sign-up-button").disabled = !usernameFieldValid || !passwordFieldValid || !passwordConfirmationFieldValid || !displayNameValid;
+    }, [usernameFieldValid, passwordFieldValid, passwordConfirmationFieldValid, displayNameValid]);
 
     return (<div id="form-frame">
         <h1 className="form-title">Sign Up</h1>
@@ -259,11 +245,6 @@ const SignUpForm = ({token, setToken, user, setUser}) => {
                        onBlur={clearDisplayNameError} maxLength="30" required/>
 
                 <label className="invalid-feedback" id="display-name-error">Invalid</label>
-            </div>
-            <div>
-                <label htmlFor="floatingProfilePicture" className="form-help">Profile picture</label>
-                <input ref={profilePictureBox} className="form-control" type="file" id="floatingProfilePicture"
-                       onChange={validateProfilePicture} required accept="image/*"/>
             </div>
             <button type="submit" className="submit-button" id="sign-up-button" disabled>SIGN UP</button>
         </form>

@@ -55,10 +55,6 @@ public class ContactsController : ControllerBase
         user1.Chats["drake6942"] = ch2;
         cris.Chats["user123"] = ch1;
         drake.Chats["user123"] = ch2;
-        user1.UnreadMessages[ch1.Id] = 1;
-        user1.UnreadMessages[ch2.Id] = 0;
-        cris.UnreadMessages[ch1.Id] = 0;
-        drake.UnreadMessages[ch2.Id] = 1;
         _usersService.Update(user1);
         _usersService.Update(cris);
         _usersService.Update(drake);
@@ -136,21 +132,20 @@ public class ContactsController : ControllerBase
     {
         // Sign up new user
 
-        string? username, password, confirmPassword, name, profilePicture;
+        string? username, password, confirmPassword, name;
         try
         {
             username = body.GetProperty("username").GetString();
             password = body.GetProperty("password").GetString();
             confirmPassword = body.GetProperty("confirmPassword").GetString();
             name = body.GetProperty("name").GetString();
-            profilePicture = body.GetProperty("profilePicture").GetString();
         }
         catch (Exception)
         {
             return BadRequest();
         }
 
-        if (username == null || password == null || confirmPassword == null || name == null || profilePicture == null)
+        if (username == null || password == null || confirmPassword == null || name == null)
         {
             return BadRequest();
         }
@@ -185,7 +180,7 @@ public class ContactsController : ControllerBase
         }
 
         // Create new user
-        var newUser = new User(username, name, "localhost", password, profilePicture);
+        var newUser = new User(username, name, "localhost", password);
         _usersService.Add(newUser);
 
         return Created("", null);
