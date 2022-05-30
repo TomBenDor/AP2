@@ -202,18 +202,18 @@ const ContactsSection = ({
                         </div>
                         <div className="modal-body">
                             <div className="form-group">
-                                <label htmlFor="floatingInput" className="form-help"
+                                <label htmlFor="floatingInput" className="form-help contacts-form-help"
                                        id="username-label">Username</label>
                                 <input type="text" ref={contactUsernameInput} className="add-contact-input form-control"
                                        id="add-contact-input" onKeyPress={handleUsernameKeyPress}
                                        onChange={clearUsernameError}/>
                                 <label className="invalid-feedback" id="add-contact-error"/>
-                                <label htmlFor="floatingInput" className="form-help" id="username-label">Display
+                                <label htmlFor="floatingInput" className="form-help contacts-form-help" id="username-label">Display
                                     name</label>
                                 <input type="text" ref={contactNameInput} className="add-contact-input form-control"
                                        id="contact-name-input" onKeyPress={handleNameKeyPress}/>
                                 <label className="invalid-feedback" id="add-contact-name-error"/>
-                                <label htmlFor="floatingInput" className="form-help" id="username-label">Server</label>
+                                <label htmlFor="floatingInput" className="form-help contacts-form-help" id="username-label">Server</label>
                                 <input type="text" ref={contactServerInput} className="add-contact-input form-control"
                                        id="contact-server-input" onKeyPress={handleServerKeyPress}/>
                                 <label className="invalid-feedback" id="add-contact-server-error"/>
