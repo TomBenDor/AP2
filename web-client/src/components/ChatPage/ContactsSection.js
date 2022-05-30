@@ -101,7 +101,7 @@ const ContactsSection = ({
         // Generate chat id
         const chatID = `${user.username}-${requestedContact}`;
         const chat = {
-            id: chatID,
+            id: requestedContact,
             name: contact.name,
             messages: []
         }
