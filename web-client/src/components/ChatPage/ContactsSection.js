@@ -29,23 +29,48 @@ const ContactsSection = ({
     const addContact = async (e) => {
         e.preventDefault()
         document.getElementById("add-contact-input").classList.remove("is-invalid");
+        document.getElementById("contact-name-input").classList.remove("is-invalid");
+        document.getElementById("contact-server-input").classList.remove("is-invalid");
+        document.getElementById("add-contact-server-error").innerHTML = "";
+        document.getElementById("add-contact-error").innerHTML = "";
+        document.getElementById("add-contact-name-error").innerHTML = "";
+        let usernameHasError = false;
         let hasError = false;
         const requestedContact = contactUsernameInput.current.value.trim();
+        const requestedContactName = contactNameInput.current.value.trim();
+        const requestedContactServer = contactServerInput.current.value.trim();
         if (requestedContact === "") {
             document.getElementById("add-contact-error").innerHTML = "Contact name cannot be empty";
-            hasError = true;
+            usernameHasError = true;
         } else if (requestedContact === user.username) {
             document.getElementById("add-contact-error").innerHTML = "You can't add yourself";
-            hasError = true;
+            usernameHasError = true;
         } else if (Object.values(user.chats).find(chat => chat.type === "one-to-one" && chat.members.includes(requestedContact))) {
             document.getElementById("add-contact-error").innerHTML = "This contact is already in your list";
+            usernameHasError = true;
+        }
+        if (requestedContactName === "") {
+            document.getElementById("add-contact-name-error").innerHTML = "Contact name cannot be empty";
+            document.getElementById("contact-name-input").classList.add("is-invalid");
+            document.getElementById("contact-name-input").classList.add("is-invalid");
+            hasError = true;
+        }
+        if (requestedContactServer === "") {
+            document.getElementById("add-contact-server-error").innerHTML = "Contact server cannot be empty";
+            document.getElementById("contact-server-input").classList.add("is-invalid");
+            document.getElementById("contact-server-input").classList.add("is-invalid");
             hasError = true;
         }
 
-        if (hasError) {
+        if (usernameHasError) {
             document.getElementById("add-contact-input").classList.add("is-invalid");
+            hasError = true;
+        }
+        if (hasError) {
             return;
         }
+
+
         const contact = {
             "id": contactUsernameInput.current.value,
             "name": contactNameInput.current.value,
@@ -73,33 +98,29 @@ const ContactsSection = ({
             return;
         }
 
-        if (contactUser) {
-            // Generate chat id
-            const chatID = `${user.username}-${requestedContact}`;
-            const chat = {
-                type: "one-to-one",
-                members: [user.username, requestedContact],
-                messages: []
-            }
-            setUser(u => ({
-                ...u,
-                chats: {...u.chats, [chatID]: {...chat, "unreadMessages": 0}}
-            }));
-
-
-            setMessagesCache({
-                ...messagesCache, [chatID]: ""
-            });
-            // Clear input field
-            contactUsernameInput.current.value = "";
-            // Close modal
-            document.getElementById("close-modal-button").click();
-        } else {
-            document.getElementById("add-contact-input").classList.add("is-invalid");
-            document.getElementById("add-contact-error").innerHTML = "User not found";
+        // Generate chat id
+        const chatID = `${user.username}-${requestedContact}`;
+        const chat = {
+            type: "one-to-one",
+            members: [user.username, requestedContact],
+            messages: []
         }
+        setUser(u => ({
+            ...u,
+            chats: {...u.chats, [chatID]: {...chat, "unreadMessages": 0}}
+        }));
+
+
+        setMessagesCache({
+            ...messagesCache, [chatID]: ""
+        });
+        // Clear input field
+        contactUsernameInput.current.value = "";
+        // Close modal
+        document.getElementById("close-modal-button").click();
+
     };
-    const handleKeyPress = (e) => {
+    const handleUsernameKeyPress = (e) => {
         document.getElementById("add-contact-input").classList.remove("is-invalid");
         // If user presses enter, add contact
         if (e.key === "Enter") {
@@ -111,6 +132,29 @@ const ContactsSection = ({
             document.getElementById("add-contact-error").innerHTML = "Username must contain only letters, numbers, and hyphens";
             document.getElementById("add-contact-input").classList.add("is-invalid");
             e.preventDefault();
+        }
+    }
+    const handleNameKeyPress = (e) => {
+        document.getElementById("add-contact-name-error").innerHTML = "";
+        document.getElementById("contact-name-input").classList.remove("is-invalid");
+        // If user presses enter, add contact
+        if (e.key === "Enter") {
+            addContact(e);
+            return;
+        }
+        //Prevent user from entering invalid characters
+        if (!/[a-zA-Z '\-.,]$/.test(e.key)) {
+            document.getElementById("add-contact-name-error").innerHTML = "Display name can only contain letters, spaces, hyphens, periods, dots, and commas";
+            document.getElementById("contact-name-input").classList.add("is-invalid");
+            e.preventDefault();
+        }
+    }
+    const handleServerKeyPress = (e) => {
+        document.getElementById("add-contact-server-error").innerHTML = "";
+        document.getElementById("contact-server-input").classList.remove("is-invalid");
+        // If user presses enter, add contact
+        if (e.key === "Enter") {
+            addContact(e);
         }
     }
     // Clear error message on change
@@ -161,17 +205,17 @@ const ContactsSection = ({
                                 <label htmlFor="floatingInput" className="form-help"
                                        id="username-label">username</label>
                                 <input type="text" ref={contactUsernameInput} className="add-contact-input form-control"
-                                       id="add-contact-input" onKeyPress={handleKeyPress}
+                                       id="add-contact-input" onKeyPress={handleUsernameKeyPress}
                                        onChange={clearUsernameError}/>
                                 <label className="invalid-feedback" id="add-contact-error"/>
                                 <label htmlFor="floatingInput" className="form-help" id="username-label">display
                                     name</label>
                                 <input type="text" ref={contactNameInput} className="add-contact-input form-control"
-                                       id="contact-name-input"/>
+                                       id="contact-name-input" onKeyPress={handleNameKeyPress}/>
                                 <label className="invalid-feedback" id="add-contact-name-error"/>
                                 <label htmlFor="floatingInput" className="form-help" id="username-label">server</label>
                                 <input type="text" ref={contactServerInput} className="add-contact-input form-control"
-                                       id="contact-server-input"/>
+                                       id="contact-server-input" onKeyPress={handleServerKeyPress}/>
                                 <label className="invalid-feedback" id="add-contact-server-error"/>
 
                             </div>
