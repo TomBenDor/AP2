@@ -117,7 +117,7 @@ public class ContactsController : ControllerBase
         }
 
         var user = _usersService.Get(username);
-        if (user == null || user.Password != password)
+        if (user == null || user.Server != "localhost" || user.Password != password)
         {
             return Unauthorized();
         }
@@ -206,7 +206,8 @@ public class ContactsController : ControllerBase
         List<OuterUser> outerContacts = new List<OuterUser>();
         foreach (User c in contacts)
         {
-            outerContacts.Add(new OuterUser(c.Username, currentUser.Chats[c.Username]));
+            string? displayName = currentUser.Names.ContainsKey(c.Username) ? currentUser.Names[c.Username] : null;
+            outerContacts.Add(new OuterUser(c.Username, currentUser.Chats[c.Username], displayName));
         }
 
         return Ok(outerContacts);
@@ -283,6 +284,9 @@ public class ContactsController : ControllerBase
             _usersService.Add(contact);
         }
 
+        // Add the contact to the current user's names
+        currentUser.Names.Add(id, name);
+
         // Create a new chat between the current user and the contact
         var newChat = new Chat(currentUser.Username + "-" + contact.Username)
         {
@@ -336,7 +340,8 @@ public class ContactsController : ControllerBase
             return NotFound();
         }
 
-        var outerContact = new OuterUser(contactId, currentUser.Chats[contactId]);
+        string? displayName = currentUser.Names.ContainsKey(contactId) ? currentUser.Names[contactId] : null;
+        var outerContact = new OuterUser(contactId, currentUser.Chats[contactId], displayName);
         return Ok(outerContact);
     }
 
@@ -390,7 +395,7 @@ public class ContactsController : ControllerBase
             return NotFound();
         }
 
-        newContact.Name = name;
+        currentUser.Names[contactId] = name;
         newContact.Server = server;
 
         if (_usersService.Update(newContact) == null)
@@ -434,6 +439,12 @@ public class ContactsController : ControllerBase
         _chatsService.Remove(chat);
         // Delete the contact from the current user
         currentUser.Chats.Remove(contact.Username);
+        // Delete the contact from Names dictionary
+        if (currentUser.Names.ContainsKey(contact.Username))
+        {
+            currentUser.Names.Remove(contact.Username);
+        }
+
         _usersService.Update(currentUser);
         // Delete the currentUser from the contact
         contact.Chats.Remove(currentUser.Username);
