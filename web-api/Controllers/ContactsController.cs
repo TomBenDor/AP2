@@ -117,7 +117,7 @@ public class ContactsController : ControllerBase
         }
 
         var user = _usersService.Get(username);
-        if (user == null || user.Password != password)
+        if (user == null || user.Server != "localhost" || user.Password != password)
         {
             return Unauthorized();
         }
