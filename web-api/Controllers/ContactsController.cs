@@ -254,10 +254,10 @@ public class ContactsController : ControllerBase
         }
 
         // Send an invitation first, to see if the remote server exists
-        if (server != "localhost" && server != "localhost:7090")
+        if (server != "localhost" && server != "localhost:54321")
         {
             // Send invitation to the contact on the remote server
-            var invitation = new Invitation(currentUser.Username, id, "localhost:7090");
+            var invitation = new Invitation(currentUser.Username, id, "localhost:54321");
             var json = JsonSerializer.Serialize(invitation, _jsonSerializerOptions);
             var stringContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
             try
@@ -274,7 +274,7 @@ public class ContactsController : ControllerBase
         // If the contact doesn't exist, create it
         if (contact == null)
         {
-            if (server == "localhost" || server == "localhost:7090")
+            if (server == "localhost" || server == "localhost:54321")
             {
                 return BadRequest("Contact doesn't exist");
             }
