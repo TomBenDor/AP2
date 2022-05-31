@@ -3,7 +3,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import "./SignInForm.css";
 import "../auth.css";
 
-const getMessages = async ( chatID, token) => {
+const getMessages = async (chatID, token) => {
     const response = await fetch("https://localhost:7090/api/contacts/" + chatID + "/messages", {
         method: "GET",
         headers: {
@@ -15,7 +15,7 @@ const getMessages = async ( chatID, token) => {
     return messages;
 }
 
-const signIn = async (username, password) => {
+const signIn = async (username, password, setToken) => {
     const response = await fetch("https://localhost:7090/api/contacts/signin", {
         method: "POST",
         headers: {
@@ -29,6 +29,7 @@ const signIn = async (username, password) => {
         return 0;
     }
     const data = await response.json();
+    setToken(data.token);
 
     const response1 = await fetch("https://localhost:7090/api/contacts", {
         method: "GET",
@@ -39,7 +40,7 @@ const signIn = async (username, password) => {
     });
     const data1 = await response1.json();
     let chats = {};
-    
+
     // For each chat, get messages
     for (const chat of data1) {
         const messages = await getMessages(chat.id, data.token);
@@ -49,7 +50,7 @@ const signIn = async (username, password) => {
             messages: messages
         };
     }
-    
+
     // Create user object
     const user = {
         username: username,
@@ -61,7 +62,7 @@ const signIn = async (username, password) => {
     return user;
 }
 
-const SignInForm = ({setUser}) => {
+const SignInForm = ({setUser, setToken}) => {
     const usernameBox = useRef(null);
     const passwordBox = useRef(null);
     const navigate = useNavigate();
@@ -83,7 +84,7 @@ const SignInForm = ({setUser}) => {
         });
 
         // Check if username and password are valid
-        signIn(username, password, setUser).then(user => {
+        signIn(username, password, setToken).then(user => {
             // If valid
             if (user) {
                 setUser(user);

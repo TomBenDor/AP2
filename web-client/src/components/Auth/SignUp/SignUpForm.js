@@ -4,7 +4,7 @@ import "./SignUpForm.css";
 import "../auth.css";
 import {signIn} from "../SignIn/SignInForm";
 
-const SignUpForm = ({user, setUser}) => {
+const SignUpForm = ({user, setUser, setToken}) => {
     const usernameBox = useRef(null);
     const passwordBox = useRef(null);
     const passwordConfirmationBox = useRef(null);
@@ -182,7 +182,7 @@ const SignUpForm = ({user, setUser}) => {
             }, body: JSON.stringify(newUser)
         });
         if (response.ok) {
-            const user = await signIn(username, password, setUser);
+            const user = await signIn(username, password, setToken);
             if (user) {
                 setUser(user);
                 navigate("/");
