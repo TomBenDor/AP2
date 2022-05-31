@@ -10,6 +10,7 @@ public class User
         Name = name;
         Server = server;
         Chats = new Dictionary<string, Chat>();
+        Names = new Dictionary<string, string>();
     }
 
     public User(string username, string name, string server, string password) : this(username,
@@ -42,4 +43,7 @@ public class User
 
     // Dictionary of User Id's as keys and chats as values
     public IDictionary<string, Chat> Chats { get; set; }
+
+    // Dictionary of User Id's as keys and names as values
+    public IDictionary<string, string> Names { get; set; }
 }

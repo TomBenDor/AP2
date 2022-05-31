@@ -2,7 +2,7 @@ namespace class_library;
 
 public class OuterUser
 {
-    public OuterUser(string username, Chat chat)
+    public OuterUser(string username, Chat chat, string? name)
     {
         Id = username;
         var user = chat.Members.FirstOrDefault(x => x.Username == username);
@@ -11,7 +11,8 @@ public class OuterUser
             throw new Exception("User not found in chat");
         }
 
-        Name = user.Name;
+        // If name provided is null, use user display name
+        Name = name ?? user.Name;
         Server = user.Server == "localhost" ? "localhost:7090" : user.Server;
         // Get last message the user sent
         var lastMessage = chat.Messages.Where(x => x.Sender == username).OrderByDescending(x => x.Timestamp)
