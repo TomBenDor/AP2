@@ -78,7 +78,7 @@ const ContactsSection = ({
         };
 
         // Search for user in database
-        const contactUser = await fetch('https://localhost:7090/api/contacts', {
+        const contactUser = await fetch('https://localhost:54321/api/contacts', {
             method: "POST", headers: {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + token,
