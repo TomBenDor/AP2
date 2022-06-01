@@ -1,7 +1,7 @@
 import ContactsSection from "./ContactsSection"
 import ChatSection from "./ChatSection";
 import "./ChatPage.css";
-import {useEffect, useState} from "react";
+import {useEffect, useState, useCallback} from "react";
 import {HubConnectionBuilder} from "@microsoft/signalr";
 import {getContacts, getMessages} from "../Auth/SignIn/SignInForm";
 
@@ -9,8 +9,13 @@ const ChatPage = ({user, setUser, token, theme, setTheme}) => {
     const [currentChatID, setCurrentChatID] = useState(-1);
     const [hasToUpdate, setHasToUpdate] = useState(false);
     const [connection, setConnection] = useState(null);
-
-    const updateAll = async () => {
+    // Create a cache for the messages the user has written to each contact
+    const [messagesCache, setMessagesCache] = useState(Object.assign({}, ...Object.keys(user.chats).map((id) => {
+        return {
+            [id]: ""
+        }
+    })));
+    const updateAll = useCallback(async () => {
         if (hasToUpdate) {
             setHasToUpdate(false);
             const data1 = await getContacts(token);
@@ -29,11 +34,10 @@ const ChatPage = ({user, setUser, token, theme, setTheme}) => {
 
             setUser({...user, chats: chats});
         }
-    }
-
+    }, [token, user, setUser, hasToUpdate, messagesCache]);
     useEffect(() => {
         updateAll();
-    }, [hasToUpdate, updateAll()])
+    }, [hasToUpdate, updateAll])
 
     useEffect(() => {
         const connect = new HubConnectionBuilder()
@@ -53,12 +57,7 @@ const ChatPage = ({user, setUser, token, theme, setTheme}) => {
                 })
         }
     }, [connection]);
-    // Create a cache for the messages the user has written to each contact
-    const [messagesCache, setMessagesCache] = useState(Object.assign({}, ...Object.keys(user.chats).map((id) => {
-        return {
-            [id]: ""
-        }
-    })));
+
 
     return (
         <div id="content-frame">
