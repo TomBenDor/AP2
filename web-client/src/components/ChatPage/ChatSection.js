@@ -2,12 +2,14 @@ import ChatMessages from "./ChatMessages";
 import './ChatSection.css';
 import ToggleTheme from './ToggleTheme'
 import {useEffect, useRef, useState} from "react";
+import {HubConnection, HubConnectionBuilder} from "@microsoft/signalr";
 
 const ChatSection = ({user, setUser, currentChatID, messagesCache, setMessagesCache, theme, setTheme}) => {
     const messageBox = useRef(null);
     // Set state for send button disabled state
     const [messageEmpty, setMessageEmpty] = useState(true);
     const messagesLength = currentChatID !== -1 ? user.chats[currentChatID].messages.length : 0;
+    let connection;
 
     const sendMessage = async (message) => {
         // Add new message to current chat's messages
@@ -25,9 +27,9 @@ const ChatSection = ({user, setUser, currentChatID, messagesCache, setMessagesCa
                     }
                 }
             });
-            
+
             // Send message to the server
-            await fetch("https://localhost:7090/api/contacts/"+currentChatID+"/messages", {
+            await fetch("https://localhost:7090/api/contacts/" + currentChatID + "/messages", {
                 method: "POST",
                 headers: {
                     "Authorization": "Bearer " + user.token,
@@ -146,8 +148,8 @@ const ChatSection = ({user, setUser, currentChatID, messagesCache, setMessagesCa
                     <div id="input-section">
                 <span className="chat-input">
                     {(<textarea ref={messageBox} id="message-input" placeholder="Type a message..."
-                                      onChange={typing}
-                                      onKeyDown={keyPressed}/>
+                                onChange={typing}
+                                onKeyDown={keyPressed}/>
                         ) ||
                         <div className="center"><b>Recording...</b></div>
                     }

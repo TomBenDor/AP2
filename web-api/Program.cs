@@ -3,6 +3,7 @@ using class_library.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using web_api.hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -80,11 +81,15 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors(b => b.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
-
+app.UseRouting();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+    endpoints.MapHub<MessageHub>("/messageHub");
+});
 
 app.Run();
