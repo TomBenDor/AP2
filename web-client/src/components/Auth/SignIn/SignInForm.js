@@ -4,7 +4,7 @@ import "./SignInForm.css";
 import "../auth.css";
 
 const getMessages = async (chatID, token) => {
-    const response = await fetch("https://localhost:7090/api/contacts/" + chatID + "/messages", {
+    const response = await fetch("https://localhost:54321/api/contacts/" + chatID + "/messages", {
         method: "GET",
         headers: {
             "Authorization": "Bearer " + token,
@@ -16,7 +16,7 @@ const getMessages = async (chatID, token) => {
 }
 
 const signIn = async (username, password, setToken) => {
-    const response = await fetch("https://localhost:7090/api/contacts/signin", {
+    const response = await fetch("https://localhost:54321/api/contacts/signin", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -31,7 +31,7 @@ const signIn = async (username, password, setToken) => {
     const data = await response.json();
     setToken(data.token);
 
-    const response1 = await fetch("https://localhost:7090/api/contacts", {
+    const response1 = await fetch("https://localhost:54321/api/contacts", {
         method: "GET",
         headers: {
             "Authorization": "Bearer " + data.token,
