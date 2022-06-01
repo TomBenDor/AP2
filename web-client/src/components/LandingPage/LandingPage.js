@@ -26,7 +26,7 @@ const PromptPage = () => {
                         <span>New Here?</span>
                         <Link to="/signup">Sign Up</Link>
                         <br/><br/>
-                        <span>See what our customers are saying <a href='https://localhost:7095/' target="_blank">here</a></span>
+                        <span>See what our customers are saying <a href='https://localhost:7095/' target="_blank" rel="noreferrer">here</a></span>
                     </div>
                 </div>
 
