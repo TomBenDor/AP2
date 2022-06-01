@@ -3,38 +3,30 @@ import './ChatSection.css';
 import ToggleTheme from './ToggleTheme'
 import {useEffect, useRef, useState} from "react";
 
-const ChatSection = ({user, setUser, currentChatID, messagesCache, setMessagesCache, theme, setTheme}) => {
+const ChatSection = ({user, setUser, currentChatID, messagesCache, setMessagesCache, theme, setTheme, connection}) => {
     const messageBox = useRef(null);
     // Set state for send button disabled state
     const [messageEmpty, setMessageEmpty] = useState(true);
-    const messagesLength = currentChatID !== -1 ? user.chats[currentChatID].messages.length : 0;
 
+    const messagesLength = currentChatID !== -1 ? user.chats[currentChatID].messages.length : 0;
     const sendMessage = async (message) => {
         // Add new message to current chat's messages
         if (currentChatID !== -1) {
             setUser({
-                ...user,
-                chats: {
-                    ...user.chats,
-                    [currentChatID]: {
-                        ...user.chats[currentChatID],
-                        messages: [
-                            ...user.chats[currentChatID].messages,
-                            message
-                        ]
+                ...user, chats: {
+                    ...user.chats, [currentChatID]: {
+                        ...user.chats[currentChatID], messages: [...user.chats[currentChatID].messages, message]
                     }
                 }
             });
-            
+
             // Send message to the server
             await fetch("https://localhost:54321/api/contacts/" + currentChatID + "/messages", {
-                method: "POST",
-                headers: {
-                    "Authorization": "Bearer " + user.token,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({content: message.content})
+                method: "POST", headers: {
+                    "Authorization": "Bearer " + user.token, "Content-Type": "application/json"
+                }, body: JSON.stringify({content: message.content})
             });
+            connection.invoke("MessageSent");
         }
     };
 
@@ -45,10 +37,7 @@ const ChatSection = ({user, setUser, currentChatID, messagesCache, setMessagesCa
             const currentTime = new Date().toLocaleString('en-US', {hourCycle: 'h23'});
             // Create new message object
             const newMessage = {
-                id: user.chats[currentChatID].messages.length + 1,
-                sent: true,
-                content: message,
-                created: currentTime,
+                id: user.chats[currentChatID].messages.length + 1, sent: true, content: message, created: currentTime,
             };
             sendMessage(newMessage);
             // Clear cache entry for the current chat
@@ -119,10 +108,9 @@ const ChatSection = ({user, setUser, currentChatID, messagesCache, setMessagesCa
     // Scroll to the bottom when the number of messages changes
     useEffect(scrollToBottom, [messagesLength]);
 
-    return (
-        <>
-            {(currentChatID !== -1 && <>
-                    <div className="chat-section-header">
+    return (<>
+        {(currentChatID !== -1 && <>
+            <div className="chat-section-header">
                             <span className="user-header">
                                 <span className="profile-pic">
                                     <img
@@ -135,42 +123,35 @@ const ChatSection = ({user, setUser, currentChatID, messagesCache, setMessagesCa
                                     </div>
                                 </span>
                             </span>
-                        <span className="buttons">
+                <span className="buttons">
                                 <ToggleTheme theme={theme} setTheme={setTheme}/>
                             </span>
-                    </div>
-                    <div className="chat-section-messages">
-                        <ChatMessages user={user}
-                                      currentChatID={currentChatID}/>
-                    </div>
-                    <div id="input-section">
+            </div>
+            <div className="chat-section-messages">
+                <ChatMessages user={user}
+                              currentChatID={currentChatID}/>
+            </div>
+            <div id="input-section">
                 <span className="chat-input">
                     {(<textarea ref={messageBox} id="message-input" placeholder="Type a message..."
-                                      onChange={typing}
-                                      onKeyDown={keyPressed}/>
-                        ) ||
-                        <div className="center"><b>Recording...</b></div>
-                    }
+                                onChange={typing}
+                                onKeyDown={keyPressed}/>) || <div className="center"><b>Recording...</b></div>}
 
                 </span>
-                        <span className="buttons">
+                <span className="buttons">
                             {!messageEmpty &&
 
                                 <button className="center icon-button" onClick={sendTextMessage}>
                                     <i className="bi bi-send"/>
-                                </button>
-                            }
+                                </button>}
                         </span>
-                    </div>
-                </>
-            ) || <div className="max">
-                <div className="welcome center">
-                    Select a contact to start messaging...
-                </div>
             </div>
-            }
-        </>
-    );
+        </>) || <div className="max">
+            <div className="welcome center">
+                Select a contact to start messaging...
+            </div>
+        </div>}
+    </>);
 }
 
 export default ChatSection;
