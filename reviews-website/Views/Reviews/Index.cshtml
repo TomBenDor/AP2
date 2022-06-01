@@ -1,0 +1,76 @@
+@model IEnumerable<server.Models.Review>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<div id="content-frame">
+    <div class="title">
+        <h1>Comments</h1>
+    </div>
+    <div class="search-section">
+        <div class="center">
+            <input name="query" id="search-bar" placeholder="Search a review..."/>
+            <a asp-action="Create">Create New</a>
+        </div>
+    </div>
+
+    <div class="comments">
+        @foreach (var item in Model)
+        {
+            <div class="comment">
+                <div class="comment__text">
+                    @Html.DisplayFor(modelItem => item.Comment)
+                </div>
+                <div class="comment__rating">
+                    <ul class="star-list" alt=@item.Rating>
+                    </ul>
+                </div>
+                <div class="comment__author">
+                    @Html.DisplayFor(modelItem => item.Username)
+                </div>
+                <div class="comment__date">
+                    @Html.DisplayFor(modelItem => item.Date)
+                </div>
+                <div class="comment__links">
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="invitation">
+        <div class="center">
+            Come and see the app yourself, <a href='https://localhost:3000/' target="_blank">here</a>!
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/html" id="template">
+        <div class="comment">
+            <div class="comment__text">
+                {Comment}
+            </div>
+            <div class="comment__rating">
+                <ul class="star-list" alt={Rating}>
+                </ul>
+            </div>
+            <div class="comment__author">
+                {Username}
+            </div>
+            <div class="comment__date">
+                {Date}
+            </div>
+            <div>
+                <a asp-action="Edit" asp-route-id="{Id}">Edit</a> |
+                <a asp-action="Details" asp-route-id="{Id}">Details</a> |
+                <a asp-action="Delete" asp-route-id="{Id}">Delete</a>
+            </div>
+        </div>
+    </script>
+    <script src="js/index.js"></script>
+}
