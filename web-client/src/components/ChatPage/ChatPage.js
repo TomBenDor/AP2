@@ -9,7 +9,8 @@ const ChatPage = ({user, setUser, token, theme, setTheme}) => {
     const [currentChatID, setCurrentChatID] = useState(-1);
     const [hasToUpdate, setHasToUpdate] = useState(false);
     const [connection, setConnection] = useState(null);
-    useEffect(async () => {
+
+    const updateAll = async () => {
         if (hasToUpdate) {
             setHasToUpdate(false);
             const data1 = await getContacts(token);
@@ -28,7 +29,11 @@ const ChatPage = ({user, setUser, token, theme, setTheme}) => {
 
             setUser({...user, chats: chats});
         }
-    }, [hasToUpdate])
+    }
+
+    useEffect(() => {
+        updateAll();
+    }, [hasToUpdate, updateAll()])
 
     useEffect(() => {
         const connect = new HubConnectionBuilder()
