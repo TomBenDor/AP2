@@ -8,8 +8,26 @@ const ChatSection = ({user, setUser, currentChatID, messagesCache, setMessagesCa
     const messageBox = useRef(null);
     // Set state for send button disabled state
     const [messageEmpty, setMessageEmpty] = useState(true);
+    const [connection, setConnection] = useState(null);
     const messagesLength = currentChatID !== -1 ? user.chats[currentChatID].messages.length : 0;
-    let connection;
+    useEffect(() => {
+        const connect = new HubConnectionBuilder()
+            .withUrl("https://localhost:54321/messageHub")
+            .build();
+
+        setConnection(connect);
+    }, []);
+    useEffect(() => {
+        if (connection) {
+            connection
+                .start({withCredentials: false})
+                .then(() => {
+                    connection.on("changeReceived", (message) => {
+                    });
+                })
+        }
+    }, [connection]);
+
 
     const sendMessage = async (message) => {
         // Add new message to current chat's messages
@@ -27,6 +45,7 @@ const ChatSection = ({user, setUser, currentChatID, messagesCache, setMessagesCa
                     }
                 }
             });
+            connection.invoke("Changed", message.content);
 
             // Send message to the server
             await fetch("https://localhost:54321/api/contacts/" + currentChatID + "/messages", {
