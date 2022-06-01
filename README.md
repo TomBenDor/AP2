@@ -24,7 +24,8 @@ Execute
 ```bash
 dotnet run
 ```
-From the reviews folder
+From the reviews folder.
+
 The server will be running on http://localhost:7095/
 ### Web client
 Run the client using the terminal.
