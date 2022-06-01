@@ -37,7 +37,7 @@ public class TransferController : ControllerBase
 
         // Create a new message
         int lastMessageId = chat.Messages.Count > 0 ? chat.Messages.Max(m => m.Id) : 0;
-        var message = new Message(lastMessageId + 1, transfer.Content, transfer.From, DateTime.Now, "text");
+        var message = new Message(lastMessageId + 1, transfer.Content, transfer.From, DateTime.Now);
         chat.Messages.Add(message);
         _chatsService.Update(chat);
 

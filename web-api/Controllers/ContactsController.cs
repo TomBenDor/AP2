@@ -46,10 +46,10 @@ public class ContactsController : ControllerBase
         ch1.Members.Add(cris);
         ch2.Members.Add(user1);
         ch2.Members.Add(drake);
-        ch1.Messages.Add(new Message(1, "Ayo my dude", "user123", DateTime.Now, "text"));
-        ch1.Messages.Add(new Message(2, "Hi :)", "Crisr7", DateTime.Now, "text"));
-        ch2.Messages.Add(new Message(1, "Yo hear my new song bro", "drake6942", DateTime.Now, "text"));
-        ch2.Messages.Add(new Message(2, "Lit bro", "user123", DateTime.Now, "text"));
+        ch1.Messages.Add(new Message(1, "Ayo my dude", "user123", DateTime.Now));
+        ch1.Messages.Add(new Message(2, "Hi :)", "Crisr7", DateTime.Now));
+        ch2.Messages.Add(new Message(1, "Yo hear my new song bro", "drake6942", DateTime.Now));
+        ch2.Messages.Add(new Message(2, "Lit bro", "user123", DateTime.Now));
         _chatsService.Update(ch1);
         _chatsService.Update(ch2);
         user1.Chats["Crisr7"] = ch1;
@@ -540,7 +540,7 @@ public class ContactsController : ControllerBase
         Chat chat = currentUser.Chats[id];
         // Create a new message
         int lastMessageId = chat.Messages.Count > 0 ? chat.Messages.Max(m => m.Id) : 0;
-        var message = new Message(lastMessageId + 1, content, currentUser.Username, DateTime.Now, "text");
+        var message = new Message(lastMessageId + 1, content, currentUser.Username, DateTime.Now);
         chat.Messages.Add(message);
         _chatsService.Update(chat);
         // Add the new message to the contact if on a remote server

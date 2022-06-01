@@ -46,9 +46,6 @@ const ContactsSection = ({
         } else if (requestedContact === user.username) {
             document.getElementById("add-contact-error").innerHTML = "You can't add yourself";
             usernameHasError = true;
-        } else if (Object.values(user.chats).find(chat => chat.type === "one-to-one" && chat.members.includes(requestedContact))) {
-            document.getElementById("add-contact-error").innerHTML = "This contact is already in your list";
-            usernameHasError = true;
         }
         if (requestedContactName === "") {
             document.getElementById("add-contact-name-error").innerHTML = "Contact name cannot be empty";
