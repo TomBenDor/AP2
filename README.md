@@ -20,7 +20,11 @@ npm install
 
 ## Running
 ### Reviews page
-Open the 'reviews-website' project in visual studio or Rider and run it.
+Execute
+```bash
+dotnet run
+```
+From the reviews folder
 The server will be running on http://localhost:7095/
 ### Web client
 Run the client using the terminal.
