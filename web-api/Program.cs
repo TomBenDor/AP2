@@ -3,7 +3,7 @@ using class_library.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using web_api.hubs;
+using web_api.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 

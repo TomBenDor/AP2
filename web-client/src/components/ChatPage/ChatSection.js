@@ -9,6 +9,9 @@ const ChatSection = ({user, setUser, currentChatID, messagesCache, setMessagesCa
     // Set state for send button disabled state
     const [messageEmpty, setMessageEmpty] = useState(true);
     const [connection, setConnection] = useState(null);
+    const userRef = useRef({value: user});
+    const chatIdRef = useRef({value: currentChatID});
+
     const messagesLength = currentChatID !== -1 ? user.chats[currentChatID].messages.length : 0;
     useEffect(() => {
         const connect = new HubConnectionBuilder()
@@ -18,11 +21,26 @@ const ChatSection = ({user, setUser, currentChatID, messagesCache, setMessagesCa
         setConnection(connect);
     }, []);
     useEffect(() => {
+        chatIdRef.current.value = currentChatID;
+    }, [currentChatID]);
+    useEffect(() => {
+        userRef.current.value = user;
+    }, [user]);
+    useEffect(() => {
         if (connection) {
             connection
                 .start({withCredentials: false})
                 .then(() => {
-                    connection.on("changeReceived", (message) => {
+                    connection.on("MessageReceived", (message) => {
+                        message = JSON.parse(message);
+                        const message1 = {
+                            id: userRef.current.value.chats[chatIdRef.current.value].messages.length + 1,
+                            content: message.content,
+                            sent: message.sender === userRef.current.value.username,
+                            created: message.created
+                        };
+                        userRef.current.value.chats[chatIdRef.current.value].messages.push(message1);
+                        setUser(userRef.current.value);
                     });
                 })
         }
@@ -33,28 +51,22 @@ const ChatSection = ({user, setUser, currentChatID, messagesCache, setMessagesCa
         // Add new message to current chat's messages
         if (currentChatID !== -1) {
             setUser({
-                ...user,
-                chats: {
-                    ...user.chats,
-                    [currentChatID]: {
-                        ...user.chats[currentChatID],
-                        messages: [
-                            ...user.chats[currentChatID].messages,
-                            message
-                        ]
+                ...user, chats: {
+                    ...user.chats, [currentChatID]: {
+                        ...user.chats[currentChatID], messages: [...user.chats[currentChatID].messages, message]
                     }
                 }
             });
-            connection.invoke("Changed", message.content);
+            const message1 = {
+                content: message.content, created: message.created, sender: userRef.current.value.username
+            }
+            connection.invoke("MessageSent", JSON.stringify(message1));
 
             // Send message to the server
             await fetch("https://localhost:54321/api/contacts/" + currentChatID + "/messages", {
-                method: "POST",
-                headers: {
-                    "Authorization": "Bearer " + user.token,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({content: message.content})
+                method: "POST", headers: {
+                    "Authorization": "Bearer " + user.token, "Content-Type": "application/json"
+                }, body: JSON.stringify({content: message.content})
             });
         }
     };
@@ -66,10 +78,7 @@ const ChatSection = ({user, setUser, currentChatID, messagesCache, setMessagesCa
             const currentTime = new Date().toLocaleString('en-US', {hourCycle: 'h23'});
             // Create new message object
             const newMessage = {
-                id: user.chats[currentChatID].messages.length + 1,
-                sent: true,
-                content: message,
-                created: currentTime,
+                id: user.chats[currentChatID].messages.length + 1, sent: true, content: message, created: currentTime,
             };
             sendMessage(newMessage);
             // Clear cache entry for the current chat
@@ -140,10 +149,9 @@ const ChatSection = ({user, setUser, currentChatID, messagesCache, setMessagesCa
     // Scroll to the bottom when the number of messages changes
     useEffect(scrollToBottom, [messagesLength]);
 
-    return (
-        <>
-            {(currentChatID !== -1 && <>
-                    <div className="chat-section-header">
+    return (<>
+        {(currentChatID !== -1 && <>
+            <div className="chat-section-header">
                             <span className="user-header">
                                 <span className="profile-pic">
                                     <img
@@ -168,10 +176,7 @@ const ChatSection = ({user, setUser, currentChatID, messagesCache, setMessagesCa
                 <span className="chat-input">
                     {(<textarea ref={messageBox} id="message-input" placeholder="Type a message..."
                                 onChange={typing}
-                                onKeyDown={keyPressed}/>
-                        ) ||
-                        <div className="center"><b>Recording...</b></div>
-                    }
+                                onKeyDown={keyPressed}/>) || <div className="center"><b>Recording...</b></div>}
 
                 </span>
                         <span className="buttons">
@@ -179,19 +184,15 @@ const ChatSection = ({user, setUser, currentChatID, messagesCache, setMessagesCa
 
                                 <button className="center icon-button" onClick={sendTextMessage}>
                                     <i className="bi bi-send"/>
-                                </button>
-                            }
+                                </button>}
                         </span>
                     </div>
-                </>
-            ) || <div className="max">
-                <div className="welcome center">
-                    Select a contact to start messaging...
-                </div>
+        </>) || <div className="max">
+            <div className="welcome center">
+                Select a contact to start messaging...
             </div>
-            }
-        </>
-    );
+        </div>}
+    </>);
 }
 
 export default ChatSection;
