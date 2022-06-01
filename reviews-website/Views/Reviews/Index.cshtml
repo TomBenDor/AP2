@@ -9,7 +9,12 @@
     <div class="title">
         <h1>Comments</h1>
     </div>
-    <input name="query" id="search-bar"/>
+    <div class="search-section">
+        <input name="query" id="search-bar" placeholder="Search a review..."/>
+    </div>
+    <div class="new-section">
+        <a asp-action="Create">Create New</a>
+    </div>
 
     <div class="comments">
         @foreach (var item in Model)
@@ -36,11 +41,6 @@
             </div>
         }
     </div>
-    <footer>
-        <p>
-            <a asp-action="Create">Create New</a>
-        </p>
-    </footer>
 </div>
 
 @section Scripts

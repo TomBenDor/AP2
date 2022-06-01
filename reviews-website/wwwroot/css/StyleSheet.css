@@ -96,7 +96,8 @@ main #form-frame {
     column-gap: 10px;
     column-fill: auto;
     max-width: 85%;
-    margin: 100px auto;
+    margin: 30px auto;
+    overflow: auto;
 }
 
 .comment {
@@ -143,6 +144,35 @@ main #form-frame {
 
 .title h1 {
     font-family: 'Lato Black', sans-serif;
+    display: inline-block;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.search-section, .new-section {
+    width: 100%;
+}
+
+#search-bar {
+    display: inline-block;
+    position: relative;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    width: 200px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.new-section a {
+    margin: 10px;
+    text-decoration: none !important;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 5px 10px;
     display: inline-block;
     position: relative;
     top: 50%;
