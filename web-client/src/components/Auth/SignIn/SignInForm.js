@@ -8,13 +8,21 @@ const getMessages = async (chatID, token) => {
         method: "GET",
         headers: {
             "Authorization": "Bearer " + token,
-            "Accept": "*/*",
+            "Accept": "*/*"
         }
     });
-    const messages = await response.json();
-    return messages;
+    return await response.json();
 }
-
+const getContacts = async (token) => {
+    const response = await fetch("https://localhost:54321/api/contacts", {
+        method: "GET",
+        headers: {
+            "Authorization": "Bearer " + token,
+            "Accept": "*/*"
+        }
+    });
+    return await response.json();
+}
 const signIn = async (username, password, setToken) => {
     const response = await fetch("https://localhost:54321/api/contacts/signin", {
         method: "POST",
@@ -31,16 +39,8 @@ const signIn = async (username, password, setToken) => {
     const data = await response.json();
     setToken(data.token);
 
-    const response1 = await fetch("https://localhost:54321/api/contacts", {
-        method: "GET",
-        headers: {
-            "Authorization": "Bearer " + data.token,
-            "Accept": "*/*",
-        }
-    });
-    const data1 = await response1.json();
+    const data1 = await getContacts(data.token);
     let chats = {};
-
     // For each chat, get messages
     for (const chat of data1) {
         const messages = await getMessages(chat.id, data.token);
@@ -140,4 +140,4 @@ const SignInForm = ({setUser, setToken}) => {
 }
 
 export default SignInForm;
-export {signIn};
+export {signIn, getMessages, getContacts};

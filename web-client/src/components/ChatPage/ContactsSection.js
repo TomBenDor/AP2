@@ -9,7 +9,8 @@ const ContactsSection = ({
                              setCurrentChatID,
                              messagesCache,
                              setMessagesCache,
-                             token
+                             token,
+                             connection
                          }) => {
     const contactUsernameInput = useRef(null);
     const contactNameInput = useRef(null);
@@ -97,7 +98,6 @@ const ContactsSection = ({
             }
             return;
         }
-
         // Create chat
         const chat = {
             id: requestedContact,
@@ -113,6 +113,7 @@ const ContactsSection = ({
         setMessagesCache({
             ...messagesCache, [requestedContact]: ""
         });
+        connection.invoke("MessageSent");
         // Clear input field
         contactUsernameInput.current.value = "";
         // Close modal
@@ -207,12 +208,14 @@ const ContactsSection = ({
                                        id="add-contact-input" onKeyPress={handleUsernameKeyPress}
                                        onChange={clearUsernameError}/>
                                 <label className="invalid-feedback" id="add-contact-error"/>
-                                <label htmlFor="floatingInput" className="form-help contacts-form-help" id="username-label">Display
+                                <label htmlFor="floatingInput" className="form-help contacts-form-help"
+                                       id="username-label">Display
                                     name</label>
                                 <input type="text" ref={contactNameInput} className="add-contact-input form-control"
                                        id="contact-name-input" onKeyPress={handleNameKeyPress}/>
                                 <label className="invalid-feedback" id="add-contact-name-error"/>
-                                <label htmlFor="floatingInput" className="form-help contacts-form-help" id="username-label">Server</label>
+                                <label htmlFor="floatingInput" className="form-help contacts-form-help"
+                                       id="username-label">Server</label>
                                 <input type="text" ref={contactServerInput} className="add-contact-input form-control"
                                        id="contact-server-input" onKeyPress={handleServerKeyPress}/>
                                 <label className="invalid-feedback" id="add-contact-server-error"/>

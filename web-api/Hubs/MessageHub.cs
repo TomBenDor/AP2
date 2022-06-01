@@ -4,9 +4,8 @@ using Microsoft.AspNetCore.SignalR;
 
 public class MessageHub : Hub
 {
-    public async Task MessageSent(string value)
+    public async Task MessageSent()
     {
-        await Clients.All.SendAsync("MessageReceived", value);
-        Console.WriteLine(value);
+        await Clients.All.SendAsync("MessageReceived");
     }
 }
