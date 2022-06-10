@@ -42,6 +42,11 @@ public class ContactsController : ControllerBase
         var drake = _usersService.Get("drake6942");
         var ch1 = _chatsService.Get("user123-Crisr7");
         var ch2 = _chatsService.Get("user123-drake6942");
+        if (cris == null || drake == null || ch1 == null || ch2 == null)
+        {
+            return;
+        }
+
         ch1.Members.Add(user1);
         ch1.Members.Add(cris);
         ch2.Members.Add(user1);
