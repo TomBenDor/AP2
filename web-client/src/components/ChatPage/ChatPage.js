@@ -41,7 +41,7 @@ const ChatPage = ({user, setUser, token, theme, setTheme}) => {
 
     useEffect(() => {
         const connect = new HubConnectionBuilder()
-            .withUrl("https://localhost:54321/messageHub")
+            .withUrl("http://localhost:54321/messageHub")
             .build();
 
         setConnection(connect);
