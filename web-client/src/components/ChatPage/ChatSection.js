@@ -21,7 +21,7 @@ const ChatSection = ({user, setUser, currentChatID, messagesCache, setMessagesCa
             });
 
             // Send message to the server
-            await fetch("https://localhost:54321/api/contacts/" + currentChatID + "/messages", {
+            await fetch("http://localhost:54321/api/contacts/" + currentChatID + "/messages", {
                 method: "POST", headers: {
                     "Authorization": "Bearer " + user.token, "Content-Type": "application/json"
                 }, body: JSON.stringify({content: message.content})

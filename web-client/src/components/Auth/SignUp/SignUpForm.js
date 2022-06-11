@@ -176,7 +176,7 @@ const SignUpForm = ({user, setUser, setToken}) => {
             "name": displayName,
         };
         // Sign up user
-        const response = await fetch("https://localhost:54321/api/contacts/signup", {
+        const response = await fetch("http://localhost:54321/api/contacts/signup", {
             method: "POST", headers: {
                 "Content-Type": "application/json"
             }, body: JSON.stringify(newUser)
