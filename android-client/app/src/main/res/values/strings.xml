@@ -22,4 +22,15 @@
     <string name="sign_up_link_to_sign_in">Sign in</string>
     <string name="sign_in_prompt_to_sign_up">Don\'t have an account?</string>
     <string name="sign_in_link_to_sign_up">Sign up</string>
+    <!-- Preference Titles -->
+    <string name="settings_messages_header">Messages</string>
+    <string name="settings_theme_header">Theme</string>
+
+    <!-- Messages Preferences -->
+    <string name="settings_server_title">Your server</string>
+
+    <!-- Theme Preferences -->
+    <string name="settings_dark_mode_title">Dark mode</string>
+    <string name="settings_dark_mode_summary">Use dark mode</string>
+    <string name="title_activity_settings">Settings</string>
 </resources>

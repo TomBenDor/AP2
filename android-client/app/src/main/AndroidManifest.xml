@@ -17,6 +17,10 @@
         android:theme="@style/Theme.MaKore"
         tools:targetApi="31">
         <activity
+            android:name=".chat.SettingsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_settings" />
+        <activity
             android:name=".auth.SignUpActivity"
             android:exported="false" />
         <activity
@@ -31,8 +35,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="false"
-            android:theme="@style/Theme.MaKore.NoActionBar">
-        </activity>
+            android:theme="@style/Theme.MaKore.NoActionBar" />
     </application>
 
 </manifest>
