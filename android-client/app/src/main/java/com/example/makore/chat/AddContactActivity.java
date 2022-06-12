@@ -2,6 +2,7 @@ package com.example.makore.chat;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.makore.databinding.ActivityAddContactBinding;
@@ -14,6 +15,10 @@ public class AddContactActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityAddContactBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     // Override back button to go back to MainActivity
