@@ -30,4 +30,9 @@
         android:name="com.example.makore.auth.SignInActivity"
         android:label="activity_sign_in"
         tools:layout="@layout/activity_sign_in" />
+    <activity
+        android:id="@+id/signUpActivity"
+        android:name="com.example.makore.auth.SignUpActivity"
+        android:label="activity_sign_up"
+        tools:layout="@layout/activity_sign_up" />
 </navigation>
