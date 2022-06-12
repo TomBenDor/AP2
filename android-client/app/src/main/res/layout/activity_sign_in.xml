@@ -68,7 +68,7 @@
             android:padding="10dp" />
 
         <TextView
-            android:id="@+id/linkToSignIn"
+            android:id="@+id/linkToSignUp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="@string/sign_in_link_to_sign_up"
