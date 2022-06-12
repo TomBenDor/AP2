@@ -15,4 +15,7 @@
     <string name="confirmPassword">Confirm password</string>
     <string name="sign_in_button_txt">Sign In</string>
     <string name="sign_in_page_title">Sign In</string>
+    <string name="sign_up_button_txt">Sign Up</string>
+    <string name="sign_up_page_title">Sign Up</string>
+    <string name="sign_up_attach_profile_picture_btn">Profile picture</string>
 </resources>
