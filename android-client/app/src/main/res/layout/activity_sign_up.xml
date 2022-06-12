@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:layout_gravity="center"
-            android:drawableLeft="@drawable/ic_attach_file_light"
+            app:icon="@drawable/ic_attach_file_light"
             android:text="@string/sign_up_attach_profile_picture_btn" />
 
         <Button
