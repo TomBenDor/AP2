@@ -18,4 +18,8 @@
     <string name="sign_up_button_txt">Sign Up</string>
     <string name="sign_up_page_title">Sign Up</string>
     <string name="sign_up_attach_profile_picture_btn">Profile picture</string>
+    <string name="sign_up_prompt_to_sign_in">Have an account already?</string>
+    <string name="sign_up_link_to_sign_in">Sign in</string>
+    <string name="sign_in_prompt_to_sign_up">Don\'t have an account?</string>
+    <string name="sign_in_link_to_sign_up">Sign up</string>
 </resources>
