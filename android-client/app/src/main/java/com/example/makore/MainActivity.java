@@ -11,7 +11,6 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.makore.chat.AddContactActivity;
 import com.example.makore.chat.SettingsActivity;
 import com.example.makore.databinding.ActivityMainBinding;
 
@@ -32,11 +31,6 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-
-        binding.fab.setOnClickListener(view -> {
-            Intent intent = new Intent(MainActivity.this, AddContactActivity.class);
-            startActivity(intent);
-        });
     }
 
     @Override
