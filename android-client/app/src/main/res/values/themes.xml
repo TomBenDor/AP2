@@ -12,6 +12,8 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <!-- Button color -->
+        <item name="colorButtonNormal">@color/turquoise_0</item>
     </style>
 
     <style name="Theme.MaKore.NoActionBar">
