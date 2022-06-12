@@ -36,5 +36,5 @@
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginBottom="16dp"
         android:contentDescription="@string/add_contact_page_title"
-        app:srcCompat="@drawable/ic_add_circle_light" />
+        app:srcCompat="@drawable/ic_add_person_light" />
 </androidx.constraintlayout.widget.ConstraintLayout>
