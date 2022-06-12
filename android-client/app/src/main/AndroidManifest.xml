@@ -17,6 +17,9 @@
         android:theme="@style/Theme.MaKore"
         tools:targetApi="31">
         <activity
+            android:name=".chat.AddContactActivity"
+            android:exported="false" />
+        <activity
             android:name=".chat.SettingsActivity"
             android:exported="false"
             android:label="@string/title_activity_settings" />

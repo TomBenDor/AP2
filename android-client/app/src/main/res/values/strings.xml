@@ -33,4 +33,8 @@
     <string name="settings_dark_mode_title">Dark mode</string>
     <string name="settings_dark_mode_summary">Use dark mode</string>
     <string name="title_activity_settings">Settings</string>
+    <!-- Add Contact Page -->
+    <string name="add_contact_page_title">Add Contact</string>
+    <string name="add_contact_page_button_txt">Add</string>
+    <string name="server">Server</string>
 </resources>
