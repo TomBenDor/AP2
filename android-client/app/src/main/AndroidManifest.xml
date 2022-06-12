@@ -14,7 +14,7 @@
         android:theme="@style/Theme.MaKore"
         tools:targetApi="31">
         <activity
-            android:name=".auth.SignIn"
+            android:name=".auth.SignInActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

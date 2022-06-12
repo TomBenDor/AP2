@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.example.makore.R;
 
-public class SignIn extends AppCompatActivity {
+public class SignInActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
