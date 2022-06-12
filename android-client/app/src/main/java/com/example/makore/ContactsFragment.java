@@ -11,11 +11,11 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.makore.chat.AddContactActivity;
-import com.example.makore.databinding.FragmentFirstBinding;
+import com.example.makore.databinding.FragmentContactsBinding;
 
-public class FirstFragment extends Fragment {
+public class ContactsFragment extends Fragment {
 
-    private FragmentFirstBinding binding;
+    private FragmentContactsBinding binding;
 
     @Override
     public View onCreateView(
@@ -23,7 +23,7 @@ public class FirstFragment extends Fragment {
             Bundle savedInstanceState
     ) {
 
-        binding = FragmentFirstBinding.inflate(inflater, container, false);
+        binding = FragmentContactsBinding.inflate(inflater, container, false);
         binding.fab.setOnClickListener(view -> {
             Intent intent = new Intent(getActivity(), AddContactActivity.class);
             startActivity(intent);
@@ -35,8 +35,8 @@ public class FirstFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        binding.buttonFirst.setOnClickListener(view1 -> NavHostFragment.findNavController(FirstFragment.this)
-                .navigate(R.id.action_FirstFragment_to_SecondFragment));
+        binding.buttonFirst.setOnClickListener(view1 -> NavHostFragment.findNavController(ContactsFragment.this)
+                .navigate(R.id.action_ContactsFragment_to_ChatFragment));
     }
 
     @Override
