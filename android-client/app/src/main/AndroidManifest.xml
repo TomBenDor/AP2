@@ -14,9 +14,11 @@
         android:theme="@style/Theme.MaKore"
         tools:targetApi="31">
         <activity
+            android:name=".auth.SignIn"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
             android:theme="@style/Theme.MaKore.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
