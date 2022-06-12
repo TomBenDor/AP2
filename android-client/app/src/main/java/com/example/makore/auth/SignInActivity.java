@@ -37,7 +37,6 @@ public class SignInActivity extends AppCompatActivity {
                 // Check if the username and password is correct
                 if (username.equals("admin") && password.equals("admin")) {
                     // Go to the main screen
-
                     Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                     startActivity(intent);
                 } else {
