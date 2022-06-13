@@ -1,6 +1,7 @@
 package com.example.makore.auth;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import com.example.makore.databinding.ActivitySignUpBinding;
 public class SignUpActivity extends AppCompatActivity {
 
     private ActivitySignUpBinding binding;
+    private SharedPreferences sharedpreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +24,8 @@ public class SignUpActivity extends AppCompatActivity {
             Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
             startActivity(intent);
         });
+
+        sharedpreferences = getSharedPreferences("user", MODE_PRIVATE);
 
         binding.signUpButton.setOnClickListener(view -> {
             // Get username, password, confirm password, display name and profile picture from UI
@@ -69,10 +73,25 @@ public class SignUpActivity extends AppCompatActivity {
             }
             // If all the fields are valid, go to the main screen
             if (isValid) {
+                // Save the username in the SharedPreferences
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+                editor.putString("username", username);
+                editor.apply();
                 // Go to the main screen
                 Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // If the user is already signed in, go to the main screen
+        if (!sharedpreferences.getString("username", "").isEmpty()) {
+            // Go to the main screen
+            Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
     }
 }

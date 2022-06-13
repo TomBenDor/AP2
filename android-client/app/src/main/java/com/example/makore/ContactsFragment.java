@@ -1,6 +1,9 @@
 package com.example.makore;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +19,7 @@ import com.example.makore.databinding.FragmentContactsBinding;
 public class ContactsFragment extends Fragment {
 
     private FragmentContactsBinding binding;
+    private SharedPreferences sharedpreferences;
 
     @Override
     public View onCreateView(
@@ -28,6 +32,7 @@ public class ContactsFragment extends Fragment {
             Intent intent = new Intent(getActivity(), AddContactActivity.class);
             startActivity(intent);
         });
+        sharedpreferences = getActivity().getSharedPreferences("user", MODE_PRIVATE);
         return binding.getRoot();
 
     }
@@ -37,6 +42,9 @@ public class ContactsFragment extends Fragment {
 
         binding.buttonFirst.setOnClickListener(view1 -> NavHostFragment.findNavController(ContactsFragment.this)
                 .navigate(R.id.action_ContactsFragment_to_ChatFragment));
+        // Get current username
+        String currentUsername = sharedpreferences.getString("username", "");
+        binding.textviewFirst.setText(String.format("Contacts list of '%s'", currentUsername));
     }
 
     @Override

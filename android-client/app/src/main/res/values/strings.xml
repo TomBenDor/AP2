@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">MaKore</string>
     <string name="action_settings">Settings</string>
+    <string name="action_sign_out">Sign out</string>
     <!-- Strings used for fragments for navigation -->
     <string name="contacts_fragment_label">Contacts list</string>
     <string name="chat_fragment_label">Chat</string>
