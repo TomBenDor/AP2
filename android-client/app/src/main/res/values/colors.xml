@@ -6,5 +6,28 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
+    <color name="gray">#808080</color>
     <color name="white">#FFFFFFFF</color>
+    <!-- Colors from web client -->
+    <!-- primary-text-color bright -->
+    <color name="primary_text_color">#FF212529</color>
+    <!-- contact-active-background-color -->
+    <color name="white_0">#0000000d</color>
+    <!-- primary-text-color dark -->
+    <color name="white_1">#FFd1d7db</color>
+    <color name="turquoise_0">#36D1DC</color>
+    <color name="blue_0">#5B86E5</color>
+    <color name="blue_01">#4973CF</color>
+    <color name="gray_0">#DDDDDD</color>
+    <color name="gray_1">#CCCCCC</color>
+    <!-- input-background-color -->
+    <color name="gray_2">#283942</color>
+    <!-- input-placeholder -->
+    <color name="gray_3">#8696a0</color>
+    <color name="dark_turquoise_0">#101b21</color>
+    <!-- main-dark -->
+    <color name="rich_black_0">#091014</color>
+    <!-- input-section-border, contacts-section-border -->
+    <color name="rich_black_1">#1c282e</color>
+
 </resources>
