@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey;
 @Entity
 public class Message {
     @PrimaryKey(autoGenerate = true)
-    private int id;
+    private long id;
     private String content;
     private String created;
     // True if the message was sent by the current user
@@ -14,7 +14,7 @@ public class Message {
     // The contact id of the user the current user is chatting with
     public String contactId;
 
-    public Message(int id, String content, String created, boolean sent, String contactId) {
+    public Message(long id, String content, String created, boolean sent, String contactId) {
         this.id = id;
         this.content = content;
         this.created = created;
@@ -22,7 +22,7 @@ public class Message {
         this.contactId = contactId;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
