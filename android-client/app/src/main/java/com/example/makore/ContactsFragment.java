@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -17,7 +18,11 @@ import androidx.room.Room;
 import com.example.makore.chat.AddContactActivity;
 import com.example.makore.databinding.FragmentContactsBinding;
 import com.example.makore.entities.AppDB;
+import com.example.makore.entities.Contact;
 import com.example.makore.entities.ContactsDao;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContactsFragment extends Fragment {
 
@@ -25,6 +30,8 @@ public class ContactsFragment extends Fragment {
     private SharedPreferences sharedpreferences;
     private AppDB db;
     private ContactsDao contactsDao;
+    private ArrayAdapter<Contact> adapter;
+    private List<Contact> contacts;
 
     private void initDB() {
         // Create Room database
@@ -59,12 +66,25 @@ public class ContactsFragment extends Fragment {
         // Get current username
         String currentUsername = sharedpreferences.getString("username", "");
         binding.textviewFirst.setText(String.format("Contacts list of '%s'", currentUsername));
+
+        contacts = new ArrayList<>();
+        adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, contacts);
+        binding.listviewFirst.setAdapter(adapter);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Get contacts from database and update the listview
+        contacts.clear();
+        contacts.addAll(contactsDao.index());
+        adapter.notifyDataSetChanged();
     }
 
 }

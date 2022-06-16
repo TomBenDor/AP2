@@ -63,4 +63,17 @@ public class Contact {
     public void setLastDate(String lastDate) {
         this.lastDate = lastDate;
     }
+
+    // ToString method for debugging
+    @NonNull
+    @Override
+    public String toString() {
+        return "Contact{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", server='" + server + '\'' +
+                ", last='" + last + '\'' +
+                ", lastDate='" + lastDate + '\'' +
+                '}';
+    }
 }
