@@ -12,14 +12,26 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
+import androidx.room.Room;
 
 import com.example.makore.chat.AddContactActivity;
 import com.example.makore.databinding.FragmentContactsBinding;
+import com.example.makore.entities.AppDB;
+import com.example.makore.entities.ContactsDao;
 
 public class ContactsFragment extends Fragment {
 
     private FragmentContactsBinding binding;
     private SharedPreferences sharedpreferences;
+    private AppDB db;
+    private ContactsDao contactsDao;
+
+    private void initDB() {
+        // Create Room database
+        db = Room.databaseBuilder(getContext(),
+                AppDB.class, AppDB.DATABASE_NAME).allowMainThreadQueries().build();
+        contactsDao = db.contactsDao();
+    }
 
     @Override
     public View onCreateView(
@@ -33,6 +45,8 @@ public class ContactsFragment extends Fragment {
             startActivity(intent);
         });
         sharedpreferences = getActivity().getSharedPreferences("user", MODE_PRIVATE);
+        initDB();
+
         return binding.getRoot();
 
     }
