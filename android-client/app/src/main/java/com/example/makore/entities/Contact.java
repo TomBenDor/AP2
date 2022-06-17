@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.example.makore.R;
+
 @Entity
 public class Contact {
     @PrimaryKey
@@ -13,7 +15,7 @@ public class Contact {
     private String server;
     private String last;
     private String lastDate;
-    // TODO: Add a profile picture
+    private int profilePicture;
 
     public Contact(@NonNull String id, String name, String server, String last, String lastDate) {
         this.id = id;
@@ -21,6 +23,7 @@ public class Contact {
         this.server = server;
         this.last = last;
         this.lastDate = lastDate;
+        this.profilePicture = R.drawable.ic_default_contact_pic_light;
     }
 
     public @NonNull
@@ -44,6 +47,10 @@ public class Contact {
         return lastDate;
     }
 
+    public int getProfilePicture() {
+        return profilePicture;
+    }
+
     public void setId(@NonNull String id) {
         this.id = id;
     }
@@ -62,6 +69,10 @@ public class Contact {
 
     public void setLastDate(String lastDate) {
         this.lastDate = lastDate;
+    }
+
+    public void setProfilePicture(int profilePicture) {
+        this.profilePicture = profilePicture;
     }
 
     // ToString method for debugging
