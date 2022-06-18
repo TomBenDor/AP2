@@ -31,7 +31,7 @@ public class ContactsFragment extends Fragment {
 
     private void initViewModel() {
         // Create Room database
-        AppDB db = Room.databaseBuilder(getContext(),
+        AppDB db = Room.databaseBuilder(requireContext(),
                 AppDB.class, AppDB.DATABASE_NAME).allowMainThreadQueries().build();
         ContactsRepository contactsRepository = new ContactsRepository(db.contactsDao());
         viewModel = new ContactsViewModel(contactsRepository);
@@ -48,7 +48,7 @@ public class ContactsFragment extends Fragment {
             Intent intent = new Intent(getActivity(), AddContactActivity.class);
             startActivity(intent);
         });
-        sharedpreferences = getActivity().getSharedPreferences("user", MODE_PRIVATE);
+        sharedpreferences = requireActivity().getSharedPreferences("user", MODE_PRIVATE);
         initViewModel();
 
         return binding.getRoot();
