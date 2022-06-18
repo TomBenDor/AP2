@@ -11,6 +11,10 @@ public interface ContactsDao {
     @Query("SELECT * FROM contact")
     List<Contact> index();
 
+    // Get all messages
+    @Query("SELECT * FROM message")
+    List<Message> getMessages();
+
     // Get contact by id
     @Query("SELECT * FROM contact WHERE id = :id")
     Contact getContact(String id);

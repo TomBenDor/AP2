@@ -2,7 +2,6 @@ package com.example.makore;
 
 import static android.content.Context.MODE_PRIVATE;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -20,26 +19,22 @@ import com.example.makore.adapters.ContactsListAdapter;
 import com.example.makore.chat.AddContactActivity;
 import com.example.makore.databinding.FragmentContactsBinding;
 import com.example.makore.entities.AppDB;
-import com.example.makore.entities.Contact;
-import com.example.makore.entities.ContactsDao;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.example.makore.repositories.ContactsRepository;
+import com.example.makore.viewmodels.ContactsViewModel;
 
 public class ContactsFragment extends Fragment {
 
     private FragmentContactsBinding binding;
     private SharedPreferences sharedpreferences;
-    private AppDB db;
-    private ContactsDao contactsDao;
     private ContactsListAdapter adapter;
-    private List<Contact> contacts;
+    private ContactsViewModel viewModel;
 
-    private void initDB() {
+    private void initViewModel() {
         // Create Room database
-        db = Room.databaseBuilder(getContext(),
+        AppDB db = Room.databaseBuilder(getContext(),
                 AppDB.class, AppDB.DATABASE_NAME).allowMainThreadQueries().build();
-        contactsDao = db.contactsDao();
+        ContactsRepository contactsRepository = new ContactsRepository(db.contactsDao());
+        viewModel = new ContactsViewModel(contactsRepository);
     }
 
     @Override
@@ -54,7 +49,7 @@ public class ContactsFragment extends Fragment {
             startActivity(intent);
         });
         sharedpreferences = getActivity().getSharedPreferences("user", MODE_PRIVATE);
-        initDB();
+        initViewModel();
 
         return binding.getRoot();
 
@@ -74,27 +69,13 @@ public class ContactsFragment extends Fragment {
         contactsList.setAdapter(adapter);
         contactsList.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(getContext()));
 
-        // Initialize contacts as an empty list
-        // Getting contacts from database happens in onResume()
-        contacts = new ArrayList<>();
-        adapter.setContacts(contacts);
+        viewModel.getContacts().observe(getViewLifecycleOwner(), contacts -> adapter.setContacts(contacts));
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    @Override
-    public void onResume() {
-        super.onResume();
-        // Get contacts from database and update the listview
-        contacts.clear();
-        contacts.addAll(contactsDao.index());
-        System.out.println("Resume contacts: " + contacts);
-        adapter.notifyDataSetChanged();
     }
 
 }

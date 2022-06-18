@@ -17,7 +17,6 @@ import com.example.makore.auth.SignInActivity;
 import com.example.makore.chat.SettingsActivity;
 import com.example.makore.databinding.ActivityMainBinding;
 import com.example.makore.entities.AppDB;
-import com.example.makore.entities.ContactsDao;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,13 +24,11 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private SharedPreferences sharedpreferences;
     private AppDB db;
-    private ContactsDao contactsDao;
 
     private void initDB() {
         // Create Room database
         db = Room.databaseBuilder(getApplicationContext(),
                 AppDB.class, AppDB.DATABASE_NAME).allowMainThreadQueries().build();
-        contactsDao = db.contactsDao();
     }
 
     @Override

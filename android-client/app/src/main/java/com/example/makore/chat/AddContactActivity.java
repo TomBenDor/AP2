@@ -10,19 +10,20 @@ import androidx.room.Room;
 import com.example.makore.databinding.ActivityAddContactBinding;
 import com.example.makore.entities.AppDB;
 import com.example.makore.entities.Contact;
-import com.example.makore.entities.ContactsDao;
+import com.example.makore.repositories.ContactsRepository;
+import com.example.makore.viewmodels.ContactsViewModel;
 
 public class AddContactActivity extends AppCompatActivity {
     private ActivityAddContactBinding binding;
     private SharedPreferences sharedpreferences;
-    private AppDB db;
-    private ContactsDao contactsDao;
+    private ContactsViewModel viewModel;
 
-    private void initDB() {
+    private void initViewModel() {
         // Create Room database
-        db = Room.databaseBuilder(getApplicationContext(),
+        AppDB db = Room.databaseBuilder(getApplicationContext(),
                 AppDB.class, AppDB.DATABASE_NAME).allowMainThreadQueries().build();
-        contactsDao = db.contactsDao();
+        ContactsRepository contactsRepository = new ContactsRepository(db.contactsDao());
+        viewModel = new ContactsViewModel(contactsRepository);
     }
 
     @Override
@@ -35,6 +36,8 @@ public class AddContactActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
         sharedpreferences = getSharedPreferences("user", MODE_PRIVATE);
+
+        initViewModel();
 
         // On click listener for the add contact button
         binding.addContactButton.setOnClickListener(v -> {
@@ -64,17 +67,18 @@ public class AddContactActivity extends AppCompatActivity {
                 return;
             }
             // Check if the username is already in the database
-            if (contactsDao.getContact(username) != null) {
+
+            if (viewModel.getContact(username) != null) {
                 binding.editTextUsername.setError("Username already exists");
                 return;
             }
             // Create a new contact
-            contactsDao.insertContact(new Contact(username, displayName, server, null, null));
+            viewModel.insertContact(new Contact(username, displayName, server, null, null));
             // Go back to the previous activity
             finish();
         });
 
-        initDB();
+
     }
 
     // Override back button to go back to MainActivity
