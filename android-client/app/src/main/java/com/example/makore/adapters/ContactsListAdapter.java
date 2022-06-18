@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.makore.R;
+import com.example.makore.chat.ContactClickListener;
 import com.example.makore.entities.Contact;
 
 import java.time.LocalDateTime;
@@ -37,9 +38,11 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
 
     private final LayoutInflater mInflater;
     private List<Contact> mContacts;
+    private ContactClickListener mContactClickListener;
 
-    public ContactsListAdapter(Context context) {
+    public ContactsListAdapter(Context context, ContactClickListener listener) {
         mInflater = LayoutInflater.from(context);
+        mContactClickListener = listener;
     }
 
     @NonNull
@@ -68,6 +71,14 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
                 holder.lastMessageTime.setText("");
             }
             holder.profilePicture.setImageResource(current.getProfilePicture());
+
+            // On click listener for the contact
+            holder.itemView.setOnClickListener(v -> {
+                // Invoke the listener passed in the constructor
+                if (mContactClickListener != null) {
+                    mContactClickListener.onContactClick(v, current);
+                }
+            });
         }
     }
 

@@ -31,6 +31,13 @@ public class ChatFragment extends Fragment {
 
         binding.buttonSecond.setOnClickListener(view1 -> NavHostFragment.findNavController(ChatFragment.this)
                 .navigate(R.id.action_ChatFragment_to_ContactsFragment));
+
+        // Get bundle from previous fragment
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            String username = bundle.getString("contactId");
+            String name = bundle.getString("contactName");
+        }
     }
 
     @Override

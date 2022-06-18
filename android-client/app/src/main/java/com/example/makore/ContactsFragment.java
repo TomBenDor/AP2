@@ -17,12 +17,14 @@ import androidx.room.Room;
 
 import com.example.makore.adapters.ContactsListAdapter;
 import com.example.makore.chat.AddContactActivity;
+import com.example.makore.chat.ContactClickListener;
 import com.example.makore.databinding.FragmentContactsBinding;
 import com.example.makore.entities.AppDB;
+import com.example.makore.entities.Contact;
 import com.example.makore.repositories.ContactsRepository;
 import com.example.makore.viewmodels.ContactsViewModel;
 
-public class ContactsFragment extends Fragment {
+public class ContactsFragment extends Fragment implements ContactClickListener {
 
     private FragmentContactsBinding binding;
     private SharedPreferences sharedpreferences;
@@ -65,7 +67,7 @@ public class ContactsFragment extends Fragment {
         binding.textviewFirst.setText(String.format("Contacts list of '%s'", currentUsername));
 
         RecyclerView contactsList = binding.lstContacts;
-        adapter = new ContactsListAdapter(getContext());
+        adapter = new ContactsListAdapter(getContext(), this);
         contactsList.setAdapter(adapter);
         contactsList.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(getContext()));
 
@@ -78,4 +80,14 @@ public class ContactsFragment extends Fragment {
         binding = null;
     }
 
+    @Override
+    public void onContactClick(View v, Contact contact) {
+        // Navigate to chat fragment
+        // Create bundle with contact info
+        Bundle bundle = new Bundle();
+        bundle.putString("contactId", contact.getId());
+        bundle.putString("contactName", contact.getName());
+        NavHostFragment.findNavController(ContactsFragment.this)
+                .navigate(R.id.action_ContactsFragment_to_ChatFragment, bundle);
+    }
 }
