@@ -14,7 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.makore.R;
 import com.example.makore.entities.Contact;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 
 public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapter.ContactViewHolder> {
     class ContactViewHolder extends RecyclerView.ViewHolder {
@@ -51,8 +54,19 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
         if (mContacts != null) {
             Contact current = mContacts.get(position);
             holder.name.setText(current.getName());
-            holder.lastMessage.setText(R.string.lastMsgPlaceholder);
-            holder.lastMessageTime.setText(R.string.lastMsgTimePlaceholder);
+            if (current.getLast() != null) {
+                holder.lastMessage.setText(current.getLast());
+            } else {
+                holder.lastMessage.setText("");
+            }
+            if (current.getLastDate() != null && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                // Parse the string from format "MM/dd/yyyy, HH:mm:ss" to "h:mm a"
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy, HH:mm:ss", Locale.ENGLISH);
+                LocalDateTime dateTime = LocalDateTime.parse(current.getLastDate(), formatter);
+                holder.lastMessageTime.setText(dateTime.format(DateTimeFormatter.ofPattern("h:mm a", Locale.US)));
+            } else {
+                holder.lastMessageTime.setText("");
+            }
             holder.profilePicture.setImageResource(current.getProfilePicture());
         }
     }
