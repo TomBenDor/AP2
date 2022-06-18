@@ -7,7 +7,12 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.makore.MainActivity;
+import com.example.makore.api.UserAPI;
 import com.example.makore.databinding.ActivitySignInBinding;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SignInActivity extends AppCompatActivity {
 
@@ -38,19 +43,32 @@ public class SignInActivity extends AppCompatActivity {
                 // Show error message
                 binding.editTextPassword.setError("Password is empty");
             } else {
-                // Check if the username and password is correct
-                if (username.equals("admin") && password.equals("admin")) {
-                    // Save the username in the SharedPreferences
-                    SharedPreferences.Editor editor = sharedpreferences.edit();
-                    editor.putString("username", username);
-                    editor.apply();
-                    // Go to the main screen
-                    Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-                    startActivity(intent);
-                } else {
-                    // Show error message
-                    binding.editTextUsername.setError("One of the fields is invalid");
-                }
+                UserAPI userAPI = new UserAPI();
+                Call<Object> call = userAPI.signin(username, password);
+                call.enqueue(new Callback<Object>() {
+                    @Override
+                    public void onResponse(Call<Object> call, Response<Object> response) {
+                        boolean success = response.isSuccessful();
+                        if (success) {
+                            // Save username and password to shared preferences
+                            SharedPreferences.Editor editor = sharedpreferences.edit();
+                            editor.putString("username", username);
+                            editor.apply();
+                            // Go to main activity
+                            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                            startActivity(intent);
+                        } else {
+                            // Show error message
+                            binding.editTextUsername.setError("Invalid username or password");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Object> call, Throwable t) {
+                        // Show error message
+                        binding.editTextUsername.setError("Error connecting to server");
+                    }
+                });
             }
         });
     }
