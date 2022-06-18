@@ -60,11 +60,8 @@ public class ContactsFragment extends Fragment implements ContactClickListener {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        binding.buttonFirst.setOnClickListener(view1 -> NavHostFragment.findNavController(ContactsFragment.this)
-                .navigate(R.id.action_ContactsFragment_to_ChatFragment));
         // Get current username
         String currentUsername = sharedpreferences.getString("username", "");
-        binding.textviewFirst.setText(String.format("Contacts list of '%s'", currentUsername));
 
         RecyclerView contactsList = binding.lstContacts;
         adapter = new ContactsListAdapter(getContext(), this);
