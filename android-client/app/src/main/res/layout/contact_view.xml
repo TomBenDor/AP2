@@ -40,15 +40,13 @@
             android:id="@+id/contactViewLastMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:text="@string/lastMsgPlaceholder" />
+            android:layout_margin="16dp" />
 
         <TextView
             android:id="@+id/contactViewLastMessageTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:text="@string/lastMsgTimePlaceholder" />
+            android:layout_margin="16dp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
