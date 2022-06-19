@@ -2,6 +2,7 @@ package com.example.makore.entities;
 
 import androidx.room.Dao;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import java.util.List;
@@ -26,6 +27,6 @@ public interface ContactsDao {
     @Insert
     void insertContact(Contact... contacts);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertMessage(Message... messages);
 }
