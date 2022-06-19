@@ -1,5 +1,6 @@
 package com.example.makore;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private SharedPreferences sharedpreferences;
     private AppDB db;
+    @SuppressLint("StaticFieldLeak")
     public static Context context;
 
     private void initDB() {
