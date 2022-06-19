@@ -15,7 +15,7 @@ import com.example.makore.databinding.FragmentChatBinding;
 import com.example.makore.entities.AppDB;
 import com.example.makore.entities.Message;
 import com.example.makore.repositories.ContactsRepository;
-import com.example.makore.viewmodels.ChatViewModel;
+import com.example.makore.viewmodels.ContactsViewModel;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -25,7 +25,7 @@ public class ChatFragment extends Fragment {
 
     private FragmentChatBinding binding;
     // private ContactsListAdapter adapter;
-    private ChatViewModel viewModel;
+    private ContactsViewModel viewModel;
     private MessageListAdapter adapter;
     private String contactId;
 
@@ -34,7 +34,7 @@ public class ChatFragment extends Fragment {
         AppDB db = Room.databaseBuilder(requireContext(),
                 AppDB.class, AppDB.DATABASE_NAME).allowMainThreadQueries().build();
         ContactsRepository contactsRepository = new ContactsRepository(db.contactsDao());
-        viewModel = new ChatViewModel(contactsRepository);
+        viewModel = new ContactsViewModel(contactsRepository);
     }
 
     @Override
