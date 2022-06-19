@@ -67,7 +67,6 @@ public class AddContactActivity extends AppCompatActivity {
                 return;
             }
             // Check if the username is already in the database
-
             if (viewModel.getContact(username) != null) {
                 binding.editTextUsername.setError("Username already exists");
                 return;
