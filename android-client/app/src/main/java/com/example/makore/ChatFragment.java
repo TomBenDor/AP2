@@ -7,14 +7,12 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 
 import com.example.makore.adapters.MessageListAdapter;
 import com.example.makore.databinding.FragmentChatBinding;
-import com.example.makore.entities.AppDB;
 import com.example.makore.entities.Message;
-import com.example.makore.repositories.ContactsRepository;
 import com.example.makore.viewmodels.ContactsViewModel;
 
 import java.time.LocalDateTime;
@@ -29,14 +27,6 @@ public class ChatFragment extends Fragment {
     private MessageListAdapter adapter;
     private String contactId;
 
-    private void initViewModel() {
-        // Create Room database
-        AppDB db = Room.databaseBuilder(requireContext(),
-                AppDB.class, AppDB.DATABASE_NAME).allowMainThreadQueries().build();
-        ContactsRepository contactsRepository = new ContactsRepository(db.contactsDao());
-        viewModel = new ContactsViewModel(contactsRepository);
-    }
-
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
@@ -44,13 +34,13 @@ public class ChatFragment extends Fragment {
     ) {
 
         binding = FragmentChatBinding.inflate(inflater, container, false);
-        initViewModel();
         return binding.getRoot();
 
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        viewModel = new ViewModelProvider(this).get(ContactsViewModel.class);
         contactId = null;
         // Get bundle from previous fragment
         Bundle bundle = getArguments();

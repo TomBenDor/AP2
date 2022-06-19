@@ -1,7 +1,10 @@
 package com.example.makore.repositories;
 
 import androidx.lifecycle.MutableLiveData;
+import androidx.room.Room;
 
+import com.example.makore.MainActivity;
+import com.example.makore.entities.AppDB;
 import com.example.makore.entities.Contact;
 import com.example.makore.entities.ContactsDao;
 import com.example.makore.entities.Message;
@@ -15,8 +18,11 @@ public class ContactsRepository {
     private MessageListData messageListData;
     // private ContactsAPI api;
 
-    public ContactsRepository(ContactsDao contactsDao) {
-        this.contactsDao = contactsDao;
+    public ContactsRepository() {
+        // Create Room database
+        AppDB db = Room.databaseBuilder(MainActivity.context,
+                AppDB.class, AppDB.DATABASE_NAME).allowMainThreadQueries().build();
+        contactsDao = db.contactsDao();
         // this.api = api;
         contactListData = new ContactListData();
         messageListData = new MessageListData();
