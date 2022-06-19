@@ -14,6 +14,7 @@ public class ContactsRepository {
     private ContactsDao contactsDao;
     private ContactListData contactListData;
     private MessageListData messageListData;
+    private MessagesWithContactListData messagesWithContactListData;
     // private ContactsAPI api;
 
     public ContactsRepository(ContactsDao contactsDao) {
@@ -21,6 +22,7 @@ public class ContactsRepository {
         // this.api = api;
         contactListData = new ContactListData();
         messageListData = new MessageListData();
+        messagesWithContactListData = new MessagesWithContactListData();
     }
 
     public void insertContact(Contact contact) {
@@ -46,6 +48,18 @@ public class ContactsRepository {
 
     public LiveData<List<Message>> getMessages() {
         return messageListData;
+    }
+
+    public LiveData<List<Message>> getMessagesWithContact() {
+        return messagesWithContactListData;
+    }
+
+    public void setContactId(String contactId) {
+        messagesWithContactListData.setContactId(contactId);
+    }
+
+    public String getContactId() {
+        return messagesWithContactListData.getContactId();
     }
 
     class ContactListData extends MutableLiveData<List<Contact>> {
@@ -78,6 +92,37 @@ public class ContactsRepository {
                 List<Message> messages = contactsDao.getMessages();
                 postValue(messages);
             }).start();
+        }
+    }
+
+    class MessagesWithContactListData extends MutableLiveData<List<Message>> {
+        private String contactId;
+
+        public MessagesWithContactListData() {
+            super();
+            contactId = null;
+        }
+
+        @Override
+        protected void onActive() {
+            super.onActive();
+
+            new Thread(() -> {
+                if (contactId != null) {
+                    List<Message> messages = contactsDao.getAllMessagesWithContact(contactId);
+                    postValue(messages);
+                } else {
+                    postValue(new LinkedList<>());
+                }
+            }).start();
+        }
+
+        public void setContactId(String contactId) {
+            this.contactId = contactId;
+        }
+
+        public String getContactId() {
+            return contactId;
         }
     }
 }
