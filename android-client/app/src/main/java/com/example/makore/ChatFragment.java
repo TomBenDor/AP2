@@ -13,8 +13,13 @@ import androidx.room.Room;
 import com.example.makore.adapters.MessageListAdapter;
 import com.example.makore.databinding.FragmentChatBinding;
 import com.example.makore.entities.AppDB;
+import com.example.makore.entities.Message;
 import com.example.makore.repositories.ContactsRepository;
 import com.example.makore.viewmodels.ChatViewModel;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public class ChatFragment extends Fragment {
 
@@ -63,6 +68,25 @@ public class ChatFragment extends Fragment {
         }
         // Set contact name
         viewModel.setContactId(contactId);
+
+        binding.sendBtn.setOnClickListener(v -> {
+            if (contactId == null) {
+                return;
+            }
+            String messageContent = binding.messageInput.getText().toString();
+            if (messageContent.length() > 0) {
+                // Format timestamp in MM/dd/yyyy HH:mm:ss
+                String timestamp = null;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                    timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("MM/dd/yyyy, HH:mm:ss", Locale.US));
+                }
+                // Create new message object
+                Message newMessage = new Message(messageContent, timestamp, true, contactId);
+                // Insert message into database
+                viewModel.insertMessage(newMessage);
+                binding.messageInput.setText("");
+            }
+        });
     }
 
     @Override

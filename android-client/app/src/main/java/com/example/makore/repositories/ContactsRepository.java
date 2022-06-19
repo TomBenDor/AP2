@@ -25,12 +25,12 @@ public class ContactsRepository {
         messagesWithContactListData = new MessagesWithContactListData();
 
         // Add some dummy messages
-        contactsDao.insertMessage(new Message(10, "Hello", "04/18/2022, 12:41:00", true, "0"));
-        contactsDao.insertMessage(new Message(20, "Hi there", "04/18/2022, 12:41:10", false, "0"));
-        contactsDao.insertMessage(new Message(30, "How are you?", "04/18/2022, 12:41:20", true, "0"));
-        contactsDao.insertMessage(new Message(40, "I'm fine", "04/18/2022, 12:41:30", false, "0"));
-        contactsDao.insertMessage(new Message(50, "What's up?", "04/18/2022, 12:41:40", true, "0"));
-        contactsDao.insertMessage(new Message(60, "Nothing", "04/18/2022, 12:41:50", false, "0"));
+        contactsDao.insertMessage(new Message("Hello", "04/18/2022, 12:41:00", true, "0"));
+        contactsDao.insertMessage(new Message("Hi there", "04/18/2022, 12:41:10", false, "0"));
+        contactsDao.insertMessage(new Message("How are you?", "04/18/2022, 12:41:20", true, "0"));
+        contactsDao.insertMessage(new Message("I'm fine", "04/18/2022, 12:41:30", false, "0"));
+        contactsDao.insertMessage(new Message("What's up?", "04/18/2022, 12:41:40", true, "0"));
+        contactsDao.insertMessage(new Message("Nothing", "04/18/2022, 12:41:50", false, "0"));
     }
 
     public void insertContact(Contact contact) {

@@ -40,4 +40,6 @@
     <string name="server">Server</string>
     <string name="title_activity_add_contact">Add Contact</string>
     <string name="cV_description_profile_picture">Profile picture</string>
+    <string name="description_send_message_button">Send message button</string>
+    <string name="type_a_message">Type a message…</string>
 </resources>

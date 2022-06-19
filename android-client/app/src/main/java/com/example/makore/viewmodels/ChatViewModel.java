@@ -40,4 +40,8 @@ public class ChatViewModel {
         return contactId;
     }
 
+    // Insert new message
+    public void insertMessage(Message message) {
+        contactsRepository.insertMessage(message);
+    }
 }
