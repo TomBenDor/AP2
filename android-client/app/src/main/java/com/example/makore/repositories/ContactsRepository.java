@@ -1,6 +1,5 @@
 package com.example.makore.repositories;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.makore.entities.Contact;
@@ -21,14 +20,6 @@ public class ContactsRepository {
         // this.api = api;
         contactListData = new ContactListData();
         messageListData = new MessageListData();
-
-        // Add some dummy messages
-        contactsDao.insertMessage(new Message("Hello", "04/18/2022, 12:41:00", true, "0"));
-        contactsDao.insertMessage(new Message("Hi there", "04/18/2022, 12:41:10", false, "0"));
-        contactsDao.insertMessage(new Message("How are you?", "04/18/2022, 12:41:20", true, "0"));
-        contactsDao.insertMessage(new Message("I'm fine", "04/18/2022, 12:41:30", false, "0"));
-        contactsDao.insertMessage(new Message("What's up?", "04/18/2022, 12:41:40", true, "0"));
-        contactsDao.insertMessage(new Message("Nothing", "04/18/2022, 12:41:50", false, "0"));
     }
 
     public void insertContact(Contact contact) {
@@ -50,12 +41,12 @@ public class ContactsRepository {
     }
 
     // Get contacts list
-    public LiveData<List<Contact>> getContacts() {
+    public MutableLiveData<List<Contact>> getContacts() {
         return contactListData;
     }
 
     // Get all messages
-    public LiveData<List<Message>> getMessages() {
+    public MutableLiveData<List<Message>> getMessages() {
         return messageListData;
     }
 

@@ -1,6 +1,6 @@
 package com.example.makore.viewmodels;
 
-import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.makore.entities.Contact;
 import com.example.makore.entities.Message;
@@ -11,8 +11,8 @@ import java.util.List;
 public class ContactsViewModel {
     private ContactsRepository contactsRepository;
 
-    private LiveData<List<Contact>> contacts;
-    private LiveData<List<Message>> messages;
+    private MutableLiveData<List<Contact>> contacts;
+    private MutableLiveData<List<Message>> messages;
 
     public ContactsViewModel(ContactsRepository contactsRepository) {
         this.contactsRepository = contactsRepository;
@@ -20,11 +20,11 @@ public class ContactsViewModel {
         messages = contactsRepository.getMessages();
     }
 
-    public LiveData<List<Contact>> getContacts() {
+    public MutableLiveData<List<Contact>> getContacts() {
         return contacts;
     }
 
-    public LiveData<List<Message>> getMessages() {
+    public MutableLiveData<List<Message>> getMessages() {
         return messages;
     }
 
