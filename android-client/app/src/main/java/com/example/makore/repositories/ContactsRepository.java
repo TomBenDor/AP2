@@ -14,7 +14,6 @@ public class ContactsRepository {
     private ContactsDao contactsDao;
     private ContactListData contactListData;
     private MessageListData messageListData;
-    private MessagesWithContactListData messagesWithContactListData;
     // private ContactsAPI api;
 
     public ContactsRepository(ContactsDao contactsDao) {
@@ -22,7 +21,6 @@ public class ContactsRepository {
         // this.api = api;
         contactListData = new ContactListData();
         messageListData = new MessageListData();
-        messagesWithContactListData = new MessagesWithContactListData();
 
         // Add some dummy messages
         contactsDao.insertMessage(new Message("Hello", "04/18/2022, 12:41:00", true, "0"));
@@ -41,6 +39,7 @@ public class ContactsRepository {
         contactsDao.insertMessage(message);
     }
 
+    // TODO: reload contacts from web-api
     public void reload() {
         // Reload contacts from API
     }
@@ -50,24 +49,14 @@ public class ContactsRepository {
         return contactsDao.getContact(id);
     }
 
+    // Get contacts list
     public LiveData<List<Contact>> getContacts() {
         return contactListData;
     }
 
+    // Get all messages
     public LiveData<List<Message>> getMessages() {
         return messageListData;
-    }
-
-    public LiveData<List<Message>> getMessagesWithContact() {
-        return messagesWithContactListData;
-    }
-
-    public void setContactId(String contactId) {
-        messagesWithContactListData.setContactId(contactId);
-    }
-
-    public String getContactId() {
-        return messagesWithContactListData.getContactId();
     }
 
     class ContactListData extends MutableLiveData<List<Contact>> {
@@ -90,6 +79,7 @@ public class ContactsRepository {
     class MessageListData extends MutableLiveData<List<Message>> {
         public MessageListData() {
             super();
+            setValue(new LinkedList<>());
         }
 
         @Override
@@ -100,37 +90,6 @@ public class ContactsRepository {
                 List<Message> messages = contactsDao.getMessages();
                 postValue(messages);
             }).start();
-        }
-    }
-
-    class MessagesWithContactListData extends MutableLiveData<List<Message>> {
-        private String contactId;
-
-        public MessagesWithContactListData() {
-            super();
-            contactId = null;
-        }
-
-        @Override
-        protected void onActive() {
-            super.onActive();
-
-            new Thread(() -> {
-                if (contactId != null) {
-                    List<Message> messages = contactsDao.getAllMessagesWithContact(contactId);
-                    postValue(messages);
-                } else {
-                    postValue(new LinkedList<>());
-                }
-            }).start();
-        }
-
-        public void setContactId(String contactId) {
-            this.contactId = contactId;
-        }
-
-        public String getContactId() {
-            return contactId;
         }
     }
 }

@@ -5,43 +5,55 @@ import androidx.lifecycle.LiveData;
 import com.example.makore.entities.Message;
 import com.example.makore.repositories.ContactsRepository;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class ChatViewModel {
     private ContactsRepository contactsRepository;
 
     private LiveData<List<Message>> allMessages;
-    private LiveData<List<Message>> messagesWithContact;
     private String contactId;
 
     public ChatViewModel(ContactsRepository contactsRepository) {
         this.contactsRepository = contactsRepository;
         allMessages = contactsRepository.getMessages();
-        messagesWithContact = contactsRepository.getMessagesWithContact();
         contactId = null;
     }
 
-    public LiveData<List<Message>> getMessagesWithContact() {
-        return messagesWithContact;
+    public LiveData<List<Message>> getMessages() {
+        return allMessages;
     }
 
     // Set new contact id
     public void setContactId(String contactId) {
         this.contactId = contactId;
-        // Reload messages from Repository for new contact
-        if (contactId != null) {
-            contactsRepository.setContactId(contactId);
-            contactsRepository.getMessagesWithContact();
-        }
     }
 
-    // Get contact id
-    public String getContactId() {
-        return contactId;
+    public List<Message> getMessagesWithContact() {
+        if (contactId == null) {
+            return null;
+        }
+
+        List<Message> messages = allMessages.getValue();
+        if (messages == null) {
+            return null;
+        }
+        List<Message> messagesWithContact = new LinkedList<>();
+        for (Message message : messages) {
+            if (message.getContactId().equals(contactId)) {
+                messagesWithContact.add(message);
+            }
+        }
+        return messagesWithContact;
     }
 
     // Insert new message
     public void insertMessage(Message message) {
         contactsRepository.insertMessage(message);
+    }
+
+    // TODO: reload messages from web-api
+    public void reload() {
+        contactsRepository.reload();
     }
 }

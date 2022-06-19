@@ -64,7 +64,10 @@ public class ChatFragment extends Fragment {
             messagesRecyclerView.setAdapter(adapter);
             messagesRecyclerView.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(getContext()));
 
-            viewModel.getMessagesWithContact().observe(getViewLifecycleOwner(), messages -> adapter.setMessages(messages));
+            viewModel.getMessages().observe(getViewLifecycleOwner(), messages -> {
+                adapter.setMessages(viewModel.getMessagesWithContact());
+                System.out.println("Messages: " + messages);
+            });
         }
         // Set contact name
         viewModel.setContactId(contactId);
