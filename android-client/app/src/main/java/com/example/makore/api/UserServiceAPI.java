@@ -1,14 +1,15 @@
 package com.example.makore.api;
 
-import com.example.makore.models.User;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
 public interface UserServiceAPI {
-    @Headers("Content-type: application/json")
     @POST("/api/contacts/signin")
-    Call<Object> signin(@Body User user);
+    Call<Map<String, String>> signin(@Body Map<String, String> user);
+
+    @POST("/api/contacts/signup")
+    Call<Void> signup(@Body Map<String, String> user);
 }
