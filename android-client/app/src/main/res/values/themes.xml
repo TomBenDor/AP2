@@ -15,6 +15,7 @@
         <!-- Button color -->
         <item name="colorButtonNormal">@color/day_bright</item>
         <item name="backgroundColor">@color/white</item>
+        <item name="customProfilePicTint">@color/rich_black_1</item>
     </style>
 
     <style name="Theme.MaKore.NoActionBar">

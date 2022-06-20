@@ -19,6 +19,7 @@
             android:layout_margin="16dp"
             android:scaleType="centerCrop"
             android:contentDescription="@string/cV_description_profile_picture"
+            app:tint="?attr/customProfilePicTint"
             android:src="@drawable/ic_default_contact_pic_light" />
 
         <TextView
