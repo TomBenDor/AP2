@@ -1,8 +1,10 @@
 package com.example.makore.repositories;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.room.Room;
 
+import com.example.makore.MainActivity;
+import com.example.makore.entities.AppDB;
 import com.example.makore.entities.Contact;
 import com.example.makore.entities.ContactsDao;
 import com.example.makore.entities.Message;
@@ -16,8 +18,11 @@ public class ContactsRepository {
     private MessageListData messageListData;
     // private ContactsAPI api;
 
-    public ContactsRepository(ContactsDao contactsDao) {
-        this.contactsDao = contactsDao;
+    public ContactsRepository() {
+        // Create Room database
+        AppDB db = Room.databaseBuilder(MainActivity.context,
+                AppDB.class, AppDB.DATABASE_NAME).allowMainThreadQueries().build();
+        contactsDao = db.contactsDao();
         // this.api = api;
         contactListData = new ContactListData();
         messageListData = new MessageListData();
@@ -25,12 +30,25 @@ public class ContactsRepository {
 
     public void insertContact(Contact contact) {
         contactsDao.insertContact(contact);
+        List<Contact> contactsList = contactListData.getValue();
+        if (contactsList == null) {
+            contactsList = new LinkedList<>();
+        }
+        contactsList.add(contact);
+        contactListData.setValue(contactsList);
     }
 
     public void insertMessage(Message message) {
         contactsDao.insertMessage(message);
+        List<Message> messageList = messageListData.getValue();
+        if (messageList == null) {
+            messageList = new LinkedList<>();
+        }
+        messageList.add(message);
+        messageListData.setValue(messageList);
     }
 
+    // TODO: reload contacts from web-api
     public void reload() {
         // Reload contacts from API
     }
@@ -40,11 +58,13 @@ public class ContactsRepository {
         return contactsDao.getContact(id);
     }
 
-    public LiveData<List<Contact>> getContacts() {
+    // Get contacts list
+    public MutableLiveData<List<Contact>> getContacts() {
         return contactListData;
     }
 
-    public LiveData<List<Message>> getMessages() {
+    // Get all messages
+    public MutableLiveData<List<Message>> getMessages() {
         return messageListData;
     }
 
@@ -68,6 +88,7 @@ public class ContactsRepository {
     class MessageListData extends MutableLiveData<List<Message>> {
         public MessageListData() {
             super();
+            setValue(new LinkedList<>());
         }
 
         @Override

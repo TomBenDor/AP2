@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
@@ -20,9 +21,7 @@ import com.example.makore.adapters.ContactsListAdapter;
 import com.example.makore.chat.AddContactActivity;
 import com.example.makore.chat.ContactClickListener;
 import com.example.makore.databinding.FragmentContactsBinding;
-import com.example.makore.entities.AppDB;
 import com.example.makore.entities.Contact;
-import com.example.makore.repositories.ContactsRepository;
 import com.example.makore.viewmodels.ContactsViewModel;
 
 public class ContactsFragment extends Fragment implements ContactClickListener, SwipeRefreshLayout.OnRefreshListener {
@@ -32,14 +31,6 @@ public class ContactsFragment extends Fragment implements ContactClickListener, 
     private ContactsListAdapter adapter;
     private ContactsViewModel viewModel;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-
-    private void initViewModel() {
-        // Create Room database
-        AppDB db = Room.databaseBuilder(requireContext(),
-                AppDB.class, AppDB.DATABASE_NAME).allowMainThreadQueries().build();
-        ContactsRepository contactsRepository = new ContactsRepository(db.contactsDao());
-        viewModel = new ContactsViewModel(contactsRepository);
-    }
 
     @Override
     public View onCreateView(
@@ -53,7 +44,7 @@ public class ContactsFragment extends Fragment implements ContactClickListener, 
             startActivity(intent);
         });
         sharedpreferences = requireActivity().getSharedPreferences("user", MODE_PRIVATE);
-        initViewModel();
+        viewModel = new ViewModelProvider(this).get(ContactsViewModel.class);
 
         return binding.getRoot();
 

@@ -14,8 +14,7 @@ public class Message {
     // The contact id of the user the current user is chatting with
     public String contactId;
 
-    public Message(long id, String content, String created, boolean sent, String contactId) {
-        this.id = id;
+    public Message(String content, String created, boolean sent, String contactId) {
         this.content = content;
         this.created = created;
         this.sent = sent;
