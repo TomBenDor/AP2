@@ -14,6 +14,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.makore.adapters.ContactsListAdapter;
 import com.example.makore.chat.AddContactActivity;
@@ -22,12 +24,13 @@ import com.example.makore.databinding.FragmentContactsBinding;
 import com.example.makore.entities.Contact;
 import com.example.makore.viewmodels.ContactsViewModel;
 
-public class ContactsFragment extends Fragment implements ContactClickListener {
+public class ContactsFragment extends Fragment implements ContactClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private FragmentContactsBinding binding;
     private SharedPreferences sharedpreferences;
     private ContactsListAdapter adapter;
     private ContactsViewModel viewModel;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     public View onCreateView(
@@ -49,6 +52,8 @@ public class ContactsFragment extends Fragment implements ContactClickListener {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mSwipeRefreshLayout = binding.swipeRefreshLayout;
+        mSwipeRefreshLayout.setOnRefreshListener(this);
 
         // Get current username
         String currentUsername = sharedpreferences.getString("username", "");
@@ -76,5 +81,14 @@ public class ContactsFragment extends Fragment implements ContactClickListener {
         bundle.putString("contactName", contact.getName());
         NavHostFragment.findNavController(ContactsFragment.this)
                 .navigate(R.id.action_ContactsFragment_to_ChatFragment, bundle);
+    }
+
+    @Override
+    public void onRefresh() {
+        // Refresh contacts list from web-api
+        new Thread(() -> {
+            viewModel.reload();
+            mSwipeRefreshLayout.setRefreshing(false);
+        }).start();
     }
 }
