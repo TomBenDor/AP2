@@ -63,10 +63,14 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
                 holder.lastMessage.setText("");
             }
             if (current.getLastDate() != null && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                // Parse the string from format "MM/dd/yyyy, HH:mm:ss" to "h:mm a"
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy, HH:mm:ss", Locale.ENGLISH);
-                LocalDateTime dateTime = LocalDateTime.parse(current.getLastDate(), formatter);
-                holder.lastMessageTime.setText(dateTime.format(DateTimeFormatter.ofPattern("h:mm a", Locale.US)));
+                try {
+                    // Parse the string from format "MM/dd/yyyy, HH:mm:ss" to "h:mm a"
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy, HH:mm:ss", Locale.ENGLISH);
+                    LocalDateTime dateTime = LocalDateTime.parse(current.getLastDate(), formatter);
+                    holder.lastMessageTime.setText(dateTime.format(DateTimeFormatter.ofPattern("h:mm a", Locale.US)));
+                } catch (Exception e) {
+                    holder.lastMessageTime.setText("");
+                }
             } else {
                 holder.lastMessageTime.setText("");
             }
