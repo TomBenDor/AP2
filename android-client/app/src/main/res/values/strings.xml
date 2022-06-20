@@ -39,4 +39,5 @@
     <string name="add_contact_page_button_txt">Add</string>
     <string name="server">Server</string>
     <string name="title_activity_add_contact">Add Contact</string>
+    <string name="cV_description_profile_picture">Profile picture</string>
 </resources>

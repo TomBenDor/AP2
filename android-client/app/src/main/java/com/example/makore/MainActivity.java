@@ -11,16 +11,25 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.room.Room;
 
 import com.example.makore.auth.SignInActivity;
 import com.example.makore.chat.SettingsActivity;
 import com.example.makore.databinding.ActivityMainBinding;
+import com.example.makore.entities.AppDB;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
     private SharedPreferences sharedpreferences;
+    private AppDB db;
+
+    private void initDB() {
+        // Create Room database
+        db = Room.databaseBuilder(getApplicationContext(),
+                AppDB.class, AppDB.DATABASE_NAME).allowMainThreadQueries().build();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         sharedpreferences = getSharedPreferences("user", MODE_PRIVATE);
+        initDB();
 
         setSupportActionBar(binding.toolbar);
 
@@ -64,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = sharedpreferences.edit();
             editor.clear();
             editor.apply();
+            // Clear the database
+            db.clearAllTables();
             // Navigate to the sign in activity
             Intent intent = new Intent(MainActivity.this, SignInActivity.class);
             startActivity(intent);
