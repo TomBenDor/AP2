@@ -12,24 +12,19 @@ import java.util.List;
 
 public class ContactsViewModel extends ViewModel {
     private ContactsRepository contactsRepository;
-
-    private MutableLiveData<List<Contact>> contacts;
-    private MutableLiveData<List<Message>> messages;
     private String contactId;
 
     public ContactsViewModel() {
         contactsRepository = new ContactsRepository();
-        contacts = contactsRepository.getContacts();
-        messages = contactsRepository.getMessages();
         contactId = null;
     }
 
     public MutableLiveData<List<Contact>> getContacts() {
-        return contacts;
+        return contactsRepository.getContacts();
     }
 
     public MutableLiveData<List<Message>> getMessages() {
-        return messages;
+        return contactsRepository.getMessages();
     }
 
     // Set new contact id

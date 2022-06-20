@@ -30,10 +30,22 @@ public class ContactsRepository {
 
     public void insertContact(Contact contact) {
         contactsDao.insertContact(contact);
+        List<Contact> contactsList = contactListData.getValue();
+        if (contactsList == null) {
+            contactsList = new LinkedList<>();
+        }
+        contactsList.add(contact);
+        contactListData.setValue(contactsList);
     }
 
     public void insertMessage(Message message) {
         contactsDao.insertMessage(message);
+        List<Message> messageList = messageListData.getValue();
+        if (messageList == null) {
+            messageList = new LinkedList<>();
+        }
+        messageList.add(message);
+        messageListData.setValue(messageList);
     }
 
     // TODO: reload contacts from web-api
