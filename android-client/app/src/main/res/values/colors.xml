@@ -33,5 +33,15 @@
     <color name="rich_black_0">#091014</color>
     <!-- input-section-border, contacts-section-border -->
     <color name="rich_black_1">#1c282e</color>
+    <!-- message-bubble-left-background dark -->
+    <color name="darker_blue_0">#2b5278</color>
+    <!-- message-bubble-right-background dark -->
+    <color name="darker_blue_1">#1f2c33</color>
+    <!-- chat-section-header-border -->
+    <color name="darker_blue_2">#1c282e</color>
+    <!-- primary-text-color dark mode -->
+    <color name="white_333_d">#d1d7db</color>
+    <!-- message-bubble-text dark mode -->
+    <color name="white_444_d">#e9edef</color>
 
 </resources>

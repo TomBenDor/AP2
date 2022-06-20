@@ -2,13 +2,13 @@
     <!-- Base application theme. -->
     <style name="Theme.MaKore" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/night_dark</item>
-        <item name="colorPrimaryVariant">@color/night_bright</item>
-        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorPrimary">@color/darker_blue_2</item>
+        <item name="colorPrimaryVariant">@color/darker_blue_2</item>
+        <item name="colorOnPrimary">@color/white_333_d</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/night_bright</item>
-        <item name="colorSecondaryVariant">@color/night_dark</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorSecondary">@color/darker_blue_0</item>
+        <item name="colorSecondaryVariant">@color/darker_blue_0</item>
+        <item name="colorOnSecondary">@color/white_444_d</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
