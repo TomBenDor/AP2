@@ -138,12 +138,11 @@ public class ContactsController : ControllerBase
     {
         // Sign up new user
 
-        string? username, password, confirmPassword, name;
+        string? username, password, name;
         try
         {
             username = body.GetProperty("username").GetString();
             password = body.GetProperty("password").GetString();
-            confirmPassword = body.GetProperty("confirmPassword").GetString();
             name = body.GetProperty("name").GetString();
         }
         catch (Exception)
@@ -151,7 +150,7 @@ public class ContactsController : ControllerBase
             return BadRequest();
         }
 
-        if (username == null || password == null || confirmPassword == null || name == null)
+        if (username == null || password == null || name == null)
         {
             return BadRequest();
         }
@@ -162,11 +161,6 @@ public class ContactsController : ControllerBase
             return BadRequest();
         }
 
-        // Ensure passwords match
-        if (password != confirmPassword)
-        {
-            return BadRequest();
-        }
 
         // Check if password contains at least one number, one lowercase and one uppercase character
         if (password.Length < 6 || !Regex.IsMatch(password, @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$"))
