@@ -41,8 +41,6 @@ public class SignUpActivity extends AppCompatActivity {
             Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
             startActivity(intent);
         });
-
-
         sharedpreferences = getSharedPreferences("user", MODE_PRIVATE);
 
         binding.signUpButton.setOnClickListener(view -> {
