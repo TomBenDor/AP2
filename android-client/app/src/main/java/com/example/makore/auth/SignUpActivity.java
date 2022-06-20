@@ -4,10 +4,18 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.makore.MainActivity;
+import com.example.makore.api.UserAPI;
 import com.example.makore.databinding.ActivitySignUpBinding;
+
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -71,15 +79,45 @@ public class SignUpActivity extends AppCompatActivity {
             } else if (!displayName.matches("^[a-zA-Z '-.,]+$")) {
                 binding.editTextDisplayName.setError("Display name can only contain letters, spaces, hyphens, periods, dots, and commas");
             }
-            // If all the fields are valid, go to the main screen
+
+            UserAPI userAPI = new UserAPI();
             if (isValid) {
-                // Save the username in the SharedPreferences
-                SharedPreferences.Editor editor = sharedpreferences.edit();
-                editor.putString("username", username);
-                editor.apply();
-                // Go to the main screen
-                Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
-                startActivity(intent);
+                Call<Void> signunCall = userAPI.signup(username, password, displayName);
+                signunCall.enqueue(new Callback<>() {
+                    @Override
+                    public void onResponse(@NonNull Call<Void> call, @NonNull retrofit2.Response<Void> response) {
+                        if (response.isSuccessful()) {
+                            Call<Map<String, String>> signinCall = userAPI.signin(username, password);
+                            signinCall.enqueue(new Callback<>() {
+                                @Override
+                                public void onResponse(@NonNull Call<Map<String, String>> call, @NonNull Response<Map<String, String>> response) {
+                                    if (response.isSuccessful()) {
+                                        Map<String, String> body = response.body();
+                                        String token = body.get("token");
+                                        SharedPreferences.Editor editor = sharedpreferences.edit();
+                                        editor.putString("token", token);
+                                        editor.putString("username", username);
+                                        editor.apply();
+                                        Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                                        startActivity(intent);
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(@NonNull Call<Map<String, String>> call, @NonNull Throwable t) {
+                                    t.printStackTrace();
+                                }
+                            });
+                        } else {
+                            binding.editTextUsername.setError("Username already exists");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+
+                    }
+                });
             }
         });
     }
