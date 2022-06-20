@@ -1,11 +1,15 @@
 package com.example.makore.auth;
 
+import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.preference.PreferenceManager;
 
 import com.example.makore.MainActivity;
 import com.example.makore.api.UserAPI;
@@ -24,6 +28,11 @@ public class SignUpActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SharedPreferences sharedPreferences1 = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean isNightMode = sharedPreferences1.getBoolean("dark_mode", false);
+        if (isNightMode) {
+            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);
+        }
         super.onCreate(savedInstanceState);
         binding = ActivitySignUpBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -32,7 +41,6 @@ public class SignUpActivity extends AppCompatActivity {
             Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
             startActivity(intent);
         });
-
         sharedpreferences = getSharedPreferences("user", MODE_PRIVATE);
 
         binding.signUpButton.setOnClickListener(view -> {

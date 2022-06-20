@@ -1,5 +1,7 @@
 package com.example.makore;
 
+
+import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -9,10 +11,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.preference.PreferenceManager;
 import androidx.room.Room;
 
 import com.example.makore.auth.SignInActivity;
@@ -51,6 +55,11 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean isNightMode = sharedPreferences.getBoolean("dark_mode", false);
+        if (isNightMode) {
+            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);
+        }
     }
 
     @Override
