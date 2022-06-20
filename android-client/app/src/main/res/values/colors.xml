@@ -44,5 +44,6 @@
     <!-- message-bubble-text dark mode -->
     <color name="white_444_d">#e9edef</color>
     <color name="darker_blue_3">#283942</color>
+    <color name="darker_blue_4">#253137</color>
 
 </resources>
