@@ -43,5 +43,6 @@
     <color name="white_333_d">#d1d7db</color>
     <!-- message-bubble-text dark mode -->
     <color name="white_444_d">#e9edef</color>
+    <color name="darker_blue_3">#283942</color>
 
 </resources>

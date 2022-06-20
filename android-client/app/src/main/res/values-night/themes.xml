@@ -14,6 +14,7 @@
         <!-- Customize your theme here. -->
         <!-- Button color -->
         <item name="colorButtonNormal">@color/night_bright</item>
+        <item name="backgroundColor">@color/darker_blue_3</item>
     </style>
 
     <style name="Theme.MaKore.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark" />
