@@ -5,26 +5,16 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.makore.databinding.ActivityAddContactBinding;
-import com.example.makore.entities.AppDB;
 import com.example.makore.entities.Contact;
-import com.example.makore.repositories.ContactsRepository;
 import com.example.makore.viewmodels.ContactsViewModel;
 
 public class AddContactActivity extends AppCompatActivity {
     private ActivityAddContactBinding binding;
     private SharedPreferences sharedpreferences;
     private ContactsViewModel viewModel;
-
-    private void initViewModel() {
-        // Create Room database
-        AppDB db = Room.databaseBuilder(getApplicationContext(),
-                AppDB.class, AppDB.DATABASE_NAME).allowMainThreadQueries().build();
-        ContactsRepository contactsRepository = new ContactsRepository(db.contactsDao());
-        viewModel = new ContactsViewModel(contactsRepository);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +26,7 @@ public class AddContactActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
         sharedpreferences = getSharedPreferences("user", MODE_PRIVATE);
-
-        initViewModel();
+        viewModel = new ViewModelProvider(this).get(ContactsViewModel.class);
 
         // On click listener for the add contact button
         binding.addContactButton.setOnClickListener(v -> {
@@ -67,7 +56,6 @@ public class AddContactActivity extends AppCompatActivity {
                 return;
             }
             // Check if the username is already in the database
-
             if (viewModel.getContact(username) != null) {
                 binding.editTextUsername.setError("Username already exists");
                 return;
@@ -77,8 +65,6 @@ public class AddContactActivity extends AppCompatActivity {
             // Go back to the previous activity
             finish();
         });
-
-
     }
 
     // Override back button to go back to MainActivity

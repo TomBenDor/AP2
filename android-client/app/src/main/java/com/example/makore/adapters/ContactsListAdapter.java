@@ -65,7 +65,8 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
             if (current.getLastDate() != null && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                 try {
                     // Parse the string from format "MM/dd/yyyy, HH:mm:ss" to "h:mm a"
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy, HH:mm:ss", Locale.ENGLISH);
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy, HH:mm:ss", Locale.US);
+
                     LocalDateTime dateTime = LocalDateTime.parse(current.getLastDate(), formatter);
                     holder.lastMessageTime.setText(dateTime.format(DateTimeFormatter.ofPattern("h:mm a", Locale.US)));
                 } catch (Exception e) {
