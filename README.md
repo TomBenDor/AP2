@@ -13,9 +13,9 @@ Every user has a contact list, and he can add other users to it.
 - Show password button
 
 ## Installation
-clone the repository
+Clone the repository
 ```shell
-git clone https://github.com/TomBenDor/AP2.git
+git clone --branch milestone-2 --single-branch https://github.com/TomBenDor/AP2.git
 cd AP2
 ```
 Install dependencies for the react app
@@ -31,7 +31,6 @@ To run the reviews server, execute the following commands:
 cd reviews-website
 dotnet run
 ```
-
 The server will be running on http://localhost:7095/
 ### Web client
 To run the client, execute the following commands:
