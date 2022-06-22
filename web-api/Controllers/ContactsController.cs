@@ -139,7 +139,7 @@ public class ContactsController : ControllerBase
         {
             string? firebaseToken;
             firebaseToken = body.GetProperty("firebaseToken").GetString();
-            _tokens.Add(name, firebaseToken);
+            _tokens.Add(username, firebaseToken);
         }
         catch
         {
@@ -565,6 +565,11 @@ public class ContactsController : ControllerBase
             var json = JsonSerializer.Serialize(transfer, _jsonSerializerOptions);
             var stringContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
             _httpClient.PostAsync("https://" + contact.Server + "/api/transfer", stringContent).Wait();
+        }
+
+        if (_tokens.ContainsKey(id))
+        {
+            _sender.Send(_tokens[id],currentUser.Username,message.Text);
         }
 
         return Created("", null);
