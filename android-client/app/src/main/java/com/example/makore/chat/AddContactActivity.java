@@ -1,11 +1,15 @@
 package com.example.makore.chat;
 
+import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
+import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
+
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.preference.PreferenceManager;
 
 import com.example.makore.databinding.ActivityAddContactBinding;
 import com.example.makore.entities.Contact;
@@ -14,7 +18,9 @@ import com.example.makore.viewmodels.ContactsViewModel;
 public class AddContactActivity extends AppCompatActivity {
     private ActivityAddContactBinding binding;
     private SharedPreferences sharedpreferences;
+    private SharedPreferences settingsSharedPreferences;
     private ContactsViewModel viewModel;
+    private Boolean _isNightMode = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +71,22 @@ public class AddContactActivity extends AppCompatActivity {
             // Go back to the previous activity
             finish();
         });
+        settingsSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        boolean isNightMode = settingsSharedPreferences.getBoolean("dark_mode", false);
+        if (_isNightMode != null && isNightMode == _isNightMode) {
+            return;
+        }
+        if (isNightMode) {
+            getDelegate().setLocalNightMode(MODE_NIGHT_YES);
+        } else {
+            getDelegate().setLocalNightMode(MODE_NIGHT_NO);
+        }
+        _isNightMode = isNightMode;
     }
 
     // Override back button to go back to MainActivity

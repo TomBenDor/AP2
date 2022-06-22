@@ -1,5 +1,6 @@
 package com.example.makore.auth;
 
+import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 
 import android.content.Intent;
@@ -25,6 +26,8 @@ public class SignInActivity extends AppCompatActivity {
 
     private ActivitySignInBinding binding;
     private SharedPreferences sharedpreferences;
+    private SharedPreferences settingsSharedPreferences;
+    private Boolean _isNightMode = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +46,7 @@ public class SignInActivity extends AppCompatActivity {
         });
 
         sharedpreferences = getSharedPreferences("user", MODE_PRIVATE);
-
+        settingsSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         binding.signInButton.setOnClickListener(view -> {
             // Get username and password from the UI
             String username = binding.editTextUsername.getText().toString();
@@ -84,6 +87,21 @@ public class SignInActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        boolean isNightMode = settingsSharedPreferences.getBoolean("dark_mode", false);
+        if (_isNightMode != null && isNightMode == _isNightMode) {
+            return;
+        }
+        if (isNightMode) {
+            getDelegate().setLocalNightMode(MODE_NIGHT_YES);
+        } else {
+            getDelegate().setLocalNightMode(MODE_NIGHT_NO);
+        }
+        _isNightMode = isNightMode;
     }
 
     @Override
