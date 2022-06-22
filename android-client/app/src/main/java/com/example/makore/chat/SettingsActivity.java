@@ -24,6 +24,10 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
+    private void changeServer(String server) {
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,14 +38,17 @@ public class SettingsActivity extends AppCompatActivity {
                     .replace(R.id.settings, new SettingsFragment())
                     .commit();
         }
+        // Display back button
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.OnSharedPreferenceChangeListener listener = (sharedPreferences1, key) -> {
+        SharedPreferences.OnSharedPreferenceChangeListener listener = (preferences, key) -> {
             if (key.equals("dark_mode")) {
-                changeTheme(sharedPreferences1.getBoolean(key, false));
+                changeTheme(preferences.getBoolean(key, false));
+            } else if (key.equals("server")) {
+                changeServer(preferences.getString(key, getString(R.string.default_server_address)));
             }
         };
         sharedPreferences.registerOnSharedPreferenceChangeListener(listener);
