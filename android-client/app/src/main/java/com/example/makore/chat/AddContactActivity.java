@@ -7,6 +7,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.makore.AppContext;
 import com.example.makore.databinding.ActivityAddContactBinding;
 import com.example.makore.entities.Contact;
 import com.example.makore.viewmodels.ContactsViewModel;
@@ -40,7 +41,7 @@ public class AddContactActivity extends AppCompatActivity {
                 return;
             }
             // Get current username
-            String currentUsername = sharedpreferences.getString("username", "");
+            String currentUsername = new AppContext().get("username");
             if (username.equals(currentUsername)) {
                 binding.editTextUsername.setError("You cannot add yourself");
                 return;

@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Room;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.makore.adapters.ContactsListAdapter;
@@ -56,7 +55,7 @@ public class ContactsFragment extends Fragment implements ContactClickListener, 
         mSwipeRefreshLayout.setOnRefreshListener(this);
 
         // Get current username
-        String currentUsername = sharedpreferences.getString("username", "");
+        String currentUsername = new AppContext().get("username");
 
         RecyclerView contactsList = binding.lstContacts;
         adapter = new ContactsListAdapter(getContext(), this);

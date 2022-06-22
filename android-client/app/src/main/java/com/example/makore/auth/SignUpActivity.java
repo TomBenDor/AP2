@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.PreferenceManager;
 
+import com.example.makore.AppContext;
 import com.example.makore.MainActivity;
 import com.example.makore.api.UserAPI;
 import com.example.makore.databinding.ActivitySignUpBinding;
@@ -102,10 +103,9 @@ public class SignUpActivity extends AppCompatActivity {
                                     if (response.isSuccessful()) {
                                         Map<String, String> body = response.body();
                                         String token = body.get("token");
-                                        SharedPreferences.Editor editor = sharedpreferences.edit();
-                                        editor.putString("token", token);
-                                        editor.putString("username", username);
-                                        editor.apply();
+                                        AppContext appContext = new AppContext();
+                                        appContext.set("token", token);
+                                        appContext.set("username", username);
                                         Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
                                         startActivity(intent);
                                     }
@@ -134,7 +134,7 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         // If the user is already signed in, go to the main screen
-        if (!sharedpreferences.getString("username", "").isEmpty()) {
+        if (new AppContext().get("username").isEmpty()) {
             // Go to the main screen
             Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
             startActivity(intent);

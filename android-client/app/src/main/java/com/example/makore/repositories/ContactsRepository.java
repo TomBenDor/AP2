@@ -1,9 +1,11 @@
 package com.example.makore.repositories;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.room.Room;
 
 import com.example.makore.MainActivity;
+import com.example.makore.api.ContactAPI;
 import com.example.makore.entities.AppDB;
 import com.example.makore.entities.Contact;
 import com.example.makore.entities.ContactsDao;
@@ -11,6 +13,10 @@ import com.example.makore.entities.Message;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ContactsRepository {
     private ContactsDao contactsDao;
@@ -48,9 +54,20 @@ public class ContactsRepository {
         messageListData.setValue(messageList);
     }
 
-    // TODO: reload contacts from web-api
     public void reload() {
-        // Reload contacts from API
+        ContactAPI contactAPI = new ContactAPI();
+        contactAPI.getContacts().enqueue(new Callback<>() {
+
+            @Override
+            public void onResponse(@NonNull Call<List<Contact>> call, @NonNull Response<List<Contact>> response) {
+                ContactsRepository.this.contactListData.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Contact>> call, @NonNull Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 
     // Get contact by id
