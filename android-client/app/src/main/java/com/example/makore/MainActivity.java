@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private SharedPreferences sharedpreferences;
     private SharedPreferences settingsSharedPreferences;
+    private Boolean _isNightMode = null;
     private AppDB db;
     @SuppressLint("StaticFieldLeak")
     public static Context context;
@@ -63,11 +64,15 @@ public class MainActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         boolean isNightMode = settingsSharedPreferences.getBoolean("dark_mode", false);
+        if (_isNightMode != null && isNightMode == _isNightMode) {
+            return;
+        }
         if (isNightMode) {
             getDelegate().setLocalNightMode(MODE_NIGHT_YES);
         } else {
             getDelegate().setLocalNightMode(MODE_NIGHT_NO);
         }
+        _isNightMode = isNightMode;
     }
 
     @Override

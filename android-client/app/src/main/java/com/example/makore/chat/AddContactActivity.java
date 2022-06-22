@@ -20,6 +20,7 @@ public class AddContactActivity extends AppCompatActivity {
     private SharedPreferences sharedpreferences;
     private SharedPreferences settingsSharedPreferences;
     private ContactsViewModel viewModel;
+    private Boolean _isNightMode = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,11 +78,15 @@ public class AddContactActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         boolean isNightMode = settingsSharedPreferences.getBoolean("dark_mode", false);
+        if (_isNightMode != null && isNightMode == _isNightMode) {
+            return;
+        }
         if (isNightMode) {
             getDelegate().setLocalNightMode(MODE_NIGHT_YES);
         } else {
             getDelegate().setLocalNightMode(MODE_NIGHT_NO);
         }
+        _isNightMode = isNightMode;
     }
 
     // Override back button to go back to MainActivity
