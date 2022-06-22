@@ -22,6 +22,7 @@ public class ContactsController : ControllerBase
     private readonly IConfiguration _configuration;
     private readonly JwtSecurityTokenHandler _tokenHandler;
     private readonly HttpClient _httpClient = new HttpClient();
+    private readonly Sender _sender = new Sender();
 
     private readonly JsonSerializerOptions _jsonSerializerOptions = new JsonSerializerOptions
     {
