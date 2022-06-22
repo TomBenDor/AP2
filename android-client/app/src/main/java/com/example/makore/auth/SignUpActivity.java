@@ -14,6 +14,7 @@ import androidx.preference.PreferenceManager;
 import com.example.makore.MainActivity;
 import com.example.makore.api.UserAPI;
 import com.example.makore.databinding.ActivitySignUpBinding;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.Map;
 
@@ -91,40 +92,43 @@ public class SignUpActivity extends AppCompatActivity {
             UserAPI userAPI = new UserAPI();
             if (isValid) {
                 Call<Void> signunCall = userAPI.signup(username, password, displayName);
-                signunCall.enqueue(new Callback<>() {
-                    @Override
-                    public void onResponse(@NonNull Call<Void> call, @NonNull retrofit2.Response<Void> response) {
-                        if (response.isSuccessful()) {
-                            Call<Map<String, String>> signinCall = userAPI.signin(username, password);
-                            signinCall.enqueue(new Callback<>() {
-                                @Override
-                                public void onResponse(@NonNull Call<Map<String, String>> call, @NonNull Response<Map<String, String>> response) {
-                                    if (response.isSuccessful()) {
-                                        Map<String, String> body = response.body();
-                                        String token = body.get("token");
-                                        SharedPreferences.Editor editor = sharedpreferences.edit();
-                                        editor.putString("token", token);
-                                        editor.putString("username", username);
-                                        editor.apply();
-                                        Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
-                                        startActivity(intent);
+                FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(instanceIdResult -> {
+                    String firebaseToken = instanceIdResult.getToken();
+                    signunCall.enqueue(new Callback<>() {
+                        @Override
+                        public void onResponse(@NonNull Call<Void> call, @NonNull retrofit2.Response<Void> response) {
+                            if (response.isSuccessful()) {
+                                Call<Map<String, String>> signinCall = userAPI.signin(username, password, firebaseToken);
+                                signinCall.enqueue(new Callback<>() {
+                                    @Override
+                                    public void onResponse(@NonNull Call<Map<String, String>> call, @NonNull Response<Map<String, String>> response) {
+                                        if (response.isSuccessful()) {
+                                            Map<String, String> body = response.body();
+                                            String token = body.get("token");
+                                            SharedPreferences.Editor editor = sharedpreferences.edit();
+                                            editor.putString("token", token);
+                                            editor.putString("username", username);
+                                            editor.apply();
+                                            Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                                            startActivity(intent);
+                                        }
                                     }
-                                }
 
-                                @Override
-                                public void onFailure(@NonNull Call<Map<String, String>> call, @NonNull Throwable t) {
-                                    t.printStackTrace();
-                                }
-                            });
-                        } else {
-                            binding.editTextUsername.setError("Username already exists");
+                                    @Override
+                                    public void onFailure(@NonNull Call<Map<String, String>> call, @NonNull Throwable t) {
+                                        t.printStackTrace();
+                                    }
+                                });
+                            } else {
+                                binding.editTextUsername.setError("Username already exists");
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                        @Override
+                        public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
 
-                    }
+                        }
+                    });
                 });
             }
         });

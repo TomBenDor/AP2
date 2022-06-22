@@ -14,6 +14,7 @@ import androidx.preference.PreferenceManager;
 import com.example.makore.MainActivity;
 import com.example.makore.api.UserAPI;
 import com.example.makore.databinding.ActivitySignInBinding;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.Map;
 
@@ -55,32 +56,35 @@ public class SignInActivity extends AppCompatActivity {
                 // Show error message
                 binding.editTextPassword.setError("Password is empty");
             } else {
-                UserAPI userAPI = new UserAPI();
-                Call<Map<String, String>> call = userAPI.signin(username, password);
-                call.enqueue(new Callback<>() {
-                    @Override
-                    public void onResponse(@NonNull Call<Map<String, String>> call, @NonNull Response<Map<String, String>> response) {
-                        boolean success = response.isSuccessful();
-                        if (success) {
-                            // Save username and password to shared preferences
-                            SharedPreferences.Editor editor = sharedpreferences.edit();
-                            editor.putString("username", username);
-                            editor.putString("token", response.body().get("token"));
-                            editor.apply();
-                            // Go to main activity
-                            Intent intent = new Intent(SignInActivity.this, MainActivity.class);
-                            startActivity(intent);
-                        } else {
-                            // Show error message
-                            binding.editTextUsername.setError("Invalid username or password");
+                FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( instanceIdResult -> {
+                    String firebaseToken = instanceIdResult.getToken();
+                    UserAPI userAPI = new UserAPI();
+                    Call<Map<String, String>> call = userAPI.signin(username, password,firebaseToken);
+                    call.enqueue(new Callback<>() {
+                        @Override
+                        public void onResponse(@NonNull Call<Map<String, String>> call, @NonNull Response<Map<String, String>> response) {
+                            boolean success = response.isSuccessful();
+                            if (success) {
+                                // Save username and password to shared preferences
+                                SharedPreferences.Editor editor = sharedpreferences.edit();
+                                editor.putString("username", username);
+                                editor.putString("token", response.body().get("token"));
+                                editor.apply();
+                                // Go to main activity
+                                Intent intent = new Intent(SignInActivity.this, MainActivity.class);
+                                startActivity(intent);
+                            } else {
+                                // Show error message
+                                binding.editTextUsername.setError("Invalid username or password");
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(@NonNull Call<Map<String, String>> call, @NonNull Throwable t) {
-                        // Show error message
-                        binding.editTextUsername.setError("Error connecting to server");
-                    }
+                        @Override
+                        public void onFailure(@NonNull Call<Map<String, String>> call, @NonNull Throwable t) {
+                            // Show error message
+                            binding.editTextUsername.setError("Error connecting to server");
+                        }
+                    });
                 });
             }
         });

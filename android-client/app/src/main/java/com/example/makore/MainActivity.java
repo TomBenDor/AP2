@@ -2,6 +2,7 @@ package com.example.makore;
 
 
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -22,7 +23,6 @@ import androidx.room.Room;
 import com.example.makore.auth.SignInActivity;
 import com.example.makore.chat.SettingsActivity;
 import com.example.makore.databinding.ActivityMainBinding;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.example.makore.entities.AppDB;
 
 public class MainActivity extends AppCompatActivity {
@@ -56,9 +56,6 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(MainActivity.this, instanceIdResult -> {
-            String token = instanceIdResult.getToken();
-        });
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean isNightMode = sharedPreferences.getBoolean("dark_mode", false);
         if (isNightMode) {

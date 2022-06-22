@@ -22,7 +22,8 @@ public class ContactsController : ControllerBase
     private readonly IConfiguration _configuration;
     private readonly JwtSecurityTokenHandler _tokenHandler;
     private readonly HttpClient _httpClient = new HttpClient();
-    private readonly Sender _sender = new Sender();
+    private readonly Sender _sender;
+    private Dictionary<String, String> _tokens;
 
     private readonly JsonSerializerOptions _jsonSerializerOptions = new JsonSerializerOptions
     {
@@ -67,12 +68,15 @@ public class ContactsController : ControllerBase
         _usersService.Update(drake);
     }
 
-    public ContactsController(IUsersService usersService, IChatsService chatsService, IConfiguration configuration)
+    public ContactsController(IUsersService usersService, IChatsService chatsService, IConfiguration configuration,
+        Sender sender, Dictionary<String, String> tokens)
     {
         _usersService = usersService;
         _chatsService = chatsService;
         _configuration = configuration;
         _tokenHandler = new JwtSecurityTokenHandler();
+        _sender = sender;
+        _tokens = tokens;
         // For testing
         _initExampleChatsAndUsers();
     }
@@ -131,6 +135,16 @@ public class ContactsController : ControllerBase
         // Return JWT token
         var token = _createJwtToken(username);
         var name = user.Name;
+        try
+        {
+            string? firebaseToken;
+            firebaseToken = body.GetProperty("firebaseToken").GetString();
+            _tokens.Add(name, firebaseToken);
+        }
+        catch
+        {
+        }
+
         return Ok(new { token, name });
     }
 
