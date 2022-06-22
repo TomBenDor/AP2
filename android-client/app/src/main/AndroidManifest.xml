@@ -30,9 +30,11 @@
             android:label="@string/title_activity_settings" />
         <activity
             android:name=".auth.SignUpActivity"
+            android:theme="@style/Theme.MaKore.NoActionBar"
             android:exported="false" />
         <activity
             android:name=".auth.SignInActivity"
+            android:theme="@style/Theme.MaKore.NoActionBar"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
