@@ -21,6 +21,7 @@
         <activity
             android:name=".chat.AddContactActivity"
             android:exported="false"
+            android:theme="@style/Theme.MaKore.NoActionBar"
             android:label="@string/title_activity_add_contact" />
         <activity
             android:name=".chat.SettingsActivity"
