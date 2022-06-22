@@ -22,7 +22,7 @@ public class UserAPI {
         return userServiceAPI.signin(Map.of("username", username, "password", password));
     }
 
-    public Call<Void> signup(String username, String password, String name) {
-        return userServiceAPI.signup(Map.of("username", username, "password", password, "name", name));
+    public Call<Void> signup(String username, String password, String name, String profilePicture) {
+        return userServiceAPI.signup(Map.of("username", username, "password", password, "name", name, "profilePicture", profilePicture));
     }
 }
