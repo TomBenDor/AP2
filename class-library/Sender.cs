@@ -19,10 +19,6 @@ namespace class_library
         {
             var message = new FirebaseAdmin.Messaging.Message()
             {
-                Data = new Dictionary<string, string>()
-                {
-                    {"my", "data"},
-                },
                 Token = token,
                 Notification = new Notification()
                 {
