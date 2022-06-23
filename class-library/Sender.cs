@@ -15,10 +15,11 @@ namespace class_library
             });
         }
 
-        public void Send(string token, string title, string body)
+        public void Send(string token, string title, string body, String receiver)
         {
             var message = new FirebaseAdmin.Messaging.Message()
             {
+                Data = new Dictionary<String, String>() { { "receiver", receiver } },
                 Token = token,
                 Notification = new Notification()
                 {

@@ -4,6 +4,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 
 import androidx.annotation.NonNull;
@@ -34,10 +35,15 @@ public class MessageService extends FirebaseMessagingService {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
         if (remoteMessage.getNotification() != null) {
+            SharedPreferences sharedpreferences = getSharedPreferences("user", MODE_PRIVATE);
+            String username = sharedpreferences.getString("username", "");
+            if (!username.equals(remoteMessage.getData().get("receiver"))) {
+                return;
+            }
             createChannel();
             String text = remoteMessage.getNotification().getBody();
-            if (text.length()>20){
-                text  = "New message from " + remoteMessage.getNotification().getTitle();
+            if (text.length() > 20) {
+                text = "New message from " + remoteMessage.getNotification().getTitle();
             }
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "1")
                     .setSmallIcon(R.drawable.ic_launcher_foreground)

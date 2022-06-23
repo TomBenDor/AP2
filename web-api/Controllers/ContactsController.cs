@@ -569,7 +569,7 @@ public class ContactsController : ControllerBase
 
         if (_tokens.ContainsKey(id))
         {
-            _sender.Send(_tokens[id],currentUser.Username,message.Text);
+            _sender.Send(_tokens[id],currentUser.Username,message.Text,id);
         }
 
         return Created("", null);
