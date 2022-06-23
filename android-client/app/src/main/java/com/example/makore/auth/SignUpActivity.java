@@ -58,6 +58,8 @@ public class SignUpActivity extends AppCompatActivity {
             Intent pickPhoto = new Intent(Intent.ACTION_PICK,
                     android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             startActivityForResult(pickPhoto, 1);
+            // Clear error on change
+            binding.attachProfilePictureBtn.setError(null);
         });
         settingsSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         binding.signUpButton.setOnClickListener(view -> {
@@ -113,12 +115,14 @@ public class SignUpActivity extends AppCompatActivity {
             // Validate display name
             if (displayName.isEmpty()) {
                 binding.editTextDisplayName.setError("Display name is empty");
+                isValid = false;
             } else if (displayName.length() < 3) {
                 binding.editTextDisplayName.setError("Display name must be at least 3 characters");
+                isValid = false;
             } else if (!displayName.matches("^[a-zA-Z '-.,]+$")) {
                 binding.editTextDisplayName.setError("Display name can only contain letters, spaces, hyphens, periods, dots, and commas");
+                isValid = false;
             }
-
             UserAPI userAPI = new UserAPI();
             if (isValid) {
                 Call<Void> signunCall = userAPI.signup(username, password, displayName, encodedImage);
