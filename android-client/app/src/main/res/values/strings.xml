@@ -42,4 +42,5 @@
     <string name="cV_description_profile_picture">Profile picture</string>
     <string name="description_send_message_button">Send message button</string>
     <string name="type_a_message">Type a message…</string>
+    <string name="app_toolbar_logo_description">App toolbar logo</string>
 </resources>
