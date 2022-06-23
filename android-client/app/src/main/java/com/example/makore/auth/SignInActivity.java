@@ -39,6 +39,7 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivitySignInBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        setSupportActionBar(binding.toolbar);
 
         binding.linkToSignUp.setOnClickListener(view -> {
             Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
