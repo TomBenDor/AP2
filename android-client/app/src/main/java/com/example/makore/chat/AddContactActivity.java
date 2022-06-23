@@ -2,14 +2,20 @@ package com.example.makore.chat;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.makore.AppContext;
+import com.example.makore.api.ContactAPI;
 import com.example.makore.databinding.ActivityAddContactBinding;
 import com.example.makore.entities.Contact;
 import com.example.makore.viewmodels.ContactsViewModel;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AddContactActivity extends AppCompatActivity {
     private ActivityAddContactBinding binding;
@@ -60,6 +66,23 @@ public class AddContactActivity extends AppCompatActivity {
             }
             // Create a new contact
             viewModel.insertContact(new Contact(username, displayName, server, null, null));
+            // POST request to add the contact to the server
+            new ContactAPI().addContact(username, displayName, server).enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                    // If the response is successful, finish the activity
+                    if (response.isSuccessful()) {
+
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                    // If the request fails, show an error message
+                    binding.editTextUsername.setError("Failed to add contact");
+                    t.printStackTrace();
+                }
+            });
             // Go back to the previous activity
             finish();
         });

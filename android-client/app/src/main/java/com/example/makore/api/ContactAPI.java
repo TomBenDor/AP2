@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.example.makore.AppContext;
 import com.example.makore.entities.Contact;
+import com.example.makore.entities.Message;
 
 import java.io.IOException;
 import java.util.List;
@@ -46,7 +47,7 @@ public class ContactAPI {
         return contactServiceAPI.getContacts();
     }
 
-    public Call<Contact> addContact(String id, String name, String server) {
+    public Call<Void> addContact(String id, String name, String server) {
         return contactServiceAPI.addContact(Map.of("id", id, "name", name, "server", server));
     }
 
@@ -54,19 +55,11 @@ public class ContactAPI {
         return contactServiceAPI.getContact(id);
     }
 
-    public Call<List<String>> getMessages(String id) {
+    public Call<List<Message>> getMessages(String id) {
         return contactServiceAPI.getMessages(id);
     }
 
-    public Call<String> addMessage(String id, String content) {
-        return contactServiceAPI.addMessage(id, content);
-    }
-
-    public Call<String> invite(String to, String server) {
-        return contactServiceAPI.invite(Map.of("from", new AppContext().get("username"), "to", to, "server", server));
-    }
-
-    public Call<String> transfer(String to, String content) {
-        return contactServiceAPI.transfer(Map.of("from", new AppContext().get("username"), "to", to, "content", content));
+    public Call<Void> addMessage(String id, String content) {
+        return contactServiceAPI.addMessage(id, Map.of("content", content));
     }
 }

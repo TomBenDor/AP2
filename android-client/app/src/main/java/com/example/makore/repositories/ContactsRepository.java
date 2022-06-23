@@ -28,7 +28,6 @@ public class ContactsRepository {
         AppDB db = Room.databaseBuilder(SignInActivity.context,
                 AppDB.class, AppDB.DATABASE_NAME).allowMainThreadQueries().build();
         contactsDao = db.contactsDao();
-        // this.api = api;
         contactListData = new ContactListData();
         messageListData = new MessageListData();
     }
@@ -41,6 +40,16 @@ public class ContactsRepository {
         }
         contactsList.add(contact);
         contactListData.setValue(contactsList);
+    }
+
+    public void deleteContacts() {
+        contactsDao.deleteContacts();
+        contactListData.setValue(null);
+    }
+
+    private void deleteMessages(String id) {
+        contactsDao.deleteMessages(id);
+        messageListData.setValue(contactsDao.getMessages());
     }
 
     public void insertMessage(Message message) {
@@ -59,7 +68,38 @@ public class ContactsRepository {
 
             @Override
             public void onResponse(@NonNull Call<List<Contact>> call, @NonNull Response<List<Contact>> response) {
-                ContactsRepository.this.contactListData.setValue(response.body());
+                if (response.isSuccessful()) {
+                    deleteContacts();
+                    List<Contact> contacts = response.body();
+                    if (contacts != null && !contacts.isEmpty()) {
+                        for (Contact contact : contacts) {
+                            insertContact(contact);
+
+                            contactAPI.getMessages(contact.getId())
+                                    .enqueue(new Callback<>() {
+                                                 @Override
+                                                 public void onResponse(@NonNull Call<List<Message>> call, @NonNull Response<List<Message>> response) {
+                                                     if (response.isSuccessful()) {
+                                                         deleteMessages(contact.getId());
+                                                         List<Message> messages = response.body();
+                                                         if (messages != null && !messages.isEmpty()) {
+                                                             for (Message message : messages) {
+                                                                 Message newMessage = new Message(message.getContent(), message.getCreated(), message.isSent(), contact.getId());
+                                                                 insertMessage(newMessage);
+                                                             }
+                                                         }
+                                                     }
+                                                 }
+
+                                                 @Override
+                                                 public void onFailure(@NonNull Call<List<Message>> call, @NonNull Throwable t) {
+                                                    t.printStackTrace();
+                                                 }
+                                             }
+                                    );
+                        }
+                    }
+                }
             }
 
             @Override
