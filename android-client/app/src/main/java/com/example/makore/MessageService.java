@@ -35,10 +35,16 @@ public class MessageService extends FirebaseMessagingService {
 
         if (remoteMessage.getNotification() != null) {
             createChannel();
+            String text = remoteMessage.getNotification().getBody();
+            if (text.length()>20){
+                text  = "New message from " + remoteMessage.getNotification().getTitle();
+            }
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "1")
                     .setSmallIcon(R.drawable.ic_launcher_foreground)
                     .setContentTitle(remoteMessage.getNotification().getTitle())
-                    .setContentText(remoteMessage.getNotification().getBody())
+                    .setContentText(text)
+                    .setStyle(new NotificationCompat.BigTextStyle()
+                            .bigText(remoteMessage.getNotification().getBody()))
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                     .setContentIntent(pendingIntent)
                     .setAutoCancel(true);
