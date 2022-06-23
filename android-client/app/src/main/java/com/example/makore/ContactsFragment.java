@@ -1,9 +1,6 @@
 package com.example.makore;
 
-import static android.content.Context.MODE_PRIVATE;
-
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +23,6 @@ import com.example.makore.viewmodels.ContactsViewModel;
 public class ContactsFragment extends Fragment implements ContactClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private FragmentContactsBinding binding;
-    private SharedPreferences sharedpreferences;
     private ContactsListAdapter adapter;
     private ContactsViewModel viewModel;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -42,7 +38,6 @@ public class ContactsFragment extends Fragment implements ContactClickListener, 
             Intent intent = new Intent(getActivity(), AddContactActivity.class);
             startActivity(intent);
         });
-        sharedpreferences = requireActivity().getSharedPreferences("user", MODE_PRIVATE);
         viewModel = new ViewModelProvider(this).get(ContactsViewModel.class);
 
         return binding.getRoot();

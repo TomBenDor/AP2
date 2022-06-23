@@ -2,6 +2,7 @@ package com.example.makore.auth;
 
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.PreferenceManager;
 
+import com.example.makore.AppContext;
 import com.example.makore.MainActivity;
 import com.example.makore.api.UserAPI;
 import com.example.makore.databinding.ActivitySignInBinding;
@@ -24,7 +26,7 @@ import retrofit2.Response;
 public class SignInActivity extends AppCompatActivity {
 
     private ActivitySignInBinding binding;
-    private SharedPreferences sharedpreferences;
+    public static Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,7 @@ public class SignInActivity extends AppCompatActivity {
             AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);
         }
         super.onCreate(savedInstanceState);
+        context = this;
         binding = ActivitySignInBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -41,8 +44,6 @@ public class SignInActivity extends AppCompatActivity {
             Intent intent = new Intent(SignInActivity.this, SignUpActivity.class);
             startActivity(intent);
         });
-
-        sharedpreferences = getSharedPreferences("user", MODE_PRIVATE);
 
         binding.signInButton.setOnClickListener(view -> {
             // Get username and password from the UI
@@ -63,10 +64,9 @@ public class SignInActivity extends AppCompatActivity {
                         boolean success = response.isSuccessful();
                         if (success) {
                             // Save username and password to shared preferences
-                            SharedPreferences.Editor editor = sharedpreferences.edit();
-                            editor.putString("username", username);
-                            editor.putString("token", response.body().get("token"));
-                            editor.apply();
+                            AppContext appContext = new AppContext();
+                            appContext.set("username", username);
+                            appContext.set("token", response.body().get("token"));
                             // Go to main activity
                             Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                             startActivity(intent);
@@ -90,7 +90,7 @@ public class SignInActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         // If the user is already signed in, go to the main screen
-        if (!sharedpreferences.getString("username", "").isEmpty()) {
+        if (!new AppContext().get("username").isEmpty()) {
             // Go to the main screen
             Intent intent = new Intent(SignInActivity.this, MainActivity.class);
             startActivity(intent);

@@ -3,12 +3,14 @@ package com.example.makore;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.example.makore.auth.SignInActivity;
+
 public class AppContext {
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
 
     public AppContext() {
-        preferences = MainActivity.context.getSharedPreferences("preferences", Context.MODE_PRIVATE);
+        preferences = SignInActivity.context.getSharedPreferences("preferences", Context.MODE_PRIVATE);
         editor = preferences.edit();
     }
 

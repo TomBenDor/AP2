@@ -4,8 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.room.Room;
 
-import com.example.makore.MainActivity;
 import com.example.makore.api.ContactAPI;
+import com.example.makore.auth.SignInActivity;
 import com.example.makore.entities.AppDB;
 import com.example.makore.entities.Contact;
 import com.example.makore.entities.ContactsDao;
@@ -19,14 +19,13 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ContactsRepository {
-    private ContactsDao contactsDao;
-    private ContactListData contactListData;
-    private MessageListData messageListData;
-    // private ContactsAPI api;
+    private final ContactsDao contactsDao;
+    private final ContactListData contactListData;
+    private final MessageListData messageListData;
 
     public ContactsRepository() {
         // Create Room database
-        AppDB db = Room.databaseBuilder(MainActivity.context,
+        AppDB db = Room.databaseBuilder(SignInActivity.context,
                 AppDB.class, AppDB.DATABASE_NAME).allowMainThreadQueries().build();
         contactsDao = db.contactsDao();
         // this.api = api;

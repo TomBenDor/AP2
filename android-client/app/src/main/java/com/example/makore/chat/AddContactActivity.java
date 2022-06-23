@@ -1,6 +1,5 @@
 package com.example.makore.chat;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.ActionBar;
@@ -14,7 +13,6 @@ import com.example.makore.viewmodels.ContactsViewModel;
 
 public class AddContactActivity extends AppCompatActivity {
     private ActivityAddContactBinding binding;
-    private SharedPreferences sharedpreferences;
     private ContactsViewModel viewModel;
 
     @Override
@@ -26,7 +24,6 @@ public class AddContactActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        sharedpreferences = getSharedPreferences("user", MODE_PRIVATE);
         viewModel = new ViewModelProvider(this).get(ContactsViewModel.class);
 
         // On click listener for the add contact button
