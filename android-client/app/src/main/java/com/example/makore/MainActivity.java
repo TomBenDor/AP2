@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -103,6 +104,8 @@ public class MainActivity extends AppCompatActivity {
             editor.apply();
             // Clear the database
             db.clearAllTables();
+            //Clear notifications
+            NotificationManagerCompat.from(context).cancelAll();
             // Navigate to the sign in activity
             Intent intent = new Intent(MainActivity.this, SignInActivity.class);
             startActivity(intent);
