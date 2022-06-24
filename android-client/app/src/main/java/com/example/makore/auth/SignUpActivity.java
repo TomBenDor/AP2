@@ -184,7 +184,7 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         // If the user is already signed in, go to the main screen
-        if (new AppContext().get("username").isEmpty()) {
+        if (!new AppContext().get("username").isEmpty()) {
             // Go to the main screen
             Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
             startActivity(intent);
