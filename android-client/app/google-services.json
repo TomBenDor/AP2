@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "784950257271",
+    "project_id": "makore-8de84",
+    "storage_bucket": "makore-8de84.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:784950257271:android:12c65e05ad3162d923c872",
+        "android_client_info": {
+          "package_name": "com.example.makore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "784950257271-blvb6kn3krvlb49mscdfilhvf90i1j4v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAJ6EVBLsKtsV49z0JUlDwhSQXYtI6l94"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "784950257271-blvb6kn3krvlb49mscdfilhvf90i1j4v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
