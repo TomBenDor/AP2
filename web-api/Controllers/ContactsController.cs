@@ -317,6 +317,11 @@ public class ContactsController : ControllerBase
             _usersService.Update(contact);
         }
 
+        if (_tokens.ContainsKey(id))
+        {
+            _sender.Send(_tokens[id], currentUser.Username, _getCurrentUser().Name + "started a chat with you!", id);
+        }
+
         return Created("", null);
     }
 
@@ -569,7 +574,7 @@ public class ContactsController : ControllerBase
 
         if (_tokens.ContainsKey(id))
         {
-            _sender.Send(_tokens[id],currentUser.Username,message.Text,id);
+            _sender.Send(_tokens[id], currentUser.Username, message.Text, id);
         }
 
         return Created("", null);
