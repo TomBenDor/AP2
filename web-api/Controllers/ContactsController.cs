@@ -334,7 +334,7 @@ public class ContactsController : ControllerBase
         }
         if (_tokens.ContainsKey(id))
         {
-            _sender.Send(_tokens[id], currentUser.Username, _getCurrentUser().Name + "started a chat with you!", id);
+            _sender.Send(_tokens[id], currentUser.Username, _getCurrentUser().Name + " has created a chat room with you!", id);
         }
 
         _hubContext.Clients.All.SendAsync("MessageReceived");
