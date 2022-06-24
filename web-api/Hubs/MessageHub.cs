@@ -6,6 +6,5 @@ public class MessageHub : Hub
 {
     public async Task MessageSent()
     {
-        await Clients.All.SendAsync("MessageReceived");
     }
 }
