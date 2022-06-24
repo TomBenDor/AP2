@@ -3,6 +3,7 @@ package com.example.makore.chat;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -10,11 +11,21 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
+import androidx.room.Room;
 
 import com.example.makore.R;
+import com.example.makore.auth.SignInActivity;
+import com.example.makore.entities.AppDB;
 
 public class SettingsActivity extends AppCompatActivity {
     private SharedPreferences settingsSharedPreferences;
+    private AppDB db;
+
+    private void initDB() {
+        // Create Room database
+        db = Room.databaseBuilder(getApplicationContext(),
+                AppDB.class, AppDB.DATABASE_NAME).allowMainThreadQueries().build();
+    }
 
     private void changeTheme(boolean isNightMode) {
         if (isNightMode) {
@@ -25,7 +36,17 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void changeServer(String server) {
-
+        SharedPreferences sharedpreferences = getSharedPreferences("user", MODE_PRIVATE);
+        // Sign out the user
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.clear();
+        editor.apply();
+        // Clear the database
+        db.clearAllTables();
+        // Navigate to the sign in activity
+        Intent intent = new Intent(SettingsActivity.this, SignInActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override
@@ -53,6 +74,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
         };
         settingsSharedPreferences.registerOnSharedPreferenceChangeListener(listener);
+        initDB();
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat {
