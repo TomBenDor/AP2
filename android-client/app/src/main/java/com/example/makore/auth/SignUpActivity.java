@@ -160,58 +160,60 @@ public class SignUpActivity extends AppCompatActivity {
                         }
 
 
-                    @Override
-                    public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                        binding.editTextUsername.setError(getString(R.string.connection_error));
-                    }
+                        @Override
+                        public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                            binding.editTextUsername.setError(getString(R.string.connection_error));
+                        }
+                    });
                 });
             }
+            ;
         });
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        boolean isNightMode = settingsSharedPreferences.getBoolean("dark_mode", false);
-        if (_isNightMode != null && isNightMode == _isNightMode) {
-            return;
+        @Override
+        public void onResume () {
+            super.onResume();
+            boolean isNightMode = settingsSharedPreferences.getBoolean("dark_mode", false);
+            if (_isNightMode != null && isNightMode == _isNightMode) {
+                return;
+            }
+            if (isNightMode) {
+                getDelegate().setLocalNightMode(MODE_NIGHT_YES);
+            } else {
+                getDelegate().setLocalNightMode(MODE_NIGHT_NO);
+            }
+            _isNightMode = isNightMode;
         }
-        if (isNightMode) {
-            getDelegate().setLocalNightMode(MODE_NIGHT_YES);
-        } else {
-            getDelegate().setLocalNightMode(MODE_NIGHT_NO);
-        }
-        _isNightMode = isNightMode;
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        // If the user is already signed in, go to the main screen
-        if (!new AppContext().get("username").isEmpty()) {
-            // Go to the main screen
-            Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
-            startActivity(intent);
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            switch (requestCode) {
-                case 1:
-                    selectedImage = data.getData();
+        @Override
+        protected void onStart () {
+            super.onStart();
+            // If the user is already signed in, go to the main screen
+            if (!new AppContext().get("username").isEmpty()) {
+                // Go to the main screen
+                Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         }
-    }
 
-    private String encodeImage(Bitmap bm) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] b = baos.toByteArray();
-        String encImage = Base64.encodeToString(b, Base64.DEFAULT);
+        @Override
+        protected void onActivityResult ( int requestCode, int resultCode, @Nullable Intent data){
+            super.onActivityResult(requestCode, resultCode, data);
+            if (resultCode == Activity.RESULT_OK) {
+                switch (requestCode) {
+                    case 1:
+                        selectedImage = data.getData();
+                }
+            }
+        }
 
-        return encImage;
-    }
+        private String encodeImage (Bitmap bm){
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bm.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] b = baos.toByteArray();
+            String encImage = Base64.encodeToString(b, Base64.DEFAULT);
+
+            return encImage;
+        }
 }

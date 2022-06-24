@@ -63,10 +63,10 @@ public class SignInActivity extends AppCompatActivity {
                 // Show error message
                 binding.editTextPassword.setError("Password is empty");
             } else {
-                FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( instanceIdResult -> {
+                FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(instanceIdResult -> {
                     String firebaseToken = instanceIdResult.getToken();
                     UserAPI userAPI = new UserAPI();
-                    Call<Map<String, String>> call = userAPI.signin(username, password,firebaseToken);
+                    Call<Map<String, String>> call = userAPI.signin(username, password, firebaseToken);
                     call.enqueue(new Callback<>() {
                         @Override
                         public void onResponse(@NonNull Call<Map<String, String>> call, @NonNull Response<Map<String, String>> response) {
@@ -83,15 +83,19 @@ public class SignInActivity extends AppCompatActivity {
                                 // Show error message
                                 binding.editTextUsername.setError(getString(R.string.invalid_credentials));
                             }
-                    @Override
-                    public void onFailure(@NonNull Call<Map<String, String>> call, @NonNull Throwable t) {
-                        // Show error message
-                        binding.editTextUsername.setError(getString(R.string.connection_error));
-                    }
-                });
-            }
-        });
-    }
+                        }
+                            @Override
+                            public void onFailure (@NonNull Call < Map < String, String >> call, @NonNull Throwable t){
+                                // Show error message
+                                binding.editTextUsername.setError(getString(R.string.connection_error));
+                            }
+                        })
+
+                        ;
+                    });
+                };
+            });
+        };
 
     @Override
     public void onResume() {
