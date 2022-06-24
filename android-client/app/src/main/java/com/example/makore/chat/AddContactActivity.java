@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.makore.AppContext;
+import com.example.makore.R;
 import com.example.makore.api.ContactAPI;
 import com.example.makore.databinding.ActivityAddContactBinding;
 import com.example.makore.entities.Contact;
@@ -73,13 +74,15 @@ public class AddContactActivity extends AppCompatActivity {
                     // If the response is successful, finish the activity
                     if (response.isSuccessful()) {
 
+                    } else {
+                        binding.editTextUsername.setError(String.format("%s can't be added", username));
                     }
                 }
 
                 @Override
                 public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
                     // If the request fails, show an error message
-                    binding.editTextUsername.setError("Failed to add contact");
+                    binding.editTextUsername.setError(getString(R.string.connection_error));
                     t.printStackTrace();
                 }
             });

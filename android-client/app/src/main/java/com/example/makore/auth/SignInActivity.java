@@ -14,6 +14,7 @@ import androidx.preference.PreferenceManager;
 
 import com.example.makore.AppContext;
 import com.example.makore.MainActivity;
+import com.example.makore.R;
 import com.example.makore.api.UserAPI;
 import com.example.makore.databinding.ActivitySignInBinding;
 
@@ -72,14 +73,14 @@ public class SignInActivity extends AppCompatActivity {
                             startActivity(intent);
                         } else {
                             // Show error message
-                            binding.editTextUsername.setError("Invalid username or password");
+                            binding.editTextUsername.setError(getString(R.string.invalid_credentials));
                         }
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<Map<String, String>> call, @NonNull Throwable t) {
                         // Show error message
-                        binding.editTextUsername.setError("Error connecting to server");
+                        binding.editTextUsername.setError(getString(R.string.connection_error));
                     }
                 });
             }

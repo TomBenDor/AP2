@@ -13,6 +13,7 @@ import androidx.preference.PreferenceManager;
 
 import com.example.makore.AppContext;
 import com.example.makore.MainActivity;
+import com.example.makore.R;
 import com.example.makore.api.UserAPI;
 import com.example.makore.databinding.ActivitySignUpBinding;
 
@@ -112,7 +113,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                                 @Override
                                 public void onFailure(@NonNull Call<Map<String, String>> call, @NonNull Throwable t) {
-                                    t.printStackTrace();
+                                    binding.editTextUsername.setError(getString(R.string.connection_error));
                                 }
                             });
                         } else {
@@ -122,7 +123,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-
+                        binding.editTextUsername.setError(getString(R.string.connection_error));
                     }
                 });
             }
