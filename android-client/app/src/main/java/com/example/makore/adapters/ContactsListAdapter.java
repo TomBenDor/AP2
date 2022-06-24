@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapter.ContactViewHolder> {
-    class ContactViewHolder extends RecyclerView.ViewHolder {
+    static class ContactViewHolder extends RecyclerView.ViewHolder {
         private final TextView name;
         private final TextView lastMessage;
         private final TextView lastMessageTime;

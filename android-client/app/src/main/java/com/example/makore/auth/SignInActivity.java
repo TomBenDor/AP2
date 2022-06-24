@@ -3,6 +3,7 @@ package com.example.makore.auth;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -12,7 +13,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.PreferenceManager;
 
+import com.example.makore.AppContext;
 import com.example.makore.MainActivity;
+import com.example.makore.R;
 import com.example.makore.api.UserAPI;
 import com.example.makore.databinding.ActivitySignInBinding;
 
@@ -25,7 +28,7 @@ import retrofit2.Response;
 public class SignInActivity extends AppCompatActivity {
 
     private ActivitySignInBinding binding;
-    private SharedPreferences sharedpreferences;
+    public static Context context;
     private SharedPreferences settingsSharedPreferences;
     private Boolean _isNightMode = null;
 
@@ -37,6 +40,7 @@ public class SignInActivity extends AppCompatActivity {
             AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);
         }
         super.onCreate(savedInstanceState);
+        context = this;
         binding = ActivitySignInBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
@@ -46,7 +50,6 @@ public class SignInActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        sharedpreferences = getSharedPreferences("user", MODE_PRIVATE);
         settingsSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         binding.signInButton.setOnClickListener(view -> {
             // Get username and password from the UI
@@ -67,23 +70,22 @@ public class SignInActivity extends AppCompatActivity {
                         boolean success = response.isSuccessful();
                         if (success) {
                             // Save username and password to shared preferences
-                            SharedPreferences.Editor editor = sharedpreferences.edit();
-                            editor.putString("username", username);
-                            editor.putString("token", response.body().get("token"));
-                            editor.apply();
+                            AppContext appContext = new AppContext();
+                            appContext.set("username", username);
+                            appContext.set("token", response.body().get("token"));
                             // Go to main activity
                             Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                             startActivity(intent);
                         } else {
                             // Show error message
-                            binding.editTextUsername.setError("Invalid username or password");
+                            binding.editTextUsername.setError(getString(R.string.invalid_credentials));
                         }
                     }
 
                     @Override
                     public void onFailure(@NonNull Call<Map<String, String>> call, @NonNull Throwable t) {
                         // Show error message
-                        binding.editTextUsername.setError("Error connecting to server");
+                        binding.editTextUsername.setError(getString(R.string.connection_error));
                     }
                 });
             }
@@ -109,7 +111,7 @@ public class SignInActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         // If the user is already signed in, go to the main screen
-        if (!sharedpreferences.getString("username", "").isEmpty()) {
+        if (!new AppContext().get("username").isEmpty()) {
             // Go to the main screen
             Intent intent = new Intent(SignInActivity.this, MainActivity.class);
             startActivity(intent);

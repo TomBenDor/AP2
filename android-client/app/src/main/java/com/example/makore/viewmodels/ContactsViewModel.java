@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ContactsViewModel extends ViewModel {
-    private ContactsRepository contactsRepository;
+    private final ContactsRepository contactsRepository;
     private String contactId;
 
     public ContactsViewModel() {
@@ -20,6 +20,7 @@ public class ContactsViewModel extends ViewModel {
     }
 
     public MutableLiveData<List<Contact>> getContacts() {
+        reload();
         return contactsRepository.getContacts();
     }
 
@@ -63,7 +64,6 @@ public class ContactsViewModel extends ViewModel {
         contactsRepository.insertMessage(message);
     }
 
-    // TODO: reload messages from web-api
     public void reload() {
         contactsRepository.reload();
     }
