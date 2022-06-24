@@ -27,29 +27,36 @@ npm i
 ```
 
 ## Running
+
 ### Reviews page
+
 To run the reviews server, execute the following commands:
 ```shell
 cd reviews-website
 dotnet run
 ```
-
 The server will be running on http://localhost:7095/
+
 ### Web client
+
 To run the client, execute the following commands:
 ```shell
 cd web-client
 npm start
 ```
 The client will be running on http://localhost:3000/
+
 ### Web API
+
 To run the Web API server, execute the following commands:
 ```shell
 cd web-api
 dotnet run
 ```
 The web-api server will be running on http://localhost:54321/
+
 ### Android client
+
 The android client is located in the `android-client` folder.
 Shocking right?
 <br>
