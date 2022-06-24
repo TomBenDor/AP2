@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +19,7 @@ import com.example.makore.AppContext;
 import com.example.makore.MainActivity;
 import com.example.makore.R;
 import com.example.makore.api.UserAPI;
+import com.example.makore.chat.SettingsActivity;
 import com.example.makore.databinding.ActivitySignInBinding;
 
 import java.util.Map;
@@ -90,6 +93,27 @@ public class SignInActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_auth, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_settings) {
+            // Navigate to the settings activity
+            Intent intent = new Intent(SignInActivity.this, SettingsActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

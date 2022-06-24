@@ -11,6 +11,8 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,6 +24,7 @@ import com.example.makore.AppContext;
 import com.example.makore.MainActivity;
 import com.example.makore.R;
 import com.example.makore.api.UserAPI;
+import com.example.makore.chat.SettingsActivity;
 import com.example.makore.databinding.ActivitySignUpBinding;
 
 import java.io.ByteArrayOutputStream;
@@ -163,6 +166,27 @@ public class SignUpActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_auth, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_settings) {
+            // Navigate to the settings activity
+            Intent intent = new Intent(SignUpActivity.this, SettingsActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
