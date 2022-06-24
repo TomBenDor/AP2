@@ -13,6 +13,7 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.room.Room;
 
+import com.example.makore.AppContext;
 import com.example.makore.R;
 import com.example.makore.auth.SignInActivity;
 import com.example.makore.entities.AppDB;
@@ -36,11 +37,11 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void changeServer(String server) {
-        SharedPreferences sharedpreferences = getSharedPreferences("user", MODE_PRIVATE);
         // Sign out the user
-        SharedPreferences.Editor editor = sharedpreferences.edit();
-        editor.clear();
-        editor.apply();
+        AppContext appContext = new AppContext();
+        appContext.set("username", "");
+        appContext.getEditor().clear();
+        appContext.getEditor().apply();
         // Clear the database
         db.clearAllTables();
         // Navigate to the sign in activity
