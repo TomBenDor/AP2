@@ -14,6 +14,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 public class MessageService extends FirebaseMessagingService {
+    private int notificationId = 1;
 
     public MessageService() {
     }
@@ -53,7 +54,8 @@ public class MessageService extends FirebaseMessagingService {
                     .setContentIntent(pendingIntent)
                     .setAutoCancel(true);
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-            notificationManager.notify(1, builder.build());
+            notificationManager.notify(notificationId, builder.build());
+            ++notificationId;
         }
     }
 }
