@@ -54,7 +54,6 @@ public class MessageService extends FirebaseMessagingService {
                     .setAutoCancel(true);
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
             notificationManager.notify(1, builder.build());
-//            TODO: Handle message from notification
         }
     }
 }
