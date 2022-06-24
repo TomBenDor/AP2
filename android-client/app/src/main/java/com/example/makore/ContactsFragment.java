@@ -85,4 +85,11 @@ public class ContactsFragment extends Fragment implements ContactClickListener, 
             mSwipeRefreshLayout.setRefreshing(false);
         }).start();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Get contacts list from web-api
+        new Thread(() -> viewModel.reload()).start();
+    }
 }
