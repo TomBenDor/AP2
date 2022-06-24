@@ -17,6 +17,11 @@
         android:theme="@style/Theme.MaKore"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".MainActivityLandscape"
+            android:exported="false"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            />
 
         <service
             android:name=".MessageService"
@@ -29,22 +34,26 @@
 
         <activity
             android:name=".chat.AddContactActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="false"
-            android:theme="@style/Theme.MaKore.NoActionBar"
-            android:label="@string/title_activity_add_contact" />
+            android:label="@string/title_activity_add_contact"
+            android:theme="@style/Theme.MaKore.NoActionBar" />
         <activity
             android:name=".chat.SettingsActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="false"
-            android:theme="@style/Theme.MaKore.NoActionBar"
-            android:label="@string/title_activity_settings" />
+            android:label="@string/title_activity_settings"
+            android:theme="@style/Theme.MaKore.NoActionBar" />
         <activity
             android:name=".auth.SignUpActivity"
-            android:theme="@style/Theme.MaKore.NoActionBar"
-            android:exported="false" />
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:exported="false"
+            android:theme="@style/Theme.MaKore.NoActionBar" />
         <activity
             android:name=".auth.SignInActivity"
-            android:theme="@style/Theme.MaKore.NoActionBar"
-            android:exported="true">
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:exported="true"
+            android:theme="@style/Theme.MaKore.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -53,6 +62,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:exported="false"
             android:theme="@style/Theme.MaKore.NoActionBar" />
     </application>

@@ -13,10 +13,20 @@ import java.util.List;
 public class ContactsViewModel extends ViewModel {
     private final ContactsRepository contactsRepository;
     private String contactId;
+    private final MutableLiveData<String> contactIdLiveData;
 
     public ContactsViewModel() {
         contactsRepository = new ContactsRepository();
+        contactIdLiveData = new MutableLiveData<>();
         contactId = null;
+    }
+    
+    public MutableLiveData<String> getContactIdLiveData() {
+        return contactIdLiveData;
+    }
+    
+    public void setLiveContactId(String contactId) {
+        contactIdLiveData.setValue(contactId);
     }
 
     public MutableLiveData<List<Contact>> getContacts() {

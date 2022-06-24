@@ -1,5 +1,7 @@
 package com.example.makore;
 
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +29,7 @@ import retrofit2.Response;
 public class ChatFragment extends Fragment {
 
     private FragmentChatBinding binding;
+    // private ContactsListAdapter adapter;
     private ContactsViewModel viewModel;
     private MessageListAdapter adapter;
     private String contactId;
@@ -34,7 +37,8 @@ public class ChatFragment extends Fragment {
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+            Bundle savedInstanceState
+    ) {
 
         binding = FragmentChatBinding.inflate(inflater, container, false);
         return binding.getRoot();
@@ -43,15 +47,26 @@ public class ChatFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel = new ViewModelProvider(this).get(ContactsViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(ContactsViewModel.class);
         viewModel.reload();
         contactId = null;
-        // Get bundle from previous fragment
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            contactId = bundle.getString("contactId");
-            String name = bundle.getString("contactName");
-        }
+        viewModel.getContactIdLiveData().observe(getViewLifecycleOwner(), id -> {
+            contactId = id;
+            if (contactId != null) {
+                // Set contact name
+                viewModel.setContactId(contactId);
+                RecyclerView messagesRecyclerView = binding.lstMessages;
+                adapter = new MessageListAdapter(getContext());
+                messagesRecyclerView.setAdapter(adapter);
+                messagesRecyclerView.setLayoutManager(new androidx.recyclerview.widget.LinearLayoutManager(getContext()));
+
+                viewModel.getMessages().observe(getViewLifecycleOwner(), messages -> {
+                    adapter.setMessages(viewModel.getMessagesWithContact());
+                    System.out.println("Messages: " + messages);
+                });
+            }
+        });
+
         if (contactId != null) {
             RecyclerView messagesRecyclerView = binding.lstMessages;
             adapter = new MessageListAdapter(getContext());
@@ -104,4 +119,11 @@ public class ChatFragment extends Fragment {
         binding = null;
     }
 
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        //Return to main activity
+        Intent intent = new Intent(getContext(), MainActivity.class);
+        startActivity(intent);
+    }
 }

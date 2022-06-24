@@ -1,6 +1,7 @@
 package com.example.makore;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,10 +39,9 @@ public class ContactsFragment extends Fragment implements ContactClickListener, 
             Intent intent = new Intent(getActivity(), AddContactActivity.class);
             startActivity(intent);
         });
-        viewModel = new ViewModelProvider(this).get(ContactsViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(ContactsViewModel.class);
 
         return binding.getRoot();
-
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
@@ -68,13 +68,14 @@ public class ContactsFragment extends Fragment implements ContactClickListener, 
 
     @Override
     public void onContactClick(View v, Contact contact) {
-        // Navigate to chat fragment
-        // Create bundle with contact info
-        Bundle bundle = new Bundle();
-        bundle.putString("contactId", contact.getId());
-        bundle.putString("contactName", contact.getName());
-        NavHostFragment.findNavController(ContactsFragment.this)
-                .navigate(R.id.action_ContactsFragment_to_ChatFragment, bundle);
+        // Set current contact
+        viewModel.setLiveContactId(contact.getId());
+        // If portrait, go to chat fragment
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            // Navigate to chat fragment
+            NavHostFragment.findNavController(ContactsFragment.this)
+                    .navigate(R.id.action_ContactsFragment_to_ChatFragment);
+        }
     }
 
     @Override
