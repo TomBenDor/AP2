@@ -5,6 +5,7 @@
         <EditTextPreference
             app:key="server"
             app:title="@string/settings_server_title"
+            app:defaultValue="@string/default_server_address"
             app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>

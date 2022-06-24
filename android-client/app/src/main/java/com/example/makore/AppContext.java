@@ -9,6 +9,10 @@ public class AppContext {
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
 
+    public SharedPreferences.Editor getEditor() {
+        return editor;
+    }
+
     public AppContext() {
         preferences = SignInActivity.context.getSharedPreferences("preferences", Context.MODE_PRIVATE);
         editor = preferences.edit();

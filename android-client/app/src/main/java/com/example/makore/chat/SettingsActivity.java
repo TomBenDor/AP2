@@ -3,6 +3,7 @@ package com.example.makore.chat;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -10,11 +11,22 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
+import androidx.room.Room;
 
+import com.example.makore.AppContext;
 import com.example.makore.R;
+import com.example.makore.auth.SignInActivity;
+import com.example.makore.entities.AppDB;
 
 public class SettingsActivity extends AppCompatActivity {
     private SharedPreferences settingsSharedPreferences;
+    private AppDB db;
+
+    private void initDB() {
+        // Create Room database
+        db = Room.databaseBuilder(getApplicationContext(),
+                AppDB.class, AppDB.DATABASE_NAME).allowMainThreadQueries().build();
+    }
 
     private void changeTheme(boolean isNightMode) {
         if (isNightMode) {
@@ -22,6 +34,20 @@ public class SettingsActivity extends AppCompatActivity {
         } else {
             getDelegate().setLocalNightMode(MODE_NIGHT_NO);
         }
+    }
+
+    private void changeServer(String server) {
+        // Sign out the user
+        AppContext appContext = new AppContext();
+        appContext.set("username", "");
+        appContext.getEditor().clear();
+        appContext.getEditor().apply();
+        // Clear the database
+        db.clearAllTables();
+        // Navigate to the sign in activity
+        Intent intent = new Intent(SettingsActivity.this, SignInActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override
@@ -35,17 +61,23 @@ public class SettingsActivity extends AppCompatActivity {
                     .replace(R.id.settings, new SettingsFragment())
                     .commit();
         }
+        // Display back button
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
         settingsSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.OnSharedPreferenceChangeListener listener = (sharedPreferences1, key) -> {
+        // Set default values for the preferences (before creating a listener!)
+        PreferenceManager.setDefaultValues(this, R.xml.root_preferences, true);
+        SharedPreferences.OnSharedPreferenceChangeListener listener = (preferences, key) -> {
             if (key.equals("dark_mode")) {
-                changeTheme(sharedPreferences1.getBoolean(key, false));
+                changeTheme(preferences.getBoolean(key, false));
+            } else if (key.equals("server")) {
+                changeServer(preferences.getString(key, getString(R.string.default_server_address)));
             }
         };
         settingsSharedPreferences.registerOnSharedPreferenceChangeListener(listener);
+        initDB();
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat {

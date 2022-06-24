@@ -42,6 +42,7 @@
     <string name="cV_description_profile_picture">Profile picture</string>
     <string name="description_send_message_button">Send message button</string>
     <string name="type_a_message">Type a message…</string>
+    <string name="default_server_address">10.0.2.2:54321</string>
     <string name="connection_error">Error connecting to server</string>
     <string name="invalid_credentials">Invalid username or password</string>
     <string name="app_toolbar_logo_description">App toolbar logo</string>

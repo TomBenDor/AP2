@@ -1,5 +1,9 @@
 package com.example.makore.api;
 
+import androidx.preference.PreferenceManager;
+
+import com.example.makore.auth.SignInActivity;
+
 import java.util.Map;
 
 import retrofit2.Call;
@@ -11,8 +15,10 @@ public class UserAPI {
     UserServiceAPI userServiceAPI;
 
     public UserAPI() {
+        // Get server address from settings
+        String apiAddress = "http://" + PreferenceManager.getDefaultSharedPreferences(SignInActivity.context).getString("server", "10.0.2.2:54321");
         retrofit = new Retrofit.Builder().
-                baseUrl("http://10.0.2.2:54321").
+                baseUrl(apiAddress).
                 addConverterFactory(GsonConverterFactory.create()).
                 build();
         userServiceAPI = retrofit.create(UserServiceAPI.class);
