@@ -1,11 +1,16 @@
 package com.example.makore.chat;
 
+import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
+import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
+
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.preference.PreferenceManager;
 
 import com.example.makore.AppContext;
 import com.example.makore.R;
@@ -20,13 +25,17 @@ import retrofit2.Response;
 
 public class AddContactActivity extends AppCompatActivity {
     private ActivityAddContactBinding binding;
+
+    private SharedPreferences settingsSharedPreferences;
     private ContactsViewModel viewModel;
+    private Boolean _isNightMode = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityAddContactBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        setSupportActionBar(binding.toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -89,6 +98,22 @@ public class AddContactActivity extends AppCompatActivity {
             // Go back to the previous activity
             finish();
         });
+        settingsSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        boolean isNightMode = settingsSharedPreferences.getBoolean("dark_mode", false);
+        if (_isNightMode != null && isNightMode == _isNightMode) {
+            return;
+        }
+        if (isNightMode) {
+            getDelegate().setLocalNightMode(MODE_NIGHT_YES);
+        } else {
+            getDelegate().setLocalNightMode(MODE_NIGHT_NO);
+        }
+        _isNightMode = isNightMode;
     }
 
     // Override back button to go back to MainActivity

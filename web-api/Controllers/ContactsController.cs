@@ -1,5 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
+using System.Net.Mime;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
@@ -8,7 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 using class_library;
 using class_library.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.IdentityModel.Tokens;
+using web_api.Hubs;
 using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 
 namespace web_api.Controllers;
@@ -22,6 +25,7 @@ public class ContactsController : ControllerBase
     private readonly IConfiguration _configuration;
     private readonly JwtSecurityTokenHandler _tokenHandler;
     private readonly HttpClient _httpClient = new HttpClient();
+    private IHubContext<MessageHub> _hubContext;
 
     private readonly JsonSerializerOptions _jsonSerializerOptions = new JsonSerializerOptions
     {
@@ -66,12 +70,14 @@ public class ContactsController : ControllerBase
         _usersService.Update(drake);
     }
 
-    public ContactsController(IUsersService usersService, IChatsService chatsService, IConfiguration configuration)
+    public ContactsController(IUsersService usersService, IChatsService chatsService,
+        IHubContext<MessageHub> hubContext, IConfiguration configuration)
     {
         _usersService = usersService;
         _chatsService = chatsService;
         _configuration = configuration;
         _tokenHandler = new JwtSecurityTokenHandler();
+        _hubContext = hubContext;
         // For testing
         _initExampleChatsAndUsers();
     }
@@ -179,8 +185,19 @@ public class ContactsController : ControllerBase
             return BadRequest();
         }
 
+        string? profilePicture;
+        try
+        {
+            profilePicture = body.GetProperty("profilePicture").GetString();
+        }
+        catch
+        {
+            byte[] imageBytes = System.IO.File.ReadAllBytes("photos/profilePicture.png");
+            profilePicture = Convert.ToBase64String(imageBytes);
+        }
+
         // Create new user
-        var newUser = new User(username, name, "localhost", password);
+        var newUser = new User(username, name, "localhost", password, profilePicture);
         _usersService.Add(newUser);
 
         return Created("", null);
@@ -301,7 +318,7 @@ public class ContactsController : ControllerBase
             contact.Chats.Add(currentUser.Username, newChat);
             _usersService.Update(contact);
         }
-
+        _hubContext.Clients.All.SendAsync("MessageReceived");
         return Created("", null);
     }
 
@@ -535,6 +552,7 @@ public class ContactsController : ControllerBase
             return NotFound();
         }
 
+        _hubContext.Clients.All.SendAsync("MessageReceived");
         // Add the new message to the chat
         Chat chat = currentUser.Chats[id];
         // Create a new message

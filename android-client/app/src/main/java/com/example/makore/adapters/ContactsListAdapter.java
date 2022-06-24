@@ -58,7 +58,11 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
             Contact current = mContacts.get(position);
             holder.name.setText(current.getName());
             if (current.getLast() != null) {
-                holder.lastMessage.setText(current.getLast());
+                String lastMessage = current.getLast();
+                if (lastMessage.length() > 15) {
+                    lastMessage = lastMessage.substring(0, 15) + "...";
+                }
+                holder.lastMessage.setText(lastMessage);
             } else {
                 holder.lastMessage.setText("");
             }

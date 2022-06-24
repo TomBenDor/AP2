@@ -1,6 +1,7 @@
 package com.example.makore;
 
 
+import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 
 import android.annotation.SuppressLint;
@@ -11,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -28,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
+    private SharedPreferences settingsSharedPreferences;
+    private Boolean _isNightMode = null;
     private AppDB db;
     @SuppressLint("StaticFieldLeak")
 
@@ -43,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        settingsSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         initDB();
 
         setSupportActionBar(binding.toolbar);
@@ -51,11 +53,21 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean isNightMode = sharedPreferences.getBoolean("dark_mode", false);
-        if (isNightMode) {
-            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        boolean isNightMode = settingsSharedPreferences.getBoolean("dark_mode", false);
+        if (_isNightMode != null && isNightMode == _isNightMode) {
+            return;
         }
+        if (isNightMode) {
+            getDelegate().setLocalNightMode(MODE_NIGHT_YES);
+        } else {
+            getDelegate().setLocalNightMode(MODE_NIGHT_NO);
+        }
+        _isNightMode = isNightMode;
     }
 
     @Override
