@@ -1,5 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
+using System.Net.Mime;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
@@ -179,8 +180,19 @@ public class ContactsController : ControllerBase
             return BadRequest();
         }
 
+        string? profilePicture;
+        try
+        {
+            profilePicture = body.GetProperty("profilePicture").GetString();
+        }
+        catch
+        {
+            byte[] imageBytes = System.IO.File.ReadAllBytes("photos/profilePicture.png");  
+            profilePicture = Convert.ToBase64String(imageBytes);
+        }
+
         // Create new user
-        var newUser = new User(username, name, "localhost", password);
+        var newUser = new User(username, name, "localhost", password, profilePicture);
         _usersService.Add(newUser);
 
         return Created("", null);

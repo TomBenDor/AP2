@@ -8,19 +8,19 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
 import com.example.makore.R;
 
 public class SettingsActivity extends AppCompatActivity {
+    private SharedPreferences settingsSharedPreferences;
 
     private void changeTheme(boolean isNightMode) {
         if (isNightMode) {
-            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES);
+            getDelegate().setLocalNightMode(MODE_NIGHT_YES);
         } else {
-            AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO);
+            getDelegate().setLocalNightMode(MODE_NIGHT_NO);
         }
     }
 
@@ -32,6 +32,7 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
+        setSupportActionBar(findViewById(R.id.settings_toolbar));
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
@@ -43,7 +44,7 @@ public class SettingsActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        settingsSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.OnSharedPreferenceChangeListener listener = (preferences, key) -> {
             if (key.equals("dark_mode")) {
                 changeTheme(preferences.getBoolean(key, false));
@@ -51,13 +52,24 @@ public class SettingsActivity extends AppCompatActivity {
                 changeServer(preferences.getString(key, getString(R.string.default_server_address)));
             }
         };
-        sharedPreferences.registerOnSharedPreferenceChangeListener(listener);
+        settingsSharedPreferences.registerOnSharedPreferenceChangeListener(listener);
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        boolean isNightMode = settingsSharedPreferences.getBoolean("dark_mode", false);
+        if (isNightMode) {
+            getDelegate().setLocalNightMode(MODE_NIGHT_YES);
+        } else {
+            getDelegate().setLocalNightMode(MODE_NIGHT_NO);
         }
     }
 
