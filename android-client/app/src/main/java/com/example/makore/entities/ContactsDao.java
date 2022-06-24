@@ -28,4 +28,10 @@ public interface ContactsDao {
 
     @Insert
     void insertMessage(Message... messages);
+
+    @Query("DELETE FROM contact")
+    void deleteContacts();
+
+    @Query("DELETE FROM message WHERE contactId = :id")
+    void deleteMessages(String id);
 }

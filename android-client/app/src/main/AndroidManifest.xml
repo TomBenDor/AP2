@@ -17,6 +17,7 @@
         android:theme="@style/Theme.MaKore"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
         <service
             android:name=".MessageService"
             android:enabled="true"

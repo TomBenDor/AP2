@@ -5,7 +5,6 @@ import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -30,12 +29,10 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
-    private SharedPreferences sharedpreferences;
     private SharedPreferences settingsSharedPreferences;
     private Boolean _isNightMode = null;
     private AppDB db;
     @SuppressLint("StaticFieldLeak")
-    public static Context context;
 
     private void initDB() {
         // Create Room database
@@ -46,11 +43,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        context = this;
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        sharedpreferences = getSharedPreferences("user", MODE_PRIVATE);
         settingsSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         initDB();
 
@@ -99,9 +94,10 @@ public class MainActivity extends AppCompatActivity {
         }
         if (id == R.id.action_sign_out) {
             // Sign out the user
-            SharedPreferences.Editor editor = sharedpreferences.edit();
-            editor.clear();
-            editor.apply();
+            AppContext appContext = new AppContext();
+            appContext.set("username", "");
+            appContext.editor.clear();
+            appContext.editor.apply();
             // Clear the database
             db.clearAllTables();
             //Clear notifications
@@ -122,6 +118,4 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, appBarConfiguration)
                 || super.onSupportNavigateUp();
     }
-
-
 }

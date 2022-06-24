@@ -20,13 +20,14 @@
             android:scaleType="centerCrop"
             android:contentDescription="@string/cV_description_profile_picture"
             app:tint="?attr/customProfilePicTint"
+            android:layout_gravity="center"
             android:src="@drawable/ic_default_contact_pic_light" />
 
         <TextView
             android:id="@+id/contactViewContactName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp" />
+            android:layout_gravity="center" />
     </LinearLayout>
 
     <LinearLayout
