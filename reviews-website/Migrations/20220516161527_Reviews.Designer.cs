@@ -18,7 +18,7 @@ namespace server.Migrations
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "7.0.0-preview.4.22229.2");
+            modelBuilder.HasAnnotation("ProductVersion", "6.0.6");
 
             modelBuilder.Entity("server.Models.Review", b =>
                 {

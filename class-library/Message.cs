@@ -4,12 +4,15 @@ namespace class_library;
 
 public class Message
 {
-    public Message(int id, string message, string sender, DateTime date)
+    public Message(string message, string sender, DateTime date)
     {
-        Id = id;
         Text = message;
         Sender = sender;
         Timestamp = date;
+    }
+
+    public Message()
+    {
     }
 
     [Key] public int Id { get; set; }

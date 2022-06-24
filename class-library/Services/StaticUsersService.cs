@@ -4,13 +4,13 @@ public class StaticUsersService : IUsersService
 {
     private static List<User> Users = new List<User> {
         new User("user123", "Coolest dude ever", "localhost", "pass123A"),
-        new User("Crisr7", "Cristiano Ronaldo", "localhost", "Crr9876"),
+        new User("Crisr7", "Cristiano Ronaldo", "localhost", "Crisr7"),
         new User("drake6942", "Drake", "localhost", "DDdsf5"),
         new User("zuckyhomeboy", "Mark Zuckerberg", "localhost", "Markie(6)"),
         new User("OdedPaz", "Oded Paz", "localhost", "zaziBazazi12")
     };
 
-    public User? Get(string username)
+    public User? Get(string username) 
     {
         return Users.FirstOrDefault(u => u.Username == username);
     }

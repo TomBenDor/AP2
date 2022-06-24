@@ -34,44 +34,6 @@ public class ContactsController : ControllerBase
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase
     };
 
-    private void _initExampleChatsAndUsers()
-    {
-        // Create example users and chats
-
-        var user1 = _usersService.Get("user123");
-        if (user1 == null || user1.Chats.Count > 0)
-        {
-            return;
-        }
-
-        var cris = _usersService.Get("Crisr7");
-        var drake = _usersService.Get("drake6942");
-        var ch1 = _chatsService.Get("user123-Crisr7");
-        var ch2 = _chatsService.Get("user123-drake6942");
-        if (cris == null || drake == null || ch1 == null || ch2 == null)
-        {
-            return;
-        }
-
-        ch1.Members.Add(user1);
-        ch1.Members.Add(cris);
-        ch2.Members.Add(user1);
-        ch2.Members.Add(drake);
-        ch1.Messages.Add(new Message(1, "Ayo my dude", "user123", DateTime.Now));
-        ch1.Messages.Add(new Message(2, "Hi :)", "Crisr7", DateTime.Now));
-        ch2.Messages.Add(new Message(1, "Yo hear my new song bro", "drake6942", DateTime.Now));
-        ch2.Messages.Add(new Message(2, "Lit bro", "user123", DateTime.Now));
-        _chatsService.Update(ch1);
-        _chatsService.Update(ch2);
-        user1.Chats["Crisr7"] = ch1;
-        user1.Chats["drake6942"] = ch2;
-        cris.Chats["user123"] = ch1;
-        drake.Chats["user123"] = ch2;
-        _usersService.Update(user1);
-        _usersService.Update(cris);
-        _usersService.Update(drake);
-    }
-
     public ContactsController(IUsersService usersService, IChatsService chatsService, IConfiguration configuration,
         Sender sender, Dictionary<String, String> tokens,IHubContext<MessageHub> hubContext)
     {
@@ -82,8 +44,6 @@ public class ContactsController : ControllerBase
         _sender = sender;
         _tokens = tokens;
         _hubContext = hubContext;
-        // For testing
-        _initExampleChatsAndUsers();
     }
 
     private User? _getCurrentUser()
@@ -230,14 +190,13 @@ public class ContactsController : ControllerBase
             return NotFound();
         }
 
-        List<string> contactsIds = currentUser.Chats.Keys.ToList();
-        IEnumerable<User> contacts = _usersService.Get(contactsIds);
+        IEnumerable<User> contacts = _usersService.Get(currentUser.ContactsIds);
         // Loop over contacts and create a list of outerUsers from them
         List<OuterUser> outerContacts = new List<OuterUser>();
         foreach (User c in contacts)
         {
-            string? displayName = currentUser.Names.ContainsKey(c.Username) ? currentUser.Names[c.Username] : null;
-            outerContacts.Add(new OuterUser(c.Username, currentUser.Chats[c.Username], displayName));
+            string? displayName = currentUser.ContactsNames[currentUser.ContactsIds.IndexOf(c.Username)];
+            outerContacts.Add(new OuterUser(c.Username, currentUser.Chats[currentUser.ContactsIds.IndexOf(c.Username)], displayName));
         }
 
         return Ok(outerContacts);
@@ -278,7 +237,7 @@ public class ContactsController : ControllerBase
         }
 
         // If the contact is already in the current user's contacts, return BadRequest
-        if (currentUser.Chats.ContainsKey(id))
+        if (currentUser.ContactsIds.Contains(id))
         {
             return BadRequest("User is already in contacts list");
         }
@@ -315,7 +274,8 @@ public class ContactsController : ControllerBase
         }
 
         // Add the contact to the current user's names
-        currentUser.Names.Add(id, name);
+        currentUser.ContactsIds.Add(id);
+        currentUser.ContactsNames.Add(name);
 
         // Create a new chat between the current user and the contact
         var newChat = new Chat(currentUser.Username + "-" + contact.Username)
@@ -324,12 +284,14 @@ public class ContactsController : ControllerBase
         };
         _chatsService.Add(newChat);
         // Add the new chat to the current user
-        currentUser.Chats.Add(contact.Username, newChat);
+        currentUser.Chats.Add(newChat);
         _usersService.Update(currentUser);
         // Add the new chat to the contact
         if (contact.Server == "localhost")
         {
-            contact.Chats.Add(currentUser.Username, newChat);
+            contact.Chats.Add(newChat);
+            contact.ContactsIds.Add(currentUser.Username);
+            contact.ContactsNames.Add(currentUser.Name);
             _usersService.Update(contact);
         }
         if (_tokens.ContainsKey(id))
@@ -363,7 +325,7 @@ public class ContactsController : ControllerBase
             return BadRequest();
         }
 
-        string? contactId = currentUser.Chats.Keys.ToList().Find(username => username == id);
+        string? contactId = currentUser.ContactsIds.Find(username => username == id);
         if (contactId == null)
         {
             return NotFound();
@@ -375,8 +337,8 @@ public class ContactsController : ControllerBase
             return NotFound();
         }
 
-        string? displayName = currentUser.Names.ContainsKey(contactId) ? currentUser.Names[contactId] : null;
-        var outerContact = new OuterUser(contactId, currentUser.Chats[contactId], displayName);
+        string? displayName = currentUser.ContactsNames[currentUser.ContactsIds.IndexOf(contact.Username)];
+        var outerContact = new OuterUser(contactId, currentUser.Chats[currentUser.ContactsIds.IndexOf(contactId)], displayName);
         return Ok(outerContact);
     }
 
@@ -418,7 +380,7 @@ public class ContactsController : ControllerBase
             return BadRequest();
         }
 
-        var contactId = currentUser.Chats.Keys.ToList().Find(username => username == id);
+        var contactId = currentUser.ContactsIds.Find(username => username == id);
         if (contactId == null)
         {
             return NotFound();
@@ -430,7 +392,7 @@ public class ContactsController : ControllerBase
             return NotFound();
         }
 
-        currentUser.Names[contactId] = name;
+        currentUser.ContactsNames[currentUser.ContactsIds.IndexOf(contactId)] = name;
         newContact.Server = server;
 
         if (_usersService.Update(newContact) == null)
@@ -465,7 +427,7 @@ public class ContactsController : ControllerBase
         }
 
         // Delete the chat between the current user and the contact
-        var chat = currentUser.Chats.Values.ToList().Find(chatId => chatId.Id == contact.Chats.Values.ToList()[0].Id);
+        var chat = currentUser.Chats.Find(chat => chat.Id == contact.Chats[contact.ContactsNames.IndexOf(currentUser.Username)].Id);
         if (chat == null)
         {
             return NotFound();
@@ -473,16 +435,16 @@ public class ContactsController : ControllerBase
 
         _chatsService.Remove(chat);
         // Delete the contact from the current user
-        currentUser.Chats.Remove(contact.Username);
+        currentUser.Chats.Remove(chat);
         // Delete the contact from Names dictionary
-        if (currentUser.Names.ContainsKey(contact.Username))
-        {
-            currentUser.Names.Remove(contact.Username);
-        }
+        currentUser.ContactsNames.RemoveAt(currentUser.ContactsIds.IndexOf(contact.Username));
+        currentUser.ContactsIds.Remove(contact.Username);
 
         _usersService.Update(currentUser);
         // Delete the currentUser from the contact
-        contact.Chats.Remove(currentUser.Username);
+        contact.Chats.Remove(chat);
+        contact.ContactsNames.RemoveAt(contact.ContactsIds.IndexOf(currentUser.Username));
+        contact.ContactsIds.Remove(currentUser.Username);
         _usersService.Update(contact);
         return NoContent();
     }
@@ -510,17 +472,18 @@ public class ContactsController : ControllerBase
         }
 
         // If the contact is not in the current user's contacts, return NotFound
-        if (!currentUser.Chats.ContainsKey(id))
+        if (!currentUser.ContactsIds.Contains(id))
         {
             return NotFound();
         }
 
         List<OuterMessage> outerMessages = new List<OuterMessage>();
         // Loop over currentUser.Chats[id].Messages
-        foreach (var m in currentUser.Chats[id].Messages)
+        int i = 0;
+        foreach (var m in currentUser.Chats[currentUser.ContactsIds.IndexOf(id)].Messages)
         {
             // Create a new OuterMessage
-            OuterMessage outerMessage = new OuterMessage(m, currentUser.Username);
+            OuterMessage outerMessage = new OuterMessage(++i, m, currentUser.Username);
             outerMessages.Add(outerMessage);
         }
 
@@ -566,17 +529,17 @@ public class ContactsController : ControllerBase
         }
 
         // If the contact is not in the current user's contacts, return NotFound
-        if (!currentUser.Chats.ContainsKey(id))
+        if (!currentUser.ContactsIds.Contains(id))
         {
             return NotFound();
         }
 
         _hubContext.Clients.All.SendAsync("MessageReceived");
         // Add the new message to the chat
-        Chat chat = currentUser.Chats[id];
+        Chat chat = currentUser.Chats[currentUser.ContactsIds.IndexOf(id)];
         // Create a new message
         int lastMessageId = chat.Messages.Count > 0 ? chat.Messages.Max(m => m.Id) : 0;
-        var message = new Message(lastMessageId + 1, content, currentUser.Username, DateTime.Now);
+        var message = new Message(content, currentUser.Username, DateTime.Now);
         chat.Messages.Add(message);
         _chatsService.Update(chat);
         // Add the new message to the contact if on a remote server
@@ -621,19 +584,19 @@ public class ContactsController : ControllerBase
         }
 
         // If the contact is not in the current user's contacts, return NotFound
-        if (!currentUser.Chats.ContainsKey(id))
+        if (!currentUser.ContactsIds.Contains(id))
         {
             return NotFound();
         }
 
         // If the message doesn't exist, return NotFound
-        Message? message = currentUser.Chats[id].Messages.SingleOrDefault(msg => msg.Id == id2);
+        Message? message = currentUser.Chats[currentUser.ContactsIds.IndexOf(id)].Messages.SingleOrDefault(msg => msg.Id == id2);
         if (message == null)
         {
             return NotFound();
         }
 
-        OuterMessage outerMessage = new OuterMessage(message, currentUser.Name);
+        OuterMessage outerMessage = new OuterMessage(id2, message, currentUser.Name);
         return Ok(outerMessage);
     }
 
@@ -676,13 +639,13 @@ public class ContactsController : ControllerBase
         }
 
         // If the contact is not in the current user's contacts, return NotFound
-        if (!currentUser.Chats.ContainsKey(id))
+        if (!currentUser.ContactsIds.Contains(id))
         {
             return NotFound();
         }
 
         // If the message doesn't exist, return NotFound
-        var message = currentUser.Chats[id].Messages.SingleOrDefault(msg => msg.Id == id2);
+        var message = currentUser.Chats[currentUser.ContactsIds.IndexOf(id)].Messages.SingleOrDefault(msg => msg.Id == id2);
         if (message == null)
         {
             return NotFound();
@@ -691,7 +654,7 @@ public class ContactsController : ControllerBase
         // Update the message
         message.Text = content;
         // Update the chat
-        Chat chat = currentUser.Chats[id];
+        Chat chat = currentUser.Chats[currentUser.ContactsIds.IndexOf(id)];
         _chatsService.Update(chat);
         // No API exists for updating the contact if on a remote server
 
@@ -723,20 +686,20 @@ public class ContactsController : ControllerBase
         }
 
         // If the contact is not in the current user's contacts, return NotFound
-        if (!currentUser.Chats.ContainsKey(id))
+        if (!currentUser.ContactsIds.Contains(id))
         {
             return NotFound();
         }
 
         // If the message doesn't exist, return NotFound
-        var message = currentUser.Chats[id].Messages.SingleOrDefault(msg => msg.Id == id2);
+        var message = currentUser.Chats[currentUser.ContactsIds.IndexOf(id)].Messages.SingleOrDefault(msg => msg.Id == id2);
         if (message == null)
         {
             return NotFound();
         }
 
         // Delete the message from the chat
-        Chat chat = currentUser.Chats[id];
+        Chat chat = currentUser.Chats[currentUser.ContactsIds.IndexOf(id)];
         chat.Messages.Remove(message);
         _chatsService.Update(chat);
         // No API exists for deleting a message from the contact if on a remote server

@@ -2,9 +2,9 @@ namespace class_library;
 
 public class OuterMessage
 {
-    public OuterMessage(Message message, string loggedInUsername)
+    public OuterMessage(int i, Message message, string loggedInUsername)
     {
-        Id = message.Id;
+        Id = i;
         Content = message.Text;
         Created = message.Timestamp.ToString("MM/dd/yyyy, HH:mm:ss");
         Sent = loggedInUsername == message.Sender;
