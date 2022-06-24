@@ -19,11 +19,13 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
     class MessageViewHolder extends RecyclerView.ViewHolder {
         private final TextView content;
         private final TextView timestamp;
+        private final View layout;
 
         private MessageViewHolder(View itemView) {
             super(itemView);
             content = itemView.findViewById(R.id.msgViewContent);
             timestamp = itemView.findViewById(R.id.msgViewTimestamp);
+            layout = itemView.findViewById(R.id.linearLayout);
         }
     }
 
@@ -47,6 +49,14 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
             Message current = mMessages.get(position);
             holder.content.setText(current.getContent());
             holder.timestamp.setText(current.getCreated());
+
+            if (current.isSent()) {
+                holder.layout.setBackgroundResource(R.drawable.rounded_edge_blue);
+                holder.layout.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+            } else {
+                holder.layout.setBackgroundResource(R.drawable.rounded_edge_white);
+                holder.layout.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+            }
         }
     }
 

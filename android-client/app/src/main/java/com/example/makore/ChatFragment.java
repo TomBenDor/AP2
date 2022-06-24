@@ -27,7 +27,6 @@ import retrofit2.Response;
 public class ChatFragment extends Fragment {
 
     private FragmentChatBinding binding;
-    // private ContactsListAdapter adapter;
     private ContactsViewModel viewModel;
     private MessageListAdapter adapter;
     private String contactId;
@@ -35,8 +34,7 @@ public class ChatFragment extends Fragment {
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState
-    ) {
+            Bundle savedInstanceState) {
 
         binding = FragmentChatBinding.inflate(inflater, container, false);
         return binding.getRoot();
@@ -46,6 +44,7 @@ public class ChatFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(this).get(ContactsViewModel.class);
+        viewModel.reload();
         contactId = null;
         // Get bundle from previous fragment
         Bundle bundle = getArguments();
