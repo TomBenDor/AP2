@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.makore.adapters.MessageListAdapter;
+import com.example.makore.api.ContactAPI;
 import com.example.makore.databinding.FragmentChatBinding;
 import com.example.makore.entities.Message;
 import com.example.makore.viewmodels.ContactsViewModel;
@@ -18,6 +19,10 @@ import com.example.makore.viewmodels.ContactsViewModel;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ChatFragment extends Fragment {
 
@@ -77,6 +82,18 @@ public class ChatFragment extends Fragment {
                 Message newMessage = new Message(messageContent, timestamp, true, contactId);
                 // Insert message into database
                 viewModel.insertMessage(newMessage);
+                new ContactAPI()
+                        .addMessage(newMessage.getContactId(), newMessage.getContent())
+                        .enqueue(new Callback<>() {
+                            @Override
+                            public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                            }
+
+                            @Override
+                            public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                                t.printStackTrace();
+                            }
+                        });
                 binding.messageInput.setText("");
             }
         });

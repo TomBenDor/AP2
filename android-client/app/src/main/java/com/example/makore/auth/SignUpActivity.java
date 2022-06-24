@@ -18,7 +18,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.preference.PreferenceManager;
 
+import com.example.makore.AppContext;
 import com.example.makore.MainActivity;
+import com.example.makore.R;
 import com.example.makore.api.UserAPI;
 import com.example.makore.databinding.ActivitySignUpBinding;
 
@@ -33,7 +35,6 @@ import retrofit2.Response;
 public class SignUpActivity extends AppCompatActivity {
 
     private ActivitySignUpBinding binding;
-    private SharedPreferences sharedpreferences;
     private Uri selectedImage;
     private SharedPreferences settingsSharedPreferences;
     private Boolean _isNightMode = null;
@@ -53,7 +54,7 @@ public class SignUpActivity extends AppCompatActivity {
             Intent intent = new Intent(SignUpActivity.this, SignInActivity.class);
             startActivity(intent);
         });
-        sharedpreferences = getSharedPreferences("user", MODE_PRIVATE);
+
         binding.attachProfilePictureBtn.setOnClickListener(view -> {
             Intent pickPhoto = new Intent(Intent.ACTION_PICK,
                     android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -137,10 +138,9 @@ public class SignUpActivity extends AppCompatActivity {
                                     if (response.isSuccessful()) {
                                         Map<String, String> body = response.body();
                                         String token = body.get("token");
-                                        SharedPreferences.Editor editor = sharedpreferences.edit();
-                                        editor.putString("token", token);
-                                        editor.putString("username", username);
-                                        editor.apply();
+                                        AppContext appContext = new AppContext();
+                                        appContext.set("token", token);
+                                        appContext.set("username", username);
                                         Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
                                         startActivity(intent);
                                     }
@@ -148,7 +148,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                                 @Override
                                 public void onFailure(@NonNull Call<Map<String, String>> call, @NonNull Throwable t) {
-                                    t.printStackTrace();
+                                    binding.editTextUsername.setError(getString(R.string.connection_error));
                                 }
                             });
                         } else {
@@ -158,7 +158,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-
+                        binding.editTextUsername.setError(getString(R.string.connection_error));
                     }
                 });
             }
@@ -184,7 +184,7 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         // If the user is already signed in, go to the main screen
-        if (!sharedpreferences.getString("username", "").isEmpty()) {
+        if (!new AppContext().get("username").isEmpty()) {
             // Go to the main screen
             Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
             startActivity(intent);

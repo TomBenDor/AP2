@@ -1,9 +1,11 @@
 package com.example.makore.repositories;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.room.Room;
 
-import com.example.makore.MainActivity;
+import com.example.makore.api.ContactAPI;
+import com.example.makore.auth.SignInActivity;
 import com.example.makore.entities.AppDB;
 import com.example.makore.entities.Contact;
 import com.example.makore.entities.ContactsDao;
@@ -12,18 +14,20 @@ import com.example.makore.entities.Message;
 import java.util.LinkedList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class ContactsRepository {
-    private ContactsDao contactsDao;
-    private ContactListData contactListData;
-    private MessageListData messageListData;
-    // private ContactsAPI api;
+    private final ContactsDao contactsDao;
+    private final ContactListData contactListData;
+    private final MessageListData messageListData;
 
     public ContactsRepository() {
         // Create Room database
-        AppDB db = Room.databaseBuilder(MainActivity.context,
+        AppDB db = Room.databaseBuilder(SignInActivity.context,
                 AppDB.class, AppDB.DATABASE_NAME).allowMainThreadQueries().build();
         contactsDao = db.contactsDao();
-        // this.api = api;
         contactListData = new ContactListData();
         messageListData = new MessageListData();
     }
@@ -38,6 +42,16 @@ public class ContactsRepository {
         contactListData.setValue(contactsList);
     }
 
+    public void deleteContacts() {
+        contactsDao.deleteContacts();
+        contactListData.setValue(null);
+    }
+
+    private void deleteMessages(String id) {
+        contactsDao.deleteMessages(id);
+        messageListData.setValue(contactsDao.getMessages());
+    }
+
     public void insertMessage(Message message) {
         contactsDao.insertMessage(message);
         List<Message> messageList = messageListData.getValue();
@@ -48,9 +62,51 @@ public class ContactsRepository {
         messageListData.setValue(messageList);
     }
 
-    // TODO: reload contacts from web-api
     public void reload() {
-        // Reload contacts from API
+        ContactAPI contactAPI = new ContactAPI();
+        contactAPI.getContacts().enqueue(new Callback<>() {
+
+            @Override
+            public void onResponse(@NonNull Call<List<Contact>> call, @NonNull Response<List<Contact>> response) {
+                if (response.isSuccessful()) {
+                    deleteContacts();
+                    List<Contact> contacts = response.body();
+                    if (contacts != null && !contacts.isEmpty()) {
+                        for (Contact contact : contacts) {
+                            insertContact(contact);
+
+                            contactAPI.getMessages(contact.getId())
+                                    .enqueue(new Callback<>() {
+                                                 @Override
+                                                 public void onResponse(@NonNull Call<List<Message>> call, @NonNull Response<List<Message>> response) {
+                                                     if (response.isSuccessful()) {
+                                                         deleteMessages(contact.getId());
+                                                         List<Message> messages = response.body();
+                                                         if (messages != null && !messages.isEmpty()) {
+                                                             for (Message message : messages) {
+                                                                 Message newMessage = new Message(message.getContent(), message.getCreated(), message.isSent(), contact.getId());
+                                                                 insertMessage(newMessage);
+                                                             }
+                                                         }
+                                                     }
+                                                 }
+
+                                                 @Override
+                                                 public void onFailure(@NonNull Call<List<Message>> call, @NonNull Throwable t) {
+                                                    t.printStackTrace();
+                                                 }
+                                             }
+                                    );
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<Contact>> call, @NonNull Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 
     // Get contact by id
