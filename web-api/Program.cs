@@ -1,4 +1,5 @@
 using System.Text;
+using class_library;
 using class_library.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -18,6 +19,11 @@ builder.Services.AddSignalR();
 // Dependency Injection
 builder.Services.AddSingleton<IUsersService, StaticUsersService>();
 builder.Services.AddSingleton<IChatsService, StaticChatsService>();
+
+// Store tokens
+builder.Services.AddSingleton<Sender>();
+builder.Services.AddSingleton<Dictionary<String, String>>();
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

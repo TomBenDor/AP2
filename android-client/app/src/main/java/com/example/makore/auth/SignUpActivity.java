@@ -26,6 +26,7 @@ import com.example.makore.R;
 import com.example.makore.api.UserAPI;
 import com.example.makore.chat.SettingsActivity;
 import com.example.makore.databinding.ActivitySignUpBinding;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -130,39 +131,43 @@ public class SignUpActivity extends AppCompatActivity {
             UserAPI userAPI = new UserAPI();
             if (isValid) {
                 Call<Void> signunCall = userAPI.signup(username, password, displayName, encodedImage);
-                signunCall.enqueue(new Callback<>() {
-                    @Override
-                    public void onResponse(@NonNull Call<Void> call, @NonNull retrofit2.Response<Void> response) {
-                        if (response.isSuccessful()) {
-                            Call<Map<String, String>> signinCall = userAPI.signin(username, password);
-                            signinCall.enqueue(new Callback<>() {
-                                @Override
-                                public void onResponse(@NonNull Call<Map<String, String>> call, @NonNull Response<Map<String, String>> response) {
-                                    if (response.isSuccessful()) {
-                                        Map<String, String> body = response.body();
-                                        String token = body.get("token");
-                                        AppContext appContext = new AppContext();
-                                        appContext.set("token", token);
-                                        appContext.set("username", username);
-                                        Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
-                                        startActivity(intent);
+                FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(instanceIdResult -> {
+                    String firebaseToken = instanceIdResult.getToken();
+                    signunCall.enqueue(new Callback<>() {
+                        @Override
+                        public void onResponse(@NonNull Call<Void> call, @NonNull retrofit2.Response<Void> response) {
+                            if (response.isSuccessful()) {
+                                Call<Map<String, String>> signinCall = userAPI.signin(username, password, firebaseToken);
+                                signinCall.enqueue(new Callback<>() {
+                                    @Override
+                                    public void onResponse(@NonNull Call<Map<String, String>> call, @NonNull Response<Map<String, String>> response) {
+                                        if (response.isSuccessful()) {
+                                            Map<String, String> body = response.body();
+                                            String token = body.get("token");
+                                            AppContext appContext = new AppContext();
+                                            appContext.set("token", token);
+                                            appContext.set("username", username);
+                                            Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                                            startActivity(intent);
+                                        }
                                     }
-                                }
 
-                                @Override
-                                public void onFailure(@NonNull Call<Map<String, String>> call, @NonNull Throwable t) {
-                                    binding.editTextUsername.setError(getString(R.string.connection_error));
-                                }
-                            });
-                        } else {
-                            binding.editTextUsername.setError("Username already exists");
+                                    @Override
+                                    public void onFailure(@NonNull Call<Map<String, String>> call, @NonNull Throwable t) {
+                                        binding.editTextUsername.setError(getString(R.string.connection_error));
+                                    }
+                                });
+                            } else {
+                                binding.editTextUsername.setError("Username already exists");
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                        binding.editTextUsername.setError(getString(R.string.connection_error));
-                    }
+
+                        @Override
+                        public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
+                            binding.editTextUsername.setError(getString(R.string.connection_error));
+                        }
+                    });
                 });
             }
         });
@@ -201,7 +206,6 @@ public class SignUpActivity extends AppCompatActivity {
         } else {
             getDelegate().setLocalNightMode(MODE_NIGHT_NO);
         }
-        _isNightMode = isNightMode;
     }
 
     @Override

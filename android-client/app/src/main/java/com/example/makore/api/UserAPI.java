@@ -24,8 +24,8 @@ public class UserAPI {
         userServiceAPI = retrofit.create(UserServiceAPI.class);
     }
 
-    public Call<Map<String, String>> signin(String username, String password) {
-        return userServiceAPI.signin(Map.of("username", username, "password", password));
+    public Call<Map<String, String>> signin(String username, String password, String token) {
+        return userServiceAPI.signin(Map.of("username", username, "password", password, "firebaseToken", token));
     }
 
     public Call<Void> signup(String username, String password, String name, String profilePicture) {

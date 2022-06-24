@@ -25,6 +25,8 @@ public class ContactsController : ControllerBase
     private readonly IConfiguration _configuration;
     private readonly JwtSecurityTokenHandler _tokenHandler;
     private readonly HttpClient _httpClient = new HttpClient();
+    private readonly Sender _sender;
+    private Dictionary<String, String> _tokens;
     private IHubContext<MessageHub> _hubContext;
 
     private readonly JsonSerializerOptions _jsonSerializerOptions = new JsonSerializerOptions
@@ -70,13 +72,15 @@ public class ContactsController : ControllerBase
         _usersService.Update(drake);
     }
 
-    public ContactsController(IUsersService usersService, IChatsService chatsService,
-        IHubContext<MessageHub> hubContext, IConfiguration configuration)
+    public ContactsController(IUsersService usersService, IChatsService chatsService, IConfiguration configuration,
+        Sender sender, Dictionary<String, String> tokens,IHubContext<MessageHub> hubContext)
     {
         _usersService = usersService;
         _chatsService = chatsService;
         _configuration = configuration;
         _tokenHandler = new JwtSecurityTokenHandler();
+        _sender = sender;
+        _tokens = tokens;
         _hubContext = hubContext;
         // For testing
         _initExampleChatsAndUsers();
@@ -136,6 +140,16 @@ public class ContactsController : ControllerBase
         // Return JWT token
         var token = _createJwtToken(username);
         var name = user.Name;
+        try
+        {
+            string? firebaseToken;
+            firebaseToken = body.GetProperty("firebaseToken").GetString();
+            _tokens.Add(username, firebaseToken);
+        }
+        catch
+        {
+        }
+
         return Ok(new { token, name });
     }
 
@@ -318,6 +332,11 @@ public class ContactsController : ControllerBase
             contact.Chats.Add(currentUser.Username, newChat);
             _usersService.Update(contact);
         }
+        if (_tokens.ContainsKey(id))
+        {
+            _sender.Send(_tokens[id], currentUser.Username, _getCurrentUser().Name + "started a chat with you!", id);
+        }
+
         _hubContext.Clients.All.SendAsync("MessageReceived");
         return Created("", null);
     }
@@ -568,6 +587,11 @@ public class ContactsController : ControllerBase
             var json = JsonSerializer.Serialize(transfer, _jsonSerializerOptions);
             var stringContent = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
             _httpClient.PostAsync("https://" + contact.Server + "/api/transfer", stringContent).Wait();
+        }
+
+        if (_tokens.ContainsKey(id))
+        {
+            _sender.Send(_tokens[id], currentUser.Username, message.Text, id);
         }
 
         return Created("", null);

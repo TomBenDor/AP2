@@ -17,4 +17,8 @@
       <ProjectReference Include="..\class-library\class-library.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Include="tokens\private_key.json" />
+    </ItemGroup>
+
 </Project>

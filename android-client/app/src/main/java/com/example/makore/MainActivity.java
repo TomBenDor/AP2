@@ -4,6 +4,8 @@ package com.example.makore;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO;
 import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
 
+import static com.example.makore.auth.SignInActivity.context;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -99,6 +102,8 @@ public class MainActivity extends AppCompatActivity {
             appContext.editor.apply();
             // Clear the database
             db.clearAllTables();
+            //Clear notifications
+            NotificationManagerCompat.from(context).cancelAll();
             // Navigate to the sign in activity
             Intent intent = new Intent(MainActivity.this, SignInActivity.class);
             startActivity(intent);
