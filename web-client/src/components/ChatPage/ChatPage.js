@@ -41,7 +41,7 @@ const ChatPage = ({user, setUser, token, theme, setTheme}) => {
 
     useEffect(() => {
         const connect = new HubConnectionBuilder()
-            .withUrl("https://localhost:54321/messageHub")
+            .withUrl("http://localhost:54321/messageHub")
             .build();
 
         setConnection(connect);
@@ -68,8 +68,7 @@ const ChatPage = ({user, setUser, token, theme, setTheme}) => {
                              currentChatID={currentChatID}
                              messagesCache={messagesCache}
                              setMessagesCache={setMessagesCache}
-                             theme={theme} setTheme={setTheme}
-                             connection={connection}/>
+                             theme={theme} setTheme={setTheme}/>
             </div>
             <div className="contacts-section">
                 <ContactsSection user={user}

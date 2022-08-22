@@ -38,7 +38,7 @@ public class InvitationController : ControllerBase
         }
 
         // Check if chat already exists
-        var chat = localUser.Chats.ContainsKey(invitation.From) ? localUser.Chats[invitation.From] : null;
+        var chat = localUser.ContactsIds.Contains(invitation.From) ? localUser.Chats[localUser.ContactsIds.IndexOf(invitation.From)] : null;
         if (chat == null)
         {
             // Create a new chat
@@ -47,8 +47,12 @@ public class InvitationController : ControllerBase
                 Members = new List<User> { remoteUser, localUser }
             };
             _chatsService.Add(chat);
-            localUser.Chats.Add(invitation.From, chat);
-            remoteUser.Chats.Add(invitation.From, chat);
+            localUser.Chats.Add(chat);
+            localUser.ContactsIds.Add(invitation.From);
+            localUser.ContactsNames.Add(invitation.From);
+            remoteUser.Chats.Add(chat);
+            remoteUser.ContactsIds.Add(invitation.To);
+            remoteUser.ContactsNames.Add(invitation.To);
             _usersService.Update(localUser);
             _usersService.Update(remoteUser);
         }

@@ -3,7 +3,7 @@ import './ChatSection.css';
 import ToggleTheme from './ToggleTheme'
 import {useEffect, useRef, useState} from "react";
 
-const ChatSection = ({user, setUser, currentChatID, messagesCache, setMessagesCache, theme, setTheme, connection}) => {
+const ChatSection = ({user, setUser, currentChatID, messagesCache, setMessagesCache, theme, setTheme}) => {
     const messageBox = useRef(null);
     // Set state for send button disabled state
     const [messageEmpty, setMessageEmpty] = useState(true);
@@ -21,12 +21,11 @@ const ChatSection = ({user, setUser, currentChatID, messagesCache, setMessagesCa
             });
 
             // Send message to the server
-            await fetch("https://localhost:54321/api/contacts/" + currentChatID + "/messages", {
+            await fetch("http://localhost:54321/api/contacts/" + currentChatID + "/messages", {
                 method: "POST", headers: {
                     "Authorization": "Bearer " + user.token, "Content-Type": "application/json"
                 }, body: JSON.stringify({content: message.content})
             });
-            connection.invoke("MessageSent");
         }
     };
 

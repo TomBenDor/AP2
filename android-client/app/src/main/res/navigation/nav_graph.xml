@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/ContactsFragment">
+
+    <fragment
+        android:id="@+id/ContactsFragment"
+        android:name="com.example.makore.ContactsFragment"
+        android:label="@string/contacts_fragment_label"
+        tools:layout="@layout/fragment_contacts">
+
+        <action
+            android:id="@+id/action_ContactsFragment_to_ChatFragment"
+            app:destination="@id/ChatFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/ChatFragment"
+        android:name="com.example.makore.ChatFragment"
+        android:label="@string/chat_fragment_label"
+        tools:layout="@layout/fragment_chat">
+
+        <action
+            android:id="@+id/action_ChatFragment_to_ContactsFragment"
+            app:destination="@id/ContactsFragment" />
+    </fragment>
+</navigation>

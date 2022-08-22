@@ -1,9 +1,14 @@
+using System.Configuration;
 using System.Text;
+using class_library;
 using class_library.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using web_api.Hubs;
+using web_api.Context;
+using web_api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,9 +20,18 @@ builder.Services.AddRazorPages();
 builder.Services.AddSignalR();
 
 
+// Set DB connection string
+builder.Services.AddDbContext<ChatsContext>(options =>
+    options.UseSqlite("Data Source=chats.db"));
+
 // Dependency Injection
-builder.Services.AddSingleton<IUsersService, StaticUsersService>();
-builder.Services.AddSingleton<IChatsService, StaticChatsService>();
+builder.Services.AddScoped<IUsersService, UsersService>();
+builder.Services.AddScoped<IChatsService, ChatsService>();
+
+// Store tokens
+builder.Services.AddSingleton<Sender>();
+builder.Services.AddSingleton<Dictionary<String, String>>();
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

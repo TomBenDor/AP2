@@ -28,7 +28,7 @@ public class TransferController : ControllerBase
             return NotFound();
         }
 
-        var chat = localUser.Chats.ContainsKey(transfer.From) ? localUser.Chats[transfer.From] : null;
+        var chat = localUser.ContactsIds.Contains(transfer.From) ? localUser.Chats[localUser.ContactsIds.IndexOf(transfer.From)] : null;
         // If the chat between the two doesn't exist
         if (chat == null)
         {
@@ -36,8 +36,7 @@ public class TransferController : ControllerBase
         }
 
         // Create a new message
-        int lastMessageId = chat.Messages.Count > 0 ? chat.Messages.Max(m => m.Id) : 0;
-        var message = new Message(lastMessageId + 1, transfer.Content, transfer.From, DateTime.Now);
+        var message = new Message(transfer.Content, transfer.From, DateTime.Now);
         chat.Messages.Add(message);
         _chatsService.Update(chat);
 

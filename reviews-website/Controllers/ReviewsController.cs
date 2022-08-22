@@ -81,7 +81,7 @@ namespace server.Controllers
             int id;
             try
             {
-                id = _context.Review.Max(r => r.Id) + 1;
+                id = _context.Review == null ? 1 : _context.Review.Max(r => r.Id) + 1;
             }
             catch (Exception)
             {

@@ -11,7 +11,11 @@ public class Chat
         Messages = new List<Message>();
     }
 
-    [Key] public string Id { get; }
-    [Required] public IList<User> Members { get; set; }
-    [Required] public IList<Message> Messages { get; set; }
+    public Chat()
+    {
+    }
+
+    [Key] public string Id { get; set; }
+    [Required] public virtual List<User> Members { get; set; }
+    [Required] public virtual List<Message> Messages { get; set; }
 }

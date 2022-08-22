@@ -9,8 +9,13 @@ public class User
         Username = username;
         Name = name;
         Server = server;
-        Chats = new Dictionary<string, Chat>();
-        Names = new Dictionary<string, string>();
+        Chats = new List<Chat>();
+        ContactsIds = new List<string>();
+        ContactsNames = new List<string>();
+    }
+
+    public User()
+    {
     }
 
     public User(string username, string name, string server, string password) : this(username,
@@ -19,11 +24,17 @@ public class User
         Password = password;
     }
 
+    public User(string username, string name, string server, string password, String profilePicture) : this(username,
+        name, server, password)
+    {
+        ProfilePicture = profilePicture;
+    }
+
     // Username must contain only letters, numbers, and hyphens
     [Key, RegularExpression(@"^[a-zA-Z0-9-]+$")]
     // Username must be at least 3 characters long
     [MinLength(3)]
-    public string Username { get; }
+    public string Username { get; set; }
 
     [Required]
     // Password must be at least 6 characters long
@@ -41,9 +52,11 @@ public class User
 
     [Required] public string Server { get; set; }
 
-    // Dictionary of User Id's as keys and chats as values
-    public IDictionary<string, Chat> Chats { get; set; }
+    public virtual List<Chat> Chats { get; set; }
+    
+    public List<string> ContactsIds { get; set; }
+    
+    public List<string> ContactsNames { get; set; }
 
-    // Dictionary of User Id's as keys and names as values
-    public IDictionary<string, string> Names { get; set; }
+    public String ProfilePicture { get; set; }
 }
