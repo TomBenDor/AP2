@@ -29,11 +29,13 @@ public class TransferController : ControllerBase
         }
 
         var chat = localUser.Chats.ContainsKey(transfer.From) ? localUser.Chats[transfer.From] : null;
+        // If the chat between the two doesn't exist
         if (chat == null)
         {
             return NotFound();
         }
-
+        
+        // Create a new message
         int lastMessageId = chat.Messages.Count > 0 ? chat.Messages.Max(m => m.Id) : 0;
         var message = new Message(lastMessageId + 1, transfer.Content, transfer.From, DateTime.Now, "text");
         chat.Messages.Add(message);
